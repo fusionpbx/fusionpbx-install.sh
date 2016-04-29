@@ -1,0 +1,46 @@
+[freeswitch-tcp]
+enabled  = true
+port     = 5060,5061,5080,5081,5070
+protocol = tcp
+filter   = freeswitch
+logpath  = /var/log/freeswitch/freeswitch.log
+action   = iptables-allports[name=freeswitch-tcp, protocol=all]
+maxretry = 5
+findtime = 600
+bantime  = 600
+#          sendmail-whois[name=FreeSwitch, dest=root, sender=fail2ban@example.org] #no smtp server installed
+
+[freeswitch-udp]
+enabled  = true
+port     = 5060,5061,5080,5081,5070
+protocol = udp
+filter   = freeswitch
+logpath  = /var/log/freeswitch/freeswitch.log
+action   = iptables-allports[name=freeswitch-udp, protocol=all]
+maxretry = 5
+findtime = 600
+bantime  = 600
+#          sendmail-whois[name=FreeSwitch, dest=root, sender=fail2ban@example.org] #no smtp server installed
+
+[freeswitch-dos]
+enabled = true
+port = 5060,5061,5080,5081,5070
+protocol = udp
+filter = freeswitch-dos
+logpath = /var/log/freeswitch/freeswitch.log
+action = iptables-allports[name=freeswitch-dos, protocol=all]
+maxretry = 50
+findtime = 30
+bantime  = 6000
+
+[fusionpbx]
+enabled  = true
+port     = 80,443
+protocol = tcp
+filter   = fusionpbx
+logpath  = /var/log/auth.log
+action   = iptables-allports[name=fusionpbx, protocol=all]
+#          sendmail-whois[name=fusionpbx, dest=root, sender=fail2ban@example.org] #no smtp server installed
+maxretry = 5
+findtime = 600
+bantime  = 600	
