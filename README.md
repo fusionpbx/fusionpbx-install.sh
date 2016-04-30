@@ -12,3 +12,11 @@ chmod 755 -R /usr/src/fusionpbx-install.sh
 cd /usr/src/fusionpbx-install.sh/debian
 ./install.sh
 ```
+
+At the end of the install it will instruct you to go to the ip address of the server in your web browser to finish the install. It will also provide a random database password for you to use during the web based phase of the install. The install script builds the fusionpbx database so you will not need to use the create database username and password on the last page of the web based install.
+
+After you have completed the install you can login with the username and password you chose during the install. After you login go to them menu then Advanced -> Upgrade select the checkbox for App defaults. Then go to Status -> SIP Status and start the SIP profiles.
+
+For additional information to get started go to http://docs.fusionpbx.com/en/latest/getting_started.html 
+
+
