@@ -5,6 +5,7 @@ This install script that has been designed to be an fast, simple, and modular wa
 
 ```bash
 apt-get install -y git
+cd /usr/src
 git clone https://github.com/fusionpbx/fusionpbx-install.sh.git
 chmod 755 -R /usr/src/fusionpbx-install.sh
 cd /usr/src/fusionpbx-install.sh/debian
