@@ -22,6 +22,17 @@ findtime = 600
 bantime  = 600
 #          sendmail-whois[name=FreeSwitch, dest=root, sender=fail2ban@example.org] #no smtp server installed
 
+[freeswitch-ip]
+enabled = true
+port = 5060,5061,5080,5081
+protocol = udp
+filter = freeswitch-ip
+logpath = /usr/local/freeswitch/log/freeswitch.log
+action = iptables-allports[name=freeswitch-ip, protocol=all]
+maxretry = 1
+findtime = 30
+bantime  = 86400
+
 [freeswitch-dos]
 enabled = true
 port = 5060,5061,5080,5081,5070
