@@ -55,3 +55,22 @@ action   = iptables-allports[name=fusionpbx, protocol=all]
 maxretry = 5
 findtime = 600
 bantime  = 600	
+
+[nginx-404]
+enabled = true
+port = http,https
+filter = nginx-404
+logpath = /var/log/nginx/access*.log
+bantime = 600
+findtime = 600
+maxretry = 10
+
+[nginx-dos]
+# Based on apache-badbots
+enabled = true
+port = http
+filter = nginx-dos
+logpath = /var/log/nginx/access*.log
+findtime = 60
+bantime = 172800
+maxretry = 240
