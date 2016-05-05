@@ -7,7 +7,7 @@ apt-get update && apt-get install -y --force-yes freeswitch-all freeswitch-all-d
 #rm /etc/apt/sources.list.d/freeswitch.list
 
 #set the file permissions
-chown -R freeswitch:freeswitch /var/lib/freeswitch
+chown -R www-data:www-data /var/lib/freeswitch
 chmod -R g+s /var/lib/freeswitch
 setfacl -d -R -m u:www-data:rwx,g:www-data:rwx /var/lib/freeswitch
 
