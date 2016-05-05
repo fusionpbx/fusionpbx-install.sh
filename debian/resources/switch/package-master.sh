@@ -16,7 +16,7 @@ chown -R freeswitch:freeswitch /usr/share/freeswitch
 chmod -R g+s /usr/share/freeswitch
 setfacl -d -R -m u:www-data:rwx,g:www-data:rwx /usr/share/freeswitch
 
-chown -R freeswitch:freeswitch /etc/freeswitch
+chown -R www-data:www-data /etc/freeswitch
 chmod -R g+s /etc/freeswitch
 setfacl -d -R -m u:www-data:rwx,g:www-data:rwx /etc/freeswitch
 
