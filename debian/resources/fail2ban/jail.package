@@ -55,3 +55,24 @@ action   = iptables-allports[name=fusionpbx, protocol=all]
 maxretry = 5
 findtime = 600
 bantime  = 600	
+
+[nginx-404]
+enabled = true
+port = http,https
+filter = nginx-404
+logpath = /var/log/nginx/access*.log
+bantime = 600
+findtime = 600
+maxretry = 10
+
+[nginx-dos]
+# Based on apache-badbots but a simple IP check (any IP requesting more than
+# 240 pages in 60 seconds, or 4p/s average, is suspicious)
+# Block for two full days.
+enabled = true
+port = http
+filter = nginx-dos
+logpath = /var/log/nginx/access*.log
+findtime = 60
+bantime = 172800
+maxretry = 240
