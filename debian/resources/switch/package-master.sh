@@ -30,4 +30,4 @@ setfacl -R -m d:u:www-data:rwx,d:g:www-data:rwx /var/log/freeswitch
 chown -R freeswitch:freeswitch /usr/share/freeswitch/sounds
 chmod -R g+s /usr/share/freeswitch/sounds
 setfacl -R -m u:www-data:rwx,g:www-data:rwx /usr/share/freeswitch/sounds
-setfacl -R -m -d u:www-data:rwx,g:www-data:rwx /usr/share/freeswitch/sounds
+setfacl -R -m d:u:www-data:rwx,d:g:www-data:rwx /usr/share/freeswitch/sounds
