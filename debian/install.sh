@@ -35,9 +35,11 @@ server_address=$(hostname -I)
 #/usr/sbin/service fail2ban restart
 
 #Show database password
-echo "Complete the install by going to:"
+echo "Complete the install by by going to the IP address of this server ";
+echo "in your web browser or with a domain name for this server.";
 echo "   https://$server_address"
 echo ""
 echo ""
 
-
+#wait for the config.php to exist and then restart the service
+resources/switch/./finish.sh
