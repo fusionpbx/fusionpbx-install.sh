@@ -42,4 +42,4 @@ echo ""
 echo ""
 
 #wait for the config.php to exist and then restart the service
-resources/switch/./finish.sh
+resources/./finish.sh
