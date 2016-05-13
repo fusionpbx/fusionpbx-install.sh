@@ -10,7 +10,7 @@ else
         curl http://files.freeswitch.org/repo/deb/freeswitch-1.6/key.gpg | apt-key add -
 fi
 apt-get update
-apt-get install -y --force-yes freeswitch-meta-vanilla freeswitch-mod-json-cdr libyuv-dev gdb freeswitch-mod-xml-cdr freeswitch-mod-verto freeswitch-lang-fr freeswitch-mod-say-fr 
+apt-get install -y --force-yes freeswitch-meta-vanilla freeswitch-mod-json-cdr libyuv-dev gdb freeswitch-mod-xml-cdr freeswitch-mod-verto freeswitch-lang-fr freeswitch-mod-say-fr freeswitch-mod-callcenter
 apt-get install -y --force-yes freeswitch-mod-rtc freeswitch-mod-png freeswitch-mod-opus freeswitch-mod-b64 freeswitch-mod-distributor freeswitch-mod-esl freeswitch-mod-fifo freeswitch-mod-memcache freeswitch-mod-shout
 
 #set the file permissions
