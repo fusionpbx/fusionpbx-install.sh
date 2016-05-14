@@ -17,7 +17,6 @@ apt-get install -y --force-yes freeswitch-mod-hash freeswitch-mod-esl freeswitch
 apt-get install -y --force-yes freeswitch-mod-sndfile freeswitch-mod-native-file freeswitch-mod-local-stream freeswitch-mod-tone-stream freeswitch-mod-lua freeswitch-mod-say-en
 apt-get install -y --force-yes freeswitch-mod-xml-cdr freeswitch-mod-verto freeswitch-mod-callcenter freeswitch-mod-rtc freeswitch-mod-png freeswitch-mod-json-cdr freeswitch-mod-shout
 
-
 #set the file permissions
 chown -R freeswitch:freeswitch /var/lib/freeswitch
 chmod -R g+s /var/lib/freeswitch
