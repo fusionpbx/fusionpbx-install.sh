@@ -10,8 +10,13 @@ else
         curl http://files.freeswitch.org/repo/deb/freeswitch-1.6/key.gpg | apt-key add -
 fi
 apt-get update
-apt-get install -y --force-yes freeswitch-meta-vanilla freeswitch-mod-json-cdr libyuv-dev gdb freeswitch-mod-xml-cdr freeswitch-mod-verto freeswitch-lang-fr freeswitch-mod-say-fr freeswitch-mod-callcenter
-apt-get install -y --force-yes freeswitch-mod-rtc freeswitch-mod-png freeswitch-mod-opus freeswitch-mod-b64 freeswitch-mod-distributor freeswitch-mod-esl freeswitch-mod-fifo freeswitch-mod-memcache freeswitch-mod-shout
+apt-get install -y --force-yes freeswitch-meta-bare freeswitch-conf-vanilla freeswitch-meta-codecs freeswitch-mod-console freeswitch-mod-logfile freeswitch-mod-distributor
+apt-get install -y --force-yes freeswitch-mod-enum freeswitch-mod-cdr-csv freeswitch-mod-event-socket freeswitch-mod-sofia freeswitch-mod-loopback freeswitch-mod-memcache
+apt-get install -y --force-yes freeswitch-mod-conference freeswitch-mod-db freeswitch-mod-dptools freeswitch-mod-expr freeswitch-mod-fifo libyuv-dev freeswitch-mod-httapi
+apt-get install -y --force-yes freeswitch-mod-hash freeswitch-mod-esl freeswitch-mod-esf freeswitch-mod-fsv freeswitch-mod-valet-parking freeswitch-mod-dialplan-xml gdb
+apt-get install -y --force-yes freeswitch-mod-sndfile freeswitch-mod-native-file freeswitch-mod-local-stream freeswitch-mod-tone-stream freeswitch-mod-lua freeswitch-mod-say-en
+apt-get install -y --force-yes freeswitch-mod-xml-cdr freeswitch-mod-verto freeswitch-mod-callcenter freeswitch-mod-rtc freeswitch-mod-png freeswitch-mod-json-cdr freeswitch-mod-shout
+
 
 #set the file permissions
 chown -R freeswitch:freeswitch /var/lib/freeswitch
