@@ -26,7 +26,7 @@ setfacl -R -m u:www-data:rwx,g:www-data:rwx /var/lib/freeswitch
 setfacl -R -d -m u:www-data:rwx,g:www-data:rwx /var/lib/freeswitch
 
 chown -R freeswitch:freeswitch /usr/share/freeswitch
-chmod -R g+s /usr/share/freeswitch
+chmod -R g+ws /usr/share/freeswitch
 setfacl -R -m u:www-data:rwx,g:www-data:rwx /usr/share/freeswitch
 setfacl -R -d -m u:www-data:rwx,g:www-data:rwx /usr/share/freeswitch
 
