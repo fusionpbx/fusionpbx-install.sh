@@ -1,5 +1,4 @@
 #!/bin/sh
-#----OS ENVIRONMENT CHECKS-------
 # check to confirm running as root. # First, we need to be root...
 if [ "$(id -u)" -ne "0" ]; then
   sudo -p "$(basename "$0") must be run as root, please enter your sudo password : " "$0" "$@"
