@@ -20,6 +20,7 @@ resources/./fail2ban.sh
 resources/switch/./package-release.sh
 #resources/switch/./package-master.sh
 #resources/switch/./source-release.sh
+systemctl try-restart freeswitch
 
 #Postgres
 resources/./postgres.sh
