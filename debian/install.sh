@@ -20,7 +20,6 @@ resources/./fail2ban.sh
 resources/switch/./package-release.sh
 #resources/switch/./package-master.sh
 #resources/switch/./source-release.sh
-systemctl try-restart freeswitch
 
 #Postgres
 resources/./postgres.sh
@@ -29,6 +28,7 @@ resources/./postgres.sh
 server_address=$(hostname -I)
 
 #restart services
+/bin/systemctl try-restart freeswitch
 /bin/systemctl daemon-reload
 /bin/systemctl restart nginx
 /bin/systemctl restart fail2ban
