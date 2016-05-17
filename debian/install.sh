@@ -28,6 +28,7 @@ resources/./postgres.sh
 server_address=$(hostname -I)
 
 #restart services
+/bin/systemctl daemon-reload
 /bin/systemctl try-restart freeswitch
 /bin/systemctl daemon-reload
 /bin/systemctl restart nginx
