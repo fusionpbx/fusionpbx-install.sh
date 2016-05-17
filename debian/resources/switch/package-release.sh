@@ -1,5 +1,18 @@
 #!/bin/sh
-apt-get update && apt-get install -y --force-yes curl memcached haveged
+(
+#Used for pkg based installs for cp the base configs into place
+fs_conf_dir="/etc/freeswitch"
+fs_dflt_conf_dir="/usr/share/freeswitch/conf"
+
+# Set what language lang/say pkgs and language sound files to use. ( Only if pkgs install is selected )
+# en-ca=English/CA en-us=English/US (default) fr-ca=French/Canadian pt-br=Portuguese/Brazill
+# ru-ru=Russian/Russia sv-se=Swedish/Sweden zh-cn=chinese/Mandarin zh-hk=chinese/HongKong
+freeswitch_sounds_language="en-us" #Currently other sounds dont exist.
+
+#Pre Deps
+apt-get update && apt-get install -y --force-yes sqlite3 unixodbc uuid memcached libtiff5 libtiff-tools time bison htop screen libpq5 lame curl haveged
+
+#Repos
 USE_UNOFFICIAL_ARM_REPO=0
 arch=$(uname -m)
 if [ $arch = 'armv7l' ] && [ $USE_UNOFFICIAL_ARM_REPO -eq 1 ]; then
@@ -9,45 +22,71 @@ else
         echo "deb http://files.freeswitch.org/repo/deb/freeswitch-1.6/ jessie main" > /etc/apt/sources.list.d/freeswitch.list
         curl http://files.freeswitch.org/repo/deb/freeswitch-1.6/key.gpg | apt-key add -
 fi
-apt-get update
-apt-get install -y --force-yes gdb
-apt-get install -y --force-yes freeswitch-meta-bare freeswitch-conf-vanilla freeswitch-systemd freeswitch-mod-commands freeswitch-meta-codecs freeswitch-mod-console freeswitch-mod-logfile freeswitch-mod-distributor
-apt-get install -y --force-yes freeswitch-lang-en freeswitch-mod-say-en freeswitch-sounds-en-us-callie freeswitch-music-default
-apt-get install -y --force-yes freeswitch-mod-enum freeswitch-mod-cdr-csv freeswitch-mod-event-socket freeswitch-mod-sofia freeswitch-mod-sofia-dbg freeswitch-mod-loopback
-apt-get install -y --force-yes freeswitch-mod-conference freeswitch-mod-db freeswitch-mod-dptools freeswitch-mod-expr freeswitch-mod-fifo libyuv-dev freeswitch-mod-httapi
-apt-get install -y --force-yes freeswitch-mod-hash freeswitch-mod-esl freeswitch-mod-esf freeswitch-mod-fsv freeswitch-mod-valet-parking freeswitch-mod-dialplan-xml freeswitch-dbg
-apt-get install -y --force-yes freeswitch-mod-sndfile freeswitch-mod-native-file freeswitch-mod-local-stream freeswitch-mod-tone-stream freeswitch-mod-lua freeswitch-meta-mod-say
-apt-get install -y --force-yes freeswitch-mod-xml-cdr freeswitch-mod-verto freeswitch-mod-callcenter freeswitch-mod-rtc freeswitch-mod-png freeswitch-mod-json-cdr freeswitch-mod-shout
-apt-get install -y --force-yes freeswitch-mod-skypopen freeswitch-mod-skypopen-dbg freeswitch-mod-sms freeswitch-mod-sms-dbg freeswitch-mod-cidlookup freeswitch-mod-memcache
-apt-get install -y --force-yes freeswitch-mod-imagick freeswitch-mod-tts-commandline freeswitch-mod-directory freeswitch-mod-flite
 
-#make sure that postgresql is started before starting freeswitch
-sed -i /lib/systemd/system/freeswitch.service -e s:'local-fs.target:local-fs.target postgresql.service:'
+#Freeswitch Pkgs
+apt-get install -y libfreeswitch1 freeswitch freeswitch-mod-curl freeswitch-systemd freeswitch-mod-db freeswitch-doc \
+	freeswitch-mod-distributor freeswitch-mod-dptools freeswitch-mod-enum freeswitch-mod-esf freeswitch-mod-esl \
+	freeswitch-mod-expr freeswitch-mod-fsv freeswitch-mod-hash freeswitch-mod-memcache freeswitch-mod-portaudio \
+    freeswitch-mod-portaudio-stream freeswitch-mod-spandsp freeswitch-mod-spy freeswitch-mod-translate \
+    freeswitch-mod-valet-parking freeswitch-mod-flite freeswitch-mod-pocketsphinx freeswitch-mod-tts-commandline \
+    freeswitch-mod-dialplan-xml freeswitch-mod-loopback freeswitch-mod-sofia freeswitch-mod-event-multicast \
+    freeswitch-mod-event-socket freeswitch-mod-local-stream freeswitch-mod-native-file freeswitch-mod-sndfile \
+    freeswitch-mod-tone-stream freeswitch-mod-lua freeswitch-mod-console freeswitch-mod-logfile freeswitch-mod-syslog \
+    freeswitch-mod-say-en freeswitch-mod-posix-timer freeswitch-mod-timerfd freeswitch-mod-xml-cdr freeswitch-mod-shout\
+    freeswitch-mod-xml-curl freeswitch-mod-xml-rpc freeswitch-conf-vanilla freeswitch-mod-vlc freeswitch-mod-verto \
+    freeswitch-mod-sms freeswitch-timezones freeswitch-mod-bert freeswitch-mod-basic freeswitch-mod-lcr freeswitch-mod-rtc \
+    freeswitch-mod-commands freeswitch-mod-csv 
 
-#set the file permissions
-mkdir /usr/share/freeswitch/scripts
-chmod g+ws /usr/share/freeswitch/scripts
+#setup language / sound files for use
+#if [[ $freeswitch_sounds_language == "en-ca" ]]; then
+#	apt-get -y install --force-yes freeswitch-lang-en freeswitch-mod-say-en freeswitch-sounds-en-ca-june
+#fi
 
-chown -R freeswitch:freeswitch /var/lib/freeswitch
-chmod -R g+s /var/lib/freeswitch
-setfacl -R -m u:www-data:rwx,g:www-data:rwx /var/lib/freeswitch
-setfacl -R -d -m u:www-data:rwx,g:www-data:rwx /var/lib/freeswitch
+if [[ $freeswitch_sounds_language == "en-us" ]]; then
+	apt-get -y install freeswitch-lang-en freeswitch-mod-say-en freeswitch-sounds-en-us-callie freeswitch-music-default
+fi
 
-chown -R freeswitch:freeswitch /usr/share/freeswitch
-chmod -R g+s /usr/share/freeswitch
-setfacl -R -m u:www-data:rwx,g:www-data:rwx /usr/share/freeswitch
-setfacl -R -d -m u:www-data:rwx,g:www-data:rwx /usr/share/freeswitch
+#if [[ $freeswitch_sounds_language == "fr-ca" ]]; then
+#	apt-get -y install --force-yes freeswitch-lang-fr freeswitch-mod-say-fr freeswitch-sounds-fr-ca-june
+#fi
+#
+#if [[ $freeswitch_sounds_language == "pt-br" ]]; then
+#	apt-get -y install --force-yes freeswitch-lang-pt freeswitch-mod-say-pt freeswitch-sounds-pt-br-karina
+#fi
+#
+#if [[ $freeswitch_sounds_language == "ru-ru" ]]; then
+#	apt-get -y install --force-yes freeswitch-lang-ru freeswitch-mod-say-ru freeswitch-sounds-ru-ru-elena
+#fi
+#
+#if [[ $freeswitch_sounds_language == "sv-se" ]]; then
+#	apt-get -y install --force-yes freeswitch-lang-sv freeswitch-mod-say-sv freeswitch-sounds-sv-se-jakob
+#fi
 
-chown -R freeswitch:freeswitch /etc/freeswitch
-chmod -R g+s /etc/freeswitch
-setfacl -R -m u:www-data:rwx,g:www-data:rwx /etc/freeswitch
-setfacl -R -d -m u:www-data:rwx,g:www-data:rwx /etc/freeswitch
+#if [[ $freeswitch_sounds_language == "zh-cn" ]]; then
+#	apt-get -y install --force-yes freeswitch-mod-say-zh freeswitch-sounds-zh-cn-sinmei
+#fi
 
-chown -R freeswitch:freeswitch /var/log/freeswitch
-setfacl -R -m u:www-data:rwx,g:www-data:rwx /var/log/freeswitch
-setfacl -R -d -m u:www-data:rwx,g:www-data:rwx /var/log/freeswitch
+#if [[ $freeswitch_sounds_language == "zh-hk" ]]; then
+#	apt-get -y install --force-yes freeswitch-mod-say-zh freeswitch-sounds-zh-hk-sinmei
+#fi
 
-chown -R freeswitch:freeswitch /usr/share/freeswitch/sounds
-chmod -R g+s /usr/share/freeswitch/sounds
-setfacl -R -m u:www-data:rwx,g:www-data:rwx /usr/share/freeswitch/sounds
-setfacl -R -d -m u:www-data:rwx,g:www-data:rwx /usr/share/freeswitch/sounds
+# make the freeswitch conf dir
+mkdir -p "$fs_conf_dir"
+
+#cp the default configs into place.
+cp -rp "$fs_dflt_conf_dir"/vanilla/* "$fs_conf_dir"
+
+#fix ownership of files for freeswitch
+chown -R freeswitch:freeswitch "$fs_conf_dir"
+
+#Adding users to needed groups
+adduser freeswitch www-data
+adduser freeswitch dialout
+
+#Restarting freeswitch
+service freeswitch restart
+
+#cleanup
+apt-get clean
+
+) | tee ~/freeswitch-install.log
