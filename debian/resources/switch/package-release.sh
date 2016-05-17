@@ -21,6 +21,9 @@ apt-get install -y --force-yes freeswitch-mod-xml-cdr freeswitch-mod-verto frees
 apt-get install -y --force-yes freeswitch-mod-skypopen freeswitch-mod-skypopen-dbg freeswitch-mod-sms freeswitch-mod-sms-dbg freeswitch-mod-cidlookup freeswitch-mod-memcache
 apt-get install -y --force-yes freeswitch-mod-imagick freeswitch-mod-tts-commandline freeswitch-mod-directory freeswitch-mod-flite
 
+#make sure that postgresql is started before starting freeswitch
+sed -i /lib/systemd/system/freeswitch.service -e s:'local-fs.target:local-fs.target postgresql.service:'
+
 #set the file permissions
 mkdir /usr/share/freeswitch/scripts
 chmod g+ws /usr/share/freeswitch/scripts
