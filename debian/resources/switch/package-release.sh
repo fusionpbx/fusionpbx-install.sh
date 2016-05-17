@@ -1,5 +1,20 @@
 #!/bin/sh
 (
+#Repos
+USE_UNOFFICIAL_ARM_REPO=0
+arch=$(uname -m)
+if [ $arch = 'armv7l' ] && [ $USE_UNOFFICIAL_ARM_REPO -eq 1 ]; then
+		cat > /etc/apt/source.list.d/freeswitch.list << DELIM
+        deb http://repo.sip247.com/debian/freeswitch-stable-armhf/ jessie main
+DELIM
+        curl http://repo.sip247.com/debian/sip247.com.gpg.key | apt-key add - 
+else
+        cat > /etc/apt/source.list.d/freeswitch.list << DELIM
+        deb http://files.freeswitch.org/repo/deb/freeswitch-1.6/ jessie main
+DELIM
+        curl http://files.freeswitch.org/repo/deb/freeswitch-1.6/key.gpg | apt-key add - 
+fi
+
 #Used for pkg based installs for cp the base configs into place
 fs_conf_dir="/etc/freeswitch"
 fs_dflt_conf_dir="/usr/share/freeswitch/conf"
@@ -10,21 +25,10 @@ fs_dflt_conf_dir="/usr/share/freeswitch/conf"
 freeswitch_sounds_language="en-us" #Currently other sounds dont exist.
 
 #Pre Deps
-apt-get update && apt-get install -y --force-yes sqlite3 unixodbc uuid memcached libtiff5 libtiff-tools time bison htop screen libpq5 lame curl haveged
-
-#Repos
-USE_UNOFFICIAL_ARM_REPO=0
-arch=$(uname -m)
-if [ $arch = 'armv7l' ] && [ $USE_UNOFFICIAL_ARM_REPO -eq 1 ]; then
-        echo "deb http://repo.sip247.com/debian/freeswitch-stable-armhf/ jessie main" > /etc/apt/sources.list.d/freeswitch.list
-        curl http://repo.sip247.com/debian/sip247.com.gpg.key | apt-key add -
-else
-        echo "deb http://files.freeswitch.org/repo/deb/freeswitch-1.6/ jessie main" > /etc/apt/sources.list.d/freeswitch.list
-        curl http://files.freeswitch.org/repo/deb/freeswitch-1.6/key.gpg | apt-key add -
-fi
+apt-get update && apt-get -y install --force-yes sqlite3 unixodbc uuid memcached libtiff5 libtiff-tools time bison htop screen libpq5 lame curl haveged 
 
 #Freeswitch Pkgs
-apt-get install -y libfreeswitch1 freeswitch freeswitch-mod-curl freeswitch-systemd freeswitch-mod-db freeswitch-doc \
+apt-get -y install --force-yes libfreeswitch1 freeswitch freeswitch-mod-curl freeswitch-systemd freeswitch-mod-db freeswitch-doc \
 	freeswitch-mod-distributor freeswitch-mod-dptools freeswitch-mod-enum freeswitch-mod-esf freeswitch-mod-esl \
 	freeswitch-mod-expr freeswitch-mod-fsv freeswitch-mod-hash freeswitch-mod-memcache freeswitch-mod-portaudio \
     freeswitch-mod-portaudio-stream freeswitch-mod-spandsp freeswitch-mod-spy freeswitch-mod-translate \
@@ -35,15 +39,15 @@ apt-get install -y libfreeswitch1 freeswitch freeswitch-mod-curl freeswitch-syst
     freeswitch-mod-say-en freeswitch-mod-posix-timer freeswitch-mod-timerfd freeswitch-mod-xml-cdr freeswitch-mod-shout\
     freeswitch-mod-xml-curl freeswitch-mod-xml-rpc freeswitch-conf-vanilla freeswitch-mod-vlc freeswitch-mod-verto \
     freeswitch-mod-sms freeswitch-timezones freeswitch-mod-bert freeswitch-mod-basic freeswitch-mod-lcr freeswitch-mod-rtc \
-    freeswitch-mod-commands freeswitch-mod-csv 
-
+    freeswitch-mod-commands freeswitch-mod-cdr-csv 
+    
 #setup language / sound files for use
 #if [[ $freeswitch_sounds_language == "en-ca" ]]; then
 #	apt-get -y install --force-yes freeswitch-lang-en freeswitch-mod-say-en freeswitch-sounds-en-ca-june
 #fi
 
 if [[ $freeswitch_sounds_language == "en-us" ]]; then
-	apt-get -y install freeswitch-lang-en freeswitch-mod-say-en freeswitch-sounds-en-us-callie freeswitch-music-default
+	apt-get -y install --force-yes freeswitch-lang-en freeswitch-mod-say-en freeswitch-sounds-en-us-callie freeswitch-music-default
 fi
 
 #if [[ $freeswitch_sounds_language == "fr-ca" ]]; then
