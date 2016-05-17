@@ -22,6 +22,9 @@ apt-get install -y --force-yes freeswitch-mod-skypopen freeswitch-mod-skypopen-d
 apt-get install -y --force-yes freeswitch-mod-imagick freeswitch-mod-tts-commandline freeswitch-mod-directory freeswitch-mod-flite
 
 #set the file permissions
+mkdir /usr/share/freeswitch/scripts
+chmod g+ws /usr/share/freeswitch/scripts
+
 chown -R freeswitch:freeswitch /var/lib/freeswitch
 chmod -R g+s /var/lib/freeswitch
 setfacl -R -m u:www-data:rwx,g:www-data:rwx /var/lib/freeswitch
