@@ -26,7 +26,7 @@ sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_curl:application
 sed -i /usr/src/freeswitch/modules.conf -e s:'#formats/mod_shout:formats/mod_shout:'
 #./configure --help
 #./configure --prefix=/usr/local/freeswitch --enable-core-pgsql-support --enable-system-lua --disable-fhs
-./configure --prefix=/usr/local/freeswitch --enable-core-pgsql-support --disable-fhs
+./configure --prefix=/usr/local/freeswitch --enable-core-pgsql-support 
 #make mod_shout-install
 make
 rm -rf /usr/local/freeswitch/{lib,mod,bin}/*

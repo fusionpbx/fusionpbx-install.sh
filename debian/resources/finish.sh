@@ -25,3 +25,4 @@ done
 #restart freeswitch
 /bin/systemctl daemon-reload
 /bin/systemctl restart freeswitch
+
