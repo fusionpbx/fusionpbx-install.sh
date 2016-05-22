@@ -11,6 +11,7 @@ echo "Install PostgreSQL and create the database and users\n"
 apt-get install -y --force-yes sudo postgresql
 
 #systemd
+/bin/systemctl daemon-reload
 /bin/systemctl restart postgresql
 
 #init.d
