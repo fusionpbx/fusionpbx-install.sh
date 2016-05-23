@@ -29,17 +29,16 @@ apt-get update && apt-get -y install --force-yes sqlite3 unixodbc uuid memcached
 
 #Freeswitch Pkgs
 apt-get -y install --force-yes libfreeswitch1 freeswitch freeswitch-mod-curl freeswitch-systemd freeswitch-mod-db freeswitch-doc \
-	freeswitch-mod-distributor freeswitch-mod-dptools freeswitch-mod-enum freeswitch-mod-esf freeswitch-mod-esl \
-	freeswitch-mod-expr freeswitch-mod-fsv freeswitch-mod-hash freeswitch-mod-memcache freeswitch-mod-portaudio \
-    freeswitch-mod-portaudio-stream freeswitch-mod-spandsp freeswitch-mod-spy freeswitch-mod-translate \
-    freeswitch-mod-valet-parking freeswitch-mod-flite freeswitch-mod-pocketsphinx freeswitch-mod-tts-commandline \
-    freeswitch-mod-dialplan-xml freeswitch-mod-loopback freeswitch-mod-sofia freeswitch-mod-event-multicast \
-    freeswitch-mod-event-socket freeswitch-mod-local-stream freeswitch-mod-native-file freeswitch-mod-sndfile \
-    freeswitch-mod-tone-stream freeswitch-mod-lua freeswitch-mod-console freeswitch-mod-logfile freeswitch-mod-syslog \
-    freeswitch-mod-say-en freeswitch-mod-posix-timer freeswitch-mod-timerfd freeswitch-mod-xml-cdr freeswitch-mod-shout\
-    freeswitch-mod-xml-curl freeswitch-mod-xml-rpc freeswitch-conf-vanilla freeswitch-mod-vlc freeswitch-mod-verto \
-    freeswitch-mod-sms freeswitch-timezones freeswitch-mod-bert freeswitch-mod-basic freeswitch-mod-lcr freeswitch-mod-rtc \
-    freeswitch-mod-commands freeswitch-mod-cdr-csv 
+	freeswitch-mod-distributor freeswitch-mod-dptools freeswitch-mod-enum freeswitch-mod-esf freeswitch-mod-esl freeswitch-mod-expr \
+	freeswitch-mod-fsv freeswitch-mod-hash freeswitch-mod-memcache freeswitch-mod-portaudio freeswitch-mod-portaudio-stream \
+	freeswitch-mod-spandsp freeswitch-mod-spy freeswitch-mod-translate freeswitch-mod-valet-parking freeswitch-mod-flite \
+	freeswitch-mod-pocketsphinx freeswitch-mod-tts-commandline freeswitch-mod-dialplan-xml freeswitch-mod-loopback freeswitch-mod-sofia \
+	freeswitch-mod-event-multicast freeswitch-mod-event-socket freeswitch-mod-local-stream freeswitch-mod-native-file freeswitch-mod-sndfile \
+    freeswitch-mod-tone-stream freeswitch-mod-lua freeswitch-mod-console freeswitch-mod-logfile freeswitch-mod-syslog freeswitch-mod-say-en \
+    freeswitch-mod-posix-timer freeswitch-mod-timerfd freeswitch-mod-xml-cdr freeswitch-mod-shout freeswitch-mod-xml-curl freeswitch-mod-xml-rpc \
+    freeswitch-conf-vanilla freeswitch-mod-vlc freeswitch-mod-verto freeswitch-mod-sms freeswitch-timezones freeswitch-mod-bert \
+    freeswitch-mod-basic freeswitch-mod-lcr freeswitch-mod-rtc freeswitch-mod-commands freeswitch-mod-cdr-csv freeswitch-mod-png 
+    freeswitch-mod-g723.1 freeswitch-mod-amr freeswitch-mod-b64 freeswitch-mod-opus freeswitch-mod-httapi freeswitch-mod-voicemail
     
 #setup language / sound files for use
 #if [[ $freeswitch_sounds_language == "en-ca" ]]; then

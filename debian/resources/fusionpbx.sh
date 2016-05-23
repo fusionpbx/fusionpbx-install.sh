@@ -42,7 +42,7 @@ cp -rp "$fs_dflt_conf_dir"/vanilla/* "/etc/fusionpbx"
 ########################################
 #fix ownership of files for freeswitch
 ########################################
-chown -R freeswitch:www-data "/etc/fusionpbx"
+chown -R www-data:freeswitch "/etc/fusionpbx"
 
 ##################################################
 #configuring freeswitch to start with new layout.
@@ -56,14 +56,13 @@ CONFDIR="/etc/fusionpbx"
 # Options to control locations of files:
 fs_conf="/etc/fusionpbx"
 fs_db="/var/lib/freeswitch/db"
-fs_imgs="/var/lib/fusionpbx/images"
 fs_log="/var/log/freeswitch"
 fs_recordings="/var/lib/fusionpbx/recordings"
-fs_run="/var/run/freeswitch"
+fs_run="/run/freeswitch"
 fs_scripts="/var/lib/fusionpbx/scripts"
 fs_storage="/var/lib/fusionpbx/storage"
 fs_usr=freeswitch
-fs_grp=\$fs_usr
+fs_grp=www-data
 #
 #These are the optional arguments you can pass to freeswitch: (add options to fs_options line)
 # -nf                    -- no forking
@@ -86,10 +85,9 @@ fs_grp=\$fs_usr
 # -nc                    -- do not output to a console and background
 # -ncwait                -- do not output to a console and background but wait until the system is ready before exiting (implies -nc)
 # -c                     -- output to a console and stay in the foreground
-fs_options="-nc -rp -reincarnate"
 #
 # Reads in the arguments into 1 line command
-DAEMON_ARGS="-u \$fs_usr -g \$fs_grp -conf \$fs_conf -db \$fs_db -images \$fs_images -log \$fs_log -scripts \$fs_scripts -run \$fs_run -storage \$fs_storage -recordings \$fs_recordings \$fs_options"
+DAEMON_ARGS="-nc -rp -reincarnate"
 DELIM
 
 #################################################################

@@ -1,7 +1,8 @@
 #######################################
-#Setup Main debian repo for right pkgs
+# Setup Main debian repo for right pkgs
+# This makes the repos use the repo local
+# to theusers region 
 #######################################
-echo "installing jessie release repo"
 cat > "/etc/apt/sources.list" << DELIM
 deb http://httpredir.debian.org/debian/ jessie main contrib non-free
 deb-src http://httpredir.debian.org/debian/ jessie main contrib non-free

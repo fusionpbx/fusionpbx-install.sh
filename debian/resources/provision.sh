@@ -1,5 +1,5 @@
 #Selet What Phone Provision System to Install
-
+###############################################################################
 aastra="n" # : phone provisioning tool &  templates for aastra phones
 atcom="n" # : phone provisioning tool &  templates for atcom phones
 cisco="n" # : phone provisioning tool & templates for cisco phones
@@ -11,7 +11,7 @@ panasonic="n" # : phone provisioning tool & templates for panasonic phones
 polycom="n" # : phone provisioning tool & templates for polycom phones
 snom="n" # : provisioning tool & templates for snom phones
 yealink="n" # : phone provisioning tool & templates for yealink phones
-
+###############################################################################
 
 if [[ $aastra == "y" ]]; then
 	apt-get -y --force-yes install fusionpbx-app-devices fusionpbx-app-provision fusionpbx-provisioning-template-aastra  && mkdir -p /etc/fusionpbx/resources/templates/provision && cp -rp /usr/share/examples/fusionpbx/resources/templates/provision/aastra /etc/fusionpbx/resources/templates/provision/

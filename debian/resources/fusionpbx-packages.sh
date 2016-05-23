@@ -1,3 +1,5 @@
+#Select Optional Addon Pkgs
+######################################################################################################################
 adminer="y" # : integrated for an administrator in the superadmin group to enable easy database access
 backup="y" # : pbx backup module. backup sqlite db / configs/ logs
 call_broadcast="n" # : Create a recording and select one or more groups to have the system call and play the recording
@@ -11,10 +13,8 @@ fax="y" # : fusionpbx send/recieve faxes service
 fifo="n" # : first in first out call queues system
 services="n" # : allows interaction with the processes running on your server
 traffic_graph="n" # : php graph for monitoing the network interface traffic
+#####################################################################################################################
 
-###########################
-#Optional APP PKGS installs
-###########################
 if [[ $adminer == "y" ]]; then
 	apt-get -y --force-yes install fusionpbx-app-adminer
 fi
