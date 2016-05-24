@@ -20,3 +20,19 @@ chmod -R g+s /etc/freeswitch
 chown -R freeswitch:freeswitch /var/log/freeswitch
 chmod -R 760 /var/log/freeswitch
 chmod -R g+s /var/log/freeswitch
+
+#file access control lists
+setfacl -R -m u:www-data:rwx,g:www-data:rwx /var/lib/freeswitch
+setfacl -R -d -m u:www-data:rwx,g:www-data:rwx /var/lib/freeswitch
+
+setfacl -R -m u:www-data:rwx,g:www-data:rwx /usr/share/freeswitch
+setfacl -R -d -m u:www-data:rwx,g:www-data:rwx /usr/share/freeswitch
+
+setfacl -R -m u:www-data:rwx,g:www-data:rwx /etc/freeswitch
+setfacl -R -d -m u:www-data:rwx,g:www-data:rwx /etc/freeswitch
+
+setfacl -R -m u:www-data:rwx,g:www-data:rwx /var/log/freeswitch
+setfacl -R -d -m u:www-data:rwx,g:www-data:rwx /var/log/freeswitch
+
+setfacl -R -m u:www-data:rwx,g:www-data:rwx /usr/share/freeswitch/sounds
+setfacl -R -d -m u:www-data:rwx,g:www-data:rwx /usr/share/freeswitch/sounds
