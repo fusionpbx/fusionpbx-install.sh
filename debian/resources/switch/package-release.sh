@@ -27,27 +27,3 @@ sed -i /lib/systemd/system/freeswitch.service -e s:'local-fs.target:local-fs.tar
 #set the file permissions
 mkdir /usr/share/freeswitch/scripts
 chmod g+ws /usr/share/freeswitch/scripts
-
-chown -R freeswitch:freeswitch /var/lib/freeswitch
-chmod -R g+s /var/lib/freeswitch
-setfacl -R -m u:www-data:rwx,g:www-data:rwx /var/lib/freeswitch
-setfacl -R -d -m u:www-data:rwx,g:www-data:rwx /var/lib/freeswitch
-
-chown -R freeswitch:freeswitch /usr/share/freeswitch
-chmod -R g+s /usr/share/freeswitch
-setfacl -R -m u:www-data:rwx,g:www-data:rwx /usr/share/freeswitch
-setfacl -R -d -m u:www-data:rwx,g:www-data:rwx /usr/share/freeswitch
-
-chown -R freeswitch:freeswitch /etc/freeswitch
-chmod -R g+s /etc/freeswitch
-setfacl -R -m u:www-data:rwx,g:www-data:rwx /etc/freeswitch
-setfacl -R -d -m u:www-data:rwx,g:www-data:rwx /etc/freeswitch
-
-chown -R freeswitch:freeswitch /var/log/freeswitch
-setfacl -R -m u:www-data:rwx,g:www-data:rwx /var/log/freeswitch
-setfacl -R -d -m u:www-data:rwx,g:www-data:rwx /var/log/freeswitch
-
-chown -R freeswitch:freeswitch /usr/share/freeswitch/sounds
-chmod -R g+s /usr/share/freeswitch/sounds
-setfacl -R -m u:www-data:rwx,g:www-data:rwx /usr/share/freeswitch/sounds
-setfacl -R -d -m u:www-data:rwx,g:www-data:rwx /usr/share/freeswitch/sounds
