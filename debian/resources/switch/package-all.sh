@@ -9,31 +9,7 @@ else
         echo "deb http://files.freeswitch.org/repo/deb/freeswitch-1.6/ jessie main" > /etc/apt/sources.list.d/freeswitch.list
         curl http://files.freeswitch.org/repo/deb/freeswitch-1.6/key.gpg | apt-key add -
 fi
-apt-get update && apt-get install -y --force-yes freeswitch-all freeswitch-all-dbg gdb
-#apt-get remove freeswitch-all freeswitch-all-dbg
-#rm /etc/apt/sources.list.d/freeswitch.list
+apt-get update && apt-get install -y --force-yes freeswitch-meta-all freeswitch-all-dbg gdb
 
-#set the file permissions
-chown -R freeswitch:freeswitch /var/lib/freeswitch
-chmod -R g+s /var/lib/freeswitch
-setfacl -R -m u:www-data:rwx,g:www-data:rwx /var/lib/freeswitch
-setfacl -R -d -m u:www-data:rwx,g:www-data:rwx /var/lib/freeswitch
-
-chown -R freeswitch:freeswitch /usr/share/freeswitch
-chmod -R g+s /usr/share/freeswitch
-setfacl -R -m u:www-data:rwx,g:www-data:rwx /usr/share/freeswitch
-setfacl -R -d -m u:www-data:rwx,g:www-data:rwx /usr/share/freeswitch
-
-chown -R freeswitch:freeswitch /etc/freeswitch
-chmod -R g+s /etc/freeswitch
-setfacl -R -m u:www-data:rwx,g:www-data:rwx /etc/freeswitch
-setfacl -R -d -m u:www-data:rwx,g:www-data:rwx /etc/freeswitch
-
-chown -R freeswitch:freeswitch /var/log/freeswitch
-setfacl -R -m u:www-data:rwx,g:www-data:rwx /var/log/freeswitch
-setfacl -R -d -m u:www-data:rwx,g:www-data:rwx /var/log/freeswitch
-
-chown -R freeswitch:freeswitch /usr/share/freeswitch/sounds
-chmod -R g+s /usr/share/freeswitch/sounds
-setfacl -R -m u:www-data:rwx,g:www-data:rwx /usr/share/freeswitch/sounds
-setfacl -R -d -m u:www-data:rwx,g:www-data:rwx /usr/share/freeswitch/sounds
+#make sure that postgresql is started before starting freeswitch
+sed -i /lib/systemd/system/freeswitch.service -e s:'local-fs.target:local-fs.target postgresql.service:'

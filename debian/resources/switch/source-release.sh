@@ -34,4 +34,3 @@ make install
 make sounds-install moh-install
 make hd-sounds-install hd-moh-install
 make cd-sounds-install cd-moh-install
-chown -R www-data:www-data /usr/local/freeswitch

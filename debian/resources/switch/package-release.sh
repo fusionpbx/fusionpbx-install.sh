@@ -23,7 +23,3 @@ apt-get install -y --force-yes freeswitch-mod-imagick freeswitch-mod-tts-command
 
 #make sure that postgresql is started before starting freeswitch
 sed -i /lib/systemd/system/freeswitch.service -e s:'local-fs.target:local-fs.target postgresql.service:'
-
-#set the file permissions
-mkdir /usr/share/freeswitch/scripts
-chmod g+ws /usr/share/freeswitch/scripts
