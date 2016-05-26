@@ -81,7 +81,7 @@ server_address=$(hostname -I)
 /bin/systemctl daemon-reload
 /bin/systemctl try-restart freeswitch
 /bin/systemctl daemon-reload
-/bin/systemctl restart php-fpm
+/bin/systemctl restart php5-fpm
 /bin/systemctl restart nginx
 /bin/systemctl restart fail2ban
 
