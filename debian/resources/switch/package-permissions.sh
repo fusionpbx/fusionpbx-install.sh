@@ -4,19 +4,18 @@ usermod -a -G www-data freeswitch
 
 #setup owner and group, permissions and sticky
 chown -R freeswitch:freeswitch /var/lib/freeswitch
-chmod -R 770 /var/lib/freeswitch
-chmod -R g+s /var/lib/freeswitch
+chmod -R ug+rw /var/lib/freeswitch
+find /var/lib/freeswitch -type d -exec chmod 2770 {} \;
 
+mkdir /usr/share/freeswitch/scripts
 chown -R freeswitch:freeswitch /usr/share/freeswitch
-chmod -R 770 /usr/share/freeswitch
-#chmod -R 770 /usr/share/freeswitch/scripts
-#chmod -R 770 /usr/share/freeswitch/lang
-chmod -R g+s /usr/share/freeswitch
+chmod -R ug+rw /var/share/freeswitch
+find /var/share/freeswitch -type d -exec chmod 2770 {} \;
 
 chown -R freeswitch:freeswitch /etc/freeswitch
-chmod -R 770 /etc/freeswitch
-chmod -R g+s /etc/freeswitch
+chmod -R ug+rw /etc/freeswitch
+find /etc/freeswitch -type d -exec chmod 2770 {} \;
 
 chown -R freeswitch:freeswitch /var/log/freeswitch
-chmod -R 770 /var/log/freeswitch
-chmod -R g+s /var/log/freeswitch
+chmod -R ug+rw /var/log/freeswitch
+find /var/log/freeswitch -type d -exec chmod 2770 {} \;
