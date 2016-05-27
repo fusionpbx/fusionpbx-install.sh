@@ -1,21 +1,23 @@
 #!/bin/sh
 
 #Process command line options
-OPTS=`getopt -n 'install.sh' -o h -l help,use-freeswitch-source,use-freeswitch-package-all,use-freeswitch-master -- "$@"`
+OPTS=`getopt -n 'install.sh' -o h -l help,use-freeswitch-source,use-freeswitch-package-all,use-freeswitch-master,use-freeswitch-package-unofficial-arm -- "$@"`
 eval set -- "$OPTS"
 
 if [ $? != 0 ] ; then echo "Failed parsing options." >&2 ; exit 1 ; fi
 
-USE_FREESWITCH_SOURCE=false
-USE_FREESWITCH_PACKAGE_ALL=false
-USE_FREESWITCH_MASTER=false
+export USE_FREESWITCH_SOURCE=false
+export USE_FREESWITCH_PACKAGE_ALL=false
+export USE_FREESWITCH_PACKAGE_UNOFFICIAL_ARM=false
+export USE_FREESWITCH_MASTER=false
 HELP=false
 
 while true; do
   case "$1" in
-    --use-freeswitch-source ) USE_FREESWITCH_SOURCE=true; shift ;;
-    --use-freeswitch-package-all ) USE_FREESWITCH_PACKAGE_ALL=true; shift ;;
-    --use-freeswitch-master ) USE_FREESWITCH_MASTER=true; shift ;;
+    --use-freeswitch-source ) export USE_FREESWITCH_SOURCE=true; shift ;;
+    --use-freeswitch-package-all ) export USE_FREESWITCH_PACKAGE_ALL=true; shift ;;
+    --use-freeswitch-package-unofficial-arm ) export USE_FREESWITCH_PACKAGE_UNOFFICIAL_ARM=true; shift ;;
+    --use-freeswitch-master ) export USE_FREESWITCH_MASTER=true; shift ;;
     -h | --help ) HELP=true; shift ;;
     -- ) shift; break ;;
     * ) break ;;
@@ -26,6 +28,7 @@ if [ $HELP = true ]; then
 	echo "Debian installer script"
 	echo "	--use-freeswitch-source will use freeswitch from source rather than (default:packages)"
 	echo "	--use-freeswitch-package-all if using packages use the meta-all package"
+	echo "	--use-freeswitch-package-unofficial-arm if your system is arm and you are using packages, use the unofficial arm repo"
 	echo "	--use-freeswitch-master will use master branch/packages instead of (default:stable)"
 	exit;
 fi
