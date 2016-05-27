@@ -75,6 +75,10 @@ server {
 	#cisco
 	rewrite "^.*/provision/file/(.*\.(xml|cfg))" /app/provision/?file=$1 last;
 
+	#Escene
+	rewrite "^.*/provision/([0-9]{1,11})_Extern.xml$       "app/provision/?ext=$1&file={$mac}_extern.xml";
+	rewrite "^.*/provision/([0-9]{1,11})_Phonebook.xml$    "app/provision/?ext=$1&file={$mac}_phonebook.xml";
+
 	access_log /var/log/nginx/access.log;
 	error_log /var/log/nginx/error.log;
 
