@@ -9,8 +9,8 @@ find /var/lib/freeswitch -type d -exec chmod 2770 {} \;
 
 mkdir /usr/share/freeswitch/scripts
 chown -R freeswitch:freeswitch /usr/share/freeswitch
-chmod -R ug+rw /var/share/freeswitch
-find /var/share/freeswitch -type d -exec chmod 2770 {} \;
+chmod -R ug+rw /usr/share/freeswitch
+find /usr/share/freeswitch -type d -exec chmod 2770 {} \;
 
 chown -R freeswitch:freeswitch /etc/freeswitch
 chmod -R ug+rw /etc/freeswitch
