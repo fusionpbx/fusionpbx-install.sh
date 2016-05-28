@@ -38,9 +38,9 @@ port     = 80,443
 protocol = tcp
 filter   = fusionpbx
 logpath  = /var/log/auth.log
-action   = iptables-allports[name=fusionpbx, protocol=all]
+action   = iptables-multiport[name=fusionpbx, port="http,https", protocol=tcp]
 #          sendmail-whois[name=fusionpbx, dest=root, sender=fail2ban@example.org] #no smtp server installed
-maxretry = 5
+maxretry = 10
 findtime = 600
 bantime  = 600	
 
