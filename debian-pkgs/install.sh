@@ -36,7 +36,7 @@ apt-get -y install ntp
 service ntp res
 
 #FreeSWITCH
-resources/switch/./package-release.sh
+resources/freeswitch/./package-release.sh
 #resources/switch/./package-master.sh
 #resources/switch/./source-release.sh
 
