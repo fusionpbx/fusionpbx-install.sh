@@ -58,7 +58,7 @@ if [ $USE_FREESWITCH_SOURCE = true ]; then
 	fi
 	resources/switch/source-permissions.sh
 else
-	if [ $USE_FREESWITCH_MASER = true ]; then
+	if [ $USE_FREESWITCH_MASTER = true ]; then
 		if [ $USE_FREESWITCH_PACKAGE_ALL = true ]; then
 			resources/switch/package-master-all.sh
 		else
