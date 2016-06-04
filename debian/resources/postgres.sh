@@ -17,6 +17,9 @@ apt-get install -y --force-yes sudo postgresql
 #init.d
 #/usr/sbin/service postgresql restart
 
+#move to /tmp to prevent a red herring error when running sudo with psql
+cwd=$(pwd)
+cd /tmp
 #add the databases, users and grant permissions to them
 sudo -u postgres psql -c "CREATE DATABASE fusionpbx";
 sudo -u postgres psql -c "CREATE DATABASE freeswitch";
@@ -26,6 +29,7 @@ sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE fusionpbx to fusionpb
 sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE freeswitch to fusionpbx;"
 sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE freeswitch to freeswitch;"
 #ALTER USER fusionpbx WITH PASSWORD 'newpassword';
+cd $cwd
 
 #set the ip address
 server_address=$(hostname -I)
