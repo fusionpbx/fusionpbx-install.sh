@@ -33,6 +33,9 @@ if [ $HELP = true ]; then
 	exit;
 fi
 
+# removes the cd img from the /etc/apt/sources.list file (not needed after base install)
+sed -i '/cdrom:/d' /etc/apt/sources.list
+
 #Update Debian
 echo "Update Debian"
 apt-get upgrade && apt-get update -y --force-yes
