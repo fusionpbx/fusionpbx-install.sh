@@ -16,7 +16,7 @@ apt-get install -y --force-yes sudo postgresql
 #/usr/bin/wget --quiet -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | apt-key add -
 #/usr/bin/wget --quiet -O - http://packages.2ndquadrant.com/bdr/apt/AA7A6805.asc | apt-key add -
 #apt-get update && apt-get upgrade -y
-#apt-get install -y --force-yes postgresql-bdr-9.4 postgresql-bdr-9.4-bdr-plugin postgresql-bdr-contrib-9.4
+#apt-get install -y --force-yes sudo postgresql-bdr-9.4 postgresql-bdr-9.4-bdr-plugin postgresql-bdr-contrib-9.4
 
 #systemd
 /bin/systemctl daemon-reload
