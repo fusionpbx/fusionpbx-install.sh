@@ -19,8 +19,8 @@ apt-get install -y --force-yes sudo postgresql
 #apt-get install -y --force-yes sudo postgresql-bdr-9.4 postgresql-bdr-9.4-bdr-plugin postgresql-bdr-contrib-9.4
 
 #systemd
-/bin/systemctl daemon-reload
-/bin/systemctl restart postgresql
+systemctl daemon-reload
+systemctl restart postgresql
 
 #init.d
 #/usr/sbin/service postgresql restart

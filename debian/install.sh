@@ -40,6 +40,9 @@ sed -i '/cdrom:/d' /etc/apt/sources.list
 echo "Update Debian"
 apt-get upgrade && apt-get update -y --force-yes
 
+#move to script directory so all relative paths work
+cd "$(dirname "$0")"
+
 #IPTables
 resources/iptables.sh
 
@@ -84,12 +87,12 @@ resources/postgres.sh
 server_address=$(hostname -I)
 
 #restart services
-/bin/systemctl daemon-reload
-/bin/systemctl try-restart freeswitch
-/bin/systemctl daemon-reload
-/bin/systemctl restart php5-fpm
-/bin/systemctl restart nginx
-/bin/systemctl restart fail2ban
+systemctl daemon-reload
+systemctl try-restart freeswitch
+systemctl daemon-reload
+systemctl restart php5-fpm
+systemctl restart nginx
+systemctl restart fail2ban
 
 #Show database password
 echo "Complete the install by by going to the IP address of this server ";
