@@ -7,6 +7,8 @@ echo "Configure IPTables"
 iptables -N sip
 iptables -A sip -j DROP -m string --string "friendly-scanner" --algo bm
 iptables -A sip -j DROP -m string --string "sipcli/" --algo bm
+iptables -A sip -j DROP -m string --string "VaxSIPUserAgent" --algo bm
+iptables -A sip -j DROP -m string --string "sipvicious" --algo bm
 iptables -A sip -j ACCEPT
 iptables -A INPUT -i lo -j ACCEPT
 iptables -A INPUT -j sip -p tcp -m multiport --dports 5060,5061,5080,5081 -m comment --comment "SIP tcp"
