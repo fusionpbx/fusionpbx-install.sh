@@ -1,15 +1,18 @@
 #!/bin/sh
 
 #Process command line options
-OPTS=`getopt -n 'install.sh' -o h -l help,use-switch-source,use-switch-package-all,use-switch-master,use-switch-package-unofficial-arm -- "$@"`
-eval set -- "$OPTS"
+ARGS=$(getopt -n 'install.sh' -o h -l help,use-switch-source,use-switch-package-all,use-switch-master,use-switch-package-unofficial-arm,no-cpu-check -- "$@")
 
-if [ $? != 0 ] ; then echo "Failed parsing options." >&2 ; exit 1 ; fi
+if [ $? -ne 0 ]; then
+	echo "Failed parsing options."
+	exit 1
+fi
 
 export USE_SWITCH_SOURCE=false
 export USE_SWITCH_PACKAGE_ALL=false
 export USE_SWITCH_PACKAGE_UNOFFICIAL_ARM=false
 export USE_SWITCH_MASTER=false
+export CPU_CHECK=true
 HELP=false
 
 while true; do
@@ -18,6 +21,7 @@ while true; do
     --use-switch-package-all ) export USE_SWITCH_PACKAGE_ALL=true; shift ;;
     --use-switch-package-unofficial-arm ) export USE_SWITCH_PACKAGE_UNOFFICIAL_ARM=true; shift ;;
     --use-switch-master ) export USE_SWITCH_MASTER=true; shift ;;
+    --no-cpu-check ) export CPU_CHECK=false; shift ;;
     -h | --help ) HELP=true; shift ;;
     -- ) shift; break ;;
     * ) break ;;
@@ -30,7 +34,37 @@ if [ $HELP = true ]; then
 	echo "	--use-switch-package-all if using packages use the meta-all package"
 	echo "	--use-switch-package-unofficial-arm if your system is arm and you are using packages, use the unofficial arm repo"
 	echo "	--use-switch-master will use master branch/packages instead of (default:stable)"
+	echo "	--no-cpu-check disable the cpu check (default:check)"
 	exit;
+fi
+
+if [ $CPU_CHECK = true ]; then
+	#check what the CPU is
+	OS_bits=$(uname -m)
+	OS_arch=$(uname -m)
+	CPU_bits='i686'
+	if [ $(grep -o -w 'lm' /proc/cpuinfo) = 'lm' ]; then
+		CPU_bits='x86_64'	
+	fi
+	
+	if [ $USE_SWITCH_SOURCE = false ]; then
+		if [ $OS_arch = 'armv7l' ]; then
+			if [ $USE_SWITCH_PACKAGE_UNOFFICIAL_ARM = false && OS_bits = 'i686' ]; then
+				echo "You are using a 32bit arm OS this is unsupported"
+				echo " please rerun with either --use-switch-package-unofficial-arm or --use-switch-source"
+				exit 3
+			fi
+		else
+			if [ $OS_bits = 'i686' ]; then
+				echo "You are using a 32bit OS this is unsupported"
+				if [ $CPU_bits = 'x86_64' ]; then
+					echo "Your CPU is 64bit you should consider reinstalling with a 64bit OS"
+				fi
+				echo " please rerun with --use-switch-source"
+				exit 3
+			fi
+		fi
+	fi
 fi
 
 # removes the cd img from the /etc/apt/sources.list file (not needed after base install)
