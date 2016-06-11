@@ -1,4 +1,9 @@
 #!/bin/sh
+# Exit codes
+#	1	general error
+#	2	unsupported OS
+#	3	unsupported CPU/OS bits
+
 # check to confirm running as root.
 if [ "$(id -u)" -ne "0" ]; then
 	echo "$(basename "$0") must be run as root";
@@ -9,7 +14,6 @@ echo
 #Os/Distro Check
 os_check=$(lsb_release -is)
 check_major_release=$(lsb_release -rs | cut -d. -f1)
-lsb_release -c | grep -i jessie > /dev/null
 
 os_unsupported () {
 	echo " Your Operating System appears to be: "
