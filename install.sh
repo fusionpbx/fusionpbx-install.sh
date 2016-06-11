@@ -11,7 +11,7 @@ check_OS=$(lsb_release -is)
 check_Release_Major=$(lsb_release -rs | cut -d. -f1)
 lsb_release -c | grep -i jessie > /dev/null
 
-function unsupported_OS {
+unsupported_OS () {
 		echo " Your OS appears to be: "
 		lsb_release -a
 		echo " Your OS is not currently supported... Exiting the install."

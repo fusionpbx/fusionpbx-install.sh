@@ -4,7 +4,7 @@ fusionpbx-install.sh
 This install script that has been designed to be an fast, simple, and modular way to to install FusionPBX. Start with a minimal install of Debian 8 with SSH enabled. Run the following commands under root. It installs FusionPBX, FreeSWITCH release package and its dependencies, IPTables, Fail2ban, NGINX, PHP FPM, and PostgresQL.
 
 ```bash
-wget https://raw.githubusercontent.com/fusionpbx/fusionpbx-install.sh/master/install.sh -O install.sh && bash install.sh
+wget https://raw.githubusercontent.com/fusionpbx/fusionpbx-install.sh/master/install.sh -O install.sh && sh install.sh
 ```
 
 At the end of the install it will instruct you to go to the ip address of the server in your web browser to finish the install. It will also provide a random database password for you to use during the web based phase of the install. The install script builds the fusionpbx database so you will not need to use the create database username and password on the last page of the web based install.
