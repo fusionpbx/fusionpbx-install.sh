@@ -15,7 +15,6 @@ unsupported_OS () {
 		echo " Your OS appears to be: "
 		lsb_release -a
 		echo " Your OS is not currently supported... Exiting the install."
-		echo "If you require assistance we are available via IRC on freenode via #fusionpbx"
 		exit 2;
 }
 
