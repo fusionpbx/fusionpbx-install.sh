@@ -7,24 +7,24 @@ fi
 echo
 
 #Os/Distro Check
-check_OS=$(lsb_release -is)
-check_Release_Major=$(lsb_release -rs | cut -d. -f1)
+os_check=$(lsb_release -is)
+check_major_release=$(lsb_release -rs | cut -d. -f1)
 lsb_release -c | grep -i jessie > /dev/null
 
-unsupported_OS () {
-		echo " Your OS appears to be: "
-		lsb_release -a
-		echo " Your OS is not currently supported... Exiting the install."
-		exit 2;
+os_unsupported () {
+	echo " Your Operating System appears to be: "
+	lsb_release -a
+	echo "Your Operating System is not currently supported... Exiting the install."
+	exit 2;
 }
 
-if [ $check_OS = 'Debian' ]; then
-	if [ $check_Release_Major -ge 8 ]; then
-		echo "Removing the cd img from /etc/apt/sources.list"
+if [ $os_check = 'Debian' ]; then
+	if [ $check_major_release -ge 8 ]; then
+		echo "Removing the CD image from /etc/apt/sources.list"
 		sed -i '/cdrom:/d' /etc/apt/sources.list
-		echo "Updating system before we start"
+		echo "Updating system before starting."
 		apt-get update && apt-get -y upgrade
-		echo "Installing git"
+		echo "Installing Git"
 		apt-get install -y git
 		cd /usr/src
 		echo "Fetching Installer"
@@ -37,9 +37,9 @@ if [ $check_OS = 'Debian' ]; then
 		./install.sh $@
 	else
 		echo "Although you are running Debian we require version >= 8"
-		unsupported_OS
+		os_unsupported
 	fi
 else
-	unsupported_OS
+	os_unsupported
 fi
-echo "If you require assistance we are available via IRC on freenode via #fusionpbx"
+
