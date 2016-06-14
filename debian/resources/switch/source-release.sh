@@ -11,10 +11,10 @@ apt-get install -y --force-yes freeswitch-video-deps-most
 
 #git clone https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
 #git clone -b v1.6 https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
-cd /usr/src && wget http://files.freeswitch.org/freeswitch-releases/freeswitch-1.6.7.zip
-unzip freeswitch-1.6.7.zip
+cd /usr/src && wget http://files.freeswitch.org/freeswitch-releases/freeswitch-1.6.9.zip
+unzip freeswitch-1.6.9.zip
 rm -R freeswitch
-cp -R freeswitch-1.6.7 freeswitch
+cp -R freeswitch-1.6.9 freeswitch
 cd freeswitch
 
 #./bootstrap.sh -j
@@ -34,3 +34,9 @@ make install
 make sounds-install moh-install
 make hd-sounds-install hd-moh-install
 make cd-sounds-install cd-moh-install
+
+useradd freeswitch
+
+#configure system service
+ln -s /usr/local/freeswitch/bin/fs_cli /usr/bin/fs_cli
+cp "$(dirname $0)/source/freeswitch.service" /lib/systemd/system/freeswitch.service
