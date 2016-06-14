@@ -1,10 +1,15 @@
 #!/bin/sh
 
+#move to script directory so all relative paths work
+cd "$(dirname "$0")"
+
+. resources/colors.sh
+
 #Process command line options
 ARGS=$(getopt -n 'install.sh' -o h -l help,use-switch-source,use-switch-package-all,use-switch-master,use-switch-package-unofficial-arm,no-cpu-check -- "$@")
 
 if [ $? -ne 0 ]; then
-	echo "Failed parsing options."
+	error "Failed parsing options."
 	exit 1
 fi
 
@@ -29,12 +34,12 @@ while true; do
 done
 
 if [ $HELP = true ]; then
-	echo "Debian installer script"
-	echo "	--use-switch-source will use freeswitch from source rather than (default:packages)"
-	echo "	--use-switch-package-all if using packages use the meta-all package"
-	echo "	--use-switch-package-unofficial-arm if your system is arm and you are using packages, use the unofficial arm repo"
-	echo "	--use-switch-master will use master branch/packages instead of (default:stable)"
-	echo "	--no-cpu-check disable the cpu check (default:check)"
+	warning "Debian installer script"
+	warning "	--use-switch-source will use freeswitch from source rather than ${green}(default:packages)"
+	warning "	--use-switch-package-all if using packages use the meta-all package"
+	warning "	--use-switch-package-unofficial-arm if your system is arm and you are using packages, use the unofficial arm repo"
+	warning "	--use-switch-master will use master branch/packages instead of ${green}(default:stable)"
+	warning "	--no-cpu-check disable the cpu check ${green}(default:check)"
 	exit;
 fi
 
@@ -50,17 +55,17 @@ if [ $CPU_CHECK = true ]; then
 	if [ $USE_SWITCH_SOURCE = false ]; then
 		if [ $OS_arch = 'armv7l' ]; then
 			if [ $USE_SWITCH_PACKAGE_UNOFFICIAL_ARM = false && OS_bits = 'i686' ]; then
-				echo "You are using a 32bit arm OS this is unsupported"
-				echo " please rerun with either --use-switch-package-unofficial-arm or --use-switch-source"
+				error "You are using a 32bit arm OS this is unsupported"
+				warning " please rerun with either --use-switch-package-unofficial-arm or --use-switch-source"
 				exit 3
 			fi
 		else
 			if [ $OS_bits = 'i686' ]; then
-				echo "You are using a 32bit OS this is unsupported"
+				error "You are using a 32bit OS this is unsupported"
 				if [ $CPU_bits = 'x86_64' ]; then
-					echo "Your CPU is 64bit you should consider reinstalling with a 64bit OS"
+					error "Your CPU is 64bit you should consider reinstalling with a 64bit OS"
 				fi
-				echo " please rerun with --use-switch-source"
+				warning " please rerun with --use-switch-source"
 				exit 3
 			fi
 		fi
@@ -71,11 +76,8 @@ fi
 sed -i '/cdrom:/d' /etc/apt/sources.list
 
 #Update Debian
-echo "Update Debian"
+verbose "Update Debian"
 apt-get upgrade && apt-get update -y --force-yes
-
-#move to script directory so all relative paths work
-cd "$(dirname "$0")"
 
 #IPTables
 resources/iptables.sh
@@ -129,8 +131,8 @@ systemctl restart nginx
 systemctl restart fail2ban
 
 #Show database password
-echo "Complete the install by by going to the IP address of this server ";
-echo "in your web browser or with a domain name for this server.";
+verbose "Complete the install by by going to the IP address of this server ";
+verbose "in your web browser or with a domain name for this server.";
 echo "   https://$server_address"
 echo ""
 echo ""
