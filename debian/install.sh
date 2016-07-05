@@ -13,6 +13,7 @@ if [ $? -ne 0 ]; then
 	exit 1
 fi
 
+#DO NOT EDIT THESE LINES use --help to get the current list of options
 export USE_SWITCH_SOURCE=false
 export USE_SWITCH_PACKAGE_ALL=false
 export USE_SWITCH_PACKAGE_UNOFFICIAL_ARM=false
