@@ -3,6 +3,8 @@
 #	1	general error
 #	2	unsupported OS
 #	3	unsupported CPU/OS bits
+# note all command line options are passed onto the relevant installer
+#  except --diag which will cause this script to output the diag info and exit
 
 verbose () {
 	echo "${green}$1${normal}"
@@ -42,6 +44,33 @@ fi
 
 #Make ourselves executable next time we are run
 chmod +x $0
+
+#Check if the user has requested diag
+ARGS=$(getopt -n 'install.sh' -o h -l diag -- "$@")
+DIAG=false
+while true; do
+  case "$1" in
+    --diag ) export DIAG=true; shift ;;
+    -- ) shift; break ;;
+    * ) break ;;
+  esac
+done
+if [ $DIAG = true ]; then
+	verbose "Diagnostic information:-";
+	echo "=> lsb_release -a <="
+	lsb_release -a
+	echo
+	echo "=> cat/proc/cpu <="
+	cat /proc/cpu
+	echo
+	echo
+	echo "=> uname -a <="
+	uname -a
+	echo
+	verbose "For IRC please place this information in http://pastebin.com"
+	verbose "For Github Issues/PRs please paste inside a code segment (`example`)"
+	exit
+fi
 
 #Os/Distro Check
 os_check=$(lsb_release -is)
