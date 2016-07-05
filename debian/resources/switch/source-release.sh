@@ -9,6 +9,8 @@ echo "deb http://files.freeswitch.org/repo/deb/freeswitch-1.6/ jessie main" > /e
 apt-get update && apt-get upgrade
 apt-get install -y --force-yes freeswitch-video-deps-most
 
+#we are about to move out of the executing directory so we need to preserve it to return after we are done
+CWD=$(pwd)
 #git clone https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
 #git clone -b v1.6 https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
 cd /usr/src && wget http://files.freeswitch.org/freeswitch-releases/freeswitch-1.6.9.zip
@@ -34,6 +36,9 @@ make install
 make sounds-install moh-install
 make hd-sounds-install hd-moh-install
 make cd-sounds-install cd-moh-install
+
+#return to the executing directory
+cd $CWD
 
 useradd freeswitch
 
