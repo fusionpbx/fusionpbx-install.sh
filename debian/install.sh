@@ -88,6 +88,9 @@ resources/fusionpbx.sh
 #NGINX web server
 resources/nginx.sh
 
+#PHP
+resources/php.sh
+
 #Fail2ban
 resources/fail2ban.sh
 
