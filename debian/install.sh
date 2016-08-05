@@ -48,13 +48,13 @@ if [ $CPU_CHECK = true ]; then
 	OS_bits=$(uname -m)
 	OS_arch=$(uname -m)
 	CPU_bits='i686'
-	if [ $(grep -o -w 'lm' /proc/cpuinfo) = 'lm' ]; then
+	if [ "$(grep -o -w 'lm' /proc/cpuinfo)" = 'lm' ]; then
 		CPU_bits='x86_64'	
 	fi
 	
 	if [ $USE_SWITCH_SOURCE = false ]; then
 		if [ $OS_arch = 'armv7l' ]; then
-			if [ $USE_SWITCH_PACKAGE_UNOFFICIAL_ARM = false && OS_bits = 'i686' ]; then
+			if [ $USE_SWITCH_PACKAGE_UNOFFICIAL_ARM = false ] && [ OS_bits = 'i686' ]; then
 				error "You are using a 32bit arm OS this is unsupported"
 				warning " please rerun with either --use-switch-package-unofficial-arm or --use-switch-source"
 				exit 3
