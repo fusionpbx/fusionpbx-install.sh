@@ -1,0 +1,4 @@
+# /etc/default/freeswitch
+FS_USER="www-data"
+FS_GROUP="www-data"
+DAEMON_OPTS="-nonat -ncwait -u www-data -g www-data -run /var/run/freeswitch"
