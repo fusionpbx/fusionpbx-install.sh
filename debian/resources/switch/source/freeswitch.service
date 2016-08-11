@@ -2,8 +2,8 @@
  
 [Unit]
 Description=freeswitch
-After=syslog.target network.target local-fs.target postgresql.service
- 
+After=syslog.target network.target local-fs.target postgresql.service haveged.service
+
 [Service]
 ; service
 Type=forking
