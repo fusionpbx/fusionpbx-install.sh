@@ -152,7 +152,8 @@ if [ $USE_SWITCH_SOURCE = true ]; then
 	else
 		resources/switch/source-release.sh
 	fi
-	resources/switch/source-permissions.sh
+	#resources/switch/source-permissions.sh
+	resources/switch/permissions.sh
 else
 	if [ $USE_SWITCH_MASTER = true ]; then
 		if [ $USE_SWITCH_PACKAGE_ALL = true ]; then
@@ -167,7 +168,8 @@ else
 			resources/switch/package-release.sh
 		fi
 	fi
-	resources/switch/package-permissions.sh
+	#resources/switch/package-permissions.sh
+	resources/switch/permissions.sh
 fi
 
 #Postgres
