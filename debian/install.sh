@@ -152,8 +152,11 @@ if [ $USE_SWITCH_SOURCE = true ]; then
 	else
 		resources/switch/source-release.sh
 	fi
-	#resources/switch/source-permissions.sh
+	#resources/switch/package-permissions.sh
 	resources/switch/permissions.sh
+
+	#copy the switch conf files to /etc/freeswitch
+	resources/switch/conf-copy.sh
 else
 	if [ $USE_SWITCH_MASTER = true ]; then
 		if [ $USE_SWITCH_PACKAGE_ALL = true ]; then
@@ -170,6 +173,9 @@ else
 	fi
 	#resources/switch/package-permissions.sh
 	resources/switch/permissions.sh
+
+	#copy the switch conf files to /etc/freeswitch
+	resources/switch/conf-copy.sh
 fi
 
 #Postgres
