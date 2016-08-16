@@ -155,6 +155,9 @@ if [ $USE_SWITCH_SOURCE = true ]; then
 	#set the file permissions
 	resources/switch/source-permissions.sh
 
+	#systemd service
+	resources/switch/source-systemd.sh
+
 	#copy the switch conf files to /etc/freeswitch
 	resources/switch/conf-copy.sh
 else
@@ -173,6 +176,9 @@ else
 	fi
 	#set the file permissions
 	resources/switch/package-permissions.sh
+
+	#systemd service
+	resources/switch/package-systemd.sh
 
 	#copy the switch conf files to /etc/freeswitch
 	resources/switch/conf-copy.sh
