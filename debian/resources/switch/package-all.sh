@@ -3,7 +3,7 @@
 #initialize variable encase we are called directly
 [ -z $USE_SWITCH_PACKAGE_UNOFFICIAL_ARM ] && USE_SWITCH_PACKAGE_UNOFFICIAL_ARM=false
 
-apt-get update && apt-get install -y --force-yes curl memcached haveged
+apt-get update && apt-get install -y --force-yes ntp curl memcached haveged
 arch=$(uname -m)
 if [ $arch = 'armv7l' ] && [ $USE_SWITCH_PACKAGE_UNOFFICIAL_ARM = true ]; then
         echo "deb http://repo.sip247.com/debian/freeswitch-stable-armhf/ jessie main" > /etc/apt/sources.list.d/freeswitch.list
