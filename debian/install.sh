@@ -152,14 +152,16 @@ if [ $USE_SWITCH_SOURCE = true ]; then
 	else
 		resources/switch/source-release.sh
 	fi
+
+	#copy the switch conf files to /etc/freeswitch
+	resources/switch/conf-copy.sh
+
 	#set the file permissions
 	resources/switch/source-permissions.sh
 
 	#systemd service
 	resources/switch/source-systemd.sh
 
-	#copy the switch conf files to /etc/freeswitch
-	resources/switch/conf-copy.sh
 else
 	if [ $USE_SWITCH_MASTER = true ]; then
 		if [ $USE_SWITCH_PACKAGE_ALL = true ]; then
@@ -174,14 +176,16 @@ else
 			resources/switch/package-release.sh
 		fi
 	fi
+
+	#copy the switch conf files to /etc/freeswitch
+	resources/switch/conf-copy.sh
+
 	#set the file permissions
 	resources/switch/package-permissions.sh
 
 	#systemd service
 	resources/switch/package-systemd.sh
 
-	#copy the switch conf files to /etc/freeswitch
-	resources/switch/conf-copy.sh
 fi
 
 #Postgres
