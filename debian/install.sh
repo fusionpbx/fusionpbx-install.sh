@@ -152,8 +152,8 @@ if [ $USE_SWITCH_SOURCE = true ]; then
 	else
 		resources/switch/source-release.sh
 	fi
-	#resources/switch/package-permissions.sh
-	resources/switch/permissions.sh
+	#set the file permissions
+	resources/switch/source-permissions.sh
 
 	#copy the switch conf files to /etc/freeswitch
 	resources/switch/conf-copy.sh
@@ -171,8 +171,8 @@ else
 			resources/switch/package-release.sh
 		fi
 	fi
-	#resources/switch/package-permissions.sh
-	resources/switch/permissions.sh
+	#set the file permissions
+	resources/switch/package-permissions.sh
 
 	#copy the switch conf files to /etc/freeswitch
 	resources/switch/conf-copy.sh
