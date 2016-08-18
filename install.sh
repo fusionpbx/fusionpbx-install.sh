@@ -45,6 +45,7 @@ chmod +x $0
 
 #Os/Distro Check
 os_check=$(lsb_release -is)
+real_os=$os_check
 check_major_release=$(lsb_release -rs | cut -d. -f1)
 
 os_unsupported () {
@@ -54,6 +55,10 @@ os_unsupported () {
 	exit 2;
 }
 
+if [ $os_check = 'Raspbian' ]; then
+	echo "${yellow}Detected Raspbian, using Debian for compatibility${normal}"
+	os_check="Debian"
+fi
 if [ $os_check = 'Debian' ]; then
 	if [ $check_major_release -ge 8 ]; then
 		verbose "Removing the CD image from /etc/apt/sources.list"
@@ -73,7 +78,7 @@ if [ $os_check = 'Debian' ]; then
 		cd /usr/src/fusionpbx-install.sh/debian
 		./install.sh $@
 	else
-		error "Although you are running Debian we require version >= 8"
+		error "Although you are running $real_os we require version >= 8"
 		os_unsupported
 	fi
 else
