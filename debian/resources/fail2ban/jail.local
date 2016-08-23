@@ -93,7 +93,7 @@ maxretry = 10
 # 240 pages in 60 seconds, or 4p/s average, is suspicious)
 # Block for two full days.
 enabled  = true
-port     = 80
+port     = 80,443
 protocol = tcp
 filter   = nginx-dos
 logpath  = /var/log/nginx/access*.log
