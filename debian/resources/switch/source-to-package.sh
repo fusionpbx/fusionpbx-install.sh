@@ -1,8 +1,4 @@
-#move source files to package directories
-cp -R /usr/local/freeswitch/conf /etc/freeswitch
-cp -R /usr/local/freeswitch/recordings/* /var/lib/freeswitch/recordings
-cp -R /usr/local/freeswitch/storage/* /var/lib/freeswitch/storage
-cp -R /usr/local/freeswitch/scripts/* /usr/share/freeswitch/scripts
+#!/bin/sh
 
 #make sure the etc fusionpbx directory exists 
 mkdir -p /etc/fusionpbx
@@ -17,3 +13,8 @@ $(dirname $0)/package-release.sh
 #install freeswitch systemd.d
 $(dirname $0)/package-systemd.sh
 
+#move source files to package directories
+rsync -avz /usr/local/freeswitch/conf /etc/freeswitch
+rsync -avz /usr/local/freeswitch/recordings /var/lib/freeswitch
+rsync -avz /usr/local/freeswitch/storage /var/lib/freeswitch
+rsync -avz /usr/local/freeswitch/scripts /usr/share/freeswitch
