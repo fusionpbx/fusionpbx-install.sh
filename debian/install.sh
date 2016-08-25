@@ -24,7 +24,6 @@ while true; do
   case "$1" in
     --use-switch-source ) export USE_SWITCH_SOURCE=true; shift ;;
     --use-switch-package-all ) export USE_SWITCH_PACKAGE_ALL=true; shift ;;
-    --use-switch-package-unofficial-arm ) export USE_SWITCH_PACKAGE_UNOFFICIAL_ARM=true; shift ;;
     --use-switch-master ) export USE_SWITCH_MASTER=true; shift ;;
     --no-cpu-check ) export CPU_CHECK=false; shift ;;
     -h | --help ) HELP=true; shift ;;
@@ -87,13 +86,8 @@ if [ $CPU_CHECK = true ] && [ $USE_SWITCH_SOURCE = false ]; then
 	
 	if [ $CPU_arch = 'arm' ]; then
 		if [ $OS_bits = '32' ]; then
-			if [ $USE_SWITCH_PACKAGE_UNOFFICIAL_ARM = false ]; then
-				error "You are using a 32bit arm OS this is unsupported"
-				warning " please rerun with either --use-switch-package-unofficial-arm or --use-switch-source"
-				exit 3
-			else
-				verbose "Correct CPU/OS detected, using unofficial arm repo"
-			fi
+			export USE_SWITCH_PACKAGE_UNOFFICIAL_ARM=true
+			verbose "Correct CPU/OS detected, using unofficial arm repo"
 		elif [ $OS_bits = '64' ]; then
 			error "You are using a 64bit arm OS this is unsupported"
 			warning " please rerun with --use-switch-source"
