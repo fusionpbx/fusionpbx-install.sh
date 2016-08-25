@@ -14,7 +14,8 @@ CWD=$(pwd)
 #git clone https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
 #git clone -b v1.6 https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
 SWITCH_MAJOR=$(git ls-remote --heads https://freeswitch.org/stash/scm/fs/freeswitch.git "v*" | cut -d/ -f 3 | grep -P '^v\d+\.\d+' | sort | tail -n 1| cut -dv -f2)
-SWITCH_VERSION=$(git ls-remote --tags https://freeswitch.org/stash/scm/fs/freeswitch.git v$SWITCH_MAJOR.* | cut -d/ -f3 | sort | tail -n1 | cut -dv -f2)
+SWITCH_MINOR=$(git ls-remote --tags https://freeswitch.org/stash/scm/fs/freeswitch.git v$SWITCH_MAJOR.* | cut -d/ -f3 | cut -dv -f2 | cut -d. -f3 | sort -n | tail -n1)
+SWITCH_VERSION=$SWITCH_MAJOR.$SWITCH_MINOR
 echo "Using version $SWITCH_VERSION"
 cd /usr/src
 wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$SWITCH_VERSION.zip
