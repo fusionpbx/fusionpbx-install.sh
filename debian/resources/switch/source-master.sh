@@ -35,8 +35,6 @@ make cd-sounds-install cd-moh-install
 mkdir -p /usr/local/freeswitch/sounds/music/default
 mv /usr/local/freeswitch/sounds/music/*000 /usr/share/freeswitch/sounds/music/default
 
-useradd freeswitch
-
 #configure system service
 ln -s /usr/local/freeswitch/bin/fs_cli /usr/bin/fs_cli
 cp "$(dirname $0)/source/freeswitch.service" /lib/systemd/system/freeswitch.service
