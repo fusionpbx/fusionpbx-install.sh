@@ -49,8 +49,6 @@ mv /usr/local/freeswitch/sounds/music/*000 /usr/share/freeswitch/sounds/music/de
 #return to the executing directory
 cd $CWD
 
-useradd freeswitch
-
 #configure system service
 ln -s /usr/local/freeswitch/bin/fs_cli /usr/bin/fs_cli
 cp "$(dirname $0)/source/freeswitch.service" /lib/systemd/system/freeswitch.service
