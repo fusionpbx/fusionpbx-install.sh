@@ -10,3 +10,4 @@ apt-get install -y --force-yes ghostscript libtiff5-dev libtiff-tools
 #get the source code
 git clone https://github.com/fusionpbx/fusionpbx.git /var/www/fusionpbx
 chown -R www-data:www-data /var/www/fusionpbx
+chmod -R 755 /var/www/fusionpbx/secure
