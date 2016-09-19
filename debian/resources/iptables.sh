@@ -9,10 +9,10 @@ iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 iptables -A INPUT -p tcp --dport 22 -j ACCEPT
 iptables -A INPUT -p tcp --dport 80 -j ACCEPT
 iptables -A INPUT -p tcp --dport 443 -j ACCEPT
-iptables -A INPUT -p tcp --dport 5060:5069 -j ACCEPT
-iptables -A INPUT -p udp --dport 5060:5069 -j ACCEPT
-iptables -A INPUT -p tcp --dport 5080 -j ACCEPT
-iptables -A INPUT -p udp --dport 5080 -j ACCEPT
+iptables -A INPUT -p tcp --dport 5060:5061 -j ACCEPT
+iptables -A INPUT -p udp --dport 5060:5061 -j ACCEPT
+iptables -A INPUT -p tcp --dport 5080:5081 -j ACCEPT
+iptables -A INPUT -p udp --dport 5080:5081 -j ACCEPT
 iptables -A INPUT -p udp --dport 16384:32768 -j ACCEPT
 iptables -A INPUT -p icmp --icmp-type echo-request -j ACCEPT
 iptables -A INPUT -p udp --dport 1194 -j ACCEPT
