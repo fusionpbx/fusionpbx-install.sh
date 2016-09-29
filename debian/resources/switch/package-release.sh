@@ -1,6 +1,9 @@
 #!/bin/sh
-#initialize variable encase we are called directly
-[ -z $USE_SWITCH_PACKAGE_UNOFFICIAL_ARM ] && USE_SWITCH_PACKAGE_UNOFFICIAL_ARM=false
+
+#move to script directory so all relative paths work
+cd "$(dirname "$0")"
+
+. ./arguments.sh
 
 apt-get update && apt-get install -y --force-yes curl memcached haveged
 arch=$(uname -m)
