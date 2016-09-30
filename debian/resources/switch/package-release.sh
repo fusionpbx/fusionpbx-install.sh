@@ -3,7 +3,8 @@
 #move to script directory so all relative paths work
 cd "$(dirname "$0")"
 
-. ./arguments.sh
+. ../colors.sh
+. ../arguments.sh
 
 apt-get update && apt-get install -y --force-yes curl memcached haveged
 arch=$(uname -m)

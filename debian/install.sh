@@ -3,7 +3,8 @@
 #move to script directory so all relative paths work
 cd "$(dirname "$0")"
 
-. resources/arguments.sh
+. ./resources/colors.sh
+. ./resources/arguments.sh
 
 if [ $CPU_CHECK = true ] && [ $USE_SWITCH_SOURCE = false ]; then
 	#check what the CPU and OS are
