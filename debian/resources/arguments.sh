@@ -1,7 +1,5 @@
 #!/bin/sh
 
-. ./colors.sh
-
 #Process command line options only if we haven't been processed once
 if [ -z "$CPU_CHECK" ]; then
 	export script_name=`basename "$0"`

@@ -3,6 +3,7 @@
 #move to script directory so all relative paths work
 cd "$(dirname "$0")"
 
+. ./colors.sh
 . ./arguments.sh
 
 #send a message
