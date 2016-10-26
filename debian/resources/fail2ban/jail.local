@@ -85,8 +85,8 @@ protocol = tcp
 filter   = nginx-404
 logpath  = /var/log/nginx/access*.log
 bantime  = 600
-findtime = 600
-maxretry = 10
+findtime = 60
+maxretry = 120
 
 [nginx-dos]
 # Based on apache-badbots but a simple IP check (any IP requesting more than
