@@ -33,7 +33,7 @@ make cd-sounds-install cd-moh-install
 
 #move the music into music/default directory
 mkdir -p /usr/local/freeswitch/sounds/music/default
-mv /usr/local/freeswitch/sounds/music/*000 /usr/share/freeswitch/sounds/music/default
+mv /usr/local/freeswitch/sounds/music/*000 /usr/local/freeswitch/sounds/music/default
 
 #configure system service
 ln -s /usr/local/freeswitch/bin/fs_cli /usr/bin/fs_cli
