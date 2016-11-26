@@ -12,6 +12,7 @@ apt-get install -y --force-yes fail2ban
 #move the filters
 cp resources/fail2ban/freeswitch-dos.conf /etc/fail2ban/filter.d/freeswitch-dos.conf
 cp resources/fail2ban/freeswitch-ip.conf /etc/fail2ban/filter.d/freeswitch-ip.conf
+cp resources/fail2ban/freeswitch-404.conf /etc/fail2ban/filter.d/freeswitch-404.conf
 cp resources/fail2ban/freeswitch.conf /etc/fail2ban/filter.d/freeswitch.conf
 cp resources/fail2ban/fusionpbx.conf /etc/fail2ban/filter.d/fusionpbx.conf
 cp resources/fail2ban/nginx-404.conf /etc/fail2ban/filter.d/nginx-404.conf
