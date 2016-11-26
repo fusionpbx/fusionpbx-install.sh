@@ -71,7 +71,7 @@ enabled  = true
 port     = 5060,5061,5080,5081
 protocol = all
 filter   = freeswitch-404
-logpath  = /usr/local/freeswitch/log/freeswitch.log
+logpath  = /var/log/freeswitch/freeswitch.log
 action   = iptables-allports[name=freeswitch-404, protocol=all]
 maxretry = 3
 findtime = 300
