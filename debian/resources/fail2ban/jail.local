@@ -66,6 +66,18 @@ maxretry = 50
 findtime = 30
 bantime  = 6000
 
+[freeswitch-inbound]
+enabled  = true
+port     = 5080
+protocol = udp
+filter   = fusionpbx-inbound
+logpath  = /usr/local/freeswitch/log/freeswitch.log
+action   = iptables-allports[name=freeswitch-inbound, protocol=all]
+#          sendmail-whois[name=freeswitch-inbound, dest=root, sender=fail2ban@example.org] #no smtp server installed
+maxretry = 3
+findtime = 300
+bantime  = 3600
+
 [fusionpbx]
 enabled  = true
 port     = 80,443
