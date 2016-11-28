@@ -1,13 +1,13 @@
 #!/bin/sh
 
 #move to script directory so all relative paths work
-#cd "$(dirname "$0")"
+cd "$(dirname "$0")"
 
-#initialize variable encase we are called directly
-[ -z $USE_FREESWITCH_SOURCE ] && USE_FREESWITCH_SOURCE=false
+. ./colors.sh
+. ./arguments.sh
 
 #send a message
-echo "Install Fail2ban"
+verbose "Installing Fail2ban"
 
 #add the dependencies
 apt-get install -y --force-yes fail2ban

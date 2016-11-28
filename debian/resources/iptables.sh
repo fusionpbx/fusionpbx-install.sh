@@ -1,7 +1,13 @@
 #!/bin/sh
 
+#move to script directory so all relative paths work
+cd "$(dirname "$0")"
+
+. ./colors.sh
+. ./arguments.sh
+
 #send a message
-echo "Configure IPTables"
+verbose "Configuring IPTables"
 
 #run iptables commands
 iptables -A INPUT -i lo -j ACCEPT

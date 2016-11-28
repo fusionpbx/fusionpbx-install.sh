@@ -1,7 +1,13 @@
 #!/bin/sh
 
+#move to script directory so all relative paths work
+cd "$(dirname "$0")"
+
+. ./colors.sh
+. ./arguments.sh
+
 #send a message
-echo "Install the web server\n"
+verbose "Installing the web server"
 
 #install dependencies
 apt-get install -y --force-yes nginx php5 php5-cli php5-fpm php5-pgsql php5-sqlite php5-odbc php5-curl php5-imap php5-mcrypt
