@@ -18,7 +18,7 @@ if [ $USE_SYSTEM_MASTER = true ]; then
 	BRANCH=""
 else
 	FUSION_MAJOR=$(git ls-remote --heads https://github.com/fusionpbx/fusionpbx.git | cut -d/ -f 3 | grep -P '^\d+\.\d+' | sort | tail -n 1 | cut -d. -f1)
-	FUSION_MINOR=$(git ls-remote --tags https://github.com/fusionpbx/fusionpbx.git $FUSION_MAJOR.* | cut -d/ -f3 |  grep -P '^\d+\.\d+' | sort | tail -n 1 | cut -d. -f2)
+	FUSION_MINOR=$(git ls-remote --tags https://github.com/fusionpbx/fusionpbx.git | grep "$FUSION_MAJOR.*" | cut -d/ -f3 |  grep -P '^\d+\.\d+' | sort | tail -n 1 | cut -d. -f2)
 	FUSION_VERSION=$FUSION_MAJOR.$FUSION_MINOR
 	verbose "Using version $FUSION_VERSION"
 	BRANCH="-b $FUSION_VERSION"
