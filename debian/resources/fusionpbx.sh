@@ -28,3 +28,10 @@ fi
 git clone $BRANCH https://github.com/fusionpbx/fusionpbx.git /var/www/fusionpbx
 chown -R www-data:www-data /var/www/fusionpbx
 chmod -R 755 /var/www/fusionpbx/secure
+
+#create the /etc/fusionpbx directory and copy the config.php into it
+#mkdir -p /etc/fusionpbx
+#chown -R www-data:www-data /etc/fusionpbx
+#cp fusionpbx/config.php /etc/fusionpbx
+#sed -i /etc/fusionpbx/config.php -e s:'{database_username}:fusionpbx:'
+#sed -i /etc/fusionpbx/config.php -e s:'{database_password}:1234:'
