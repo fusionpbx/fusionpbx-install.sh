@@ -37,4 +37,4 @@ chmod -R 755 /var/www/fusionpbx/secure
 #sed -i /etc/fusionpbx/config.php -e s:'{database_password}:1234:'
 
 #add the database schema
-#cd /var/www/fusionpbx && php /var/www/fusionpbx/core/upgrade/upgrade_schema.php
+#cd /var/www/fusionpbx && php /var/www/fusionpbx/core/upgrade/upgrade_schema.php > /dev/null 2>&1
