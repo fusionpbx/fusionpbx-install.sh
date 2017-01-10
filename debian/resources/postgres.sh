@@ -1,22 +1,28 @@
 #!/bin/sh
 
+#move to script directory so all relative paths work
+cd "$(dirname "$0")"
+
+. ./colors.sh
+. ./arguments.sh
+
 #send a message
-echo "Install PostgreSQL"
+verbose "Installing PostgreSQL"
 
 #generate a random password
 password=$(dd if=/dev/urandom bs=1 count=20 2>/dev/null | base64)
 
-#Postgres
-echo "Install PostgreSQL and create the database and users\n"
-apt-get install -y --force-yes sudo postgresql
-
-#Add PostgreSQL and BDR REPO
-#echo 'deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main'  >> /etc/apt/sources.list.d/postgresql.list
-#echo 'deb http://packages.2ndquadrant.com/bdr/apt/ jessie-2ndquadrant main' >> /etc/apt/sources.list.d/2ndquadrant.list
-#/usr/bin/wget --quiet -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | apt-key add -
-#/usr/bin/wget --quiet -O - http://packages.2ndquadrant.com/bdr/apt/AA7A6805.asc | apt-key add -
-#apt-get update && apt-get upgrade -y
-#apt-get install -y --force-yes sudo postgresql-bdr-9.4 postgresql-bdr-9.4-bdr-plugin postgresql-bdr-contrib-9.4
+if [ $USE_POSTGRES_BDR = true ]; then
+	verbose "Installing PostgreSQL BDR support from 2ndquadrant"
+	echo 'deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main'  >> /etc/apt/sources.list.d/postgresql.list
+	echo 'deb http://packages.2ndquadrant.com/bdr/apt/ jessie-2ndquadrant main' >> /etc/apt/sources.list.d/2ndquadrant.list
+	/usr/bin/wget --quiet -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | apt-key add -
+	/usr/bin/wget --quiet -O - http://packages.2ndquadrant.com/bdr/apt/AA7A6805.asc | apt-key add -
+	apt-get update && apt-get upgrade -y
+	apt-get install -y --force-yes sudo postgresql-bdr-9.4 postgresql-bdr-9.4-bdr-plugin postgresql-bdr-contrib-9.4
+else
+	apt-get install -y --force-yes sudo postgresql	
+fi
 
 #systemd
 systemctl daemon-reload
@@ -24,6 +30,8 @@ systemctl restart postgresql
 
 #init.d
 #/usr/sbin/service postgresql restart
+
+verbose "Creating the database and users"
 
 #move to /tmp to prevent a red herring error when running sudo with psql
 cwd=$(pwd)
@@ -45,8 +53,8 @@ server_address=$(hostname -I)
 #Show database password
 echo ""
 echo ""
-echo "PostgreSQL"
-echo "   Database name: fusionpbx"
-echo "   Database username: fusionpbx"
-echo "   Database password: $password"
+verbose "PostgreSQL configuration :-"
+verbose "   Database name: ${yellow}fusionpbx"
+verbose "   Database username: ${yellow}fusionpbx"
+verbose "   Database password: ${yellow}$password"
 echo ""
