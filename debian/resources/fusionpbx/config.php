@@ -35,7 +35,6 @@
 	$db_host = 'localhost'; //set the host only if the database is not local
 	$db_port = '5432';
 	$db_name = 'fusionpbx';
-	$db_username = 'fusionpbx';
 	$db_username = '{database_username}';
 	$db_password = '{database_password}';
 
