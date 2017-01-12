@@ -91,9 +91,6 @@ apt-get upgrade && apt-get update -y --force-yes
 #IPTables
 resources/iptables.sh
 
-#FusionPBX
-resources/fusionpbx.sh
-
 #NGINX web server
 resources/nginx.sh
 
@@ -152,20 +149,14 @@ resources/postgres.sh
 #set the ip address
 server_address=$(hostname -I)
 
+#FusionPBX
+resources/fusionpbx.sh
+
 #restart services
 systemctl daemon-reload
 systemctl try-restart freeswitch
-systemctl daemon-reload
 systemctl restart php5-fpm
 systemctl restart nginx
 systemctl restart fail2ban
 
-#Show database password
-verbose "Complete the install by by going to the IP address of this server ";
-verbose "in your web browser or with a domain name for this server.";
-echo "   https://$server_address"
-echo ""
-echo ""
 
-#wait for the config.php to exist and then restart the service
-#resources/./finish.sh
