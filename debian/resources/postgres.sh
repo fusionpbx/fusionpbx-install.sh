@@ -48,13 +48,4 @@ sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE freeswitch to freeswi
 cd $cwd
 
 #set the ip address
-server_address=$(hostname -I)
-
-#Show database password
-echo ""
-echo ""
-echo "PostgreSQL"
-echo "   Database name: fusionpbx"
-echo "   Database username: fusionpbx"
-echo "   Database password: $password"
-echo ""
+#server_address=$(hostname -I)
