@@ -91,6 +91,9 @@ apt-get upgrade && apt-get update -y --force-yes
 #IPTables
 resources/iptables.sh
 
+#FusionPBX
+resources/fusionpbx.sh
+
 #NGINX web server
 resources/nginx.sh
 
@@ -149,14 +152,11 @@ resources/postgres.sh
 #set the ip address
 server_address=$(hostname -I)
 
-#FusionPBX
-resources/fusionpbx.sh
-
 #restart services
 systemctl daemon-reload
-systemctl try-restart freeswitch
 systemctl restart php5-fpm
 systemctl restart nginx
 systemctl restart fail2ban
 
-
+#add the database schema, user and groups
+resources/finish.sh
