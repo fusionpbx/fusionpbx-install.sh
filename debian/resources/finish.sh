@@ -66,6 +66,9 @@ psql --host=$database_host --port=$database_port --username=$database_username -
 /bin/systemctl daemon-reload
 /bin/systemctl restart freeswitch
 
+#app defaults
+cd /var/www/fusionpbx && php /var/www/fusionpbx/core/upgrade/upgrade_domains.php
+
 #welcome message
 echo ""
 echo ""
