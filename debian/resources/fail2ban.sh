@@ -1,5 +1,8 @@
 #!/bin/sh
 
+#move to script directory so all relative paths work
+cd "$(dirname "$0")"
+
 #initialize variable encase we are called directly
 [ -z $USE_FREESWITCH_SOURCE ] && USE_FREESWITCH_SOURCE=false
 
