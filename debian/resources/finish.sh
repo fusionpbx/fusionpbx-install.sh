@@ -30,9 +30,16 @@ sed -i /etc/fusionpbx/config.php -e s:"{database_password}:$database_password:"
 #add the database schema
 cd /var/www/fusionpbx && php /var/www/fusionpbx/core/upgrade/upgrade_schema.php > /dev/null 2>&1
 
-#add the domain
-domain_name=$(hostname -f)
+#get the server hostname
+#domain_name=$(hostname -f)
+
+#get the ip address
+domain_name=$(hostname -I | cut -d ' ' -f1)
+
+#get a domain_uuid
 domain_uuid=$(/usr/bin/php /var/www/fusionpbx/resources/uuid.php);
+
+#add the domain name
 psql --host=$database_host --port=$database_port --username=$database_username -c "insert into v_domains (domain_uuid, domain_name, domain_enabled) values('$domain_uuid', '$domain_name', 'true');"
 
 #app defaults
@@ -65,12 +72,13 @@ echo ""
 verbose "Installation has completed."
 echo ""
 echo "   Use a web browser to login."
-echo "      location: https://$domain_name"
+echo "      domain name: https://$domain_name"
 echo "      username: $user_name"
 echo "      password: $user_password"
 echo ""
-echo "   If your server hostname is not a fully qualified domain name";
-echo "   Then login with your ip address and $user_name@$domain_name";
+echo "   The domain name in the browser is used by default as part of the authentication."
+echo "   If you need to login to a different domain then use username@domain."
+echo "      username: $user_name@$domain_name";
 echo ""
 echo "   For additional information use the following links.";
 echo "      https://www.fusionpbx.com"
