@@ -9,7 +9,9 @@ rm -R /etc/letsencrypt
 
 #enable fusionpbx nginx config
 cp resources/nginx/fusionpbx /etc/nginx/sites-available/fusionpbx
-ln -s /etc/nginx/sites-available/fusionpbx /etc/nginx/sites-enabled/fusionpbx
+#ln -s /etc/nginx/sites-available/fusionpbx /etc/nginx/sites-enabled/fusionpbx
+
+/usr/sbin/nginx -t && /usr/sbin/nginx -s reload
 
 git clone https://github.com/letsencrypt/letsencrypt /opt/letsencrypt
 chmod 755 /opt/letsencrypt/certbot-auto
