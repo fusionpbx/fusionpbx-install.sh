@@ -10,6 +10,7 @@ git clone https://github.com/letsencrypt/letsencrypt /opt/letsencrypt
 chmod 755 /opt/letsencrypt/certbot-auto
 /opt/letsencrypt/./certbot-auto
 mkdir -p /etc/letsencrypt/configs
+mkdir -p /var/www/letsencrypt/
 
 #cd $pwd
 #cd "$(dirname "$0")"
