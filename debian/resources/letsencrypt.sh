@@ -1,7 +1,10 @@
 #!/bin/sh
 
-domain_name=subdomain.domain.com
-email=username@domain.com
+#request the domain and email
+read -p 'Domain Name: ' domain_name
+read -p 'Email Address: ' email
+#domain_name=subdomain.domain.com
+#email=username@domain.com
 
 #remove previous install
 rm -R /opt/letsencrypt
