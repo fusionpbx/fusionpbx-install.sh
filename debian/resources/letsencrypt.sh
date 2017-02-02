@@ -26,7 +26,7 @@ sed "s#{domain_name}#$domain_name#g" -i /etc/letsencrypt/configs/$domain_name.co
 sed "s#{email_address}#$email#g" -i /etc/letsencrypt/configs/$domain_name.conf
 
 #letsencrypt
-sed "s@#letsencrypt@location /.well-known/acme-challenge { root /var/www/letsencrypt; }@g" -i /etc/nginx/sites-available/fusionpbx
+#sed "s@#letsencrypt@location /.well-known/acme-challenge { root /var/www/letsencrypt; }@g" -i /etc/nginx/sites-available/fusionpbx
 
 cd /opt/letsencrypt && ./letsencrypt-auto --config /etc/letsencrypt/configs/$domain_name.conf certonly
 
