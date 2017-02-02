@@ -8,7 +8,7 @@ rm -R /opt/letsencrypt
 rm -R /etc/letsencrypt
 
 #enable fusionpbx nginx config
-cp resources/nginx/fusionpbx /etc/nginx/sites-available/fusionpbx
+cp nginx/fusionpbx /etc/nginx/sites-available/fusionpbx
 #ln -s /etc/nginx/sites-available/fusionpbx /etc/nginx/sites-enabled/fusionpbx
 
 /usr/sbin/nginx -t && /usr/sbin/nginx -s reload
