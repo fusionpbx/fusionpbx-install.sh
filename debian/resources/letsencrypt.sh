@@ -3,8 +3,13 @@
 domain_name=subdomain.domain.com
 email=username@domain.com
 
+#remove previous install
 rm -R /opt/letsencrypt
 rm -R /etc/letsencrypt
+
+#enable fusionpbx nginx config
+cp resources/nginx/fusionpbx /etc/nginx/sites-available/fusionpbx
+ln -s /etc/nginx/sites-available/fusionpbx /etc/nginx/sites-enabled/fusionpbx
 
 git clone https://github.com/letsencrypt/letsencrypt /opt/letsencrypt
 chmod 755 /opt/letsencrypt/certbot-auto
