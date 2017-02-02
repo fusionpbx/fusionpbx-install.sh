@@ -17,5 +17,8 @@ ln -s /etc/ssl/certs/ssl-cert-snakeoil.pem /etc/ssl/certs/nginx.crt
 #remove the default site
 rm /etc/nginx/sites-enabled/default
 
+#add the letsencrypt directory
+mkdir -p /var/www/letsencrypt/
+
 #restart nginx
 service nginx restart
