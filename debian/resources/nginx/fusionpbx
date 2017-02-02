@@ -123,6 +123,8 @@ server {
 	ssl_protocols           TLSv1 TLSv1.1 TLSv1.2;
 	ssl_ciphers             HIGH:!ADH:!MD5:!aNULL;
 
+	#letsencrypt
+
 	#REST api
 	if ($uri ~* ^.*/api/.*$) {
 		rewrite ^(.*)/api/(.*)$ $1/api/index.php?rewrite_uri=$2 last;
