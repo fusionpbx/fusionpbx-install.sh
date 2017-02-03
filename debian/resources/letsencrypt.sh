@@ -48,9 +48,9 @@ sed "s@ssl_certificate_key     /etc/ssl/private/nginx.key;@ssl_certificate_key /
 /usr/sbin/nginx -t && /usr/sbin/nginx -s reload
 
 #combine the certs into all.pem
-cat /opt/letsencrypt/live/$domain_name/cert.pem > /opt/letsencrypt/live/$domain_name/all.pem
-cat /opt/letsencrypt/live/$domain_name/privkey.pem >> /opt/letsencrypt/live/$domain_name/all.pem
-cat /opt/letsencrypt/live/$domain_name/chain.pem >> /opt/letsencrypt/live/$domain_name/all.pem
+cat /etc/letsencrypt/live/$domain_name/cert.pem > /etc/letsencrypt/live/$domain_name/all.pem
+cat /etc/letsencrypt/live/$domain_name/privkey.pem >> /etc/letsencrypt/live/$domain_name/all.pem
+cat /etc/letsencrypt/live/$domain_name/chain.pem >> /etc/letsencrypt/live/$domain_name/all.pem
 
 #copy the certs to the switch tls directory
 mkdir -p /etc/freeswitch/tls
