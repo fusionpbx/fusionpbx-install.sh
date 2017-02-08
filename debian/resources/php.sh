@@ -1,7 +1,13 @@
 #!/bin/sh
 
+#move to script directory so all relative paths work
+cd "$(dirname "$0")"
+
+. ./colors.sh
+. ./arguments.sh
+
 #send a message
-echo "Configure PHP"
+verbose "Configuring PHP"
 
 #update config if source is being used
 sed 's#post_max_size = .*#post_max_size = 80M#g' -i /etc/php5/fpm/php.ini
