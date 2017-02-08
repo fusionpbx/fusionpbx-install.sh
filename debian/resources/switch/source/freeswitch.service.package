@@ -14,7 +14,7 @@ ExecStartPre=/bin/mkdir -p /var/run/freeswitch/
 ExecStartPre=/bin/chown -R www-data:www-data /var/run/freeswitch/
 ExecStart=/usr/bin/freeswitch -u www-data -g www-data -ncwait $DAEMON_OPTS
 TimeoutSec=45s
-Restart=always
+Restart=always 
 ; exec
 User=root
 Group=daemon
@@ -23,7 +23,7 @@ LimitNOFILE=100000
 LimitNPROC=60000
 LimitSTACK=250000
 LimitRTPRIO=infinity
-LimitRTTIME=7000000
+LimitRTTIME=infinity
 IOSchedulingClass=realtime
 IOSchedulingPriority=2
 CPUSchedulingPolicy=rr
