@@ -7,7 +7,7 @@ echo "Install the web server\n"
 apt-get install -y --force-yes nginx php5 php5-cli php5-fpm php5-pgsql php5-sqlite php5-odbc php5-curl php5-imap php5-mcrypt
 
 #enable fusionpbx nginx config
-cp resources/nginx/fusionpbx /etc/nginx/sites-available/fusionpbx
+cp nginx/fusionpbx /etc/nginx/sites-available/fusionpbx
 ln -s /etc/nginx/sites-available/fusionpbx /etc/nginx/sites-enabled/fusionpbx
 
 #self signed certificate
