@@ -86,7 +86,7 @@ sed -i '/cdrom:/d' /etc/apt/sources.list
 
 #Update Debian
 verbose "Update Debian"
-apt-get upgrade && apt-get update -y --force-yes
+apt-get upgrade && apt-get update -y
 
 #IPTables
 resources/iptables.sh
