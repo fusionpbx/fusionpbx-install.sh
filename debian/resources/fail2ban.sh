@@ -10,7 +10,7 @@ cd "$(dirname "$0")"
 verbose "Installing Fail2ban"
 
 #add the dependencies
-apt-get install -y --force-yes fail2ban
+apt-get install -y fail2ban
 
 #move the filters
 cp fail2ban/freeswitch-dos.conf /etc/fail2ban/filter.d/freeswitch-dos.conf
@@ -23,7 +23,7 @@ cp fail2ban/nginx-dos.conf /etc/fail2ban/filter.d/nginx-dos.conf
 cp fail2ban/jail.local /etc/fail2ban/jail.local
 
 #update config if source is being used
-if [ $USE_FREESWITCH_SOURCE = true ]; then
+if [ .$USE_FREESWITCH_SOURCE = .true ]; then
 	sed 's#var/log/freeswitch#usr/local/freeswitch/log#g' -i /etc/fail2ban/jail.local
 fi
 
