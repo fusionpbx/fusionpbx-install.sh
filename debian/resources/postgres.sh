@@ -10,13 +10,13 @@ password=$(dd if=/dev/urandom bs=1 count=20 2>/dev/null | base64)
 echo "Install PostgreSQL and create the database and users\n"
 
 #included in the distribution
-#apt-get install -y --force-yes sudo postgresql
+#apt-get install -y sudo postgresql
 
 #postgres official repository
 echo 'deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main' >> /etc/apt/sources.list.d/pgdg.list
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 apt-get update && apt-get upgrade -y
-apt-get install -y --force-yes sudo postgresql
+apt-get install -y sudo postgresql
 
 #Add PostgreSQL and BDR REPO
 #echo 'deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main'  >> /etc/apt/sources.list.d/postgresql.list
@@ -24,7 +24,7 @@ apt-get install -y --force-yes sudo postgresql
 #/usr/bin/wget --quiet -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | apt-key add -
 #/usr/bin/wget --quiet -O - http://packages.2ndquadrant.com/bdr/apt/AA7A6805.asc | apt-key add -
 #apt-get update && apt-get upgrade -y
-#apt-get install -y --force-yes sudo postgresql-bdr-9.4 postgresql-bdr-9.4-bdr-plugin postgresql-bdr-contrib-9.4
+#apt-get install -y sudo postgresql-bdr-9.4 postgresql-bdr-9.4-bdr-plugin postgresql-bdr-contrib-9.4
 
 #systemd
 systemctl daemon-reload
