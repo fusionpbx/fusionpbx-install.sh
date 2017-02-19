@@ -37,30 +37,90 @@ cd /var/www/fusionpbx && php /var/www/fusionpbx/core/upgrade/upgrade_schema.php 
 domain_name=$(hostname -I | cut -d ' ' -f1)
 
 #get a domain_uuid
-domain_uuid=$(/usr/bin/php /var/www/fusionpbx/resources/uuid.php);
+#try to find existed and enabled rows count
+domain_uuid_count=$(psql --host=$database_host --port=$database_port --username=$database_username -t -c "select count(domain_uuid) from v_domains where domain_name='$domain_name' and domain_enabled='true';");
+domain_uuid_count=$(echo $domain_uuid_count | sed 's/^[[:blank:]]*//;s/[[:blank:]]*$//')
+verbose 'Found domain_uuid_count = ['$domain_uuid_count']'
 
-#add the domain name
-psql --host=$database_host --port=$database_port --username=$database_username -c "insert into v_domains (domain_uuid, domain_name, domain_enabled) values('$domain_uuid', '$domain_name', 'true');"
+if [ .$domain_uuid_count = .'0' ]; then
+	#generate uuid
+	domain_uuid=$(/usr/bin/php /var/www/fusionpbx/resources/uuid.php);
+	#add the domain name
+	psql --host=$database_host --port=$database_port --username=$database_username -c "insert into v_domains (domain_uuid, domain_name, domain_enabled) values('$domain_uuid', '$domain_name', 'true');"
+else
+	#dump all rows existed no matter enabled or not
+	psql --host=$database_host --port=$database_port --username=$database_username -c "select * from v_domains where domain_name='$domain_name' order by domain_uuid;"
+	#get the first existed and enabled uuid
+	domain_uuid=$(psql --host=$database_host --port=$database_port --username=$database_username -t -c "select domain_uuid from v_domains where domain_name='$domain_name' and domain_enabled='true' order by domain_uuid limit 1 offset 0;");
+	domain_uuid=$(echo $domain_uuid | sed 's/^[[:blank:]]*//;s/[[:blank:]]*$//')
+	#there can be only one
+	#only one uuid with this name enabled of course
+	psql --host=$database_host --port=$database_port --username=$database_username -c "update v_domains set domain_enabled='false' where domain_name='$domain_name' and domain_enabled='true' and not domain_uuid='$domain_uuid';"
+fi
+
+verbose 'Will be used domain_uuid = ['$domain_uuid'] with domain_name = ['$domain_name']'
 
 #app defaults
 cd /var/www/fusionpbx && php /var/www/fusionpbx/core/upgrade/upgrade_domains.php
 
-#add the user
-user_uuid=$(/usr/bin/php /var/www/fusionpbx/resources/uuid.php);
-user_salt=$(/usr/bin/php /var/www/fusionpbx/resources/uuid.php);
+#prepare user info
 user_name=admin
 user_password=$(dd if=/dev/urandom bs=1 count=12 2>/dev/null | base64 | sed 's/[=\+//]//g')
+user_salt=$(/usr/bin/php /var/www/fusionpbx/resources/uuid.php);
 password_hash=$(php -r "echo md5('$user_salt$user_password');");
-psql --host=$database_host --port=$database_port --username=$database_username -t -c "insert into v_users (user_uuid, domain_uuid, username, password, salt, user_enabled) values('$user_uuid', '$domain_uuid', '$user_name', '$password_hash', '$user_salt', 'true');"
+
+#get a user_uuid
+#try to find existed and enabled rows count
+user_uuid_count=$(psql --host=$database_host --port=$database_port --username=$database_username -t -c "select count(user_uuid) from v_users where username='$user_name' and user_enabled='true' and domain_uuid='$domain_uuid';");
+user_uuid_count=$(echo $user_uuid_count | sed 's/^[[:blank:]]*//;s/[[:blank:]]*$//')
+verbose 'Found user_uuid_count = ['$user_uuid_count']'
+
+if [ .$user_uuid_count = .'0' ]; then
+	#generate uuid
+	user_uuid=$(/usr/bin/php /var/www/fusionpbx/resources/uuid.php);
+	#add the user
+	psql --host=$database_host --port=$database_port --username=$database_username -t -c "insert into v_users (user_uuid, domain_uuid, username, password, salt, user_enabled) values('$user_uuid', '$domain_uuid', '$user_name', '$password_hash', '$user_salt', 'true');"
+else
+	#dump all rows existed no matter enabled or not
+	psql --host=$database_host --port=$database_port --username=$database_username -c "select user_uuid, domain_uuid, username, user_enabled from v_users where username='$user_name' and domain_uuid='$domain_uuid' order by user_uuid;"
+	#get the first existed and enabled uuid
+	user_uuid=$(psql --host=$database_host --port=$database_port --username=$database_username -t -c "select user_uuid from v_users where username='$user_name' and user_enabled='true' and domain_uuid='$domain_uuid' order by user_uuid limit 1 offset 0;");
+	user_uuid=$(echo $user_uuid | sed 's/^[[:blank:]]*//;s/[[:blank:]]*$//')
+	#there can be only one
+	#only one uuid with this name enabled of course
+	psql --host=$database_host --port=$database_port --username=$database_username -c "update v_users set user_enabled='false' where username='$user_name' and user_enabled='true' and domain_uuid='$domain_uuid' and not user_uuid='$user_uuid';"
+	#update user password
+	psql --host=$database_host --port=$database_port --username=$database_username -c "update v_users set password='$password_hash', salt='$user_salt' where username='$user_name' and user_enabled='true' and user_uuid='$user_uuid';"
+fi
+
+verbose 'Will be used user_uuid = ['$user_uuid'] with user_name = ['$user_name']'
 
 #get the superadmin group_uuid
-group_uuid=$(psql --host=$database_host --port=$database_port --username=$database_username -t -c "select group_uuid from v_groups where group_name = 'superadmin';");
+group_name=superadmin
+group_uuid=$(psql --host=$database_host --port=$database_port --username=$database_username -t -c "select group_uuid from v_groups where group_name = '$group_name';");
 group_uuid=$(echo $group_uuid | sed 's/^[[:blank:]]*//;s/[[:blank:]]*$//')
 
-#add the user to the group
-group_user_uuid=$(/usr/bin/php /var/www/fusionpbx/resources/uuid.php);
-group_name=superadmin
-psql --host=$database_host --port=$database_port --username=$database_username -c "insert into v_group_users (group_user_uuid, domain_uuid, group_name, group_uuid, user_uuid) values('$group_user_uuid', '$domain_uuid', '$group_name', '$group_uuid', '$user_uuid');"
+#get a group_user_uuid
+#try to find existed rows count
+group_user_uuid_count=$(psql --host=$database_host --port=$database_port --username=$database_username -t -c "select count(group_user_uuid) from v_group_users where domain_uuid='$domain_uuid' and group_name='$group_name' and group_uuid='$group_uuid' and user_uuid='$user_uuid';");
+group_user_uuid_count=$(echo $group_user_uuid_count | sed 's/^[[:blank:]]*//;s/[[:blank:]]*$//')
+verbose 'Found group_user_uuid_count = ['$group_user_uuid_count']'
+
+if [ .$group_user_uuid_count = .'0' ]; then
+	#generate uuid
+	group_user_uuid=$(/usr/bin/php /var/www/fusionpbx/resources/uuid.php);
+	#add the user to the group
+	psql --host=$database_host --port=$database_port --username=$database_username -c "insert into v_group_users (group_user_uuid, domain_uuid, group_name, group_uuid, user_uuid) values('$group_user_uuid', '$domain_uuid', '$group_name', '$group_uuid', '$user_uuid');"
+else
+	#dump all rows existed no matter enabled or not
+	psql --host=$database_host --port=$database_port --username=$database_username -c "select * from v_group_users where domain_uuid='$domain_uuid' and group_name='$group_name' and group_uuid='$group_uuid' and user_uuid='$user_uuid';"
+	#get the first existed and enabled uuid
+	group_user_uuid=$(psql --host=$database_host --port=$database_port --username=$database_username -t -c "select group_user_uuid from v_group_users where domain_uuid='$domain_uuid' and group_name='$group_name' and group_uuid='$group_uuid' and user_uuid='$user_uuid' limit 1 offset 0;");
+	group_user_uuid=$(echo $group_user_uuid | sed 's/^[[:blank:]]*//;s/[[:blank:]]*$//')
+	#there can be only one
+	#only one uuid with this name enabled of course
+	psql --host=$database_host --port=$database_port --username=$database_username -c "delete from v_group_users where domain_uuid='$domain_uuid' and group_name='$group_name' and group_uuid='$group_uuid' and user_uuid='$user_uuid' and not group_user_uuid='$group_user_uuid';"
+fi
 
 #update xml_cdr url, user and password
 xml_cdr_username=$(dd if=/dev/urandom bs=1 count=12 2>/dev/null | base64 | sed 's/[=\+//]//g')
