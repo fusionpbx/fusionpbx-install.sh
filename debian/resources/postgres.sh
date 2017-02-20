@@ -13,7 +13,22 @@ echo "Install PostgreSQL and create the database and users\n"
 #apt-get install -y --force-yes sudo postgresql
 
 #postgres official repository
-echo 'deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main' >> /etc/apt/sources.list.d/pgdg.list
+postgres_repo_url='deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main'
+postgres_repo_file='/etc/apt/sources.list.d/pgdg.list'
+
+#append a line to a file only if it does not already exist
+#temp file
+postgres_repo_tmp=`mktemp -t pgdg-XXXXXXXXXX.lst`
+rm $postgres_repo_tmp
+
+#append a line
+echo ''$postgres_repo_url'' >> $postgres_repo_file
+
+#delete duplicate, nonconsecutive lines from a file
+awk '!seen[$0]++' $postgres_repo_file > $postgres_repo_tmp
+cat $postgres_repo_tmp > $postgres_repo_file
+rm $postgres_repo_tmp
+
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 apt-get update && apt-get upgrade -y
 apt-get install -y --force-yes sudo postgresql
