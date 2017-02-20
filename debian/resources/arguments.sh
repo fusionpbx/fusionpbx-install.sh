@@ -31,7 +31,7 @@ if [ -z "$CPU_CHECK" ]; then
 	  esac
 	done
 	
-	if [ $HELP = true ]; then
+	if [ .$HELP = .true ]; then
 		warning "Debian installer script"
 		warning "	--use-switch-source will use freeswitch from source rather than ${green}(default:packages)"
 		warning "	--use-switch-package-all if using packages use the meta-all package"
