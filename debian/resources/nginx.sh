@@ -10,7 +10,7 @@ cd "$(dirname "$0")"
 verbose "Installing the web server"
 
 #install dependencies
-apt-get install -y --force-yes nginx php5 php5-cli php5-fpm php5-pgsql php5-sqlite php5-odbc php5-curl php5-imap php5-mcrypt
+apt-get install -y nginx php php-cli php-fpm php-pgsql php-sqlite3 php-odbc php-curl php-imap php-mcrypt
 
 #enable fusionpbx nginx config
 cp nginx/fusionpbx /etc/nginx/sites-available/fusionpbx

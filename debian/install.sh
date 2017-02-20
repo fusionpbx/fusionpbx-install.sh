@@ -154,7 +154,7 @@ server_address=$(hostname -I)
 
 #restart services
 systemctl daemon-reload
-systemctl restart php5-fpm
+systemctl restart php7.0-fpm
 systemctl restart nginx
 systemctl restart fail2ban
 
