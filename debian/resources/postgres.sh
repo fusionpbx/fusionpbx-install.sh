@@ -18,8 +18,7 @@ postgres_repo_file='/etc/apt/sources.list.d/pgdg.list'
 
 #append a line to a file only if it does not already exist
 #temp file
-random=$(dd if=/dev/urandom bs=1 count=20 2>/dev/null | base64)
-postgres_repo_tmp='/tmp/pgdg-'$random'.lst'
+postgres_repo_tmp=`mktemp -t pgdg-XXXXXXXXXX.lst`
 rm $postgres_repo_tmp
 
 #append a line
