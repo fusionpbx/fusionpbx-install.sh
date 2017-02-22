@@ -28,6 +28,7 @@ else
                 wget -O - https://www.dotdeb.org/dotdeb.gpg | apt-key add -
         fi
 fi
+apt-get update
 
 #install dependencies
 apt-get install -y nginx php7.0 php7.0-cli php7.0-fpm php7.0-pgsql php7.0-sqlite3 php7.0-odbc php7.0-curl php7.0-imap php7.0-mcrypt php7.0-xml
