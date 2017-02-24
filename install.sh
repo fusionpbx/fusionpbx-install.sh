@@ -55,11 +55,11 @@ os_unsupported () {
 	exit 2;
 }
 
-if [ $os_check = 'Raspbian' ]; then
+if [ .$os_check = .'Raspbian' ]; then
 	echo "${yellow}Detected Raspbian, using Debian for compatibility${normal}"
 	os_check="Debian"
 fi
-if [ $os_check = 'Debian' ]; then
+if [ .$os_check = .'Debian' ]; then
 	if [ $check_major_release -ge 8 ]; then
 		verbose "Removing the CD image from /etc/apt/sources.list"
 		sed -i '/cdrom:/d' /etc/apt/sources.list
