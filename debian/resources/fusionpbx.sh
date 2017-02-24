@@ -13,7 +13,7 @@ verbose "Installing FusionPBX"
 apt-get install -y --force-yes vim git dbus haveged ssl-cert
 apt-get install -y --force-yes ghostscript libtiff5-dev libtiff-tools
 
-if [ $USE_SYSTEM_MASTER = true ]; then
+if [ .$USE_SYSTEM_MASTER = .true ]; then
 	verbose "Using master"
 	BRANCH=""
 else
