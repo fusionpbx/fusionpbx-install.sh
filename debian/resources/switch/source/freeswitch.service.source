@@ -7,7 +7,7 @@ After=syslog.target network.target local-fs.target postgresql.service haveged.se
 [Service]
 ; service
 Type=forking
-PIDFile=/run/freeswitch/freeswitch.pid
+PIDFile=/var/run/freeswitch/freeswitch.pid
 Environment="DAEMON_OPTS=-nonat"
 EnvironmentFile=-/etc/default/freeswitch
 ExecStart=/usr/local/freeswitch/bin/freeswitch -u www-data -g www-data -ncwait $DAEMON_OPTS
