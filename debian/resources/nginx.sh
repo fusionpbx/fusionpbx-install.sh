@@ -22,6 +22,7 @@ fi
 if [ .$USE_PHP5_PACKAGE = .true ]; then
         #don't add php7.0 repository
         verbose "Switching forcefully to php5* packages"
+        LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php5-compat
 elif [ .$real_os = .'Ubuntu' ]; then
         #16.10.x - */yakkety/
         #16.04.x - */xenial/
