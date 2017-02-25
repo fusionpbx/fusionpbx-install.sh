@@ -14,7 +14,7 @@ server{
 	}
 
 	location ~ \.php$ {
-		fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+		fastcgi_pass unix:/var/run/php-fpm/php-fpm.sock;
 		#fastcgi_pass 127.0.0.1:9000;
 		fastcgi_index index.php;
 		include fastcgi_params;
@@ -48,7 +48,7 @@ server {
 	}
 
         #algo
-        rewrite "^.*/provision/algom([A-Fa-f0-9]{12})\.conf" /app/provision/?mac=$1&file=algom%7b%24mac%7d.conf last;
+        rewrite "^.*/provision/algom([A-Fa-f0-9]{12})(\.(conf))?$" /app/provision/?mac=$1;
 
 	#mitel
 	rewrite "^.*/provision/MN_([A-Fa-f0-9]{12})\.cfg" /app/provision/index.php?mac=$1&file=MN_%7b%24mac%7d.cfg last;
@@ -95,7 +95,7 @@ server {
 	}
 
 	location ~ \.php$ {
-		fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+		fastcgi_pass unix:/var/run/php-fpm/php-fpm.sock;
 		#fastcgi_pass 127.0.0.1:9000;
 		fastcgi_index index.php;
 		include fastcgi_params;
@@ -123,11 +123,6 @@ server {
 	ssl_protocols           TLSv1 TLSv1.1 TLSv1.2;
 	ssl_ciphers             HIGH:!ADH:!MD5:!aNULL;
 
-	#letsencrypt
-	location /.well-known/acme-challenge {
-        	root /var/www/letsencrypt;
-    	}
-
 	#REST api
 	if ($uri ~* ^.*/api/.*$) {
 		rewrite ^(.*)/api/(.*)$ $1/api/index.php?rewrite_uri=$2 last;
@@ -135,7 +130,7 @@ server {
 	}
 
         #algo
-        rewrite "^.*/provision/algom([A-Fa-f0-9]{12})\.conf" /app/provision/?mac=$1&file=algom%7b%24mac%7d.conf last;
+        rewrite "^.*/provision/algom([A-Fa-f0-9]{12})(\.(conf))?$" /app/provision/?mac=$1;
 
 	#mitel
 	rewrite "^.*/provision/MN_([A-Fa-f0-9]{12})\.cfg" /app/provision/index.php?mac=$1&file=MN_%7b%24mac%7d.cfg last;
@@ -181,7 +176,7 @@ server {
 	}
 
 	location ~ \.php$ {
-		fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+		fastcgi_pass unix:/var/run/php-fpm/php-fpm.sock;
 		#fastcgi_pass 127.0.0.1:9000;
 		fastcgi_index index.php;
 		include fastcgi_params;

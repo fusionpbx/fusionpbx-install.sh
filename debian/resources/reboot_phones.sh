@@ -24,7 +24,7 @@ INPUT=$FILE
 #Loop through the registrations and reboot
 [ ! -f $INPUT ] &while read reg_user realm extra
 do
-        if [ "$realm" = "$domain" ]; then
+        if [ ."$realm" = ."$domain" ]; then
                 eval 'fs_cli -x "luarun app.lua event_notify internal reboot $reg_user@$realm $vendor"'
 		if [ "$pausetime" > 0 ]; then
 			sleep $pausetime

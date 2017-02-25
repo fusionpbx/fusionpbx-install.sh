@@ -6,14 +6,23 @@ cd "$(dirname "$0")"
 . ./colors.sh
 . ./arguments.sh
 
-#send a message
 verbose "Installing FusionPBX"
 
-#install dependencies
-apt-get install -y --force-yes vim git dbus haveged ssl-cert
-apt-get install -y --force-yes ghostscript libtiff5-dev libtiff-tools
+yum -y install git
+yum -y install ghostscript libtiff-devel libtiff-tools
 
-if [ .$USE_SYSTEM_MASTER = .true ]; then
+IRONTEC="[irontec]
+name=Irontec RPMs repository
+baseurl=http://packages.irontec.com/centos/$releasever/$basearch/"
+echo "${IRONTEC}" > /etc/yum.repos.d/irontec.repo
+rpm --import http://packages.irontec.com/public.key
+yum -y install sngrep
+
+wget https://forensics.cert.org/cert-forensics-tools-release-el7.rpm
+rpm -Uvh cert-forensics-tools-release*rpm
+yum -y --enablerepo=forensics install lame
+
+if [ $USE_SYSTEM_MASTER = true ]; then
 	verbose "Using master"
 	BRANCH=""
 else
@@ -26,5 +35,5 @@ fi
 
 #get the source code
 git clone $BRANCH https://github.com/fusionpbx/fusionpbx.git /var/www/fusionpbx
-chown -R www-data:www-data /var/www/fusionpbx
-chmod -R 755 /var/www/fusionpbx/secure
+
+verbose "FusionPBX Installed"
