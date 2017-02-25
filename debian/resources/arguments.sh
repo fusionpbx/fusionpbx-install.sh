@@ -13,6 +13,7 @@ if [ -z "$CPU_CHECK" ]; then
 	export USE_SWITCH_SOURCE=false
 	export USE_SWITCH_PACKAGE_ALL=false
 	export USE_SWITCH_PACKAGE_UNOFFICIAL_ARM=false
+	export USE_PHP5_PACKAGE=false
 	export USE_SWITCH_MASTER=false
 	export USE_SYSTEM_MASTER=false
 	export CPU_CHECK=true
@@ -24,6 +25,8 @@ if [ -z "$CPU_CHECK" ]; then
 		--use-switch-package-all ) export USE_SWITCH_PACKAGE_ALL=true; shift ;;
 		--use-switch-master ) export USE_SWITCH_MASTER=true; shift ;;
 		--use-system-master ) export USE_SYSTEM_MASTER=true; shift ;;
+		--use-php5-package ) export USE_PHP5_PACKAGE=true; shift ;;
+		--use-switch-package-unofficial-arm ) export USE_SWITCH_PACKAGE_UNOFFICIAL_ARM=true; export USE_PHP5_PACKAGE=true; shift ;;
 		--no-cpu-check ) export CPU_CHECK=false; shift ;;
 		-h | --help ) HELP=true; shift ;;
 		-- ) shift; break ;;
