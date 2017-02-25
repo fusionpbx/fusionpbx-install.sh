@@ -3,7 +3,7 @@
 #Process command line options only if we haven't been processed once
 if [ -z "$CPU_CHECK" ]; then
 	export script_name=`basename "$0"`
-	ARGS=$(getopt -n '$script_name' -o h -l help,use-switch-source,use-switch-package-all,use-switch-master,use-switch-package-unofficial-arm,use-system-master,no-cpu-check -- "$@")
+	ARGS=$(getopt -n '$script_name' -o h -l help,use-switch-source,use-switch-package-all,use-switch-master,use-switch-package-unofficial-arm,use-php5-package,use-system-master,no-cpu-check -- "$@")
 	
 	if [ $? -ne 0 ]; then
 		error "Failed parsing options."
@@ -35,7 +35,8 @@ if [ -z "$CPU_CHECK" ]; then
 		warning "Debian installer script"
 		warning "	--use-switch-source will use freeswitch from source rather than ${green}(default:packages)"
 		warning "	--use-switch-package-all if using packages use the meta-all package"
-		warning "	--use-switch-package-unofficial-arm if your system is arm and you are using packages, use the unofficial arm repo"
+		warning "	--use-switch-package-unofficial-arm if your system is arm and you are using packages, use the unofficial arm repo and force php5* packages"
+		warning "	--use-php5-package use php5* packages instead of ${green}(default:php7.0)"
 		warning "	--use-switch-master will use master branch/packages for the switch instead of ${green}(default:stable)"
 		warning "	--use-system-master will use master branch/packages for the system instead of ${green}(default:stable)"
 		warning "	--no-cpu-check disable the cpu check ${green}(default:check)"
