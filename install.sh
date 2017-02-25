@@ -149,7 +149,7 @@ if [ .$os_check = .'Debian' ]; then
 	fi
 elif [ .$os_check = .'CentOS' ]; then
 	if [ .$real_os = .'CentOS' ]; then
-		echo "${yellow}Detected CentOS{normal}"
+		echo "${yellow}Detected CentOS${normal}"
 		if [ $check_major_release -ge 7 ]; then
 			os_centos_continue='true'
 		else
@@ -159,7 +159,7 @@ elif [ .$os_check = .'CentOS' ]; then
 		fi
 	fi
 	if [ .$real_os = .'Fedora' ]; then
-		echo "${yellow}Detected Fedora{normal}"
+		echo "${yellow}Detected Fedora${normal}"
 		if [ $check_major_release -ge 19 ]; then
 			os_centos_continue='true'
 		else
