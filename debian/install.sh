@@ -157,7 +157,11 @@ server_address=$(hostname -I)
 
 #restart services
 systemctl daemon-reload
-systemctl restart php7.0-fpm
+if [ .$USE_PHP5_PACKAGE = .true ]; then
+        systemctl restart php5-fpm
+else
+        systemctl restart php7.0-fpm
+fi
 systemctl restart nginx
 systemctl restart fail2ban
 
