@@ -55,7 +55,12 @@ else
 	domain_uuid=$(echo $domain_uuid | sed 's/^[[:blank:]]*//;s/[[:blank:]]*$//')
 	#there can be only one
 	#only one uuid with this name enabled of course
-	psql --host=$database_host --port=$database_port --username=$database_username -c "update v_domains set domain_enabled='false' where domain_name='$domain_name' and domain_enabled='true' and not domain_uuid='$domain_uuid';"
+	if [ $$domain_uuid_count -ge 2 ]; then
+		error "Duplicate enabled domains with name '$domain_name' are detected"
+		warning "We won't do such modification by default, please check and fix fusionpbx db by yourself"
+		verbose "Example command to leave only one row enabled with domain_uuid = ['$domain_uuid'] and domain_name = ['$domain_name']"
+		echo "psql --host=$database_host --port=$database_port --username=$database_username -c \"update v_domains set domain_enabled='false' where domain_name='$domain_name' and domain_enabled='true' and not domain_uuid='$domain_uuid';\""
+	fi
 fi
 
 verbose 'Will be used domain_uuid = ['$domain_uuid'] with domain_name = ['$domain_name']'
@@ -88,7 +93,12 @@ else
 	user_uuid=$(echo $user_uuid | sed 's/^[[:blank:]]*//;s/[[:blank:]]*$//')
 	#there can be only one
 	#only one uuid with this name enabled of course
-	psql --host=$database_host --port=$database_port --username=$database_username -c "update v_users set user_enabled='false' where username='$user_name' and user_enabled='true' and domain_uuid='$domain_uuid' and not user_uuid='$user_uuid';"
+	if [ $user_uuid_count -ge 2 ]; then
+		error "Duplicate accounts with name '$user_name' for domain with name '$domain_name' are detected"
+		warning "We won't do such modification by default, please check and fix fusionpbx db by yourself"
+		verbose "Example command to leave only one row enabled with user_uuid = ['$user_uuid'] for domain_uuid = ['$domain_uuid'] and domain_name = ['$domain_name']"
+		echo "psql --host=$database_host --port=$database_port --username=$database_username -c \"update v_users set user_enabled='false' where username='$user_name' and user_enabled='true' and domain_uuid='$domain_uuid' and not user_uuid='$user_uuid';\""
+	fi
 	#update user password
 	psql --host=$database_host --port=$database_port --username=$database_username -c "update v_users set password='$password_hash', salt='$user_salt' where username='$user_name' and user_enabled='true' and user_uuid='$user_uuid';"
 fi
@@ -119,7 +129,12 @@ else
 	group_user_uuid=$(echo $group_user_uuid | sed 's/^[[:blank:]]*//;s/[[:blank:]]*$//')
 	#there can be only one
 	#only one uuid with this name enabled of course
-	psql --host=$database_host --port=$database_port --username=$database_username -c "delete from v_group_users where domain_uuid='$domain_uuid' and group_name='$group_name' and group_uuid='$group_uuid' and user_uuid='$user_uuid' and not group_user_uuid='$group_user_uuid';"
+	if [ $group_user_uuid_count -ge 2 ]; then
+		error "Duplicate rows in v_group_users for user name '$user_name' and group name '$group_name' for domain with name '$domain_name' are detected"
+		warning "We won't do such modification by default, please check and fix fusionpbx db by yourself"
+		verbose "Example command to leave only one row enabled with user_uuid = ['$user_uuid'] and group_user_uuid = ['$group_user_uuid'] for domain_uuid = ['$domain_uuid'] and domain_name = ['$domain_name']"
+		echo "psql --host=$database_host --port=$database_port --username=$database_username -c \"delete from v_group_users where domain_uuid='$domain_uuid' and group_name='$group_name' and group_uuid='$group_uuid' and user_uuid='$user_uuid' and not group_user_uuid='$group_user_uuid';\""
+	fi
 fi
 
 #update xml_cdr url, user and password
