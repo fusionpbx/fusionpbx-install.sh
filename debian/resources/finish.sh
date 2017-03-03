@@ -55,7 +55,7 @@ else
 	domain_uuid=$(echo $domain_uuid | sed 's/^[[:blank:]]*//;s/[[:blank:]]*$//')
 	#there can be only one
 	#only one uuid with this name enabled of course
-	if [ $$domain_uuid_count -ge 2 ]; then
+	if [ $domain_uuid_count -ge 2 ]; then
 		error "Duplicate enabled domains with name '$domain_name' are detected"
 		warning "We won't do such modification by default, please check and fix fusionpbx db by yourself"
 		verbose "Example command to leave only one row enabled with domain_uuid = ['$domain_uuid'] and domain_name = ['$domain_name']"
