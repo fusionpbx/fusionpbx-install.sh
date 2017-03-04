@@ -42,19 +42,17 @@ elif [ .$cpu_name = .'x86_64' ]; then
 	cpu_architecture='x86'
 fi
 
-
 if [ .$cpu_architecture = .'arm' ]; then
 	if [ .$os_mode = .'32' ]; then
-		#export USE_SWITCH_PACKAGE_UNOFFICIAL_ARM=true
-		verbose "Correct CPU/OS detected, using unofficial arm repo"
+		verbose "Correct CPU and Operating System detected, using the ARM repo"
 	elif [ .$os_mode = .'64' ]; then
 		error "You are using a 64bit arm OS this is unsupported"
-		warning " please rerun with --use-switch-source"
-		exit 3
+		switch_source=true
+		switch_package=false
 	else
-		error "Unknown OS_bits $OS_bits this is unsupported"
-		warning " please rerun with --use-switch-source"
-		exit 3
+		error "Unknown OS mode $os_mode this is unsupported"
+		switch_source=true
+		switch_package=false
 	fi
 elif [ .$cpu_architecture = .'x86' ]; then
 	if [ .$os_mode = .'32' ]; then
@@ -62,15 +60,16 @@ elif [ .$cpu_architecture = .'x86' ]; then
 		if [ .$cpu_mode = .'64' ]; then
 			warning " Your CPU is 64bit you should consider reinstalling with a 64bit OS"
 		fi
-		warning " please rerun with --use-switch-source"
-		exit 3
+		switch_source=true
+		switch_package=false
 	elif [ .$os_mode = .'64' ]; then
-		verbose "Correct CPU/OS detected"
+		verbose "Correct CPU and Operating System detected"
 	else
-		error "Unknown OS_bits $OS_bits this is unsupported"
-		warning " please rerun with --use-switch-source"
-		exit 3
+		error "Unknown Operating System mode $os_mode is unsupported"
+		switch_source=true
+		switch_package=false
 	fi
 else
 	error "You are using a unsupported architecture $cpu_architecture"
+	exit 3
 fi
