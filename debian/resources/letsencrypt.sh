@@ -1,5 +1,11 @@
 #!/bin/sh
 
+#move to script directory so all relative paths work
+cd "$(dirname "$0")"
+
+#includes
+. ./config.sh
+
 #request the domain and email
 read -p 'Domain Name: ' domain_name
 read -p 'Email Address: ' email_address
