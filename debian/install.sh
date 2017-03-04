@@ -157,9 +157,10 @@ server_address=$(hostname -I)
 
 #restart services
 systemctl daemon-reload
-if [ .$USE_PHP5_PACKAGE = .true ]; then
+if [ ."$php_version" = ."5" ]; then
         systemctl restart php5-fpm
-else
+fi
+if [ ."$php_version" = ."7" ]; then
         systemctl restart php7.0-fpm
 fi
 systemctl restart nginx
