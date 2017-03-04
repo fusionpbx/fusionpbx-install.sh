@@ -18,10 +18,10 @@ echo "Install PostgreSQL and create the database and users\n"
 #included in the distribution
 if [ ."$database_repo" = ."system" ]; then
 	apt-get install -y --force-yes sudo postgresql
-end
+fi
 
 #postgres official repository
-if [ ."$database_repo" = "official" ]; then
+if [ ."$database_repo" = ."official" ]; then
 	echo 'deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main' > /etc/apt/sources.list.d/pgdg.list
 	wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 	apt-get update && apt-get upgrade -y
@@ -29,7 +29,7 @@ if [ ."$database_repo" = "official" ]; then
 fi
 
 #Add PostgreSQL and BDR REPO
-if [ ."$database_repo" = "2ndquadrant" ]; then
+if [ ."$database_repo" = ."2ndquadrant" ]; then
 	echo 'deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main'  >> /etc/apt/sources.list.d/postgresql.list
 	echo 'deb http://packages.2ndquadrant.com/bdr/apt/ jessie-2ndquadrant main' >> /etc/apt/sources.list.d/2ndquadrant.list
 	/usr/bin/wget --quiet -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | apt-key add -
