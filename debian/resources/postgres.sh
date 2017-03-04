@@ -16,21 +16,27 @@ password=$(dd if=/dev/urandom bs=1 count=20 2>/dev/null | base64)
 echo "Install PostgreSQL and create the database and users\n"
 
 #included in the distribution
-#apt-get install -y --force-yes sudo postgresql
+if [ ."$database_repo" = ."system" ]; then
+	apt-get install -y --force-yes sudo postgresql
+end
 
 #postgres official repository
-echo 'deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main' > /etc/apt/sources.list.d/pgdg.list
-wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-apt-get update && apt-get upgrade -y
-apt-get install -y --force-yes sudo postgresql
+if [ ."$database_repo" = "official" ]; then
+	echo 'deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main' > /etc/apt/sources.list.d/pgdg.list
+	wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+	apt-get update && apt-get upgrade -y
+	apt-get install -y --force-yes sudo postgresql
+fi
 
 #Add PostgreSQL and BDR REPO
-#echo 'deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main'  >> /etc/apt/sources.list.d/postgresql.list
-#echo 'deb http://packages.2ndquadrant.com/bdr/apt/ jessie-2ndquadrant main' >> /etc/apt/sources.list.d/2ndquadrant.list
-#/usr/bin/wget --quiet -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | apt-key add -
-#/usr/bin/wget --quiet -O - http://packages.2ndquadrant.com/bdr/apt/AA7A6805.asc | apt-key add -
-#apt-get update && apt-get upgrade -y
-#apt-get install -y --force-yes sudo postgresql-bdr-9.4 postgresql-bdr-9.4-bdr-plugin postgresql-bdr-contrib-9.4
+if [ ."$database_repo" = "2ndquadrant" ]; then
+	echo 'deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main'  >> /etc/apt/sources.list.d/postgresql.list
+	echo 'deb http://packages.2ndquadrant.com/bdr/apt/ jessie-2ndquadrant main' >> /etc/apt/sources.list.d/2ndquadrant.list
+	/usr/bin/wget --quiet -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | apt-key add -
+	/usr/bin/wget --quiet -O - http://packages.2ndquadrant.com/bdr/apt/AA7A6805.asc | apt-key add -
+	apt-get update && apt-get upgrade -y
+	apt-get install -y --force-yes sudo postgresql-bdr-9.4 postgresql-bdr-9.4-bdr-plugin postgresql-bdr-contrib-9.4
+fi
 
 #systemd
 systemctl daemon-reload
