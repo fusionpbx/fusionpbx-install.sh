@@ -3,6 +3,8 @@
 #move to script directory so all relative paths work
 cd "$(dirname "$0")"
 
+#includes
+. ./resources/config.sh
 . ./resources/colors.sh
 . ./resources/arguments.sh
 
@@ -84,8 +86,8 @@ fi
 # removes the cd img from the /etc/apt/sources.list file (not needed after base install)
 sed -i '/cdrom:/d' /etc/apt/sources.list
 
-#Update Debian
-verbose "Update Debian"
+#Update to latest packages
+verbose "Update installed packages"
 apt-get upgrade && apt-get update -y --force-yes
 
 #Add dependencies
@@ -107,47 +109,7 @@ resources/php.sh
 resources/fail2ban.sh
 
 #FreeSWITCH
-if [ .$USE_SWITCH_SOURCE = .true ]; then
-	if [ .$USE_SWITCH_MASTER = .true ]; then
-		resources/switch/source-master.sh
-	else
-		resources/switch/source-release.sh
-	fi
-
-	#copy the switch conf files to /etc/freeswitch
-	resources/switch/conf-copy.sh
-
-	#set the file permissions
-	resources/switch/source-permissions.sh
-
-	#systemd service
-	resources/switch/source-systemd.sh
-
-else
-	if [ .$USE_SWITCH_MASTER = .true ]; then
-		if [ .$USE_SWITCH_PACKAGE_ALL = .true ]; then
-			resources/switch/package-master-all.sh
-		else
-			resources/switch/package-master.sh
-		fi
-	else
-		if [ .$USE_SWITCH_PACKAGE_ALL = .true ]; then
-			resources/switch/package-all.sh
-		else
-			resources/switch/package-release.sh
-		fi
-	fi
-
-	#copy the switch conf files to /etc/freeswitch
-	resources/switch/conf-copy.sh
-
-	#set the file permissions
-	resources/switch/package-permissions.sh
-
-	#systemd service
-	resources/switch/package-systemd.sh
-
-fi
+resources/switch.sh
 
 #Postgres
 resources/postgres.sh
