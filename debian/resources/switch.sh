@@ -1,7 +1,13 @@
+#!/bin/sh
 
+#move to script directory so all relative paths work
+cd "$(dirname "$0")"
 
-if [ .$USE_SWITCH_SOURCE = .true ]; then
-	if [ .$USE_SWITCH_MASTER = .true ]; then
+#includes
+. ./config.sh
+
+if [ .$switch_source = .true ]; then
+	if [ ."$switch_branch" = "master" ]; then
 		resources/switch/source-master.sh
 	else
 		resources/switch/source-release.sh
@@ -15,16 +21,17 @@ if [ .$USE_SWITCH_SOURCE = .true ]; then
 
 	#systemd service
 	resources/switch/source-systemd.sh
+fi
 
-else
-	if [ .$USE_SWITCH_MASTER = .true ]; then
-		if [ .$USE_SWITCH_PACKAGE_ALL = .true ]; then
+if [ .$switch_package = .true ]; then
+	if [ ."$switch_branch" = "master" ]; then
+		if [ .$switch_package_all = .true ]; then
 			resources/switch/package-master-all.sh
 		else
 			resources/switch/package-master.sh
 		fi
 	else
-		if [ .$USE_SWITCH_PACKAGE_ALL = .true ]; then
+		if [ .$switch_package_all = .true ]; then
 			resources/switch/package-all.sh
 		else
 			resources/switch/package-release.sh
@@ -39,5 +46,4 @@ else
 
 	#systemd service
 	resources/switch/package-systemd.sh
-
 fi
