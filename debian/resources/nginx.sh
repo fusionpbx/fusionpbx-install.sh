@@ -14,7 +14,7 @@ verbose "Installing the web server"
 arch=$(uname -m)
 real_os=$(lsb_release -is)
 codename=$(lsb_release -cs)
-if [ ."$cpu_architecture" = "arm" ] then
+if [ ."$cpu_architecture" = ."arm" ] then
         #9.x - */stretch/
         #8.x - */jessie/
 fi
@@ -23,18 +23,18 @@ if [ ."$php_version" = ."5" ] then
         #which add-apt-repository || apt-get install -y software-properties-common
         #LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
         #LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php5-compat
-elif [ ."$real_os" = .'Ubuntu' ] then
+elif [ ."$real_os" = ."Ubuntu" ] then
         #16.10.x - */yakkety/
         #16.04.x - */xenial/
         #14.04.x - */trusty/
-        if [ ."$codename" = .'trusty' ] then
+        if [ ."$codename" = ."trusty" ] then
                 which add-apt-repository || apt-get install -y software-properties-common
                 LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
         fi
 else
         #9.x - */stretch/
         #8.x - */jessie/
-        if [ ."$codename" = .'jessie' ] then
+        if [ ."$codename" = ."jessie" ] then
                 echo "deb http://packages.dotdeb.org $codename all" > /etc/apt/sources.list.d/dotdeb.list
                 echo "deb-src http://packages.dotdeb.org $codename all" >> /etc/apt/sources.list.d/dotdeb.list
                 wget -O - https://www.dotdeb.org/dotdeb.gpg | apt-key add -
