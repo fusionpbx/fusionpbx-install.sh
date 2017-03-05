@@ -6,7 +6,7 @@ cd "$(dirname "$0")"
 #includes
 . ./config.sh
 . ./colors.sh
-. ./arguments.sh
+. ./environment.sh
 
 #send a message
 verbose "Installing the web server"
