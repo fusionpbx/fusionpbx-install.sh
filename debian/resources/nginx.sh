@@ -11,9 +11,10 @@ cd "$(dirname "$0")"
 #send a message
 verbose "Installing the web server"
 
-arch=$(uname -m)
+
 real_os=$(lsb_release -is)
 codename=$(lsb_release -cs)
+
 #if [ ."$cpu_architecture" = ."arm" ]; then
         #9.x - */stretch/
         #8.x - */jessie/
@@ -41,6 +42,11 @@ else
         fi
 fi
 apt-get update
+
+#use php version 5 for arm
+if [ .$cpu_architecture = .'arm' ]; then
+        php_version=5
+fi
 
 #install dependencies
 apt-get install -y nginx
