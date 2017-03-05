@@ -5,6 +5,8 @@ cd "$(dirname "$0")"
 
 #includes
 . ./config.sh
+. ./colors.sh
+. ./environment.sh
 
 #send a message
 echo "Install PostgreSQL"
@@ -14,6 +16,11 @@ password=$(dd if=/dev/urandom bs=1 count=20 2>/dev/null | base64)
 
 #install message
 echo "Install PostgreSQL and create the database and users\n"
+
+#use the system database repo for arm
+if [ .$cpu_architecture = .'arm' ]; then
+        database_repo="system"
+fi
 
 #included in the distribution
 if [ ."$database_repo" = ."system" ]; then
