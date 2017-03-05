@@ -14,10 +14,10 @@ verbose "Installing the web server"
 arch=$(uname -m)
 real_os=$(lsb_release -is)
 codename=$(lsb_release -cs)
-if [ ."$cpu_architecture" = ."arm" ]; then
+#if [ ."$cpu_architecture" = ."arm" ]; then
         #9.x - */stretch/
         #8.x - */jessie/
-fi
+#fi
 if [ ."$php_version" = ."5" ]; then
         #verbose "Switching forcefully to php5* packages"
         which add-apt-repository || apt-get install -y software-properties-common
