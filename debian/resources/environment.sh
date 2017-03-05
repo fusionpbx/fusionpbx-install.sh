@@ -1,9 +1,9 @@
 #!/bin/sh
 
 #operating system details
-os_mode='unknown'
 os_name=$(lsb_release -is)
 os_codename=$(lsb_release -cs)
+os_mode='unknown'
 
 #cpu details
 cpu_name=$(uname -m)
