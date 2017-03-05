@@ -1,10 +1,14 @@
 #!/bin/sh
 
-#check what the CPU and OS are
+#operating system details
+os_mode='unknown'
+os_name=$(lsb_release -is)
+os_codename=$(lsb_release -cs)
+
+#cpu details
 cpu_name=$(uname -m)
 cpu_architecture='unknown'
 cpu_mode='unknown'
-os_mode='unknown'
 
 if [ .$cpu_name = .'armv7l' ]; then
 	# RaspberryPi 3 is actually armv8l but current Raspbian reports the cpu as armv7l and no Raspbian 64Bit has been released at this time
