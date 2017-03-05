@@ -11,10 +11,6 @@ cd "$(dirname "$0")"
 #send a message
 verbose "Installing the web server"
 
-
-real_os=$(lsb_release -is)
-codename=$(lsb_release -cs)
-
 #if [ ."$cpu_architecture" = ."arm" ]; then
         #9.x - */stretch/
         #8.x - */jessie/
@@ -24,18 +20,18 @@ if [ ."$php_version" = ."5" ]; then
         which add-apt-repository || apt-get install -y software-properties-common
         #LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
         #LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php5-compat
-elif [ ."$real_os" = ."Ubuntu" ]; then
+elif [ ."$os_name" = ."Ubuntu" ]; then
         #16.10.x - */yakkety/
         #16.04.x - */xenial/
         #14.04.x - */trusty/
-        if [ ."$codename" = ."trusty" ]; then
+        if [ ."$os_codename" = ."trusty" ]; then
                 which add-apt-repository || apt-get install -y software-properties-common
                 LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
         fi
 else
         #9.x - */stretch/
         #8.x - */jessie/
-        if [ ."$codename" = ."jessie" ]; then
+        if [ ."$os_codename" = ."jessie" ]; then
                 echo "deb http://packages.dotdeb.org $codename all" > /etc/apt/sources.list.d/dotdeb.list
                 echo "deb-src http://packages.dotdeb.org $codename all" >> /etc/apt/sources.list.d/dotdeb.list
                 wget -O - https://www.dotdeb.org/dotdeb.gpg | apt-key add -
@@ -59,6 +55,7 @@ fi
 
 #enable fusionpbx nginx config
 cp nginx/fusionpbx /etc/nginx/sites-available/fusionpbx
+
 #prepare socket name
 if [ ."$php_version" = ."5" ]; then
         sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php5-fpm.sock;#g'
