@@ -52,12 +52,20 @@ systemctl restart postgresql
 #init.d
 #/usr/sbin/service postgresql restart
 
+#enable and run the backup
+cp backup/fusionpbx-backup.sh /etc/cron.daily
+chmod 755 /etc/cron.daily/fusionpbx-backup.sh
+sed -i 's/zzz/$password/g' /etc/cron.daily/fusionpbx-backup.sh
+/etc/cron.daily/fusionpbx-backup.sh
+
 #move to /tmp to prevent a red herring error when running sudo with psql
 cwd=$(pwd)
 cd /tmp
 #add the databases, users and grant permissions to them
-sudo -u postgres psql -c "CREATE DATABASE fusionpbx";
-sudo -u postgres psql -c "CREATE DATABASE freeswitch";
+sudo -u postgres psql -c "DROP SCHEMA public cascade;";
+sudo -u postgres psql -c "CREATE SCHEMA public;";
+sudo -u postgres psql -c "CREATE DATABASE fusionpbx;";
+sudo -u postgres psql -c "CREATE DATABASE freeswitch;";
 sudo -u postgres psql -c "CREATE ROLE fusionpbx WITH SUPERUSER LOGIN PASSWORD '$password';"
 sudo -u postgres psql -c "CREATE ROLE freeswitch WITH SUPERUSER LOGIN PASSWORD '$password';"
 sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE fusionpbx to fusionpbx;"
