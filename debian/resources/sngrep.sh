@@ -12,11 +12,10 @@ cd "$(dirname "$0")"
 if [ ."$cpu_architecture" = ."arm" ]; then
 	#source install
 	apt-get install -y --force-yes git autoconf automake gcc make libncurses5-dev libpcap-dev libssl-dev libpcre3-dev
-	cd /usr/src/sngrep
-	git clone https://github.com/irontec/sngrep
-	./bootstrap.sh
-	./configure
-	make install
+	cd /usr/src/sngrep && git clone https://github.com/irontec/sngrep
+	cd /usr/src/sngrep && ./bootstrap.sh
+	cd /usr/src/sngrep && ./configure
+	cd /usr/src/sngrep && make install
 else
 	#package install
 	echo 'deb http://packages.irontec.com/debian jessie main' > /etc/apt/sources.list.d/sngrep.list
