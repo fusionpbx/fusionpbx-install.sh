@@ -4,8 +4,9 @@
 cd "$(dirname "$0")"
 
 #includes
+. ./config.sh
 . ./colors.sh
-. ./arguments.sh
+. ./environment.sh
 
 #database details
 database_host=127.0.0.1
@@ -93,10 +94,11 @@ echo "   If you need to login to a different domain then use username@domain."
 echo "      username: $user_name@$domain_name";
 echo ""
 echo "   Official FusionPBX Training"
-echo "      Admin Training    24 - 26 Jan (3 Days)"
-echo "      Advanced Training 31 Jan - Feb 2 (3 Days)"
+echo "      Fastest way to learn FusionPBX. For more information https://www.fusionpbx.com."
+echo "      Admin Training    27 - 28 March (2 Days)"
+echo "      Advanced Training 29 - 30 March (2 Days)"
 echo "      Timezone: https://www.timeanddate.com/worldclock/usa/boise"
-echo "      For more info visit https://www.fusionpbx.com"
+echo "      Available online and in person. Includes documentation and recording."
 echo ""
 echo "   Additional information."
 echo "      https://fusionpbx.com/support.php"
