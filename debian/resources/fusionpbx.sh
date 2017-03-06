@@ -5,7 +5,7 @@ cd "$(dirname "$0")"
 
 . ./config.sh
 . ./colors.sh
-. ./arguments.sh
+. ./environment.sh
 
 #send a message
 verbose "Installing FusionPBX"
