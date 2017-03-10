@@ -32,8 +32,8 @@ else
         #9.x - */stretch/
         #8.x - */jessie/
         if [ ."$os_codename" = ."jessie" ]; then
-                echo "deb http://packages.dotdeb.org $codename all" > /etc/apt/sources.list.d/dotdeb.list
-                echo "deb-src http://packages.dotdeb.org $codename all" >> /etc/apt/sources.list.d/dotdeb.list
+                echo "deb http://packages.dotdeb.org $os_codename all" > /etc/apt/sources.list.d/dotdeb.list
+                echo "deb-src http://packages.dotdeb.org $os_codename all" >> /etc/apt/sources.list.d/dotdeb.list
                 wget -O - https://www.dotdeb.org/dotdeb.gpg | apt-key add -
         fi
 fi
