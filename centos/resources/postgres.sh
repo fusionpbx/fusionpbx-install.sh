@@ -31,6 +31,8 @@ systemctl restart postgresql-9.4
 cwd=$(pwd)
 cd /tmp
 #add the databases, users and grant permissions to them
+sudo -u postgres /usr/pgsql-9.4/bin/psql -d fusionpbx -c "DROP SCHEMA public cascade;";
+sudo -u postgres /usr/pgsql-9.4/bin/psql -d fusionpbx -c "CREATE SCHEMA public;";
 sudo -u postgres /usr/pgsql-9.4/bin/psql -c "CREATE DATABASE fusionpbx";
 sudo -u postgres /usr/pgsql-9.4/bin/psql -c "CREATE DATABASE freeswitch";
 sudo -u postgres /usr/pgsql-9.4/bin/psql -c "CREATE ROLE fusionpbx WITH SUPERUSER LOGIN PASSWORD '$password';"
