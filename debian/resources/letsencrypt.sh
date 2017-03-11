@@ -18,7 +18,15 @@ rm -R /etc/letsencrypt
 
 #enable fusionpbx nginx config
 cp nginx/fusionpbx /etc/nginx/sites-available/fusionpbx
-#ln -s /etc/nginx/sites-available/fusionpbx /etc/nginx/sites-enabled/fusionpbx
+
+#prepare socket name
+if [ ."$php_version" = ."5" ]; then
+        sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php5-fpm.sock;#g'
+fi
+if [ ."$php_version" = ."7" ]; then
+        sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php7.0-fpm.sock;#g'
+fi
+ln -s /etc/nginx/sites-available/fusionpbx /etc/nginx/sites-enabled/fusionpbx
 
 #read the config
 /usr/sbin/nginx -t && /usr/sbin/nginx -s reload
