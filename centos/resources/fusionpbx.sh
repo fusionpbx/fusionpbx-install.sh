@@ -22,7 +22,7 @@ wget https://forensics.cert.org/cert-forensics-tools-release-el7.rpm
 rpm -Uvh cert-forensics-tools-release*rpm
 yum -y --enablerepo=forensics install lame
 
-if [ $USE_SYSTEM_MASTER = true ]; then
+if [ .$USE_SYSTEM_MASTER = .true ]; then
 	verbose "Using master"
 	BRANCH=""
 else
