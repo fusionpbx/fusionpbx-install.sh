@@ -5,6 +5,8 @@ cd "$(dirname "$0")"
 
 #includes
 . ./config.sh
+. ./colors.sh
+. ./environment.sh
 
 #request the domain and email
 read -p 'Domain Name: ' domain_name
@@ -15,6 +17,11 @@ read -p 'Email Address: ' email_address
 #remove previous install
 rm -R /opt/letsencrypt
 rm -R /etc/letsencrypt
+
+#use php version 5 for arm
+if [ .$cpu_architecture = .'arm' ]; then
+        php_version=5
+fi
 
 #enable fusionpbx nginx config
 cp nginx/fusionpbx /etc/nginx/sites-available/fusionpbx
