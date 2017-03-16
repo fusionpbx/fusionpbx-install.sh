@@ -5,6 +5,8 @@ cd "$(dirname "$0")"
 
 #includes
 . ./config.sh
+. ./colors.sh
+. ./environment.sh
 
 #request the domain and email
 read -p 'Domain Name: ' domain_name
@@ -16,9 +18,22 @@ read -p 'Email Address: ' email_address
 rm -R /opt/letsencrypt
 rm -R /etc/letsencrypt
 
+#use php version 5 for arm
+if [ .$cpu_architecture = .'arm' ]; then
+        php_version=5
+fi
+
 #enable fusionpbx nginx config
 cp nginx/fusionpbx /etc/nginx/sites-available/fusionpbx
-#ln -s /etc/nginx/sites-available/fusionpbx /etc/nginx/sites-enabled/fusionpbx
+
+#prepare socket name
+if [ ."$php_version" = ."5" ]; then
+        sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php5-fpm.sock;#g'
+fi
+if [ ."$php_version" = ."7" ]; then
+        sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php7.0-fpm.sock;#g'
+fi
+ln -s /etc/nginx/sites-available/fusionpbx /etc/nginx/sites-enabled/fusionpbx
 
 #read the config
 /usr/sbin/nginx -t && /usr/sbin/nginx -s reload
