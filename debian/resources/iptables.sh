@@ -34,6 +34,9 @@ iptables -A INPUT -p udp --dport 5080:5081 -j ACCEPT
 iptables -A INPUT -p udp --dport 16384:32768 -j ACCEPT
 iptables -A INPUT -p icmp --icmp-type echo-request -j ACCEPT
 iptables -A INPUT -p udp --dport 1194 -j ACCEPT
+iptables -t mangle -A OUTPUT -p udp -m udp --sport 16384:32768 -j DSCP --set-dscp 46
+iptables -t mangle -A OUTPUT -p udp -m udp --sport 5060:5081 -j DSCP --set-dscp 26
+iptables -t mangle -A OUTPUT -p tcp -m tcp --sport 5060:5081 -j DSCP --set-dscp 26
 iptables -P INPUT DROP
 iptables -P FORWARD DROP
 iptables -P OUTPUT ACCEPT
