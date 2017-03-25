@@ -13,14 +13,11 @@ if [ .$switch_source = .true ]; then
 		switch/source-release.sh
 	fi
 
-	#copy the switch conf files to /etc/freeswitch
+	#copy the switch conf files
 	switch/conf-copy.sh
 
 	#set the file permissions
 	switch/source-permissions.sh
-
-	#systemd service
-	switch/source-systemd.sh
 fi
 
 if [ .$switch_package = .true ]; then
