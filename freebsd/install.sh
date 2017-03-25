@@ -41,13 +41,13 @@ server_address=$(hostname -I)
 
 #restart services
 if [ ."$php_version" = ."5" ]; then
-        systemctl restart php5-fpm
+        service php5-fpm restart
 fi
 if [ ."$php_version" = ."7" ]; then
-        systemctl restart php7.0-fpm
+        service php7.0-fpm restart
 fi
-systemctl restart nginx
-systemctl restart fail2ban
+service nginx restart
+service fail2ban restart
 
 #add the database schema, user and groups
 resources/finish.sh
