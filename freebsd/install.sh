@@ -9,17 +9,14 @@ cd "$(dirname "$0")"
 . ./resources/environment.sh
 
 # removes the cd img from the /etc/apt/sources.list file (not needed after base install)
-sed -i '/cdrom:/d' /etc/apt/sources.list
+#sed -i '/cdrom:/d' /etc/apt/sources.list
 
 #Update to latest packages
 verbose "Update installed packages"
-apt-get upgrade && apt-get update -y --force-yes
+pkg upgrade
 
-#Add dependencies
-apt-get install -y lsb-release
-
-#IPTables
-resources/iptables.sh
+#PF - Packet Filter
+resources/pf.sh
 
 #FusionPBX
 resources/fusionpbx.sh
@@ -31,7 +28,7 @@ resources/nginx.sh
 resources/php.sh
 
 #Fail2ban
-resources/fail2ban.sh
+#resources/fail2ban.sh
 
 #FreeSWITCH
 resources/switch.sh
@@ -43,7 +40,6 @@ resources/postgres.sh
 server_address=$(hostname -I)
 
 #restart services
-systemctl daemon-reload
 if [ ."$php_version" = ."5" ]; then
         systemctl restart php5-fpm
 fi
