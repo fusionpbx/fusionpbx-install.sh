@@ -44,7 +44,7 @@ cd "$(dirname "$0")"
 
 #configure system service
 ln -s /usr/local/freeswitch/bin/fs_cli /usr/bin/fs_cli
-cp switch/rc.d.freeswitch /usr/local/etc/rc.d/freeswitch
+cp rc.d.freeswitch /usr/local/etc/rc.d/freeswitch
 chmod u-w,ugo+x /usr/local/etc/rc.d/freeswitch
 
 #enable the service

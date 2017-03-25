@@ -6,74 +6,41 @@ cd "$(dirname "$0")"
 #includes
 . ./config.sh
 . ./colors.sh
-. ./environment.sh
 
 #send a message
 verbose "Installing the web server"
 
-#if [ ."$cpu_architecture" = ."arm" ]; then
-        #9.x - */stretch/
-        #8.x - */jessie/
-#fi
-if [ ."$php_version" = ."5" ]; then
-        #verbose "Switching forcefully to php5* packages"
-        which add-apt-repository || apt-get install -y software-properties-common
-        #LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
-        #LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php5-compat
-elif [ ."$os_name" = ."Ubuntu" ]; then
-        #16.10.x - */yakkety/
-        #16.04.x - */xenial/
-        #14.04.x - */trusty/
-        if [ ."$os_codename" = ."trusty" ]; then
-                which add-apt-repository || apt-get install -y software-properties-common
-                LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
-        fi
-else
-        #9.x - */stretch/
-        #8.x - */jessie/
-        if [ ."$os_codename" = ."jessie" ]; then
-                echo "deb http://packages.dotdeb.org $os_codename all" > /etc/apt/sources.list.d/dotdeb.list
-                echo "deb-src http://packages.dotdeb.org $os_codename all" >> /etc/apt/sources.list.d/dotdeb.list
-                wget -O - https://www.dotdeb.org/dotdeb.gpg | apt-key add -
-        fi
-fi
-apt-get update
+#install nginx
+pkg install --yes nginx
 
-#use php version 5 for arm
-if [ .$cpu_architecture = .'arm' ]; then
-        php_version=5
-fi
+#enable nginx
+echo 'nginx_enable="YES"' >> /etc/rc.conf
+echo 'php_fpm_enable="YES"' >> /etc/rc.conf
 
 #install dependencies
-apt-get install -y nginx
 if [ ."$php_version" = ."5" ]; then
-        apt-get install -y php5 php5-cli php5-fpm php5-pgsql php5-sqlite php5-odbc php5-curl php5-imap php5-mcrypt
+	#pkg install php57
 fi
 if [ ."$php_version" = ."7" ]; then
-        apt-get install -y php7.0 php7.0-cli php7.0-fpm php7.0-pgsql php7.0-sqlite3 php7.0-odbc php7.0-curl php7.0-imap php7.0-mcrypt php7.0-xml
+	pkg install --yes php70 php70-phar php70-pgsql php70-pdo php70-pdo_pgsql php70-pdo_odbc php70-pdo_sqlite php70-json php70-gd 
+php70-imap php70-ldap php70-mcrypt php70-openssl php70-sockets php70-simplexml php70-xml php70-session
 fi
 
 #enable fusionpbx nginx config
-cp nginx/fusionpbx /etc/nginx/sites-available/fusionpbx
-
-#prepare socket name
-if [ ."$php_version" = ."5" ]; then
-        sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php5-fpm.sock;#g'
-fi
-if [ ."$php_version" = ."7" ]; then
-        sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php7.0-fpm.sock;#g'
-fi
-ln -s /etc/nginx/sites-available/fusionpbx /etc/nginx/sites-enabled/fusionpbx
+#cp nginx/fusionpbx.conf /usr/local/etc/nginx/conf.d/fusionpbx
 
 #self signed certificate
-ln -s /etc/ssl/private/ssl-cert-snakeoil.key /etc/ssl/private/nginx.key
-ln -s /etc/ssl/certs/ssl-cert-snakeoil.pem /etc/ssl/certs/nginx.crt
+#ln -s /etc/ssl/private/ssl-cert-snakeoil.key /etc/ssl/private/nginx.key
+#ln -s /etc/ssl/certs/ssl-cert-snakeoil.pem /etc/ssl/certs/nginx.crt
 
 #remove the default site
-rm /etc/nginx/sites-enabled/default
+#rm /etc/nginx/sites-enabled/default
 
 #add the letsencrypt directory
 mkdir -p /var/www/letsencrypt/
 
-#restart nginx
+#restart php fpm and nginx
+service php-fpm restart
 service nginx restart
+
+

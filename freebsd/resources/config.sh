@@ -10,7 +10,7 @@ switch_source=true              # true
 
 # Database Settings
 database_password=random        # random or as a pre-set value
-database_repo=official          # PostgresSQL official, system, 2ndquadrant
+database_version=9.6            # Postgres 9.6, 9.5, or 9.4
 database_backup=false           # true or false
 
 # General Settings
