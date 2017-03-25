@@ -7,7 +7,7 @@ cd "$(dirname "$0")"
 . ./colors.sh
 
 #send a message
-verbose "Configuring IPTables"
+verbose "Configuring PF"
 
-#run iptables commands
+#install the PF config
 
