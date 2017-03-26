@@ -19,11 +19,12 @@ echo 'php_fpm_enable="YES"' >> /etc/rc.conf
 
 #install dependencies
 if [ ."$php_version" = ."5" ]; then
-	#pkg install php57
+	pkg install --yes php56 php56-phar php56-pgsql php56-pdo php56-pdo_pgsql php56-pdo_odbc php56-pdo_sqlite php56-json php56-gd
+	pkg install --yes php56-imap php56-ldap php56-mcrypt php56-openssl php56-sockets php56-simplexml php56-xml php56-session
 fi
 if [ ."$php_version" = ."7" ]; then
 	pkg install --yes php70 php70-phar php70-pgsql php70-pdo php70-pdo_pgsql php70-pdo_odbc php70-pdo_sqlite php70-json php70-gd 
-php70-imap php70-ldap php70-mcrypt php70-openssl php70-sockets php70-simplexml php70-xml php70-session
+	pkg install --yes php70-imap php70-ldap php70-mcrypt php70-openssl php70-sockets php70-simplexml php70-xml php70-session
 fi
 
 #enable fusionpbx nginx config
