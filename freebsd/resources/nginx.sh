@@ -28,7 +28,7 @@ if [ ."$php_version" = ."7" ]; then
 fi
 
 #enable fusionpbx nginx config
-#cp nginx/fusionpbx.conf /usr/local/etc/nginx/conf.d/fusionpbx
+cp nginx/fusionpbx.conf /usr/local/etc/nginx/conf.d/fusionpbx
 
 #self signed certificate
 #ln -s /etc/ssl/private/ssl-cert-snakeoil.key /etc/ssl/private/nginx.key
@@ -43,5 +43,4 @@ mkdir -p /var/www/letsencrypt/
 #restart php fpm and nginx
 service php-fpm restart
 service nginx restart
-
 
