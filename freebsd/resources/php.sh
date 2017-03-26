@@ -19,18 +19,14 @@ if [ ."$php_version" = ."7" ]; then
         verbose "version 7.0"
         php_ini_file='/etc/php/7.0/fpm/php.ini'
 fi
-sed 's#post_max_size = .*#post_max_size = 80M#g' -i $php_ini_file
-sed 's#upload_max_filesize = .*#upload_max_filesize = 80M#g' -i $php_ini_file
+sed -i' ' -e 's#post_max_size = .*#post_max_size = 80M#g' $php_ini_file
+sed -i' ' -e 's#upload_max_filesize = .*#upload_max_filesize = 80M#g' $php_ini_file
 
 #restart php-fpm
 #systemd
 if [ ."$php_version" = ."5" ]; then
-        systemctl restart php5-fpm
+        service php5-fpm restart
 fi
 if [ ."$php_version" = ."7" ]; then
-        systemctl restart php7.0-fpm
+        service php7.0-fpm restart
 fi
-
-#init.d
-#/usr/sbin/service php5-fpm restart
-#/usr/sbin/service php7.0-fpm restart
