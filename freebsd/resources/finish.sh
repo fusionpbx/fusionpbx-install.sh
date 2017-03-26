@@ -13,7 +13,7 @@ database_host=127.0.0.1
 database_port=5432
 database_username=fusionpbx
 if [ .$database_password = .'random' ]; then
-	database_password=$(dd if=/dev/urandom bs=1 count=20 2>/dev/null | base64 | sed 's/[=\+//]//g')
+	database_password=$(cat /dev/random | env LC_CTYPE=C tr -dc a-zA-Z0-9 | head -c 20)
 fi
 
 #allow the script to use the new password
@@ -53,7 +53,7 @@ user_uuid=$(/usr/bin/php /var/www/fusionpbx/resources/uuid.php);
 user_salt=$(/usr/bin/php /var/www/fusionpbx/resources/uuid.php);
 user_name=$system_username
 if [ .$system_password = .'random' ]; then
-	user_password=$(dd if=/dev/urandom bs=1 count=12 2>/dev/null | base64 | sed 's/[=\+//]//g')
+	user_password=$(cat /dev/random | env LC_CTYPE=C tr -dc a-zA-Z0-9 | head -c 20)
 else
 	user_password=$system_password
 fi
@@ -82,8 +82,7 @@ sed -i /etc/freeswitch/autoload_configs/xml_cdr.conf.xml -e s:"{v_pass}:$xml_cdr
 cd /var/www/fusionpbx && php /var/www/fusionpbx/core/upgrade/upgrade_domains.php
 
 #restart freeswitch
-/bin/systemctl daemon-reload
-/bin/systemctl restart freeswitch
+service freeswitch restart
 
 #welcome message
 echo ""

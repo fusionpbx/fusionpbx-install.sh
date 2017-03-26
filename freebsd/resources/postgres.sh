@@ -11,7 +11,7 @@ cd "$(dirname "$0")"
 echo "Install PostgreSQL"
 
 #generate a random password
-password=$(cat /dev/random | env LC_CTYPE=C tr -dc a-zA-Z0-9 | head -c 16)
+password=$(cat /dev/random | env LC_CTYPE=C tr -dc a-zA-Z0-9 | head -c 20)
 
 #install message
 echo "Install PostgreSQL and create the database and users\n"
@@ -42,7 +42,7 @@ service postgresql restart
 #install the database backup
 #cp backup/fusionpbx-backup.sh /etc/cron.daily
 #chmod 755 /etc/cron.daily/fusionpbx-backup.sh
-#sed -i "s/zzz/$password/g" /etc/cron.daily/fusionpbx-backup.sh
+#sed -i' ' -e "s/zzz/$password/g" /etc/cron.daily/fusionpbx-backup.sh
 
 #move to /tmp to prevent an error when running sudo with psql
 cwd=$(pwd)
