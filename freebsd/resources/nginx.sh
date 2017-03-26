@@ -28,6 +28,9 @@ if [ ."$php_version" = ."7" ]; then
 fi
 
 #enable fusionpbx nginx config
+mv /usr/local/etc/nginx/nginx.conf /usr/local/etc/nginx/nginx.conf-orig
+cp nginx/nginx.conf /usr/local/etc/nginx
+mkdir -p /usr/local/etc/nginx/conf.d
 cp nginx/fusionpbx.conf /usr/local/etc/nginx/conf.d/fusionpbx
 
 #self signed certificate

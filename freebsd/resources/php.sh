@@ -23,10 +23,4 @@ sed -i' ' -e 's#post_max_size = .*#post_max_size = 80M#g' $php_ini_file
 sed -i' ' -e 's#upload_max_filesize = .*#upload_max_filesize = 80M#g' $php_ini_file
 
 #restart php-fpm
-#systemd
-if [ ."$php_version" = ."5" ]; then
-        service php5-fpm restart
-fi
-if [ ."$php_version" = ."7" ]; then
-        service php7.0-fpm restart
-fi
+service php-fpm restart

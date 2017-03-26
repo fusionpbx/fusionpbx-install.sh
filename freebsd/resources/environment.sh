@@ -66,7 +66,7 @@ elif [ .$cpu_architecture = .'x86' ]; then
 		fi
 		switch_source=true
 		switch_package=false
-	elif [ .$os_mode = .'64' ]; then
+q	elif [ .$os_mode = .'64' ]; then
 		verbose "Correct CPU and Operating System detected"
 	else
 		error "Unknown Operating System mode $os_mode is unsupported"
