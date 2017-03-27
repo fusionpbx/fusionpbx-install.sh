@@ -31,14 +31,14 @@ fi
 mv /usr/local/etc/nginx/nginx.conf /usr/local/etc/nginx/nginx.conf-orig
 cp nginx/nginx.conf /usr/local/etc/nginx
 mkdir -p /usr/local/etc/nginx/conf.d
-cp nginx/fusionpbx.conf /usr/local/etc/nginx/conf.d/fusionpbx
+mkdir -p /usr/local/etc/nginx/sites-available/
+mkdir -p /usr/local/etc/nginx/sites-enabled/
+cp nginx/fusionpbx.conf /usr/local/etc/nginx/sites-available/fusionpbx
+ln -s /usr/local/etc/nginx/sites-available/fusionpbx /usr/local/etc/nginx/sites-enabled/fusionpbx
 
 #self signed certificate
 #ln -s /etc/ssl/private/ssl-cert-snakeoil.key /etc/ssl/private/nginx.key
 #ln -s /etc/ssl/certs/ssl-cert-snakeoil.pem /etc/ssl/certs/nginx.crt
-
-#remove the default site
-#rm /etc/nginx/sites-enabled/default
 
 #add the letsencrypt directory
 mkdir -p /var/www/letsencrypt/

@@ -6,7 +6,6 @@ cd "$(dirname "$0")"
 #includes
 . ./config.sh
 . ./colors.sh
-. ./environment.sh
 
 #send a message
 verbose "Installing Fail2ban"
@@ -29,7 +28,7 @@ cp fail2ban/jail.local /usr/local/etc/fail2ban/jail.local
 
 #update config if source is being used
 if [ .$switch_source = .true ]; then
-	sed 's#var/log/freeswitch#usr/local/freeswitch/log#g' -i /etc/fail2ban/jail.local
+	sed -i' ' -e 's#var/log/freeswitch#usr/local/freeswitch/log#g' /etc/fail2ban/jail.local
 fi
 
 #restart fail2ban

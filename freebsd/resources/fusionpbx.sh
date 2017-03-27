@@ -22,6 +22,6 @@ else
 fi
 
 #get the source code
-git clone $branch https://github.com/fusionpbx/fusionpbx.git /var/www/fusionpbx
-chown -R www:www /var/www/fusionpbx
-chmod -R 755 /var/www/fusionpbx/secure
+git clone $branch https://github.com/fusionpbx/fusionpbx.git /usr/local/www/fusionpbx
+chown -R www:www /usr/local/www/fusionpbx
+chmod -R 755 /usr/local/www/fusionpbx/secure
