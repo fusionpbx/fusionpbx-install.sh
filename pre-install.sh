@@ -35,7 +35,8 @@ if [ ! -z "$pkgmgr" ]; then
 
 	#install git
 	$pkgmgr_install git
-
+else
+	echo "Warning: Unsupported package manager"
 fi
 
 #prepare dir
@@ -43,5 +44,7 @@ if [ ! -d /usr/src ]; then
 	mkdir -vp /usr/src
 fi
 
+which git || { echo "Warning: git not found" ; }
+
 #get the install script
-which git && cd /usr/src && git clone https://github.com/fusionpbx/fusionpbx-install.sh.git
+cd /usr/src && git clone https://github.com/fusionpbx/fusionpbx-install.sh.git
