@@ -26,8 +26,8 @@ which zypper && { export pkgmgr='zypper' ; export pkgmgr_install=$pkgmgr' --non-
 #dpkg/apt for Debian, Ubuntu
 which apt-get && { export pkgmgr='apt-get' ; export pkgmgr_install=$pkgmgr' -y install' ; export pkgmgr_upgrade_all=$pkgmgr' update && '$pkgmgr' -y --force-yes upgrade' ; export pkgmgr_remove=$pkgmgr' -y remove' ; }
 
-#?/pkg for FreeBSD
-which pkg && { export pkgmgr='pkg' ; export pkgmgr_install=$pkgmgr' --yes install' ; export pkgmgr_upgrade_all=$pkgmgr' --yes upgrade' ; export pkgmgr_remove=$pkgmgr' --yes delete' ; }
+#pkgng/pkg for FreeBSD 10
+which pkg && { export pkgmgr='pkg' ; export pkgmgr_install=$pkgmgr' install' ; export pkgmgr_upgrade_all=$pkgmgr' update && '$pkgmgr' upgrade' ; export pkgmgr_remove=$pkgmgr' delete' ; }
 
 if [ ! -z "$pkgmgr" ]; then
 	#upgrade the packages
