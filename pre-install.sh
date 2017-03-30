@@ -31,9 +31,11 @@ which pkg && { export pkgmgr='pkg' ; export pkgmgr_install=$pkgmgr' --yes instal
 
 if [ ! -z "$pkgmgr" ]; then
 	#upgrade the packages
+	echo "Info: $pkgmgr_upgrade_all"
 	$pkgmgr_upgrade_all
 
 	#install git
+	echo "Info: $pkgmgr_install git"
 	$pkgmgr_install git
 else
 	echo "Warning: Unsupported package manager"
