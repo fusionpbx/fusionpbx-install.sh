@@ -6,6 +6,9 @@ cd "$(dirname "$0")"
 #includes
 . ../config.sh
 
+#set the date
+now=$(date +%Y-%m-%d)
+
 if [ .$database_password = .'random' ]; then
         database_password=$(dd if=/dev/urandom bs=1 count=20 2>/dev/null | base64 | sed 's/[=\+//]//g')
 fi
@@ -27,9 +30,9 @@ else
 fi
 
 #settings summary
-echo ""
-echo "Summary"
-#echo ""
+echo "-----------------------------";
+echo " Summary";
+echo "-----------------------------";
 echo "Create Group: $group_create";
 echo "All Node IP Addresses: $nodes";
 if [ .$group_create = .true ]; then
@@ -64,9 +67,11 @@ chown postgres:postgres /etc/ssl/private/ssl-cert-snakeoil-postgres.key
 chmod 600 /etc/ssl/private/ssl-cert-snakeoil-postgres.key
 
 #postgresql.conf - append settings
-cat ../postgresql/postgresql.conf >> /etc/postgresql/9.4/main/postgresql.conf
+cp /etc/postgresql/9.4/main/postgresql.conf /etc/postgresql/9.4/main/postgresql.conf-$now
+cat ../postgresql/postgresql.conf > /etc/postgresql/9.4/main/postgresql.conf
 
 #pg_hba.conf - append settings
+cp /etc/postgresql/9.4/main/pg_hba.conf /etc/postgresql/9.4/main/pg_hba.conf-$now
 cat ../postgresql/pg_hba.conf > /etc/postgresql/9.4/main/pg_hba.conf
 #chmod 640 /etc/postgresql/9.4/main/pg_hba.conf
 #chown -R postgres:postgres /etc/postgresql/9.4/main
@@ -109,8 +114,19 @@ fi
 #load the freeswitch database
 #sudo -u postgres psql -d freeswitch -f /var/www/fusionpbx/resources/install/sql/switch.sql -L /tmp/switch-sql.log
 
+#sleeping
+if [ .$group_create = .false ]; then
+	echo "Sleeping for 15 seconds";
+	for i in `seq 1 15`; do
+		echo $i
+		sleep 1
+	done
+fi
+
 #add extension pgcrypto
 if [ .$group_create = .false ]; then
 	sudo -u postgres psql -d freeswitch -c "CREATE EXTENSION pgcrypto;";
 fi
 
+#message to user
+echo "Completed"
