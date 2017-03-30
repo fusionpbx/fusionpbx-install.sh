@@ -9,6 +9,7 @@ cd "$(dirname "$0")"
 #set the date
 now=$(date +%Y-%m-%d)
 
+#set the database password
 if [ .$database_password = .'random' ]; then
         database_password=$(dd if=/dev/urandom bs=1 count=20 2>/dev/null | base64 | sed 's/[=\+//]//g')
 fi
@@ -93,6 +94,13 @@ cd /tmp
 #add the database users and databases
 sudo -u postgres psql -c "CREATE DATABASE fusionpbx;";
 sudo -u postgres psql -c "CREATE DATABASE freeswitch;";
+
+#add the users and grant permissions
+sudo -u postgres psql -c "CREATE ROLE fusionpbx WITH SUPERUSER LOGIN PASSWORD '$database_password';"
+sudo -u postgres psql -c "CREATE ROLE freeswitch WITH SUPERUSER LOGIN PASSWORD '$database_password';"
+sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE fusionpbx to fusionpbx;"
+sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE freeswitch to fusionpbx;"
+sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE freeswitch to freeswitch;"
 
 #add the postgres extensions
 sudo -u postgres psql -d fusionpbx -c "CREATE EXTENSION btree_gist;";
