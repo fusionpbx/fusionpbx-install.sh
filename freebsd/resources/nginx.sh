@@ -15,12 +15,7 @@ pkg install --yes nginx
 
 #enable nginx
 echo 'nginx_enable="YES"' >> /etc/rc.conf
-if [ ."$php_version" = ."5" ]; then
-	echo 'php5.6-fpm="YES"' >> /etc/rc.conf
-fi
-if [ ."$php_version" = ."7" ]; then
-	echo 'php7.0-fpm="YES"' >> /etc/rc.conf
-fi
+echo 'php_fpm_enable="YES"' >> /etc/rc.conf
 
 #install dependencies
 if [ ."$php_version" = ."5" ]; then
