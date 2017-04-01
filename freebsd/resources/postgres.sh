@@ -30,7 +30,7 @@ if [ ."$database_version" = ."9.3" ]; then
         pkg install --yes postgresql93-server
 fi
 
-#update the list of executables in your path
+#update the list of executables in the path
 rehash
 
 #enable postgres
