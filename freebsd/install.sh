@@ -40,12 +40,7 @@ resources/postgres.sh
 server_address=$(hostname -I)
 
 #restart services
-if [ ."$php_version" = ."5" ]; then
-        service php5-fpm restart
-fi
-if [ ."$php_version" = ."7" ]; then
-        service php7.0-fpm restart
-fi
+service php-fpm restart
 service nginx restart
 service fail2ban restart
 
