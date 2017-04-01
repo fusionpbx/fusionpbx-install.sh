@@ -13,6 +13,9 @@ verbose "Installing Fail2ban"
 #add the dependencies
 pkg install --yes py27-fail2ban
 
+#update the list of executables in the path
+rehash
+
 #enable fail2ban service
 echo 'fail2ban_enable="YES"' >> /etc/rc.conf
 
