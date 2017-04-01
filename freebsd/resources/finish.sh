@@ -42,7 +42,7 @@ interface_name=$(ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active
 domain_name=$(ifconfig $interface_name | grep 'inet ' | awk '{print $2}')
 
 #get a domain_uuid
-domain_uuid=$(/usr/bin/php /usr/local/www/fusionpbx/resources/uuid.php);
+domain_uuid=$(/usr/local/bin/php /usr/local/www/fusionpbx/resources/uuid.php);
 
 #add the domain name
 psql --host=$database_host --port=$database_port --username=$database_username -c "insert into v_domains (domain_uuid, domain_name, domain_enabled) values('$domain_uuid', '$domain_name', 'true');"
@@ -51,8 +51,8 @@ psql --host=$database_host --port=$database_port --username=$database_username -
 cd /usr/local/www/fusionpbx && php /usr/local/www/fusionpbx/core/upgrade/upgrade_domains.php
 
 #add the user
-user_uuid=$(/usr/bin/php /usr/local/www/fusionpbx/resources/uuid.php);
-user_salt=$(/usr/bin/php /usr/local/www/fusionpbx/resources/uuid.php);
+user_uuid=$(/usr/local/bin/php /usr/local/www/fusionpbx/resources/uuid.php);
+user_salt=$(/usr/local/bin/php /usr/local/www/fusionpbx/resources/uuid.php);
 user_name=$system_username
 if [ .$system_password = .'random' ]; then
 	user_password=$(cat /dev/random | env LC_CTYPE=C tr -dc a-zA-Z0-9 | head -c 20)
@@ -67,7 +67,7 @@ group_uuid=$(psql --host=$database_host --port=$database_port --username=$databa
 group_uuid=$(echo $group_uuid | sed 's/^[[:blank:]]*//;s/[[:blank:]]*$//')
 
 #add the user to the group
-group_user_uuid=$(/usr/bin/php /usr/local/www/fusionpbx/resources/uuid.php);
+group_user_uuid=$(/usr/local/bin/php /usr/local/www/fusionpbx/resources/uuid.php);
 group_name=superadmin
 psql --host=$database_host --port=$database_port --username=$database_username -c "insert into v_group_users (group_user_uuid, domain_uuid, group_name, group_uuid, user_uuid) values('$group_user_uuid', '$domain_uuid', '$group_name', '$group_uuid', '$user_uuid');"
 
