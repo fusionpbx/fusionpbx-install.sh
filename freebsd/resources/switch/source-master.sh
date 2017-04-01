@@ -10,6 +10,9 @@ pkg install --yes wget sudo libsndfile lua52 opus libmemcached libvorbis libogg 
 #additional dependencies
 #pkg install --yes libshout mpg123 lame
 
+#update the list of executables in the path
+rehash
+
 #get the source
 git clone https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
 cd /usr/src/freeswitch
