@@ -9,3 +9,6 @@ cd "$(dirname "$0")"
 
 #add sngrep
 pkg install --yes sngrep
+
+#update the list of executables in the path
+rehash
