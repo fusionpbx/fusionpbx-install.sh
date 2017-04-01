@@ -4,7 +4,7 @@
 cd "$(dirname "$0")"
 
 #includes
-. ./config.sh
+. ../config.sh
 
 #send a message
 echo "Installing the FreeSWITCH source"
