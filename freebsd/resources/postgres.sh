@@ -39,6 +39,11 @@ echo 'postgresql_enable=true' >> /etc/rc.conf
 #initialize the database
 /usr/local/etc/rc.d/postgresql initdb
 
+#start postgresql
+if [ ."$database_version" = ."9.6" ]; then
+	/usr/local/bin/pg_ctl -D /var/db/postgres/data96 -l logfile start
+fi
+
 #restart the service
 service postgresql restart
 
