@@ -27,23 +27,23 @@ if [ ."$php_version" = ."7" ]; then
 	#pkg install --yes php70-imap php70-ldap php70-mcrypt php70-openssl php70-sockets php70-simplexml php70-xml php70-session
 
 	portsnap fetch update
-	cd /usr/ports/lang/php70/ && make install clean
-	cd /usr/ports/archivers/php70-phar/ && make install clean
-	cd /usr/ports/databases/php70-pgsql/ && make install clean
-	cd /usr/ports/databases/php70-pdo/ && make install clean
-	cd /usr/ports/databases/php70-pdo_pgsql/ && make install clean
-	cd /usr/ports/databases/php70-pdo_odbc/ && make install clean
-	cd /usr/ports/databases/php70-pdo_sqlite/ && make install clean
-	cd /usr/ports/devel/php70-json/ && make install clean
-	cd /usr/ports/graphics/php70-gd/ && make install clean
-	cd /usr/ports/mail/php70-imap/ && make install clean
-	cd /usr/ports/net/php70-ldap/ && make install clean
-	cd /usr/ports/security/php70-mcrypt/ && make install clean
-	cd /usr/ports/security/php70-openssl/ && make install clean
-	cd /usr/ports/net/php70-sockets/ && make install clean
-	cd /usr/ports/textproc/php70-simplexml/ && make install clean
-	cd /usr/ports/textproc/php70-xml/ && make install clean
-	cd /usr/ports/www/php70-session/ && make install clean
+	cd /usr/ports/lang/php70/ && make install clean BATCH=yes
+	cd /usr/ports/archivers/php70-phar/ && make install clean BATCH=yes
+	cd /usr/ports/databases/php70-pgsql/ && make install clean BATCH=yes
+	cd /usr/ports/databases/php70-pdo/ && make install clean BATCH=yes
+	cd /usr/ports/databases/php70-pdo_pgsql/ && make install clean BATCH=yes
+	cd /usr/ports/databases/php70-pdo_odbc/ && make install clean BATCH=yes
+	cd /usr/ports/databases/php70-pdo_sqlite/ && make install clean BATCH=yes
+	cd /usr/ports/devel/php70-json/ && make install clean BATCH=yes
+	cd /usr/ports/graphics/php70-gd/ && make install clean BATCH=yes
+	cd /usr/ports/mail/php70-imap/ && make install clean BATCH=yes
+	cd /usr/ports/net/php70-ldap/ && make install clean BATCH=yes
+	cd /usr/ports/security/php70-mcrypt/ && make install clean BATCH=yes
+	cd /usr/ports/security/php70-openssl/ && make install clean BATCH=yes
+	cd /usr/ports/net/php70-sockets/ && make install clean BATCH=yes
+	cd /usr/ports/textproc/php70-simplexml/ && make install clean BATCH=yes
+	cd /usr/ports/textproc/php70-xml/ && make install clean BATCH=yes
+	cd /usr/ports/www/php70-session/ && make install clean BATCH=yes
 fi
 
 #update the list of executables in the path
