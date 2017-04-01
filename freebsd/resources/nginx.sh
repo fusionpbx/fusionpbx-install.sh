@@ -7,6 +7,9 @@ cd "$(dirname "$0")"
 . ./config.sh
 . ./colors.sh
 
+#set the current working directory
+cwd=$(pwd)
+
 #send a message
 verbose "Installing the web server"
 
@@ -45,6 +48,9 @@ if [ ."$php_version" = ."7" ]; then
 	cd /usr/ports/textproc/php70-xml/ && make install clean BATCH=yes
 	cd /usr/ports/www/php70-session/ && make install clean BATCH=yes
 fi
+
+#reset the current working directory
+cd $cwd
 
 #update the list of executables in the path
 rehash
