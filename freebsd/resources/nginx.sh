@@ -27,6 +27,9 @@ if [ ."$php_version" = ."7" ]; then
 	pkg install --yes php70-imap php70-ldap php70-mcrypt php70-openssl php70-sockets php70-simplexml php70-xml php70-session
 fi
 
+#update the list of executables in the path
+rehash
+
 #enable fusionpbx nginx config
 mv /usr/local/etc/nginx/nginx.conf /usr/local/etc/nginx/nginx.conf-orig
 cp nginx/nginx.conf /usr/local/etc/nginx
