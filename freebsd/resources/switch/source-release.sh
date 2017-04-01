@@ -49,12 +49,9 @@ gmake uhd-sounds-install uhd-sounds-install
 mkdir -p /usr/local/freeswitch/sounds/music/default
 mv /usr/local/freeswitch/sounds/music/*000 /usr/local/freeswitch/sounds/music/default
 
-#move to script directory so all relative paths work
-cd "$(dirname "$0")"
-
 #configure system service
 ln -s /usr/local/freeswitch/bin/fs_cli /usr/bin/fs_cli
-cp rc.d.freeswitch /usr/local/etc/rc.d/freeswitch
+cp switch/rc.d.freeswitch /usr/local/etc/rc.d/freeswitch
 chmod u-w,ugo+x /usr/local/etc/rc.d/freeswitch
 
 #enable the service
