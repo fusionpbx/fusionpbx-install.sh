@@ -7,6 +7,10 @@ cd "$(dirname "$0")"
 . ./config.sh
 . ./colors.sh
 
+#move to /tmp to prevent an error when running sudo with psql
+cwd=$(pwd)
+cd /tmp
+
 #send a message
 echo "Install PostgreSQL"
 
@@ -18,20 +22,20 @@ echo "Install PostgreSQL and create the database and users\n"
 
 #postgres install
 if [ ."$database_version" = ."9.6" ]; then
-	#pkg install --yes postgresql96-server
-	portsnap fetch update cd /usr/ports/databases/postgresql96-server/ && make install clean BATCH=yes
+	pkg install --yes postgresql96-server
+	#cd /usr/ports/databases/postgresql96-server/ && make install clean BATCH=yes
 fi
 if [ ."$database_version" = ."9.5" ]; then
-        #pkg install --yes postgresql95-server
-	portsnap fetch update cd /usr/ports/databases/postgresql95-server/ && make install clean BATCH=yes
+        pkg install --yes postgresql95-server
+	#cd /usr/ports/databases/postgresql95-server/ && make install clean BATCH=yes
 fi
 if [ ."$database_version" = ."9.4" ]; then
-        #pkg install --yes postgresql94-server
-	portsnap fetch update cd /usr/ports/databases/postgresql94-server/ && make install clean BATCH=yes
+        pkg install --yes postgresql94-server
+	#cd /usr/ports/databases/postgresql94-server/ && make install clean BATCH=yes
 fi
 if [ ."$database_version" = ."9.3" ]; then
-        #pkg install --yes postgresql93-server
-	portsnap fetch update cd /usr/ports/databases/postgresql93-server/ && make install clean BATCH=yes
+        pkg install --yes postgresql93-server
+	#cd /usr/ports/databases/postgresql93-server/ && make install clean BATCH=yes
 fi
 
 #update the list of executables in the path
@@ -39,10 +43,6 @@ rehash
 
 #enable postgres
 echo 'postgresql_enable=true' >> /etc/rc.conf
-
-#move to /tmp to prevent an error when running sudo with psql
-cwd=$(pwd)
-cd /tmp
 
 #initialize the database
 /usr/local/etc/rc.d/postgresql initdb
