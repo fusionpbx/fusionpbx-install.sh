@@ -18,16 +18,20 @@ echo "Install PostgreSQL and create the database and users\n"
 
 #postgres install
 if [ ."$database_version" = ."9.6" ]; then
-	pkg install --yes postgresql96-server
+	#pkg install --yes postgresql96-server
+	portsnap fetch update cd /usr/ports/databases/postgresql96-server/ && make install clean
 fi
 if [ ."$database_version" = ."9.5" ]; then
-        pkg install --yes postgresql95-server
+        #pkg install --yes postgresql95-server
+	portsnap fetch update cd /usr/ports/databases/postgresql95-server/ && make install clean
 fi
 if [ ."$database_version" = ."9.4" ]; then
-        pkg install --yes postgresql94-server
+        #pkg install --yes postgresql94-server
+	portsnap fetch update cd /usr/ports/databases/postgresql94-server/ && make install clean
 fi
 if [ ."$database_version" = ."9.3" ]; then
-        pkg install --yes postgresql93-server
+        #pkg install --yes postgresql93-server
+	portsnap fetch update cd /usr/ports/databases/postgresql93-server/ && make install clean
 fi
 
 #update the list of executables in the path
@@ -46,6 +50,15 @@ cd /tmp
 #start postgresql
 if [ ."$database_version" = ."9.6" ]; then
 	sudo -u postgres /usr/local/bin/pg_ctl -D /var/db/postgres/data96 -l logfile start
+fi
+if [ ."$database_version" = ."9.5" ]; then
+	sudo -u postgres /usr/local/bin/pg_ctl -D /var/db/postgres/data95 -l logfile start
+fi
+if [ ."$database_version" = ."9.4" ]; then
+	sudo -u postgres /usr/local/bin/pg_ctl -D /var/db/postgres/data94 -l logfile start
+fi
+if [ ."$database_version" = ."9.3" ]; then
+	sudo -u postgres /usr/local/bin/pg_ctl -D /var/db/postgres/data93 -l logfile start
 fi
 
 #restart the service
