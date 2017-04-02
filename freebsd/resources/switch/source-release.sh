@@ -59,6 +59,8 @@ chmod 0555 /usr/local/etc/rc.d/freeswitch
 #enable the service
 echo 'freeswitch_enable="YES"' >> /etc/rc.conf
 echo 'freeswitch_flags="-nc -nonat -reincarnate -u www -g www"' >> /etc/rc.conf
+echo 'memcached_enable="YES"' >> /etc/rc.conf
 
 #start the service
 service freeswitch start
+service memcached start
