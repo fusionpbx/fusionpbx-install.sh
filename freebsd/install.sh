@@ -14,7 +14,7 @@ pkg upgrade
 
 #Update the ports
 if [ -d "/usr/ports" ]; then
-    portsnap fetch update
+	portsnap fetch update
 else
 	portsnap fetch extract
 fi
