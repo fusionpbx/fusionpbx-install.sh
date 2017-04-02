@@ -53,8 +53,8 @@ mv /usr/local/freeswitch/sounds/music/*000 /usr/local/freeswitch/sounds/music/de
 
 #configure system service
 ln -s /usr/local/freeswitch/bin/fs_cli /usr/bin/fs_cli
-cp "$(cwd)/rc.d.freeswitch" /usr/local/etc/rc.d/freeswitch
-chmod u-w,ugo+x /usr/local/etc/rc.d/freeswitch
+cp "$cwd/rc.d.freeswitch" /usr/local/etc/rc.d/freeswitch
+chmod 0555 /usr/local/etc/rc.d/freeswitch
 
 #enable the service
 echo 'freeswitch_enable="YES"' >> /etc/rc.conf
