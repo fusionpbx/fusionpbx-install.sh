@@ -8,16 +8,16 @@ cd "$(dirname "$0")"
 . ./resources/colors.sh
 . ./resources/environment.sh
 
-# removes the cd img from the /etc/apt/sources.list file (not needed after base install)
-#sed -i '/cdrom:/d' /etc/apt/sources.list
-
 #Update to latest packages
 verbose "Update installed packages"
 pkg upgrade
 
 #Update the ports
-portsnap fetch extract
-#portsnap fetch update
+if [ -d "/usr/ports" ]; then
+    portsnap fetch update
+else
+	portsnap fetch extract
+fi
 
 #PF - Packet Filter
 resources/pf.sh
@@ -39,9 +39,6 @@ resources/switch.sh
 
 #Postgres
 resources/postgres.sh
-
-#set the ip address
-server_address=$(hostname -I)
 
 #restart services
 service php-fpm restart
