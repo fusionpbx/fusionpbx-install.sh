@@ -21,7 +21,8 @@ echo 'nginx_enable="YES"' >> /etc/rc.conf
 echo 'php_fpm_enable="YES"' >> /etc/rc.conf
 
 #set the default version of postgres
-echo 'DEFAULT_VERSIONS+=pgsql=$database_version' >> /etc/make.conf
+echo "DEFAULT_VERSIONS+=pgsql=$database_version" >> /etc/make.conf
+echo "DEFAULT_VERSIONS+=ssl=openssl" >> /etc/make.conf
 
 #install dependencies
 if [ ."$php_version" = ."5" ]; then
