@@ -15,6 +15,10 @@ cd "$(dirname "$0")"
 verbose "Update installed packages"
 pkg upgrade
 
+#Update the ports
+portsnap fetch extract
+#portsnap fetch update
+
 #PF - Packet Filter
 resources/pf.sh
 
