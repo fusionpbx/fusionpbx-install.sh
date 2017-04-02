@@ -58,7 +58,7 @@ if [ ."$database_version" = ."9.4" ]; then
 	sudo -u postgres /usr/local/bin/pg_ctl -D /var/db/postgres/data94 -l logfile start
 fi
 if [ ."$database_version" = ."9.3" ]; then
-	sudo -u postgres /usr/local/bin/pg_ctl -D /usr/local/pgsql/data -l logfile start
+	sudo -u pgsql /usr/local/bin/pg_ctl -D /usr/local/pgsql/data -l logfile start
 fi
 
 #restart the service
