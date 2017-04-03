@@ -10,8 +10,8 @@ switch_source=true              # true
 
 # Database Settings
 database_password=random        # random or as a pre-set value
-database_version=9.6            # Postgres 9.6, 9.5, 9.4 or 9.3
+database_version=9.6            # Postgres 9.6
 database_backup=false           # true or false
 
 # General Settings
-php_version=7                   # PHP version 5 or 7
+php_version=7                   # PHP version 7
