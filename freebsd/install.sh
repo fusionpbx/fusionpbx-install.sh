@@ -32,7 +32,7 @@ resources/nginx.sh
 resources/php.sh
 
 #Fail2ban
-#resources/fail2ban.sh
+resources/fail2ban.sh
 
 #FreeSWITCH
 resources/switch.sh
