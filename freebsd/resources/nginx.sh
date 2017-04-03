@@ -68,9 +68,13 @@ mkdir -p /usr/local/etc/nginx/sites-enabled/
 cp nginx/fusionpbx.conf /usr/local/etc/nginx/sites-available/fusionpbx
 ln -s /usr/local/etc/nginx/sites-available/fusionpbx /usr/local/etc/nginx/sites-enabled/fusionpbx
 
+#set the IP= address
+common_name=$(ifconfig $interface_name | grep 'inet ' | awk '{print $2}')
+
 #self signed certificate
-#ln -s /etc/ssl/private/ssl-cert-snakeoil.key /etc/ssl/private/nginx.key
-#ln -s /etc/ssl/certs/ssl-cert-snakeoil.pem /etc/ssl/certs/nginx.crt
+openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 \
+    -subj "/C=US/ST=Online/L=SelfSigned/O=FusionPBX/CN=$common_name" \
+    -keyout /usr/local/etc/nginx/server.key -out /usr/local/etc/nginx/server.crt
 
 #add the letsencrypt directory
 mkdir -p /var/www/letsencrypt/
