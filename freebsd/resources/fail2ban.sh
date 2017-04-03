@@ -30,9 +30,9 @@ cp fail2ban/nginx-dos.conf /usr/local/etc/fail2ban/filter.d/nginx-dos.conf
 cp fail2ban/jail.local /usr/local/etc/fail2ban/jail.local
 
 #update config if source is being used
-#if [ .$switch_source = .true ]; then
-#	sed -i' ' -e 's#var/log/freeswitch#usr/local/freeswitch/log#g' /usr/local/etc/fail2ban/jail.local
-#fi
+if [ .$switch_source = .true ]; then
+	sed -i' ' -e 's#var/log/freeswitch#usr/local/freeswitch/log#g' /usr/local/etc/fail2ban/jail.local
+fi
 
 #restart fail2ban
 service fail2ban restart
