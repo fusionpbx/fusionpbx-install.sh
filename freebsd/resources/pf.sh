@@ -9,5 +9,12 @@ cd "$(dirname "$0")"
 #send a message
 verbose "Configuring PF"
 
-#install the PF config
+#enable the service
+echo 'pf_enable="YES"' >> /etc/rc.conf
+echo 'pf_rules="/etc/firewall"' >> /etc/rc.conf
+echo 'pf_flags=""' >> /etc/rc.conf
+echo 'pflog_enable="YES"' >> /etc/rc.conf
+echo 'pflog_logfile="/var/log/pflog"' >> /etc/rc.conf
+echo 'pflog_flags=""' >> /etc/rc.conf
+
 
