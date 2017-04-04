@@ -11,13 +11,6 @@ verbose "Installing FusionPBX"
 yum -y install git
 yum -y install ghostscript libtiff-devel libtiff-tools
 
-IRONTEC="[irontec]
-name=Irontec RPMs repository
-baseurl=http://packages.irontec.com/centos/$releasever/$basearch/"
-echo "${IRONTEC}" > /etc/yum.repos.d/irontec.repo
-rpm --import http://packages.irontec.com/public.key
-yum -y install sngrep
-
 wget https://forensics.cert.org/cert-forensics-tools-release-el7.rpm
 rpm -Uvh cert-forensics-tools-release*rpm
 yum -y --enablerepo=forensics install lame
