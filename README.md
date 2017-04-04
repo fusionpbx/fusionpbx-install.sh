@@ -17,7 +17,7 @@ cd /usr/src/fusionpbx-install.sh/debian && ./install.sh
 FreeBSD is an operating system that has many great features like ZFS, HAST, CARP and more.
 
 ```sh
-wget -O - https://raw.githubusercontent.com/fusionpbx/fusionpbx-install.sh/master/freebsd/pre-install.sh | sh
+fetch -o - https://raw.githubusercontent.com/fusionpbx/fusionpbx-install.sh/master/freebsd/pre-install.sh | sh
 cd /usr/src/fusionpbx-install.sh/freebsd && ./install.sh
 ```
 
