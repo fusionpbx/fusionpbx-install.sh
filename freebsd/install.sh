@@ -10,7 +10,7 @@ cd "$(dirname "$0")"
 
 #Update to latest packages
 verbose "Update installed packages"
-pkg upgrade
+pkg upgrade --yes
 
 #Update the ports
 if [ -d "/usr/ports" ]; then
