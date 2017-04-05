@@ -32,25 +32,9 @@ fi
 if [ ."$php_version" = ."7" ]; then
 	#pkg install --yes php70 php70-phar php70-pgsql php70-pdo php70-pdo_pgsql php70-pdo_odbc php70-pdo_sqlite php70-json php70-gd 
 	#pkg install --yes php70-imap php70-ldap php70-mcrypt php70-openssl php70-sockets php70-simplexml php70-xml php70-session
-
-	#portsnap fetch update
-	cd /usr/ports/lang/php71/ && make install clean BATCH=yes
-	cd /usr/ports/archivers/php71-phar/ && make install clean BATCH=yes
-	cd /usr/ports/databases/php71-pgsql/ && make install clean BATCH=yes
-	cd /usr/ports/databases/php71-pdo/ && make install clean BATCH=yes
+	pkg install --yes postgresql96-client-9.6.2 postgresql96-contrib-9.6.2 postgresql96-server-9.6.2 php71-7.1.3 php71-phar php71-pdo php71-pdo_odbc php71-pdo_sqlite php71-json php71-gd php71-imap php71-ldap php71-mcrypt php71-openssl php71-sockets php71-simplexml php71-xml php71-session
 	cd /usr/ports/databases/php71-pdo_pgsql/ && make install clean BATCH=yes
-	cd /usr/ports/databases/php71-pdo_odbc/ && make install clean BATCH=yes
-	cd /usr/ports/databases/php71-pdo_sqlite/ && make install clean BATCH=yes
-	cd /usr/ports/devel/php71-json/ && make install clean BATCH=yes
-	cd /usr/ports/graphics/php71-gd/ && make install clean BATCH=yes
-	cd /usr/ports/mail/php71-imap/ && make install clean BATCH=yes
-	cd /usr/ports/net/php71-ldap/ && make install clean BATCH=yes
-	cd /usr/ports/security/php71-mcrypt/ && make install clean BATCH=yes
-	cd /usr/ports/security/php71-openssl/ && make install clean BATCH=yes
-	cd /usr/ports/net/php71-sockets/ && make install clean BATCH=yes
-	cd /usr/ports/textproc/php71-simplexml/ && make install clean BATCH=yes
-	cd /usr/ports/textproc/php71-xml/ && make install clean BATCH=yes
-	cd /usr/ports/www/php71-session/ && make install clean BATCH=yes
+	cd /usr/ports/databases/php71-pgsql && make install clean BATCH=yes
 fi
 
 #reset the current working directory
