@@ -35,8 +35,11 @@ cd /usr/local/www/fusionpbx && php /usr/local/www/fusionpbx/core/upgrade/upgrade
 #get the server hostname
 #domain_name=$(hostname -f)
 
-#get the interface name
+#get the primary interface name
 interface_name=$(ifconfig -l | awk '{print $1}')
+if [ .$interface_name = .'lo0' ]; then
+	interface_name=$(ifconfig -l | awk '{print $2}')
+fi
 
 #get the ip address
 domain_name=$(ifconfig $interface_name | grep 'inet ' | awk '{print $2}')
