@@ -36,7 +36,7 @@ cd /usr/local/www/fusionpbx && php /usr/local/www/fusionpbx/core/upgrade/upgrade
 #domain_name=$(hostname -f)
 
 #get the interface name
-interface_name=$(ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active' | egrep -o -m 1 '^[^\t:]+')
+interface_name=$(ifconfig -l | awk '{print $1}')
 
 #get the ip address
 domain_name=$(ifconfig $interface_name | grep 'inet ' | awk '{print $2}')
