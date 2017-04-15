@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #install git
-yum install git
+yum -y install git
 
 #get the install script
 cd /usr/src && git clone https://github.com/fusionpbx/fusionpbx-install.sh.git
