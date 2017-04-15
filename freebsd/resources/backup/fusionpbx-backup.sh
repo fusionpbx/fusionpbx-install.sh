@@ -19,9 +19,9 @@ find /var/backups/fusionpbx/*.tgz -mtime +2 -exec rm {} \;
 pg_dump --verbose -Fc --host=$db_host --port=$db_port -U fusionpbx fusionpbx --schema=public -f /var/backups/fusionpbx/postgresql/fusionpbx_pgsql_$now.sql
 
 #package
-tar -zvcf /var/backups/fusionpbx/backup_$now.tgz /var/backups/fusionpbx/postgresql/fusionpbx_pgsql_$now.sql /var/www/fusionpbx /usr/share/freeswitch/scripts /var/lib/freeswitch/storage /var/lib/freeswitch/recordings /etc/fusionpbx /etc/freeswitch
+#tar -zvcf /var/backups/fusionpbx/backup_$now.tgz /var/backups/fusionpbx/postgresql/fusionpbx_pgsql_$now.sql /var/www/fusionpbx /usr/share/freeswitch/scripts /var/lib/freeswitch/storage /var/lib/freeswitch/recordings /etc/fusionpbx /etc/freeswitch
 
 #source
-#tar -zvcf /var/backups/fusionpbx/backup_$now.tgz /var/backups/fusionpbx/postgresql/fusionpbx_pgsql_$now.sql /var/www/fusionpbx /usr/local/freeswitch/scripts /usr/local/freeswitch/storage /usr/local/freeswitch/recordings /etc/fusionpbx /usr/local/freeswitch/conf
+tar -zvcf /var/backups/fusionpbx/backup_$now.tgz /var/backups/fusionpbx/postgresql/fusionpbx_pgsql_$now.sql /var/www/fusionpbx /usr/local/freeswitch/scripts /usr/local/freeswitch/storage /usr/local/freeswitch/recordings /etc/fusionpbx /usr/local/freeswitch/conf
 
 echo "Backup Completed"
