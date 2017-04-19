@@ -32,7 +32,7 @@ elif [ ."$cpu_architecture" = ."arm" ]; then
         #Pi2 and Pi3 Raspbian
         #Odroid
         if [ ."$os_codename" = ."jessie" ]; then
-                echo "deb deb http://packages.moopi.uk/debian jessie main" > /etc/apt/sources.list.d/moopi.list
+                echo "deb http://packages.moopi.uk/debian jessie main" > /etc/apt/sources.list.d/moopi.list
                 wget -O - http://packages.moopi.uk/debian/moopi.gpg.key | apt-key add -
         fi        
 else
