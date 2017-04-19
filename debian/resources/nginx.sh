@@ -28,6 +28,13 @@ elif [ ."$os_name" = ."Ubuntu" ]; then
                 which add-apt-repository || apt-get install -y software-properties-common
                 LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
         fi
+elif [ ."$cpu_architecture" = ."arm" ]; then
+        #Pi2 and Pi3 Raspbian
+        #Odroid
+        if [ ."$os_codename" = ."jessie" ]; then
+                echo "deb http://packages.moopi.uk/debian jessie main" > /etc/apt/sources.list.d/moopi.list
+                wget -O - http://packages.moopi.uk/debian/moopi.gpg.key | apt-key add -
+        fi        
 else
         #9.x - */stretch/
         #8.x - */jessie/
@@ -40,9 +47,9 @@ fi
 apt-get update
 
 #use php version 5 for arm
-if [ .$cpu_architecture = .'arm' ]; then
-        php_version=5
-fi
+#if [ .$cpu_architecture = .'arm' ]; then
+#        php_version=5
+#fi
 
 #install dependencies
 apt-get install -y nginx
