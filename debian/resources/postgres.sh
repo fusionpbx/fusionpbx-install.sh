@@ -68,6 +68,7 @@ sed -i "s/zzz/$password/g" /etc/cron.daily/fusionpbx-backup.sh
 #move to /tmp to prevent a red herring error when running sudo with psql
 cwd=$(pwd)
 cd /tmp
+
 #add the databases, users and grant permissions to them
 sudo -u postgres psql -d fusionpbx -c "DROP SCHEMA public cascade;";
 sudo -u postgres psql -d fusionpbx -c "CREATE SCHEMA public;";
