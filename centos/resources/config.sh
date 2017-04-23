@@ -11,8 +11,3 @@ switch_package=true             # true or false
 
 # Database Settings
 database_password=random        # random or as a pre-set value
-database_repo=official          # PostgresSQL official, system, 2ndquadrant
-database_backup=false           # true or false
-
-# General Settings
-php_version=5                   # PHP version 5
