@@ -3,19 +3,24 @@
 #move to script directory so all relative paths work
 cd "$(dirname "$0")"
 
+#includes
+. ./config.sh
 . ./colors.sh
-. ./arguments.sh
 
+#send a message
 verbose "Installing FusionPBX"
 
+#install dependencies
 yum -y install git
 yum -y install ghostscript libtiff-devel libtiff-tools
 
+#forensics tools
 wget https://forensics.cert.org/cert-forensics-tools-release-el7.rpm
 rpm -Uvh cert-forensics-tools-release*rpm
 yum -y --enablerepo=forensics install lame
 
-if [ .$USE_SYSTEM_MASTER = .true ]; then
+
+if [ .$system_branch = "master" ]; then
 	verbose "Using master"
 	BRANCH=""
 else
@@ -29,4 +34,5 @@ fi
 #get the source code
 git clone $BRANCH https://github.com/fusionpbx/fusionpbx.git /var/www/fusionpbx
 
+#send a message
 verbose "FusionPBX Installed"
