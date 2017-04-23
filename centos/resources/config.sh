@@ -15,4 +15,4 @@ database_repo=official          # PostgresSQL official, system, 2ndquadrant
 database_backup=false           # true or false
 
 # General Settings
-php_version=7                   # PHP version 5 or 7
+php_version=5                   # PHP version 5
