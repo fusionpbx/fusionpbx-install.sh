@@ -68,6 +68,25 @@ group_user_uuid=$(/usr/bin/php /var/www/fusionpbx/resources/uuid.php);
 group_name=superadmin
 psql --host=$database_host --port=$database_port --username=$database_username -c "insert into v_group_users (group_user_uuid, domain_uuid, group_name, group_uuid, user_uuid) values('$group_user_uuid', '$domain_uuid', '$group_name', '$group_uuid', '$user_uuid');"
 
+#update the php configuration
+sed -i 's/user nginx/user freeswitch daemon/g' /etc/nginx/nginx.conf
+chown -Rf freeswitch:daemon /var/lib/nginx
+sed -ie 's/user = apache/user = freeswitch/g' /etc/php-fpm.d/www.conf
+
+#update permissions
+chown -R freeswitch:daemon /var/lib/php/session
+
+#update the permissions
+chown -R freeswitch.daemon /etc/freeswitch /var/lib/freeswitch /var/log/freeswitch /usr/share/freeswitch /var/www/fusionpbx
+find /etc/freeswitch -type d -exec chmod 770 {} \;
+find /var/lib/freeswitch -type d -exec chmod 770 {} \;
+find /var/log/freeswitch -type d -exec chmod 770 {} \;
+find /usr/share/freeswitch -type d -exec chmod 770 {} \;
+find /etc/freeswitch -type f -exec chmod 664 {} \;
+find /var/lib/freeswitch -type f -exec chmod 664 {} \;
+find /var/log/freeswitch -type f -exec chmod 664 {} \;
+find /usr/share/freeswitch -type f -exec chmod 664 {} \;
+
 #update xml_cdr url, user and password
 xml_cdr_username=$(dd if=/dev/urandom bs=1 count=12 2>/dev/null | base64 | sed 's/[=\+//]//g')
 xml_cdr_password=$(dd if=/dev/urandom bs=1 count=12 2>/dev/null | base64 | sed 's/[=\+//]//g')
