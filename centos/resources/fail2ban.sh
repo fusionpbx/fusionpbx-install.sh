@@ -3,12 +3,13 @@
 #move to script directory so all relative paths work
 cd "$(dirname "$0")"
 
+#includes
+. ./config.sh
 . ./colors.sh
 . ./arguments.sh
 
+#send a message
 verbose "Installing Fail2ban"
-#initialize variable encase we are called directly
-#[ -z $USE_FREESWITCH_SOURCE ] && USE_FREESWITCH_SOURCE=false
 
 #add the dependencies
 yum -y install fail2ban
@@ -24,10 +25,12 @@ cp ./fail2ban/nginx-dos.conf /etc/fail2ban/filter.d/nginx-dos.conf
 cp ./fail2ban/jail.local /etc/fail2ban/jail.local
 
 #update config if source is being used
-#if [ .$USE_FREESWITCH_SOURCE = .true ]; then
-#       sed 's#var/log/freeswitch#usr/local/freeswitch/log#g' -i /etc/fail2ban/jail.local
-#fi
+if [ .$switch_source = .true ]; then
+       sed 's#var/log/freeswitch#usr/local/freeswitch/log#g' -i /etc/fail2ban/jail.local
+fi
 
+#restart fail2ban
 systemctl restart fail2ban
 
+#send a message
 verbose "Fail2ban installed"
