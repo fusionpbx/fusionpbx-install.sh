@@ -9,8 +9,6 @@ cd "$(dirname "$0")"
 . ./resources/config.sh
 . ./resources/colors.sh
 
-
-
 # Update CentOS 
 verbose "Updating CentOS"
 yum -y update && yum -y upgrade
@@ -41,15 +39,11 @@ resources/nginx.sh
 #PHP/PHP-FPM
 resources/php.sh
 
-#IPTables
+#Firewalld
 resources/firewalld.sh
 
-# FusionPBX to FreeSWITCH configs
-verbose "Configuring freeswitch"
-resources/switch/conf-copy.sh
-resources/switch/package-permissions.sh
-resources/switch/package-systemd.sh
-verbose "freeswitch configured"
+#FreeSWITCH
+resources/switch.sh
 
 #Fail2ban
 resources/fail2ban.sh
