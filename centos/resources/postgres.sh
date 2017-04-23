@@ -3,8 +3,9 @@
 #move to script directory so all relative paths work
 cd "$(dirname "$0")"
 
+#includes
+. ./config.sh
 . ./colors.sh
-. ./arguments.sh
 
 #send a message
 verbose "Installing PostgreSQL 9.4"
@@ -17,9 +18,13 @@ rpm -ivh --quiet http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-centos9
 yum -y update
 yum -y install postgresql94-server postgresql94-contrib postgresql94
 
+#send a message
 verbose "Initalize PostgreSQL database"
+
+#initialize the database
 /usr/pgsql-9.4/bin/postgresql94-setup initdb
 
+#allow loopback
 sed -i 's/\(host  *all  *all  *127.0.0.1\/32  *\)ident/\1md5/' /var/lib/pgsql/9.4/data/pg_hba.conf
 sed -i 's/\(host  *all  *all  *::1\/128  *\)ident/\1md5/' /var/lib/pgsql/9.4/data/pg_hba.conf
 
@@ -30,6 +35,7 @@ systemctl restart postgresql-9.4
 #move to /tmp to prevent a red herring error when running sudo with psql
 cwd=$(pwd)
 cd /tmp
+
 #add the databases, users and grant permissions to them
 sudo -u postgres /usr/pgsql-9.4/bin/psql -d fusionpbx -c "DROP SCHEMA public cascade;";
 sudo -u postgres /usr/pgsql-9.4/bin/psql -d fusionpbx -c "CREATE SCHEMA public;";
@@ -43,4 +49,5 @@ sudo -u postgres /usr/pgsql-9.4/bin/psql -c "GRANT ALL PRIVILEGES ON DATABASE fr
 #ALTER USER fusionpbx WITH PASSWORD 'newpassword';
 cd $cwd
 
+#send a message
 verbose "PostgreSQL 9.4 installed"
