@@ -3,12 +3,15 @@
 #move to script directory so all relative paths work
 cd "$(dirname "$0")"
 
+#includes
+. ./config.sh
 . ./colors.sh
-. ./arguments.sh
 
+#send a message
 verbose "Configuring FirewallD"
 #ssh should be on by default
 
+#configure the firewall
 firewall-cmd --permanent --zone=public --add-service={http,https}
 firewall-cmd --permanent --zone=public --add-port={5060,5061,5080,5081}/udp
 firewall-cmd --permanent --zone=public --add-port={5060,5061,5080,5081}/tcp
@@ -30,4 +33,5 @@ firewall-cmd --add-service openvpn
 firewall-cmd --permanent --add-service openvpn
 firewall-cmd --reload
 
+#send a message
 verbose "FirewallD configured"
