@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# CentOS 7 install, no arm arch support
+# CentOS 7 install
 
 #move to script directory so all relative paths work
 cd "$(dirname "$0")"
@@ -17,11 +17,7 @@ yum -y update && yum -y upgrade
 yum -y install ntp htop epel-release vim openssl
 
 # Disable SELinux
-verbose "Disabling SELinux"
-warning "Reboot required after installation completes"
-setenforce 0
-sed -i 's/\(^SELINUX=\).*/\SELINUX=disabled/' /etc/selinux/config
-verbose "SELinux disabled"
+resources/selinux.sh
 
 #FusionPBX
 resources/fusionpbx.sh
@@ -52,7 +48,6 @@ systemctl restart freeswitch
 systemctl restart php-fpm
 systemctl restart nginx
 systemctl restart fail2ban
-verbose "Restart of service complete"
 
 #add the database schema, user and groups
 resources/finish.sh
