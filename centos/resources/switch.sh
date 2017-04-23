@@ -6,6 +6,7 @@ cd "$(dirname "$0")"
 #includes
 . ./config.sh
 
+#install source
 if [ .$switch_source = .true ]; then
 	if [ ."$switch_branch" = "master" ]; then
 		switch/source-master.sh
@@ -23,6 +24,7 @@ if [ .$switch_source = .true ]; then
 	switch/source-systemd.sh
 fi
 
+#install packages
 if [ .$switch_package = .true ]; then
 	if [ ."$switch_branch" = "master" ]; then
 		if [ .$switch_package_all = .true ]; then
