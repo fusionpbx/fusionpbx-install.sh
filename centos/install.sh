@@ -23,9 +23,6 @@ setenforce 0
 sed -i 's/\(^SELINUX=\).*/\SELINUX=disabled/' /etc/selinux/config
 verbose "SELinux disabled"
 
-#FreeSWITCH
-resources/switch/package-release.sh
-
 #FusionPBX
 resources/fusionpbx.sh
 
