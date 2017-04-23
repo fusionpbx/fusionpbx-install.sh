@@ -1,6 +1,13 @@
 #!/bin/sh
 
-# Disable SELinux
+#move to script directory so all relative paths work
+cd "$(dirname "$0")"
+
+#includes
+. ./config.sh
+. ./colors.sh
+
+#disable SELinux
 verbose "Disabling SELinux"
 warning "Reboot required after installation completes"
 setenforce 0
