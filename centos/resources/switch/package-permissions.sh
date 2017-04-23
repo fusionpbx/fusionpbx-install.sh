@@ -1,3 +1,5 @@
+#!/bin/sh
+
 #default permissions
 chown -R freeswitch:daemon /etc/freeswitch
 chown -R freeswitch:daemon /var/lib/freeswitch
