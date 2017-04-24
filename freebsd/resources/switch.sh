@@ -6,7 +6,21 @@ cd "$(dirname "$0")"
 #includes
 . ./config.sh
 
-if [ .$switch_source = .true ]; then
+#install the package
+if [ .$switch_source = "package" ]; then
+	#run the package install
+	switch/package-release.sh
+
+	#copy the switch conf files
+	switch/package-conf-copy.sh
+
+	#set the file permissions
+	switch/package-permissions.sh
+fi
+
+#install from source
+if [ .$switch_source = "source" ]; then
+	#compile the source
 	if [ ."$switch_branch" = "master" ]; then
 		switch/source-master.sh
 	else
@@ -14,16 +28,8 @@ if [ .$switch_source = .true ]; then
 	fi
 
 	#copy the switch conf files
-	switch/conf-copy.sh
+	switch/source-conf-copy.sh
 
 	#set the file permissions
 	switch/source-permissions.sh
-fi
-
-if [ .$switch_package = .true ]; then
-	if [ ."$switch_branch" = "master" ]; then
-
-	else
-
-	fi
 fi
