@@ -20,7 +20,7 @@ cd $cwd
 
 #configure system service
 ln -s /usr/local/freeswitch/bin/fs_cli /usr/bin/fs_cli
-cp "$(dirname $0)/rc.d.freeswitch /usr/local/etc/rc.d/freeswitch
+cp "$(dirname $0)/rc.d.freeswitch" /usr/local/etc/rc.d/freeswitch
 chmod u-w,ugo+x /usr/local/etc/rc.d/freeswitch
 
 #enable the service
