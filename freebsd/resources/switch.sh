@@ -7,7 +7,7 @@ cd "$(dirname "$0")"
 . ./config.sh
 
 #install the package
-if [ .$switch_source = "package" ]; then
+if [ .$switch_source = ."package" ]; then
 	#run the package install
 	switch/package-release.sh
 
@@ -19,7 +19,7 @@ if [ .$switch_source = "package" ]; then
 fi
 
 #install from source
-if [ .$switch_source = "source" ]; then
+if [ .$switch_source = ."source" ]; then
 	#compile the source
 	if [ ."$switch_branch" = "master" ]; then
 		switch/source-master.sh
