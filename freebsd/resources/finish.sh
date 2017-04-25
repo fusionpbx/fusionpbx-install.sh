@@ -78,14 +78,24 @@ group_user_uuid=$(/usr/local/bin/php /usr/local/www/fusionpbx/resources/uuid.php
 group_name=superadmin
 psql --host=$database_host --port=$database_port --username=$database_username -c "insert into v_group_users (group_user_uuid, domain_uuid, group_name, group_uuid, user_uuid) values('$group_user_uuid', '$domain_uuid', '$group_name', '$group_uuid', '$user_uuid');"
 
+#set the conf directory
+if [ .$switch_source = ."package" ]; then
+	conf_dir="/usr/local/etc/freeswitch";
+fi
+if [ .$switch_source = ."source" ]; then
+	conf_dir="/usr/local/freeswitch/conf";
+fi
+
 #update xml_cdr url, user and password
 xml_cdr_username=$(cat /dev/random | env LC_CTYPE=C tr -dc a-zA-Z0-9 | head -c 20)
 xml_cdr_password=$(cat /dev/random | env LC_CTYPE=C tr -dc a-zA-Z0-9 | head -c 20)
-sed -i' ' -e s:"{v_http_protocol}:http:" /usr/local/freeswitch/conf/autoload_configs/xml_cdr.conf.xml
-sed -i' ' -e s:"{domain_name}:127.0.0.1:" /usr/local/freeswitch/conf/autoload_configs/xml_cdr.conf.xml
-sed -i' ' -e s:"{v_project_path}::" /usr/local/freeswitch/conf/autoload_configs/xml_cdr.conf.xml
-sed -i' ' -e s:"{v_user}:$xml_cdr_username:" /usr/local/freeswitch/conf/autoload_configs/xml_cdr.conf.xml
-sed -i' ' -e s:"{v_pass}:$xml_cdr_password:" /usr/local/freeswitch/conf/autoload_configs/xml_cdr.conf.xml
+
+#update the xml_cdr.conf.xml file
+sed -i' ' -e s:"{v_http_protocol}:http:" $conf_dir/autoload_configs/xml_cdr.conf.xml
+sed -i' ' -e s:"{domain_name}:127.0.0.1:" $conf_dir/autoload_configs/xml_cdr.conf.xml
+sed -i' ' -e s:"{v_project_path}::" $conf_dir/autoload_configs/xml_cdr.conf.xml
+sed -i' ' -e s:"{v_user}:$xml_cdr_username:" $conf_dir/autoload_configs/xml_cdr.conf.xml
+sed -i' ' -e s:"{v_pass}:$xml_cdr_password:" $conf_dir/autoload_configs/xml_cdr.conf.xml
 
 #add the local_ip_v4 address
 psql --host=$database_host --port=$database_port --username=$database_username -t -c "insert into v_vars (var_uuid, var_name, var_value, var_cat, var_order, var_enabled) values ('4507f7a9-2cbb-40a6-8799-f8f168082585', 'local_ip_v4', '$local_ip_v4', 'Defaults', '0', 'true');";
