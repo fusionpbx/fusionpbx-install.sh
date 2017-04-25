@@ -12,7 +12,7 @@ if [ .$switch_source = ."package" ]; then
 	switch/package-release.sh
 
 	#copy the switch conf files
-	switch/package-conf-copy.sh
+	switch/package-copy.sh
 
 	#set the file permissions
 	switch/package-permissions.sh
@@ -28,7 +28,7 @@ if [ .$switch_source = ."source" ]; then
 	fi
 
 	#copy the switch conf files
-	switch/source-conf-copy.sh
+	switch/source-copy.sh
 
 	#set the file permissions
 	switch/source-permissions.sh
