@@ -18,6 +18,9 @@ fi
 #allow the script to use the new password
 export PGPASSWORD=$database_password
 
+#install the dependencies
+pkg install --yes sudo 
+
 #update the database password
 sudo -u postgres psql -c "ALTER USER fusionpbx WITH PASSWORD '$database_password';"
 sudo -u postgres psql -c "ALTER USER freeswitch WITH PASSWORD '$database_password';"
