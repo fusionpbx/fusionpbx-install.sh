@@ -38,9 +38,6 @@ if [ ."$database_version" = ."9.3" ]; then
 	#cd /usr/ports/databases/postgresql93-server/ && make install clean BATCH=yes
 fi
 
-#update the list of executables in the path
-rehash
-
 #enable postgres
 echo 'postgresql_enable=true' >> /etc/rc.conf
 
