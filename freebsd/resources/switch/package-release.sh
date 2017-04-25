@@ -16,7 +16,7 @@ cwd=$(pwd)
 echo "Installing the FreeSWITCH package"
 
 #install the package
-pkg install freeswitch
+pkg install --yes freeswitch
 
 #set the original working directory
 cd $cwd
