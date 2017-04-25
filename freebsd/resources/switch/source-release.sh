@@ -60,5 +60,3 @@ echo 'freeswitch_flags="-nc -nonat -u www -g www"' >> /etc/rc.conf
 
 #start the services
 service memcached start
-service freeswitch start
-
