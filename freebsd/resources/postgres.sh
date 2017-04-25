@@ -7,6 +7,9 @@ cd "$(dirname "$0")"
 . ./config.sh
 . ./colors.sh
 
+#install the dependencies
+pkg install --yes sudo 
+
 #move to /tmp to prevent an error when running sudo with psql
 cwd=$(pwd)
 cd /tmp
