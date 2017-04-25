@@ -100,11 +100,11 @@ sed -i' ' -e s:"{v_pass}:$xml_cdr_password:" $conf_dir/autoload_configs/xml_cdr.
 #add the local_ip_v4 address
 psql --host=$database_host --port=$database_port --username=$database_username -t -c "insert into v_vars (var_uuid, var_name, var_value, var_cat, var_order, var_enabled) values ('4507f7a9-2cbb-40a6-8799-f8f168082585', 'local_ip_v4', '$local_ip_v4', 'Defaults', '0', 'true');";
 
+#restart freeswitch
+service freeswitch start
+
 #app defaults
 cd /usr/local/www/fusionpbx && php /usr/local/www/fusionpbx/core/upgrade/upgrade_domains.php
-
-#restart freeswitch
-service freeswitch restart
 
 #welcome message
 echo ""
