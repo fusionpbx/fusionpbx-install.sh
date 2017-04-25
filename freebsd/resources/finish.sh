@@ -55,7 +55,7 @@ domain_uuid=$(uuidgen);
 psql --host=$database_host --port=$database_port --username=$database_username -c "insert into v_domains (domain_uuid, domain_name, domain_enabled) values('$domain_uuid', '$domain_name', 'true');"
 
 #app defaults
-cd /usr/local/www/fusionpbx && php /usr/local/www/fusionpbx/core/upgrade/upgrade_domains.php
+cd /usr/local/www/fusionpbx && /usr/local/bin/php /usr/local/www/fusionpbx/core/upgrade/upgrade_domains.php
 
 #add the user
 user_uuid=$(/usr/local/bin/php /usr/local/www/fusionpbx/resources/uuid.php);
