@@ -40,9 +40,6 @@ fi
 #reset the current working directory
 cd $cwd
 
-#update the list of executables in the path
-rehash
-
 #enable fusionpbx nginx config
 mv /usr/local/etc/nginx/nginx.conf /usr/local/etc/nginx/nginx.conf-orig
 cp nginx/nginx.conf /usr/local/etc/nginx
