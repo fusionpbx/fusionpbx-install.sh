@@ -56,11 +56,12 @@ ln -s /usr/local/freeswitch/bin/fs_cli /usr/bin/fs_cli
 cp "$cwd/rc.d.freeswitch" /usr/local/etc/rc.d/freeswitch
 chmod 0555 /usr/local/etc/rc.d/freeswitch
 
-#enable the service
+#enable the services
+echo 'memcached_enable="YES"' >> /etc/rc.conf
 echo 'freeswitch_enable="YES"' >> /etc/rc.conf
 echo 'freeswitch_flags="-nc -nonat -u www -g www"' >> /etc/rc.conf
-echo 'memcached_enable="YES"' >> /etc/rc.conf
 
-#start the service
-service freeswitch start
+#start the services
 service memcached start
+service freeswitch start
+
