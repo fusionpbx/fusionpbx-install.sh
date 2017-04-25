@@ -33,7 +33,7 @@ sed -i' ' -e s:'{database_username}:fusionpbx:' /etc/fusionpbx/config.php
 sed -i' ' -e s:"{database_password}:$database_password:" /etc/fusionpbx/config.php
 
 #add the database schema
-cd /usr/local/www/fusionpbx && php /usr/local/www/fusionpbx/core/upgrade/upgrade_schema.php > /dev/null 2>&1
+cd /usr/local/www/fusionpbx && /usr/local/bin/php /usr/local/www/fusionpbx/core/upgrade/upgrade_schema.php > /dev/null 2>&1
 
 #get the server hostname
 #domain_name=$(hostname -f)
@@ -49,7 +49,7 @@ domain_name=$(ifconfig $interface_name | grep 'inet ' | awk '{print $2}')
 local_ip_v4=$(ifconfig $interface_name | grep 'inet ' | awk '{print $2}')
 
 #get a domain_uuid
-domain_uuid=$(/usr/local/bin/php /usr/local/www/fusionpbx/resources/uuid.php);
+domain_uuid=$(uuidgen);
 
 #add the domain name
 psql --host=$database_host --port=$database_port --username=$database_username -c "insert into v_domains (domain_uuid, domain_name, domain_enabled) values('$domain_uuid', '$domain_name', 'true');"
