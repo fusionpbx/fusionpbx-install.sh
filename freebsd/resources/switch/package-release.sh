@@ -32,6 +32,6 @@ echo 'freeswitch_flags="-nonat"' >> /etc/rc.conf
 echo 'freeswitch_user="www"' >> /etc/rc.conf
 echo 'freeswitch_group="www"' >> /etc/rc.conf
 
-#start the service
+#start the services
 service memcached start
 service freeswitch start
