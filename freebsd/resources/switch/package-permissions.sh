@@ -1,8 +1,11 @@
 #!/bin/sh
 
-#setup owner and group, permissions and sticky
-#chown -R www:www /usr/local/freeswitch
-#chmod -R ug+rw /usr/local/freeswitch
-#touch /var/log/freeswitch/freeswitch.log
-#chown -R www:www /var/log/freeswitch
-#find /usr/local/freeswitch -type d -exec chmod 2770 {} \;
+#includes
+. ./config.sh
+
+#default permissions
+chown -R www:www /usr/local/etc/freeswitch
+chown -R www:www /var/lib/freeswitch
+chown -R www:www /usr/local/share/freeswitch
+chown -R www:www /var/log/freeswitch
+chown -R www:www /var/run/freeswitch
