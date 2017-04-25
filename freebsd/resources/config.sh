@@ -6,7 +6,7 @@ system_branch=stable            # master, stable
 
 # FreeSWITCH Settings
 switch_branch=stable            # master, stable (master requires source)
-switch_source=package           # package, port, source
+switch_source=source            # package, port, source
 
 # Database Settings
 database_password=random        # random or as a pre-set value
