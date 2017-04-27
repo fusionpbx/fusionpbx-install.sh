@@ -12,10 +12,10 @@ cd "$(dirname "$0")"
 verbose "Update installed packages"
 #apt-get upgrade && apt-get update -y --force-yes
 # --force-yes is dangerous as per the man page. Lets use -y
-apt-get -qq update && apt-get -qq --assume-yes upgrade
+apt-get -q update && apt-get -q --assume-yes upgrade
 
 #Add dependencies
-apt-get install -qq -y lsb-release sudo
+apt-get install -q -y lsb-release sudo
 
 #IPTables
 resources/iptables.sh

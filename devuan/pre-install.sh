@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #upgrade the packages
-apt-get update && apt-get upgrade -y
+apt-get -q update && apt-get upgrade -y
 
 #install git
 apt-get install -y git
@@ -10,4 +10,4 @@ apt-get install -y git
 cd /usr/src && git clone https://github.com/fusionpbx/fusionpbx-install.sh.git
 
 #change the working directory
-cd /usr/src/fusionpbx-install.sh/debian
+cd /usr/src/fusionpbx-install.sh/devuan
