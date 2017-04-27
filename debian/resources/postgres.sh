@@ -17,7 +17,7 @@ password=$(dd if=/dev/urandom bs=1 count=20 2>/dev/null | base64)
 #install message
 echo "Install PostgreSQL and create the database and users\n"
 
-#use the system database repo for arm
+#use the sip247 database repo for arm
 if [ .$cpu_architecture = .'arm' ]; then
         database_repo="sip247"
 fi
