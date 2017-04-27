@@ -1,10 +1,6 @@
-#cp "$(dirname $0)/source/freeswitch.service.source" /lib/systemd/system/freeswitch.service
-#cp "$(dirname $0)/source/etc.default.freeswitch" /etc/default/freeswitch
-#systemctl enable freeswitch
-#systemctl unmask freeswitch.service
-#systemctl daemon-reload
+cp "$(dirname $0)/source/freeswitch.init" /etc/init.d/freeswitch
+cp "$(dirname $0)/source/etc.default.freeswitch" /etc/default/freeswitch
+update-rc.d freeswitch enable
+service freeswitch restart
 
-# re-write for sysvinit
-# remember to restart freeswitch at the end
-
-echo "Please configure the sysvinit start up script from the source dir and contribute code here. Thank you."
+echo "Please configure the sysvinit start up script from the source dir, test, and contribute code. Thank you."
