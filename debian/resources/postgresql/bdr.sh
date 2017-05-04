@@ -76,9 +76,11 @@ cp /etc/postgresql/9.4/main/pg_hba.conf /etc/postgresql/9.4/main/pg_hba.conf-$no
 cat ../postgresql/pg_hba.conf > /etc/postgresql/9.4/main/pg_hba.conf
 #chmod 640 /etc/postgresql/9.4/main/pg_hba.conf
 #chown -R postgres:postgres /etc/postgresql/9.4/main
+echo "host    all             all            127.0.0.1/32              trust" >> /etc/postgresql/9.4/main/pg_hba.conf
 echo "hostssl all             all            127.0.0.1/32              trust" >> /etc/postgresql/9.4/main/pg_hba.conf
 echo "hostssl replication     postgres       127.0.0.1/32              trust" >> /etc/postgresql/9.4/main/pg_hba.conf
 for node in $nodes; do
+        echo "host    all             all            ${node}/32              trust" >> /etc/postgresql/9.4/main/pg_hba.conf
         echo "hostssl all             all            ${node}/32              trust" >> /etc/postgresql/9.4/main/pg_hba.conf
         echo "hostssl replication     postgres       ${node}/32              trust" >> /etc/postgresql/9.4/main/pg_hba.conf
 done
