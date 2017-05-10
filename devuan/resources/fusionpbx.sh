@@ -3,6 +3,7 @@
 #move to script directory so all relative paths work
 cd "$(dirname "$0")"
 
+#includes
 . ./config.sh
 . ./colors.sh
 . ./environment.sh
@@ -14,6 +15,7 @@ verbose "Installing FusionPBX"
 apt-get install -qq -y git dbus haveged ssl-cert
 apt-get install -qq -y ghostscript libtiff5-dev libtiff-tools
 
+#set the version
 if [ .$system_branch = .'master' ]; then
 	verbose "Using master"
 	branch=""
