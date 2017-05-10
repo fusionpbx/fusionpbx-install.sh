@@ -3,6 +3,7 @@
 #move to script directory so all relative paths work
 cd "$(dirname "$0")"
 
+#includes
 . ./config.sh
 . ./colors.sh
 
@@ -12,6 +13,7 @@ verbose "Installing FusionPBX"
 #install dependencies
 pkg install --yes git ghostscript9-base tiff
 
+#set the version
 if [ .$system_branch = .'master' ]; then
 	verbose "Using master"
 	branch=""
