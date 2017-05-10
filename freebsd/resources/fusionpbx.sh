@@ -12,7 +12,7 @@ verbose "Installing FusionPBX"
 #install dependencies
 pkg install --yes git ghostscript9-base tiff
 
-if [ .$system_branch = "master" ]; then
+if [ .$system_branch = .'master' ]; then
 	verbose "Using master"
 	branch=""
 else
