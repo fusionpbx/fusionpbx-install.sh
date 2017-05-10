@@ -14,7 +14,7 @@ verbose "Installing FusionPBX"
 apt-get install -qq -y git dbus haveged ssl-cert
 apt-get install -qq -y ghostscript libtiff5-dev libtiff-tools
 
-if [ .$system_branch = "master" ]; then
+if [ .$system_branch = .'master' ]; then
 	verbose "Using master"
 	branch=""
 else
