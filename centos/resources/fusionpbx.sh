@@ -20,7 +20,7 @@ rpm -Uvh cert-forensics-tools-release*rpm
 yum -y --enablerepo=forensics install lame
 
 #get the branch
-if [ .$system_branch = "master" ]; then
+if [ .$system_branch = .'master' ]; then
 	verbose "Using master"
 	BRANCH=""
 else
