@@ -18,6 +18,9 @@ portsnap fetch extract
 #PF - Packet Filter
 resources/pf.sh
 
+#sngrep
+resources/sngrep.sh
+
 #FusionPBX
 resources/fusionpbx.sh
 
