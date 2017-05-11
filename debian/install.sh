@@ -21,6 +21,9 @@ apt-get install -y lsb-release
 #IPTables
 resources/iptables.sh
 
+#sngrep
+resources/sngrep.sh
+
 #FusionPBX
 resources/fusionpbx.sh
 
