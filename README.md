@@ -33,7 +33,7 @@ cd /usr/src/fusionpbx-install.sh/freebsd/
 ```
 
 ### CentOS
-This is the operating system is a requirement for some companies. This install may new and may need additional work.
+CentOS operating system is a requirement for some companies. Don't expect video mixing to work. It will likely be a year or more for video mixing dependencies to be updated enough to work in CentOS.
 
 ```sh
 wget -O - https://raw.githubusercontent.com/fusionpbx/fusionpbx-install.sh/master/centos/pre-install.sh | sh
