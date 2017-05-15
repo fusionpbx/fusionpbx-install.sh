@@ -21,5 +21,5 @@ else
 	echo 'deb http://packages.irontec.com/debian jessie main' > /etc/apt/sources.list.d/sngrep.list
 	wget http://packages.irontec.com/public.key -q -O - | apt-key add -
 	apt-get update
-	apt-get install sngrep
+	apt-get install -y --force-yes sngrep
 fi
