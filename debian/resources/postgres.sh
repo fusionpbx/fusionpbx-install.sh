@@ -70,8 +70,6 @@ cwd=$(pwd)
 cd /tmp
 
 #add the databases, users and grant permissions to them
-sudo -u postgres psql -d fusionpbx -c "DROP SCHEMA public cascade;";
-sudo -u postgres psql -d fusionpbx -c "CREATE SCHEMA public;";
 sudo -u postgres psql -c "CREATE DATABASE fusionpbx;";
 sudo -u postgres psql -c "CREATE DATABASE freeswitch;";
 sudo -u postgres psql -c "CREATE ROLE fusionpbx WITH SUPERUSER LOGIN PASSWORD '$password';"
