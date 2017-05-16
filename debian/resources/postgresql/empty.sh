@@ -8,7 +8,7 @@ db_port=5432
 cd "$(dirname "$0")"
 
 #includes
-. ./config.sh
+. ../config.sh
 
 #set the database password
 export PGPASSWORD=$database_password
