@@ -23,7 +23,7 @@ pkg install --yes wget sudo libsndfile lua52 opus libmemcached libvorbis libogg 
 #git clone -b v1.6 https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
 #cd /usr/src/freeswitch && /bin/sh /usr/src/freeswitch/bootstrap.sh -j
 
-#get the release from http
+#get the release from https
 cd /usr/src
 fetch https://files.freeswitch.org/freeswitch-releases/freeswitch-1.6.17.zip
 unzip /usr/src/freeswitch-1.6.17.zip
