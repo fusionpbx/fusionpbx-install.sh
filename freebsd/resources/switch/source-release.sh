@@ -24,10 +24,9 @@ pkg install --yes wget sudo libsndfile lua52 opus libmemcached libvorbis libogg 
 #cd /usr/src/freeswitch && /bin/sh /usr/src/freeswitch/bootstrap.sh -j
 
 #get the release from https
-cd /usr/src
-fetch https://files.freeswitch.org/freeswitch-releases/freeswitch-1.6.17.zip
-unzip /usr/src/freeswitch-1.6.17.zip
-mv /usr/src/freeswitch-1.6.17 freeswitch
+cd /usr/src && fetch https://files.freeswitch.org/freeswitch-releases/freeswitch-1.6.17.zip
+cd /usr/src && unzip /usr/src/freeswitch-1.6.17.zip
+mv /usr/src/freeswitch-1.6.17 /usr/src/freeswitch
 
 #enable the modules
 sed -i' ' -e s:'#applications/mod_avmd:applications/mod_avmd:' /usr/src/freeswitch/modules.conf
@@ -38,7 +37,7 @@ sed -i' ' -e s:'#applications/mod_curl:applications/mod_curl:' /usr/src/freeswit
 #sed -i' ' -e s:'#formats/mod_shout:formats/mod_shout:' /usr/src/freeswitch/modules.conf
 
 #configure the source (additional option --enable-system-lua)
-/bin/sh configure --prefix=/usr/local/freeswitch --enable-core-pgsql-support --disable-fhs
+cd /usr/src/freeswitch && ./configure --prefix=/usr/local/freeswitch --enable-core-pgsql-support --disable-fhs
 
 #gmake
 rm -rf /usr/local/freeswitch/{lib,mod,bin}/*
