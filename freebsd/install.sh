@@ -13,7 +13,11 @@ verbose "Update installed packages"
 pkg upgrade --yes
 
 #Update the ports
-portsnap fetch extract
+if [ -d "/usr/ports/www" ] 
+	portsnap fetch extract
+else
+	portsnap fetch update
+fi
 
 #PF - Packet Filter
 resources/pf.sh
