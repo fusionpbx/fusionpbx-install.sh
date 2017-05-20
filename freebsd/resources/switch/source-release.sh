@@ -41,7 +41,7 @@ sed -i' ' -e s:'#applications/mod_curl:applications/mod_curl:' /usr/src/freeswit
 #sed -i' ' -e s:'#formats/mod_shout:formats/mod_shout:' /usr/src/freeswitch/modules.conf
 
 #configure the source (additional option --enable-system-lua)
-cd /usr/src/freeswitch && ./configure --prefix=/usr/local/freeswitch --enable-core-pgsql-support --disable-fhs
+/usr/src/freeswitch/./configure --prefix=/usr/local/freeswitch --enable-core-pgsql-support --disable-fhs
 
 #gmake
 rm -rf /usr/local/freeswitch/{lib,mod,bin}/*
