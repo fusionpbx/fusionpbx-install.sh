@@ -28,6 +28,10 @@ cd /usr/src && fetch https://files.freeswitch.org/freeswitch-releases/freeswitch
 cd /usr/src && unzip /usr/src/freeswitch-1.6.17.zip
 mv /usr/src/freeswitch-1.6.17 /usr/src/freeswitch
 
+#set environment variables
+set CC gcc49
+set CFLAGS '-Wno-error -std=gnu99'
+
 #enable the modules
 sed -i' ' -e s:'#applications/mod_avmd:applications/mod_avmd:' /usr/src/freeswitch/modules.conf
 sed -i' ' -e s:'#applications/mod_callcenter:applications/mod_callcenter:' /usr/src/freeswitch/modules.conf
