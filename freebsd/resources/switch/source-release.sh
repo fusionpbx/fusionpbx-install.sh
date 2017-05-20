@@ -13,7 +13,7 @@ cwd=$(pwd)
 echo "Installing the FreeSWITCH source"
 
 #install minimum dependencies
-pkg install --yes autoconf automake curl git gmake ldns libedit libtool openssl pcre pkgconf speex sqlite3
+pkg install --yes gcc49 autoconf automake curl git gmake ldns libedit libtool openssl pcre pkgconf speex sqlite3
 pkg install --yes wget sudo libsndfile lua52 opus libmemcached libvorbis libogg tiff memcached
 
 #additional dependencies
