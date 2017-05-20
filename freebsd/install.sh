@@ -13,7 +13,7 @@ verbose "Update installed packages"
 pkg upgrade --yes
 
 #Update the ports
-if [ -d "/usr/ports/www" ] 
+if [ -d "/usr/ports/www" ]; then
 	portsnap fetch extract
 else
 	portsnap fetch update
