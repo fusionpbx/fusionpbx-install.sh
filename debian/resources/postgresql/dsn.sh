@@ -1,7 +1,18 @@
 #!/bin/sh
 
-#set the password
-database_password=
+#move to script directory so all relative paths work
+cd "$(dirname "$0")"
+
+#includes
+. ../config.sh
+
+#set the date
+now=$(date +%Y-%m-%d)
+
+#get the database password
+if [ .$database_password = .'random' ]; then
+
+fi
 
 #set PGPASSWORD
 export PGPASSWORD=$database_password
