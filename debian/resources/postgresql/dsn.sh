@@ -11,7 +11,7 @@ now=$(date +%Y-%m-%d)
 
 #get the database password
 if [ .$database_password = .'random' ]; then
-
+	read -p "Enter the database password: " database_password
 fi
 
 #set PGPASSWORD
