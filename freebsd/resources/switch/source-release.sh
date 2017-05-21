@@ -13,15 +13,11 @@ cwd=$(pwd)
 echo "Installing the FreeSWITCH source"
 
 #install minimum dependencies
-pkg install --yes gcc49 autoconf automake curl git gmake ldns libedit libtool openssl pcre pkgconf speex sqlite3
+pkg install --yes autoconf automake curl git gmake ldns libedit libtool openssl pcre pkgconf speex sqlite3
 pkg install --yes wget sudo libsndfile lua52 opus libmemcached libvorbis libogg tiff memcached
 
 #additional dependencies
 #pkg install --yes libshout mpg123 lame
-
-#set environment variables
-export CC gcc49
-export CFLAGS '-Wno-error -std=gnu99'
 
 #get the source from git and run boostrap
 git clone -b v1.6 https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
