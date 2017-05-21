@@ -40,6 +40,9 @@ sed -i' ' -e s:'#applications/mod_memcache:applications/mod_memcache:' /usr/src/
 sed -i' ' -e s:'#applications/mod_curl:applications/mod_curl:' /usr/src/freeswitch/modules.conf
 #sed -i' ' -e s:'#formats/mod_shout:formats/mod_shout:' /usr/src/freeswitch/modules.conf
 
+#disable mod_fsv
+sed -i '' -e s:'applications/mod_fsv:#applications/mod_fsv:' /usr/src/freeswitch/modules.conf
+
 #configure the source (additional option --enable-system-lua)
 /usr/src/freeswitch/./configure --prefix=/usr/local/freeswitch --enable-core-pgsql-support --disable-fhs
 
