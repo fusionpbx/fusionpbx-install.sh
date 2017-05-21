@@ -20,8 +20,8 @@ pkg install --yes wget sudo libsndfile lua52 opus libmemcached libvorbis libogg 
 #pkg install --yes libshout mpg123 lame
 
 #set environment variables
-set CC gcc49
-set CFLAGS '-Wno-error -std=gnu99'
+export CC gcc49
+export CFLAGS '-Wno-error -std=gnu99'
 
 #get the source from git and run boostrap
 git clone -b v1.6 https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
