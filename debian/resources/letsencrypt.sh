@@ -38,12 +38,17 @@ ln -s /etc/nginx/sites-available/fusionpbx /etc/nginx/sites-enabled/fusionpbx
 #read the config
 /usr/sbin/nginx -t && /usr/sbin/nginx -s reload
 
+#add jessie backports
+echo "add deb http://ftp.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/jessie-backports.list
+apt-get update && apt-get upgrade
+apt-get install certbot -t jessie-backports
+
 #install letsencrypt
-git clone https://github.com/letsencrypt/letsencrypt /opt/letsencrypt
-chmod 755 /opt/letsencrypt/certbot-auto
-/opt/letsencrypt/./certbot-auto
-mkdir -p /etc/letsencrypt/configs
-mkdir -p /var/www/letsencrypt/
+#git clone https://github.com/letsencrypt/letsencrypt /opt/letsencrypt
+#chmod 755 /opt/letsencrypt/certbot-auto
+#/opt/letsencrypt/./certbot-auto
+#mkdir -p /etc/letsencrypt/configs
+#mkdir -p /var/www/letsencrypt/
 
 #cd $pwd
 #cd "$(dirname "$0")"
