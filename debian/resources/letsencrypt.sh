@@ -5,8 +5,8 @@ cd "$(dirname "$0")"
 
 #includes
 . ./config.sh
-. ./colors.sh
-. ./environment.sh
+#. ./colors.sh
+#. ./environment.sh
 
 #request the domain and email
 read -p 'Domain Name: ' domain_name
@@ -39,7 +39,7 @@ ln -s /etc/nginx/sites-available/fusionpbx /etc/nginx/sites-enabled/fusionpbx
 /usr/sbin/nginx -t && /usr/sbin/nginx -s reload
 
 #add jessie backports
-echo "add deb http://ftp.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/jessie-backports.list
+echo "deb http://ftp.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/jessie-backports.list
 apt-get update && apt-get upgrade
 apt-get install certbot -t jessie-backports
 
