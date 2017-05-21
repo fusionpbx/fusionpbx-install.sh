@@ -46,7 +46,7 @@ apt-get install certbot -t jessie-backports
 #install letsencrypt
 git clone https://github.com/letsencrypt/letsencrypt /opt/letsencrypt
 chmod 755 /opt/letsencrypt/certbot-auto
-/opt/letsencrypt/./certbot-auto
+/opt/letsencrypt/./certbot-auto certonly
 
 #make the directories
 mkdir -p /etc/letsencrypt/configs
