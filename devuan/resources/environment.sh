@@ -10,6 +10,7 @@ cpu_name=$(uname -m)
 cpu_architecture='unknown'
 cpu_mode='unknown'
 
+#check what the CPU and OS are
 if [ .$cpu_name = .'armv7l' ]; then
 	# RaspberryPi 3 is actually armv8l but current Raspbian reports the cpu as armv7l and no Raspbian 64Bit has been released at this time
 	os_mode='32'
@@ -44,6 +45,9 @@ elif [ .$cpu_name = .'x86_64' ]; then
 		cpu_mode='32'
 	fi
 	cpu_architecture='x86'
+else
+	error "You are using an unsupported cpu '$cpu_name'"
+	exit 3
 fi
 
 if [ .$cpu_architecture = .'arm' ]; then
@@ -69,11 +73,16 @@ elif [ .$cpu_architecture = .'x86' ]; then
 	elif [ .$os_mode = .'64' ]; then
 		verbose "Correct CPU and Operating System detected"
 	else
-		error "Unknown Operating System mode $os_mode is unsupported"
+		error "Unknown Operating System mode '$os_mode' is unsupported"
 		switch_source=true
 		switch_package=false
 	fi
 else
-	error "You are using a unsupported architecture $cpu_architecture"
+	error "You are using an unsupported architecture '$cpu_architecture'"
+	warning "Detected environment was :-"
+	warning "os_name:'$os_name'"
+	warning "os_codename:'$os_codename'"
+	warning "os_mode:'$os_mode'"
+	warning "cpu_name:'$cpu_name'"
 	exit 3
 fi
