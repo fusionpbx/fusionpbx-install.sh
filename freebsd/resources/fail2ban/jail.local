@@ -24,29 +24,29 @@ banaction = pf
 bantime  = 600
 #          sendmail-whois[name=FreeSwitch, dest=root, sender=fail2ban@example.org] #no smtp server installed
 
-#[freeswitch-ip-tcp]
-#enabled  = true
-#port     = 5060,5061,5080,5081
-#protocol = all
-#filter   = freeswitch-ip
+[freeswitch-ip-tcp]
+enabled  = false
+port     = 5060,5061,5080,5081
+protocol = all
+filter   = freeswitch-ip
 #logpath  = /var/log/freeswitch/freeswitch.log
 logpath  = /usr/local/freeswitch/log/freeswitch.log
-#maxretry = 1
-#findtime = 30
-#banaction = pf
-#bantime  = 86400
+maxretry = 1
+findtime = 30
+banaction = pf
+bantime  = 86400
 
-#[freeswitch-ip-udp]
-#enabled  = true
-#port     = 5060,5061,5080,5081
-#protocol = all
-#filter   = freeswitch-ip
+[freeswitch-ip-udp]
+enabled  = false
+port     = 5060,5061,5080,5081
+protocol = all
+filter   = freeswitch-ip
 #logpath  = /var/log/freeswitch/freeswitch.log
 logpath  = /usr/local/freeswitch/log/freeswitch.log
-#maxretry = 1
-#findtime = 30
-#banaction = pf
-#bantime  = 86400
+maxretry = 1
+findtime = 30
+banaction = pf
+bantime  = 86400
 
 [freeswitch-dos-udp]
 enabled  = true
