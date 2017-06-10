@@ -12,7 +12,7 @@ verbose "Installing FusionPBX"
 
 #install dependencies
 yum -y install git
-yum -y install ghostscript libtiff-devel libtiff-tools
+yum -y install ghostscript libtiff-devel libtiff-tools at
 
 #forensics tools
 wget https://forensics.cert.org/cert-forensics-tools-release-el7.rpm

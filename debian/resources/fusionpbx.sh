@@ -13,7 +13,7 @@ verbose "Installing FusionPBX"
 
 #install dependencies
 apt-get install -y --force-yes vim git dbus haveged ssl-cert
-apt-get install -y --force-yes ghostscript libtiff5-dev libtiff-tools
+apt-get install -y --force-yes ghostscript libtiff5-dev libtiff-tools at
 
 #get the branch
 if [ .$system_branch = .'master' ]; then
