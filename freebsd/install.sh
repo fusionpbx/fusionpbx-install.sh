@@ -13,10 +13,12 @@ verbose "Update installed packages"
 pkg upgrade --yes
 
 #Update the ports
-if [ -d "/usr/ports" ]; then
-	portsnap fetch extract
-else
+if [ -e "/usr/ports" ]; then
+	echo "/usr/ports exists"
 	portsnap fetch update
+else
+        echo "/usr/ports not found";
+	portsnap fetch extract
 fi
 
 #PF - Packet Filter
