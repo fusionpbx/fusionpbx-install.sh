@@ -51,7 +51,7 @@ sudo -u postgres psql -d fusionpbx -c "insert into v_vars (var_uuid, var_name, v
 echo "<!-- DSN -->" >> /etc/freeswitch/vars.xml
 echo "<X-PRE-PROCESS cmd=\"set\" data=\"dsn_system=pgsql://hostaddr=127.0.0.1 dbname=fusionpbx user=fusionpbx password=$database_password options=\" />" >> /etc/freeswitch/vars.xml
 echo "<X-PRE-PROCESS cmd=\"set\" data=\"dsn=pgsql://hostaddr=127.0.0.1 dbname=freeswitch user=fusionpbx password=$database_password options=\" />" >> /etc/freeswitch/vars.xml
-echo "<X-PRE-PROCESS cmd=\"set\" data=\"dsn_callcenter=sqlite:///var/lib/freeswitch/db/call_center.db\" />" >> /etc/freeswitch/vars.xml
+echo "<X-PRE-PROCESS cmd=\"set\" data=\"dsn_callcenter=sqlite:///var/lib/freeswitch/db/callcenter.db\" />" >> /etc/freeswitch/vars.xml
 
 #remove the sqlite database files
 rm /var/lib/freeswitch/db/core.db
