@@ -45,7 +45,7 @@ sudo -u postgres psql -d fusionpbx -c "update v_sip_profile_settings set sip_pro
 #add the dsn variables
 sudo -u postgres psql -d fusionpbx -c "insert into v_vars (var_uuid, var_name, var_value, var_cat, var_enabled, var_order, var_description, var_hostname) values ('785d7013-1152-4a44-aa15-28336d9b36f9', 'dsn_system', 'pgsql://hostaddr=127.0.0.1 dbname=fusionpbx user=fusionpbx password=$database_password options=', 'DSN', 'true', '0', null, null);";
 sudo -u postgres psql -d fusionpbx -c "insert into v_vars (var_uuid, var_name, var_value, var_cat, var_enabled, var_order, var_description, var_hostname) values ('0170e737-b453-40ea-99f2-f1375474e5ce', 'dsn', 'pgsql://hostaddr=127.0.0.1 dbname=freeswitch user=fusionpbx password=$database_password options=', 'DSN', 'true', '0', null, null);";
-sudo -u postgres psql -d fusionpbx -c "insert into v_vars (var_uuid, var_name, var_value, var_cat, var_enabled, var_order, var_description, var_hostname) values ('32e3e364-a8ef-4fe0-9d02-c652d5122bbf', 'dsn_callcenter', 'sqlite:///var/lib/freeswitch/db/call_center.db', 'DSN', 'true', '0', null, null);";
+sudo -u postgres psql -d fusionpbx -c "insert into v_vars (var_uuid, var_name, var_value, var_cat, var_enabled, var_order, var_description, var_hostname) values ('32e3e364-a8ef-4fe0-9d02-c652d5122bbf', 'dsn_callcenter', 'sqlite:///var/lib/freeswitch/db/callcenter.db', 'DSN', 'true', '0', null, null);";
 
 #add the 
 echo "<!-- DSN -->" >> /etc/freeswitch/vars.xml
