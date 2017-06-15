@@ -60,7 +60,7 @@ rm /var/lib/freeswitch/db/call_limit.db
 rm /var/lib/freeswitch/db/sofia_reg_*
 
 #flush memcache
-service memcached restart
+/usr/bin/fs_cli -x 'memcache flush'
 
 #restart freeswitch
 service freeswitch restart
