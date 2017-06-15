@@ -14,14 +14,24 @@ if [ .$database_password = .'random' ]; then
 	read -p "Enter the database password: " database_password
 fi
 
+#whether to load the schema
+read -p "Auto create schemas (y/n): " auto_create_schema
+
+#whether to load the schema
+read -p "Load schema with primary keys (y/n): " load_schema
+
 #set PGPASSWORD
 export PGPASSWORD=$database_password
 
 #disable auto create schemas
-sed -i /etc/freeswitch/autoload_configs/switch.conf.xml -e s:'<!-- <param name="auto-create-schemas" value="true"/> -->:<param name="auto-create-schemas" value="false"/>:'
+if [ .$auto_create_schema == ."n" ]; then
+	sed -i /etc/freeswitch/autoload_configs/switch.conf.xml -e s:'<!-- <param name="auto-create-schemas" value="true"/> -->:<param name="auto-create-schemas" value="false"/>:'
+fi
 
 #load the schema
-sudo -u postgres psql -d freeswitch -f /var/www/fusionpbx/resources/install/sql/switch.sql -L /tmp/schema.log;
+if [ .$load_schema == ."y" ]; then
+	sudo -u postgres psql -d freeswitch -f /var/www/fusionpbx/resources/install/sql/switch.sql -L /tmp/schema.log;
+fi
 
 #enable odbc-dsn in the xml
 sed -i /etc/freeswitch/autoload_configs/db.conf.xml -e s:'<!--<param name="odbc-dsn" value="$${dsn}"/>-->:<param name="odbc-dsn" value="$${dsn}"/>:'
