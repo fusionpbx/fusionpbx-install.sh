@@ -46,4 +46,4 @@ rm /var/lib/freeswitch/db/sofia_reg_*
 ./fs_cli -x 'memcache flush'
 
 #restart freeswitch
-#service freeswitch restart
+service freeswitch restart
