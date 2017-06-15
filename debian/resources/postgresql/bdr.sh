@@ -95,6 +95,9 @@ systemctl restart postgresql
 cwd=$(pwd)
 cd /tmp
 
+#set client encoding
+sudo -u postgres psql -c "SET client_encoding = 'UTF8';";
+
 #add the database users and databases
 sudo -u postgres psql -c "CREATE DATABASE fusionpbx;";
 sudo -u postgres psql -c "CREATE DATABASE freeswitch;";
