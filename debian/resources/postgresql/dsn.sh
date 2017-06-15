@@ -20,6 +20,9 @@ export PGPASSWORD=$database_password
 #disable auto create schemas
 sed -i /etc/freeswitch/autoload_configs/switch.conf.xml -e s:'<!-- <param name="auto-create-schemas" value="true"/> -->:<param name="auto-create-schemas" value="false"/>:'
 
+#load the schema
+sudo -u postgres psql -d freeswitch -f /var/www/fusionpbx/resources/install/sql/switch.sql -L /tmp/schema.log;
+
 #enable odbc-dsn in the xml
 sed -i /etc/freeswitch/autoload_configs/db.conf.xml -e s:'<!--<param name="odbc-dsn" value="$${dsn}"/>-->:<param name="odbc-dsn" value="$${dsn}"/>:'
 sed -i /etc/freeswitch/autoload_configs/fifo.conf.xml -e s:'<!--<param name="odbc-dsn" value="$${dsn}"/>-->:<param name="odbc-dsn" value="$${dsn}"/>:'
