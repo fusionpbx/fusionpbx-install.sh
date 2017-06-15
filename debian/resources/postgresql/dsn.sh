@@ -54,10 +54,14 @@ echo "<X-PRE-PROCESS cmd=\"set\" data=\"dsn=pgsql://hostaddr=127.0.0.1 dbname=fr
 echo "<X-PRE-PROCESS cmd=\"set\" data=\"dsn_callcenter=sqlite:///var/lib/freeswitch/db/callcenter.db\" />" >> /etc/freeswitch/vars.xml
 
 #remove the sqlite database files
-rm /var/lib/freeswitch/db/core.db
-rm /var/lib/freeswitch/db/fifo.db
-rm /var/lib/freeswitch/db/call_limit.db
-rm /var/lib/freeswitch/db/sofia_reg_*
+dbs="/var/lib/freeswitch/db/core.db /var/lib/freeswitch/db/fifo.db /var/lib/freeswitch/db/call_limit.db /var/lib/freeswitch/db/sofia_reg_*"
+for db in ${dbs};
+do
+  if [ -f $db ]; then
+    echo "Deleting $db";
+    rm $db
+  fi
+done
 
 #flush memcache
 /usr/bin/fs_cli -x 'memcache flush'
