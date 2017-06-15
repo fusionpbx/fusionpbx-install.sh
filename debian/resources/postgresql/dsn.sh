@@ -24,12 +24,12 @@ read -p "Load schema with primary keys (y/n): " load_schema
 export PGPASSWORD=$database_password
 
 #disable auto create schemas
-if [ .$auto_create_schema == ."n" ]; then
+if [ .$auto_create_schema = ."n" ]; then
 	sed -i /etc/freeswitch/autoload_configs/switch.conf.xml -e s:'<!-- <param name="auto-create-schemas" value="true"/> -->:<param name="auto-create-schemas" value="false"/>:'
 fi
 
 #load the schema
-if [ .$load_schema == ."y" ]; then
+if [ .$load_schema = ."y" ]; then
 	sudo -u postgres psql -d freeswitch -f /var/www/fusionpbx/resources/install/sql/switch.sql -L /tmp/schema.log;
 fi
 
@@ -53,7 +53,7 @@ rm /var/lib/freeswitch/db/call_limit.db
 rm /var/lib/freeswitch/db/sofia_reg_*
 
 #flush memcache
-./fs_cli -x 'memcache flush'
+service memcached restart
 
 #restart freeswitch
 service freeswitch restart
