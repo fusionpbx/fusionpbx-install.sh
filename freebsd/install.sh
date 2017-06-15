@@ -16,9 +16,11 @@ pkg upgrade --yes
 if [ -e "/usr/ports" ]; then
 	echo "/usr/ports exists"
 	portsnap fetch update
+	echo "/usr/ports updated"
 else
         echo "/usr/ports not found";
 	portsnap fetch extract
+	echo "/usr/ports added"
 fi
 
 #PF - Packet Filter
