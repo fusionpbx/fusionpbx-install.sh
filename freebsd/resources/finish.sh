@@ -35,17 +35,19 @@ sed -i' ' -e s:"{database_password}:$database_password:" /etc/fusionpbx/config.p
 #add the database schema
 cd /usr/local/www/fusionpbx && /usr/local/bin/php /usr/local/www/fusionpbx/core/upgrade/upgrade_schema.php > /dev/null 2>&1
 
-#get the server hostname
-#domain_name=$(hostname -f)
-
 #get the primary interface name
 interface_name=$(ifconfig -l | awk '{print $1}')
 if [ .$interface_name = .'lo0' ]; then
 	interface_name=$(ifconfig -l | awk '{print $2}')
 fi
 
-#get the ip address
-domain_name=$(ifconfig $interface_name | grep 'inet ' | awk '{print $2}')
+#get the domain name
+if [ .$domain_name = .'ip' ]; then
+	domain_name=$(ifconfig $interface_name | grep 'inet ' | awk '{print $2}')
+else if [ .$domain_name = .'hostname' ]; then
+	domain_name=$(hostname -f)
+fi
+
 local_ip_v4=$(ifconfig $interface_name | grep 'inet ' | awk '{print $2}')
 
 #get a domain_uuid
