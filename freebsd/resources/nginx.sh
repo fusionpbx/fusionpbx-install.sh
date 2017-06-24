@@ -64,10 +64,10 @@ if [ .$interface_name = .'auto' ]; then
 fi
 
 #set the IP= address
-common_name=$(ifconfig $interface_name | grep 'inet ' | awk '{print $2}')
+common_name=$interface_name
 
 #self signed certificate
-openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 \
+/usr/bin/openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 \
     -subj "/C=US/ST=Online/L=SelfSigned/O=FusionPBX/CN=$common_name" \
     -keyout /usr/local/etc/nginx/server.key -out /usr/local/etc/nginx/server.crt
 
