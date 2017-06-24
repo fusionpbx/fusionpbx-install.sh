@@ -33,3 +33,7 @@ if [ .$switch_source = ."source" ]; then
 	#set the file permissions
 	switch/source-permissions.sh
 fi
+
+#start the service
+service freeswitch start
+
