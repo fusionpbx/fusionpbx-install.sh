@@ -24,7 +24,9 @@ else
 fi
 
 #PF - Packet Filter
-resources/pf.sh
+if [ .$firewall = .'pf' ]; then
+	resources/pf.sh
+end
 
 #sngrep
 resources/sngrep.sh
