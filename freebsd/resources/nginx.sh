@@ -37,9 +37,13 @@ if [ ."$php_version" = ."7" ]; then
 	pkg install --yes php71-mcrypt php71-openssl php71-sockets php71-simplexml php71-xml php71-session
 	if [ ."$database_version" = ."9.3" ]; then
 		pkg install --yes php71-pdo_pgsql php71-pgsql
-	else
-		cd /usr/ports/databases/php71-pdo_pgsql/ && make install clean BATCH=yes
-		cd /usr/ports/databases/php71-pgsql && make install clean BATCH=yes
+	fi
+	if [ ."$database_version" = ."9.6" ]; then
+		pkg add https://www.fusionpbx.com/php71-pdo_pgsql-7.1.6_1.txz
+		pkg add https://www.fusionpbx.com/php71-pgsql-7.1.6_1.txz
+
+		#cd /usr/ports/databases/php71-pdo_pgsql/ && make install clean BATCH=yes
+		#cd /usr/ports/databases/php71-pgsql && make install clean BATCH=yes
 	fi
 fi
 
