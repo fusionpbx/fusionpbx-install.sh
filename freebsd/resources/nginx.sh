@@ -39,6 +39,7 @@ if [ ."$php_version" = ."7" ]; then
 		pkg install --yes php71-pdo_pgsql php71-pgsql
 	fi
 	if [ ."$database_version" = ."9.6" ]; then
+		pkg add postgresql96-client
 		pkg add https://www.fusionpbx.com/php71-pdo_pgsql-7.1.6_1.txz
 		pkg add https://www.fusionpbx.com/php71-pgsql-7.1.6_1.txz
 
