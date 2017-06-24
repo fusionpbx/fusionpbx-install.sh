@@ -34,6 +34,6 @@ if [ .$switch_source = ."source" ]; then
 	switch/source-permissions.sh
 fi
 
-#start the service
-service freeswitch start
+#restart the service
+service freeswitch restart
 
