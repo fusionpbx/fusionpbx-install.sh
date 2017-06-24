@@ -14,7 +14,6 @@ pkg upgrade --yes
 
 #Update the ports
 if [ .$portsnap_enabled = .'true' ]; then
-        echo "/usr/ports not found";
 	portsnap fetch extract
 	echo "/usr/ports added"
 fi
