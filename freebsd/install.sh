@@ -13,46 +13,60 @@ verbose "Update installed packages"
 pkg upgrade --yes
 
 #Update the ports
-if [ -e "/usr/ports" ]; then
-	echo "/usr/ports exists"
-	portsnap fetch update
-	echo "/usr/ports updated"
-else
+if [ .$portsnap_enabled = .'true' ]; then
         echo "/usr/ports not found";
 	portsnap fetch extract
 	echo "/usr/ports added"
 fi
 
 #PF - Packet Filter
-if [ .$firewall = .'pf' ]; then
+if [ .$firewall_enabled = .'true' ]; then
 	resources/pf.sh
-end
+fi
 
 #sngrep
-resources/sngrep.sh
+if [ .$sngrep_enabled = .'true' ]; then
+	resources/sngrep.sh
+fi
 
 #FusionPBX
-resources/fusionpbx.sh
+if [ .$nginx_enabled = .'true' ]; then
+	resources/fusionpbx.sh
+fi
 
 #NGINX web server
-resources/nginx.sh
+if [ .$nginx_enabled = .'true' ]; then
+	resources/nginx.sh
+fi
 
 #PHP
-resources/php.sh
+if [ .$nginx_enabled = .'true' ]; then
+	resources/php.sh
+fi
 
 #Fail2ban
-resources/fail2ban.sh
+if [ .$fail2ban_enabled = .'true' ]; then
+	resources/fail2ban.sh
+fi
 
 #FreeSWITCH
-resources/switch.sh
+if [ .$switch_enabled = .'true' ]; then
+	resources/switch.sh
+fi
 
 #Postgres
-resources/postgres.sh
+if [ .$database_enabled = .'true' ]; then
+	resources/postgres.sh
+fi
 
 #restart services
-service php-fpm restart
-service nginx restart
-service fail2ban restart
+if [ .$nginx_enabled = .'true' ]; then
+	service php-fpm restart
+	service nginx restart
+fi
+if [ .$fail2ban_enabled = .'true' ]; then
+	service fail2ban restart
+fi
 
 #add the database schema, user and groups
 resources/finish.sh
