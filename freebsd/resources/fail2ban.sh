@@ -27,4 +27,4 @@ cp fail2ban/nginx-dos.conf /usr/local/etc/fail2ban/filter.d/nginx-dos.conf
 cp fail2ban/jail.local /usr/local/etc/fail2ban/jail.local
 
 #restart fail2ban
-service fail2ban restart
+service fail2ban start
