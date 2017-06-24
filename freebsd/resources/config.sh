@@ -14,4 +14,6 @@ database_version=9.6            # Postgres 9.6
 database_backup=false           # true or false
 
 # General Settings
+interface_name=auto		# auto, em0, igb0, vtnet0, or other valid names
+firewall=pf			# pf, ipfw, none
 php_version=7                   # PHP version 7
