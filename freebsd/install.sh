@@ -38,11 +38,6 @@ if [ .$nginx_enabled = .'true' ]; then
 	resources/nginx.sh
 fi
 
-#PHP
-if [ .$nginx_enabled = .'true' ]; then
-	resources/php.sh
-fi
-
 #Fail2ban
 if [ .$fail2ban_enabled = .'true' ]; then
 	resources/fail2ban.sh
