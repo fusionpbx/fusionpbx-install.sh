@@ -63,8 +63,11 @@ if [ .$interface_name = .'auto' ]; then
 	fi
 fi
 
+#get the ip address
+local_ip_v4=$(ifconfig $interface_name | grep 'inet ' | awk '{print $2}')
+
 #set the IP= address
-common_name=$interface_name
+common_name=$local_ip_v4
 
 #self signed certificate
 /usr/bin/openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 \
