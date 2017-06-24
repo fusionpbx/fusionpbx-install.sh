@@ -26,11 +26,13 @@ sudo -u postgres psql -c "ALTER USER fusionpbx WITH PASSWORD '$database_password
 sudo -u postgres psql -c "ALTER USER freeswitch WITH PASSWORD '$database_password';"
 
 #add the config.php
-mkdir -p /etc/fusionpbx
-chown -R www:www /etc/fusionpbx
-cp fusionpbx/config.php /etc/fusionpbx
-sed -i' ' -e s:'{database_username}:fusionpbx:' /etc/fusionpbx/config.php
-sed -i' ' -e s:"{database_password}:$database_password:" /etc/fusionpbx/config.php
+if [ .$nginx_enabled = .'true' ]; then
+	mkdir -p /etc/fusionpbx
+	chown -R www:www /etc/fusionpbx
+	cp fusionpbx/config.php /etc/fusionpbx
+	sed -i' ' -e s:'{database_username}:fusionpbx:' /etc/fusionpbx/config.php
+	sed -i' ' -e s:"{database_password}:$database_password:" /etc/fusionpbx/config.php
+fi
 
 #add the database schema
 cd /usr/local/www/fusionpbx && /usr/local/bin/php /usr/local/www/fusionpbx/core/upgrade/upgrade_schema.php > /dev/null 2>&1
@@ -93,17 +95,23 @@ xml_cdr_username=$(cat /dev/random | env LC_CTYPE=C tr -dc a-zA-Z0-9 | head -c 2
 xml_cdr_password=$(cat /dev/random | env LC_CTYPE=C tr -dc a-zA-Z0-9 | head -c 20)
 
 #update the xml_cdr.conf.xml file
-sed -i' ' -e s:"{v_http_protocol}:http:" $conf_dir/autoload_configs/xml_cdr.conf.xml
-sed -i' ' -e s:"{domain_name}:127.0.0.1:" $conf_dir/autoload_configs/xml_cdr.conf.xml
-sed -i' ' -e s:"{v_project_path}::" $conf_dir/autoload_configs/xml_cdr.conf.xml
-sed -i' ' -e s:"{v_user}:$xml_cdr_username:" $conf_dir/autoload_configs/xml_cdr.conf.xml
-sed -i' ' -e s:"{v_pass}:$xml_cdr_password:" $conf_dir/autoload_configs/xml_cdr.conf.xml
+if [ .$switch_enabled = .'true' ]; then
+	sed -i' ' -e s:"{v_http_protocol}:http:" $conf_dir/autoload_configs/xml_cdr.conf.xml
+	sed -i' ' -e s:"{domain_name}:127.0.0.1:" $conf_dir/autoload_configs/xml_cdr.conf.xml
+	sed -i' ' -e s:"{v_project_path}::" $conf_dir/autoload_configs/xml_cdr.conf.xml
+	sed -i' ' -e s:"{v_user}:$xml_cdr_username:" $conf_dir/autoload_configs/xml_cdr.conf.xml
+	sed -i' ' -e s:"{v_pass}:$xml_cdr_password:" $conf_dir/autoload_configs/xml_cdr.conf.xml
+fi
 
 #add the local_ip_v4 address
-psql --host=$database_host --port=$database_port --username=$database_username -t -c "insert into v_vars (var_uuid, var_name, var_value, var_cat, var_order, var_enabled) values ('4507f7a9-2cbb-40a6-8799-f8f168082585', 'local_ip_v4', '$local_ip_v4', 'Defaults', '0', 'true');";
+if [ .$database_enabled = .'true' ]; then
+	psql --host=$database_host --port=$database_port --username=$database_username -t -c "insert into v_vars (var_uuid, var_name, var_value, var_cat, var_order, var_enabled) values ('4507f7a9-2cbb-40a6-8799-f8f168082585', 'local_ip_v4', '$local_ip_v4', 'Defaults', '0', 'true');";
+fi
 
 #restart freeswitch
-service freeswitch start
+if [ .$switch_enabled = .'true' ]; then
+	service freeswitch start
+fi
 
 #app defaults
 cd /usr/local/www/fusionpbx && php /usr/local/www/fusionpbx/core/upgrade/upgrade_domains.php
