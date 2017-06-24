@@ -55,6 +55,14 @@ mkdir -p /usr/local/etc/nginx/sites-enabled/
 cp nginx/fusionpbx.conf /usr/local/etc/nginx/sites-available/fusionpbx
 ln -s /usr/local/etc/nginx/sites-available/fusionpbx /usr/local/etc/nginx/sites-enabled/fusionpbx
 
+#get the primary interface name
+if [ .$interface_name = .'auto' ]; then
+	interface_name=$(ifconfig -l | awk '{print $1}')
+	if [ .$interface_name = .'lo0' ]; then
+		interface_name=$(ifconfig -l | awk '{print $2}')
+	fi
+fi
+
 #set the IP= address
 common_name=$(ifconfig $interface_name | grep 'inet ' | awk '{print $2}')
 
