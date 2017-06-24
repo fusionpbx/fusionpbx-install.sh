@@ -18,12 +18,17 @@ load_rc_config $name
 : ${freeswitch_pidfile="/usr/local/freeswitch/run/freeswitch.pid"}
 start_cmd=${name}_start
 stop_cmd=${name}_stop
+reload_cmd=${name}_reload
+status_cmd=${name}_status
 pidfile=${freeswitch_pidfile}
 freeswitch_start() {
         /usr/local/freeswitch/bin/freeswitch ${freeswitch_flags}
-        echo -n "Starting FreeSWITCH: "
 }
 freeswitch_stop() {
+        /usr/local/freeswitch/bin/freeswitch -stop 
+}
+freeswitch_reload() {
         /usr/local/freeswitch/bin/freeswitch -stop
+        /usr/local/freeswitch/bin/freeswitch ${freeswitch_flags}
 }
 run_rc_command "$1"
