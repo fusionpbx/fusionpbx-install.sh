@@ -35,8 +35,12 @@ if [ ."$php_version" = ."7" ]; then
 	pkg install --yes postgresql96-client-9.6.2 postgresql96-contrib-9.6.2 postgresql96-server-9.6.2 php71-7.1.3 
 	pkg install --yes php71-phar php71-pdo php71-pdo_odbc php71-pdo_sqlite php71-json php71-gd php71-imap php71-ldap 
 	pkg install --yes php71-mcrypt php71-openssl php71-sockets php71-simplexml php71-xml php71-session
-	cd /usr/ports/databases/php71-pdo_pgsql/ && make install clean BATCH=yes
-	cd /usr/ports/databases/php71-pgsql && make install clean BATCH=yes
+	if [ ."$database_version" = ."9.3" ]; then
+		pkg install --yes php71-pdo_pgsql php71-pgsql
+	else
+		cd /usr/ports/databases/php71-pdo_pgsql/ && make install clean BATCH=yes
+		cd /usr/ports/databases/php71-pgsql && make install clean BATCH=yes
+	fi
 fi
 
 #reset the current working directory
