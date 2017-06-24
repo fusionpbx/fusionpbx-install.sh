@@ -39,9 +39,11 @@ cd /usr/local/www/fusionpbx && /usr/local/bin/php /usr/local/www/fusionpbx/core/
 #domain_name=$(hostname -f)
 
 #get the primary interface name
-interface_name=$(ifconfig -l | awk '{print $1}')
-if [ .$interface_name = .'lo0' ]; then
-	interface_name=$(ifconfig -l | awk '{print $2}')
+if [ .$interface_name = .'auto' ]; then
+	interface_name=$(ifconfig -l | awk '{print $1}')
+	if [ .$interface_name = .'lo0' ]; then
+		interface_name=$(ifconfig -l | awk '{print $2}')
+	fi
 fi
 
 #get the ip address
@@ -120,15 +122,15 @@ echo "   The domain name in the browser is used by default as part of the authen
 echo "   If you need to login to a different domain then use username@domain."
 echo "      username: $user_name@$domain_name";
 echo ""
-echo "   Official FusionPBX Training"
-echo "      Fastest way to learn FusionPBX. For more information https://www.fusionpbx.com."
-echo "      Available online and in person. Includes documentation and recording."
-echo ""
-echo "      Location          Online"
-echo "      Admin Training    12 - 13 June 2017 (2 Days)"
-echo "      Advanced Training 14 - 15 June 2017 (2 Days)"
+#echo "   Official FusionPBX Training"
+#echo "      Fastest way to learn FusionPBX. For more information https://www.fusionpbx.com."
+#echo "      Available online and in person. Includes documentation and recording."
+#echo ""
+#echo "      Location          Online"
+#echo "      Admin Training    12 - 13 June 2017 (2 Days)"
+#echo "      Advanced Training 14 - 15 June 2017 (2 Days)"
 #echo "      Timezone: https://www.timeanddate.com/worldclock/usa/boise"
-echo ""
+#echo ""
 echo "   Additional information."
 echo "      https://fusionpbx.com/support.php"
 echo "      https://www.fusionpbx.com"
