@@ -27,3 +27,4 @@ portsnap_enabled=false          # true or false
 sngrep_enabled=true             # true or false
 fail2ban_enabled=true           # true or false
 nginx_enabled=true              # true or false
+monit_enabled=true              # true or false
