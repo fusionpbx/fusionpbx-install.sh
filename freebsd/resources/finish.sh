@@ -110,8 +110,13 @@ if [ .$switch_enabled = .'true' ]; then
 	sed -i' ' -e s:"{v_user}:$xml_cdr_username:" $conf_dir/autoload_configs/xml_cdr.conf.xml
 	sed -i' ' -e s:"{v_pass}:$xml_cdr_password:" $conf_dir/autoload_configs/xml_cdr.conf.xml
 
-	#restart freeswitch
-	service freeswitch restart
+	#stop freeswitch
+	service freeswitch stop
+	sleep 2
+	
+	#start freeswitch
+	service freeswitch start
+	sleep 3
 fi
 
 #welcome message
