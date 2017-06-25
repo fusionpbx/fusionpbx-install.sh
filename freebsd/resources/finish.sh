@@ -111,12 +111,12 @@ if [ .$switch_enabled = .'true' ]; then
 	sed -i' ' -e s:"{v_pass}:$xml_cdr_password:" $conf_dir/autoload_configs/xml_cdr.conf.xml
 
 	#stop freeswitch
-	service freeswitch stop
-	sleep 2
-	
-	#start freeswitch
-	service freeswitch start
-	sleep 3
+	service freeswitch restart
+
+	#install monit.sh
+	if [ .$monit_enabled = .'true' ]; then
+		. ./monit.sh
+	fi
 fi
 
 #welcome message
