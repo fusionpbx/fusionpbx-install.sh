@@ -38,7 +38,7 @@ fi
 service freeswitch restart
 
 #waiting to start
-echo "Allowing time for FreeSWITCH to start";
+echo "Allow time for FreeSWITCH to start";
 for i in `seq 1 8`; do
 	echo $i
 	sleep 1
