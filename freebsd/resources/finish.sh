@@ -121,7 +121,7 @@ if [ .$switch_enabled = .'true' ]; then
 
 	#install monit.sh
 	if [ .$monit_enabled = .'true' ]; then
-		monit.sh
+		. ./monit.sh
 	fi
 fi
 
