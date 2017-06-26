@@ -7,6 +7,9 @@ cd "$(dirname "$0")"
 . ./config.sh
 . ./colors.sh
 
+#set the current working directory
+cwd=$(pwd)
+
 if [ .$nginx_enabled = .'true' ]; then
 
 	#database details
@@ -87,6 +90,9 @@ if [ .$nginx_enabled = .'true' ]; then
 	if [ .$nginx_enabled = .'true' ]; then
 		cd /usr/local/www/fusionpbx && php /usr/local/www/fusionpbx/core/upgrade/upgrade_domains.php
 	fi
+
+	#reset the current working directory
+	cd $cwd
 fi
 
 if [ .$switch_enabled = .'true' ]; then
