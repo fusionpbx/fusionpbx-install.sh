@@ -49,5 +49,5 @@ cd $CWD
 
 #configure system service
 ln -s /usr/local/freeswitch/bin/fs_cli /usr/bin/fs_cli
-cp "$(dirname $0)/source/freeswitch.service" /lib/systemd/system/freeswitch.service
-cp "$(dirname $0)/source/etc.default.freeswitch.source /etc/default/freeswitch
+cp "$(dirname $0)/source/freeswitch.service.source" /lib/systemd/system/freeswitch.service
+cp "$(dirname $0)/source/etc.default.freeswitch /etc/default/freeswitch
