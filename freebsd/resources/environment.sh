@@ -1,8 +1,8 @@
 #!/bin/sh
 
 #operating system details
-os_name=$(freebsd-version -k)
-os_version=$(freebsd-version -k)
+os_name=$(freebsd-version)
+os_version=$(freebsd-version)
 os_mode='unknown'
 
 #cpu details
