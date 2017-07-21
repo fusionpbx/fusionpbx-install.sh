@@ -30,11 +30,11 @@ if [ ."$php_version" = ."7" ]; then
 	fi
 	if [ ."$database_version" = ."9.6" ]; then
 		pkg install --yes postgresql96-client
-		if [ .$(freebsd-version -k | head -c 2) = ."10" ]; then
+		if [ .$(freebsd-version | head -c 2) = ."10" ]; then
 			pkg add https://www.fusionpbx.com/downloads/freebsd10/php71-pdo_pgsql-7.1.6_1.txz
 			pkg add https://www.fusionpbx.com/downloads/freebsd10/php71-pgsql-7.1.6_1.txz
 		fi
-		if [ .$(freebsd-version -k | head -c 2) = ."11" ]; then
+		if [ .$(freebsd-version | head -c 2) = ."11" ]; then
 			pkg add https://www.fusionpbx.com/downloads/freebsd11/php71-pdo_pgsql-7.1.6_1.txz
 			pkg add https://www.fusionpbx.com/downloads/freebsd11/php71-pgsql-7.1.6_1.txz
 		fi
