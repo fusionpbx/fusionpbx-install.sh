@@ -49,12 +49,18 @@ if [ .$nginx_enabled = .'true' ]; then
 	#get the ip address
 	local_ip_v4=$(ifconfig $interface_name | grep 'inet ' | awk '{print $2}')
 
-	#get the domain settings
-	domain_uuid=$(uuidgen);
-	domain_name=$(ifconfig $interface_name | grep 'inet ' | awk '{print $2}')
-
 	#get the server hostname
-	#domain_name=$(hostname -f)
+	if [ .$domain_name = .'hostname' ]; then
+		domain_name=$(hostname -f)
+	fi
+
+	#get the ip address
+	if [ .$domain_name = .'ip_address' ]; then
+		domain_name=$(ifconfig $interface_name | grep 'inet ' | awk '{print $2}')
+	fi
+
+	#get the domain uuid
+	domain_uuid=$(uuidgen);
 
 	#add the domain name
 	psql --host=$database_host --port=$database_port --username=$database_username -c "insert into v_domains (domain_uuid, domain_name, domain_enabled) values('$domain_uuid', '$domain_name', 'true');"
