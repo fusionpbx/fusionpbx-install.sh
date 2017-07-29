@@ -1,5 +1,6 @@
 
 # FusionPBX Settings
+domain_name=auto                # auto or as a pre-set value
 system_username=admin           # default username admin
 system_password=random          # random or as a pre-set value
 system_branch=stable            # master, stable
