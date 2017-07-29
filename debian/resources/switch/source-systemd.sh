@@ -2,7 +2,7 @@ cp "$(dirname $0)/source/freeswitch.service.source" /lib/systemd/system/freeswit
 cp "$(dirname $0)/source/etc.default.freeswitch.source" /etc/default/freeswitch
 if [ -e /proc/user_beancounters ]
 then
-    echo "Oh, your on OpenVZ! Setting a CPU Scheduler isn't possible :("
+    #Disable CPU Scheduler for OpenVZ, not supported on OpenVZ."
     sed -i -e "s/CPUSchedulingPolicy=rr/;CPUSchedulingPolicy=rr/g" /lib/systemd/system/freeswitch.service
 fi
 systemctl enable freeswitch
