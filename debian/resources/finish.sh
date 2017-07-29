@@ -39,6 +39,12 @@ cd /var/www/fusionpbx && php /var/www/fusionpbx/core/upgrade/upgrade_schema.php 
 #get the ip address
 domain_name=$(hostname -I | cut -d ' ' -f1)
 
+#check if loopback address was found (OpenVZ issue)
+if [[ $domain_name == "127."* ]]; then
+    echo "What should we call your main domain? (An IP address also works!)"
+    read domain_name
+fi
+
 #get a domain_uuid
 domain_uuid=$(/usr/bin/php /var/www/fusionpbx/resources/uuid.php);
 
