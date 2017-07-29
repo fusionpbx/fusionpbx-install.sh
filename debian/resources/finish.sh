@@ -34,10 +34,14 @@ sed -i /etc/fusionpbx/config.php -e s:"{database_password}:$database_password:"
 cd /var/www/fusionpbx && php /var/www/fusionpbx/core/upgrade/upgrade_schema.php > /dev/null 2>&1
 
 #get the server hostname
-#domain_name=$(hostname -f)
+if [ .$domain_name = .'hostname' ]; then
+	domain_name=$(hostname -f)
+fi
 
 #get the ip address
-domain_name=$(hostname -I | cut -d ' ' -f1)
+if [ .$domain_name = .'ip_address' ]; then
+	domain_name=$(hostname -I | cut -d ' ' -f1)
+fi
 
 #get a domain_uuid
 domain_uuid=$(/usr/bin/php /var/www/fusionpbx/resources/uuid.php);
