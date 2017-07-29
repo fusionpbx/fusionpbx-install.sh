@@ -43,6 +43,12 @@ if [ .$domain_name = .'ip_address' ]; then
 	domain_name=$(hostname -I | cut -d ' ' -f1)
 fi
 
+#check if loopback address was found (OpenVZ issue)
+if [[ $domain_name == "127."* ]]; then
+    echo "What should we call your main domain? (An IP address also works!)"
+    read domain_name
+fi
+
 #get a domain_uuid
 domain_uuid=$(/usr/bin/php /var/www/fusionpbx/resources/uuid.php);
 

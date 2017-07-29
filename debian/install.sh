@@ -42,9 +42,6 @@ resources/switch.sh
 #Postgres
 resources/postgres.sh
 
-#set the ip address
-server_address=$(hostname -I)
-
 #restart services
 systemctl daemon-reload
 if [ ."$php_version" = ."5" ]; then
