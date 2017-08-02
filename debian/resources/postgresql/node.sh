@@ -89,7 +89,7 @@ done
 systemctl daemon-reload
 
 #restart postgres
-systemctl restart postgresql
+service postgresql restart
 
 #set the working directory
 cwd=$(pwd)
