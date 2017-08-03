@@ -13,7 +13,7 @@ sed -i '/cdrom:/d' /etc/apt/sources.list
 
 #Update to latest packages
 verbose "Update installed packages"
-apt-get upgrade && apt-get update -y --force-yes
+apt-get update && apt-get upgrade -y --force-yes
 
 #Add dependencies
 apt-get install -y lsb-release
