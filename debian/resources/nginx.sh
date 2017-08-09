@@ -34,7 +34,7 @@ elif [ ."$cpu_architecture" = ."arm" ]; then
         if [ ."$os_codename" = ."jessie" ]; then
                 echo "deb http://packages.moopi.uk/debian jessie main" > /etc/apt/sources.list.d/moopi.list
                 wget -O - http://packages.moopi.uk/debian/moopi.gpg.key | apt-key add -
-        fi        
+        fi
 else
         #9.x - */stretch/
         #8.x - */jessie/
@@ -79,8 +79,15 @@ ln -s /etc/ssl/certs/ssl-cert-snakeoil.pem /etc/ssl/certs/nginx.crt
 #remove the default site
 rm /etc/nginx/sites-enabled/default
 
+#update config if LetsEncrypt folder is unwanted
+if [ .$letsencrypt_folder = .false ]; then
+        sed -i '151,155d' /etc/nginx/sites-available/fusionpbx
+fi
+
 #add the letsencrypt directory
-mkdir -p /var/www/letsencrypt/
+if [ .$letsencrypt_folder = .true ]; then
+        mkdir -p /var/www/letsencrypt/
+fi
 
 #restart nginx
 service nginx restart

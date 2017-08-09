@@ -17,3 +17,4 @@ database_backup=false           # true or false
 
 # General Settings
 php_version=5                   # PHP version 5 or 7
+letsencrypt_folder=true        # true or false
