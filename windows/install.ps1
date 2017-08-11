@@ -18,7 +18,6 @@ $database_backup = $false           # true or false
 $php_version = 7                   # PHP version 5 or 7
 $web_server = "IIS"                 # nginx or IIS
 
-
 # Download file to current folder using default or provided name. Return saved file name
 Function Get-File([string]$url, [string]$filename) {
     #Get filename from path
@@ -31,7 +30,6 @@ Function Get-File([string]$url, [string]$filename) {
     }
     return $filename
 }
-
 
 # Get page with links, filter, and select latest version using pattern. Return file download URL.
 Function Get-Link([string]$url, [string]$pattern) {
@@ -53,18 +51,18 @@ Function Get-CPU() {
 }
 
 Function New-Password([int32]$length) {
-    Add-Type -AssemblyName System.web
-    [System.Web.Security.Membership]::GeneratePassword($length,0)
+    ([char[]]([char]'A'..[char]'Z') + [char[]]([char]'a'..[char]'z') + 0..9 | Sort-Object {Get-Random})[0..$length] -join ''
+    #Add-Type -AssemblyName System.web
+    #[System.Web.Security.Membership]::GeneratePassword($length,0)
 }
 
 Function Get-InstalledApp([string]$name) {
     Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | Where-Object DisplayName -like $name | Select-Object DisplayName, DisplayVersion, Publisher, InstallDate,UninstallString | Format-Table –AutoSize
 }
 
-<#
-  Download and install latest version on FreeSWITCH 1.6
-  Set it to auto start and start the service
-#>
+
+#Download and install latest version on FreeSWITCH 1.6. 
+#Set it to auto start
 Function Install-FreeSWITCH() {
     if (Get-CPU -eq "x86") {
         $url = "http://files.freeswitch.org/windows/installer/x86/"
@@ -84,7 +82,7 @@ Function Install-FreeSWITCH() {
     Start-Process msiexec "/i $filename /passive /qb" -Wait
     #Configure service to auto start
     Start-Process sc "config FreeSWITCH start= auto" -Wait -NoNewWindow
-    Start-Service FreeSWITCH
+    #Start-Service FreeSWITCH
 }
 
 Function Install-7zip() {
@@ -165,6 +163,10 @@ Function Start-PSQL([string]$command) {
 }
 
 Function Install-PostgreSQL() {
+    if (Get-InstalledApp "PostgreSQL*") {
+        Write-Host PostgreSQL is already installed
+        return
+    }
     if ($env:PROCESSOR_ARCHITECTURE -eq "x86") {
         $url = "https://get.enterprisedb.com/postgresql/postgresql-9.6.3-3-windows.exe"
     }
@@ -176,13 +178,10 @@ Function Install-PostgreSQL() {
     $filename = Get-File $url
     Write-Host Install Postgresql -ForegroundColor Cyan
 
-    #Install
-    Write-Host "Install PostgreSQL"
-
     Start-Process $filename "--mode unattended --superpassword $database_password" -Wait
     #Get-Service postgre*
 
-    Write-Host "Create the database and users"
+    Write-Host "Create the database and users" -ForegroundColor Cyan
     Start-PSQL "CREATE DATABASE fusionpbx;";
     Start-PSQL "CREATE DATABASE freeswitch;";
     Start-PSQL "CREATE ROLE fusionpbx WITH SUPERUSER LOGIN PASSWORD '$database_password';"
@@ -191,7 +190,6 @@ Function Install-PostgreSQL() {
     Start-PSQL "GRANT ALL PRIVILEGES ON DATABASE freeswitch to fusionpbx;"
     Start-PSQL "GRANT ALL PRIVILEGES ON DATABASE freeswitch to freeswitch;"
 }
-
 
 Function Install-Git(){
     if ($env:PROCESSOR_ARCHITECTURE -eq "x86") {
@@ -215,8 +213,8 @@ Function Install-FusionPBX() {
     }
 
     <# #Clean default files
-    if (Test-Path "$www\iisstart.htm") {
-        Get-ChildItem "$www\*" -Recurse | Remove-Item -Force
+    if (Test-Path "$system_directory\iisstart.htm") {
+        Get-ChildItem "$system_directory\*" -Recurse | Remove-Item -Force
     }
     #>
     #Clone FusionPBX GIT from Master or 4.2
@@ -225,28 +223,56 @@ Function Install-FusionPBX() {
     Start-Process "C:\Program Files\Git\bin\git.exe" "clone $branch https://github.com/fusionpbx/fusionpbx.git $system_directory" -Wait
 }
 
-Function Install-IIS([string]$path,[string]$host,[int32]$port) {
+Function Install-IIS([string]$path,[string]$hostname,[int32]$port) {
+    Add-Type -AssemblyName "Microsoft.Web.Administration"
     [System.Reflection.Assembly]::LoadWithPartialName("Microsoft.Web.Administration")
     $iis = new-object Microsoft.Web.Administration.ServerManager
+
+    #Create or set application pool
     if (-not ($iis.ApplicationPools.Item("PHP"))) {
         $pool = $iis.ApplicationPools.Add("PHP")
     }
     $pool = $iis.ApplicationPools.Item("PHP")
     $pool.ProcessModel.IdentityType = "NetworkService"
-    #$pool.ProcessModel.IdleTimeout = "00:30:00"
+    $pool.ProcessModel.IdleTimeout = "00:30:00"
 
     #Grant permissions to path
     Icacls $path /grant "NetworkService:(OI)(CI)M"
 
-    #Create site
-    if (-not ($iis.sites.Item("FusionPBX"))) {
+    #Get site
+    if ($port -eq 80) {
+        $site = $iis.Sites[0]
+        $site.Name = "FusionPBX"
+    }
+    elseif ($iis.sites.Item("FusionPBX")) {
+        $site = $iis.Sites.Item("FusionPBX")
+    }
+    else {
         $site = $iis.Sites.Add("FusionPBX",$path,$port)
+        Write-Host "conf/autoload_configs/xml_cdr.conf.xml should be modified" -ForegroundColor Red
     }
+
     $site = $iis.Sites.Item("FusionPBX")
-    $site.Applications[0].ApplicationPoolName = $pool.Name
-    if ($host) {
-        $site.Bindings[0].Host = $host
+    $site.Bindings | Format-Table protocol,EndPoint,Host,SslFlags -AutoSize
+
+    #Set anonimous authentication to application pool identity
+    $config = $iis.GetApplicationHostConfiguration()
+    $auth = $config.GetSection("system.webServer/security/authentication/anonymousAuthentication", "FusionPBX/")
+    $auth.SetAttributeValue("userName","")
+
+    #Set application pool
+    $app = $site.Applications | Where-Object -Property Path -eq '/'
+    $app.ApplicationPoolName = $pool.Name
+    
+    #Set physical path
+    $vd = $app.VirtualDirectories | Where-Object -Property Path -eq '/'
+    $vd.PhysicalPath = $path
+
+    #Assign host name
+    if ($hostname) {
+        $site.Bindings[0].Host = $hostname
     }
+    #Save
     $iis.CommitChanges()
 }
 
@@ -285,7 +311,7 @@ Function Install-Nginx() {
 Get-InstalledApp "FreeSWITCH*"
 Get-InstalledApp "PHP*"
 Get-InstalledApp "PostgreSQL*"
-Get-InstalledApp "psqlodbc*"
+#Get-InstalledApp "psqlodbc*"
 Get-InstalledApp "7*"
 
 Write-Host "This will install/update and configure FusionPBX, FreeSWITCH, PostgreSQL, PHP, 7-Zip."
@@ -319,24 +345,24 @@ else {
 }
 
 Install-PostgreSQL
-Install-PostgresODBC
+#Install-PostgresODBC
 Install-FreeSWITCH
 Install-Git
 Install-FusionPBX
 
 if ($web_server -eq "IIS") {
     #Run IIS platform installer
-    Write-Host Install PHP 7.1, PHP Manager for IIS and URL Rewrite using Web Platform Installer -ForegroundColor Yellow
+    Write-Host "Install PHP 7.1, PHP Manager for IIS and URL Rewrite using Web Platform Installer" -ForegroundColor Yellow
     Start-WebPlatform
 
     #Run IIS manager and create FusionPBX app
-    Write-Host Create web site in IIS -ForegroundColor Yellow
-    Write-Host Enable extensions php_pgsql and php_pdo_pgsql in IIS -ForegroundColor Yellow
-    Write-Host Use URL Rewrite to import rules from .htaccess file -ForegroundColor Yellow
+    Write-Host "Create web site in IIS" -ForegroundColor Yellow
+    Write-Host "Enable extensions php_pgsql and php_pdo_pgsql" in IIS -ForegroundColor Yellow
+    Write-Host "Use URL Rewrite to import rules from .htaccess file" -ForegroundColor Yellow
     Start-Process "${env:SystemRoot}\system32\inetsrv\InetMgr.exe"
 
+    Install-IIS -path $system_directory -port 80
     iisreset
-    Install-IIS -path $www -port 8090 -host $env:COMPUTERNAME
 
     #Remove current configuration
     #Remove-Item c:\inetpub\FusionPBX\resources\config.php
@@ -346,7 +372,8 @@ if ($web_server -eq "IIS") {
 ."C:\Program Files\PHP\v7.1\php.exe" "$system_directory/core/upgrade/upgrade_schema.php"
 
 #add the domain name
-$domain_uuid = New-Guid
+
+[string]$domain_uuid = [System.Guid]::NewGuid()
 if ($domain_name -eq "hostname") {
     $domain_name = $env:COMPUTERNAME
 }
@@ -368,4 +395,3 @@ Write-Host    Password - $database_password
 
 # next part need to configure nginx.conf, php.ini(might have this pre-done and cp it from release download)
 # next part create databases for postgresql
-
