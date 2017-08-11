@@ -115,8 +115,6 @@ Function Install-PostgresODBC() {
         Start-Process "c:\Program Files\7-Zip\7z.exe" "e -y $filename"
     }
 
-    #Remove-Item $filename
-
     Write-Host Install postgresql-odbc
     $filename = Get-Item psqlodbc*.exe
     if ($filename) {
@@ -148,7 +146,7 @@ Function Install-PostgresODBC() {
         #odbcconf.exe /Ld "dsn_llxatnf.txt" /A {CONFIGSYSDSN "PostgreSQL Unicode" "DSN=PostgreSQL30;DATABASE=DB;SERVER=localhost;PORT=5432|UID=teste|PWD=teste;SSLmode=disable|ReadOnl y=0|Protocol=7.4"}
         if (Get-CPU -eq "x86") { $driver="PostgreSQL Unicode" }
         else { $driver="PostgreSQL Unicode(x64)" }
-        ODBCCONF.EXE /Lv dsn_log.txt CONFIGSYSDSN "$driver" "DSN=FusionPBX|server=localhost|port=5432|database=fusionpbx|Username=postgres|password=$database_password"
+        ODBCCONF.EXE /Lv dsn_log.txt CONFIGSYSDSN "$driver" "DSN=fusionpbx|server=localhost|port=5432|database=fusionpbx|Username=postgres|password=$database_password"
 
         Start-Process odbcad32.exe -Wait
     }
@@ -221,6 +219,13 @@ Function Install-FusionPBX() {
     if ($system_branch -eq "stable") { $branch = "4.2" }
     else                             { $branch = ""}
     Start-Process "C:\Program Files\Git\bin\git.exe" "clone $branch https://github.com/fusionpbx/fusionpbx.git $system_directory" -Wait
+
+    #Grant permissions to FusionPBX folder
+    Icacls $system_directory /grant "NetworkService:(OI)(CI)M"
+
+    if (Test-Path )
+
+
 }
 
 Function Install-IIS([string]$path,[string]$hostname,[int32]$port) {
