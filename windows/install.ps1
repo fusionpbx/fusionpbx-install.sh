@@ -6,7 +6,7 @@ $system_branch = "master"            # master, stable
 $system_directory = "${env:SystemDrive}\inetpub\FusionPBX"
 
 # FreeSWITCH Settings
-#$switch_branch = "stable"            # master, stable
+$switch_version = "1.6"              # *1.6.*
 #$switch_source = $false             # true or false
 #$switch_package = $true             # true or false
 
@@ -51,6 +51,11 @@ Function Get-CPU() {
     }
 }
 
+Function Write-Log([string]$message) {
+    Add-Content -Path "install.log" -Value $message
+    Write-Host $message -ForegroundColor Cyan
+}
+
 Function New-Password([int32]$length) {
     ([char[]]([char]'A'..[char]'Z') + [char[]]([char]'a'..[char]'z') + 0..9 | Sort-Object {Get-Random})[0..$length] -join ''
     #Add-Type -AssemblyName System.web
@@ -61,7 +66,6 @@ Function Get-InstalledApp([string]$name) {
     Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | Where-Object DisplayName -like $name | Select-Object DisplayName, DisplayVersion, Publisher, InstallDate,UninstallString | Format-Table –AutoSize
 }
 
-
 #Download and install latest version on FreeSWITCH 1.6. 
 #Set it to auto start
 Function Install-FreeSWITCH() {
@@ -71,14 +75,14 @@ Function Install-FreeSWITCH() {
     else {
         $url = "http://files.freeswitch.org/windows/installer/x64/"
     }
-    $link = Get-Link $url "*1.6.14*"
+    $link = Get-Link $url "*${switch_version}*"
     Write-Host Download FreeSWITCH from $link -ForegroundColor Cyan
     $filename = Get-File $link
 
     Write-Host "Install Freeswitch" -ForegroundColor Cyan
 
     #Remove FreeSWITCH
-    #Start-Process  MsiExec.exe "/x {B004A325-1272-47E5-A415-A74E9FC99865} /passive /qb" -Wait
+    Start-Process  MsiExec.exe "/x {B004A325-1272-47E5-A415-A74E9FC99865} /passive /qb" -Wait
     #Install new version
     Start-Process msiexec "/i $filename /passive /qb" -Wait
     #Configure service to auto start
@@ -86,8 +90,17 @@ Function Install-FreeSWITCH() {
     #Start-Service FreeSWITCH
 
     #Set permissions to folder "c:\Program Files\FreeSWITCH" for PHP (IIS)
-    if ($iis_identity -eq "NetworkService") {
+    if ($iis_identity -ne "LocalSystem") {
         Icacls "c:\Program Files\FreeSWITCH" /grant "NetworkService:(OI)(CI)M"
+    }
+
+    #mod_lua.dll is missing from recent windows builds
+    $lua = "C:\Program Files\FreeSWITCH\mod\mod_lua.dll"
+    if ( -not (Test-Path $lua) )  {
+        $cpu = Get-CPU
+        Get-File "https://raw.github.com/sergey-mz/fusionpbx-install.sh/master/windows/resources/$cpu/mod_lua.dll"
+        Copy-Item ".\mod_lua.dll" -Destination $lua
+    }
     }
     
 }
@@ -105,22 +118,29 @@ Function Install-7zip() {
     }
 }
 
-Function Install-PostgresODBC() {
-    $url = "https://ftp.postgresql.org/pub/odbc/versions/msi/"
-    $link = Get-Link $url -pattern "*" + (Get-CPU) + "*"
-    Write-Host Download ODBC from $link -ForegroundColor Cyan
-    $filename = Get-File $link
-
+Function Expand-ZIP([string]$filename) {
     #Extract archive
     if ($PSVersionTable.PSVersion.Major -ge 5) {
         Expand-Archive $filename -DestinationPath .
     }
     else {
+        Add-Type -AssemblyName "System.IO.Compression.FileSystem"
+        $path = Get-Location
+        [System.IO.Compression.ZipFile]::ExtractToDirectory("$path\$filename",$path)
+
         #Check if 7zip is installed and install it if needed
-        Install-7zip
+        #Install-7zip
         #Extract all files
-        Start-Process "c:\Program Files\7-Zip\7z.exe" "e -y $filename"
+        #Start-Process "c:\Program Files\7-Zip\7z.exe" "e -y $filename"
     }
+}
+
+Function Install-PostgresODBC() {
+    $url = "https://ftp.postgresql.org/pub/odbc/versions/msi/"
+    $link = Get-Link $url -pattern "*" + (Get-CPU) + "*"
+    Write-Host Download ODBC from $link -ForegroundColor Cyan
+    $filename = Get-File $link
+    Expand-ZIP $filename
 
     Write-Host Install postgresql-odbc
     $filename = Get-Item psqlodbc*.exe
@@ -142,28 +162,30 @@ Function Install-PostgresODBC() {
             $dsn = Add-OdbcDsn -DsnType System -Name FusionPBX -DriverName $driver
         }
 	    $dsn | Set-OdbcDsn -SetPropertyValue servername=localhost
+	    $dsn | Set-OdbcDsn -SetPropertyValue port=5432
+	    $dsn | Set-OdbcDsn -SetPropertyValue GssAuthUseGSS=false
+	    $dsn | Set-OdbcDsn -SetPropertyValue Username=postgres
+	    $dsn | Set-OdbcDsn -SetPropertyValue password=$database_password
     }
     else {
         # Configure DSN with ODBC Administrator
         Write-Host The ODBC Administrator window will open. -ForegroundColor Yellow
-        Write-Host Go to the System DSN tab and click *ADD* then choose PostgreSQL Unicode and click finish. -ForegroundColor Yellow
-        Write-Host Use FusionPBX as name. Leave *Data Source* as is SSLmode disabled and enter the other info. -ForegroundColor Yellow
-        Write-Host Press *test* to be sure the info is correct.  You should get *connection successful*. -ForegroundColor Yellow
-        Write-Host Click Save then on. Go back to the script and press the any key -ForegroundColor Yellow
-        #odbcconf.exe /Ld "dsn_llxatnf.txt" /A {CONFIGSYSDSN "PostgreSQL Unicode" "DSN=PostgreSQL30;DATABASE=DB;SERVER=localhost;PORT=5432|UID=teste|PWD=teste;SSLmode=disable|ReadOnl y=0|Protocol=7.4"}
-        if (Get-CPU -eq "x86") { $driver="PostgreSQL Unicode" }
-        else { $driver="PostgreSQL Unicode(x64)" }
-        ODBCCONF.EXE /Lv dsn_log.txt CONFIGSYSDSN "$driver" "DSN=fusionpbx|server=localhost|port=5432|database=fusionpbx|Username=postgres|password=$database_password"
-
+        if (Get-CPU -eq "x86") {
+            $driver="PostgreSQL Unicode" }
+        else { 
+            $driver="PostgreSQL Unicode(x64)" }
+        #ODBCCONF.EXE /Lv dsn_log.txt CONFIGSYSDSN "$driver" "DSN=fusionpbx|server=localhost|port=5432|database=fusionpbx|Username=postgres|password=$database_password"
+        ODBCCONF.EXE /Lv dsn_log.txt CONFIGSYSDSN "$driver" "DSN=fusionpbx|server=localhost|port=5432|database=fusionpbx|Username=postgres|password=$database_password|GssAuthUseGSS=false"
+        
         Start-Process odbcad32.exe -Wait
     }
-
 }
 
 Function Start-PSQL([string]$command) {
     $location = Get-Location
     Set-Location "C:\Program Files\PostgreSQL\9.6\bin"
-    .\psql.exe --set=PGPASSWORD=$database_password --username=postgres -c "$command" 
+    $env:PGPASSWORD = "$database_password"
+    .\psql.exe --username=postgres -c "$command" 
     Set-Location $location
 }
 
@@ -228,7 +250,9 @@ Function Install-FusionPBX() {
     Start-Process "C:\Program Files\Git\bin\git.exe" "clone $branch https://github.com/fusionpbx/fusionpbx.git $system_directory" -Wait
 
     #Grant permissions to FusionPBX folder
-    Icacls $system_directory /grant "${iis_identity}:(OI)(CI)M"
+    if ($iis_identity -ne "LocalSystem") {
+        Icacls $system_directory /grant "${iis_identity}:(OI)(CI)M"
+    }
 
     #Copy configuration
     Move-Item -Path "c:\Program Files\FreeSWITCH\conf" -Destination "c:\Program Files\FreeSWITCH\conf-orig"
@@ -237,7 +261,6 @@ Function Install-FusionPBX() {
 }
 
 Function Install-IIS([string]$path,[string]$hostname,[int32]$port) {
-    Add-Type -AssemblyName "Microsoft.Web.Administration"
     [System.Reflection.Assembly]::LoadWithPartialName("Microsoft.Web.Administration")
     $iis = new-object Microsoft.Web.Administration.ServerManager
 
@@ -250,7 +273,9 @@ Function Install-IIS([string]$path,[string]$hostname,[int32]$port) {
     $pool.ProcessModel.IdleTimeout = "00:30:00"
 
     #Grant permissions to path
-    Icacls $path /grant "${iis_identity}:(OI)(CI)M"
+    if ($iis_identity -ne "LocalSystem") {
+        Icacls $path /grant "${iis_identity}:(OI)(CI)M"
+    }
 
     #Get site
     if ($port -eq 80) {
@@ -360,7 +385,7 @@ else {
 }
 
 Install-PostgreSQL
-#Install-PostgresODBC
+Install-PostgresODBC
 Install-FreeSWITCH
 Install-Git
 Install-FusionPBX
@@ -397,16 +422,23 @@ Start-PSQL "insert into v_domains (domain_uuid, domain_name, domain_enabled) val
 
 
 #Start login page
-Start-Process http://${env:COMPUTERNAME}:8090
+Start-Process https://$domain_name
 
-Write-Host System:
-Write-Host    Username - $system_username
-Write-Host    Password - $system_password
-
-Write-Host Database:
-Write-Host    Username - postgres
-Write-Host    Password - $database_password
-
-
-# next part need to configure nginx.conf, php.ini(might have this pre-done and cp it from release download)
-# next part create databases for postgresql
+Write-Log ""
+Write-Log "   Use a web browser to continue setup."
+Write-Log "      domain name: https://$domain_name"
+Write-Log "      username: $system_username"
+Write-Log "      password: $system_password"
+Write-Log ""
+Write-Log "   The domain name in the browser is used by default as part of the authentication."
+Write-Log "   If you need to login to a different domain then use username@domain."
+Write-Log "      username: $system_username@$domain_name";
+Write-Log ""
+Write-Log "   Database:"
+Write-Log "      username: postgres"
+Write-Log "      password: $database_password"
+Write-Log ""
+Write-Log "   Additional information."
+Write-Log "      https://fusionpbx.com/support.php"
+Write-Log "      https://www.fusionpbx.com"
+Write-Log "      http://docs.fusionpbx.com"

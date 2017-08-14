@@ -42,6 +42,7 @@ cd /usr/src/fusionpbx-install.sh/centos && ./install.sh
 
 ### Windows
 Don't expect everything to work. Testing is required.
+mod_lua is missing from builds after 1.6.14. Script will download it from github.
 Open PowerShell as Administrator and run commands
 
 ```sh
