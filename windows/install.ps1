@@ -6,17 +6,18 @@ $system_branch = "master"            # master, stable
 $system_directory = "${env:SystemDrive}\inetpub\FusionPBX"
 
 # FreeSWITCH Settings
-$switch_branch = "stable"            # master, stable
-$switch_source = $false             # true or false
-$switch_package = $true             # true or false
+#$switch_branch = "stable"            # master, stable
+#$switch_source = $false             # true or false
+#$switch_package = $true             # true or false
 
 # Database Settings
 $database_password = "random"        # random or a custom value
-$database_backup = $false           # true or false
+#$database_backup = $false           # true or false
 
 # Web server
 $php_version = 7                   # PHP version 5 or 7
 $web_server = "IIS"                 # nginx or IIS
+$iis_identity = "LocalSystem"       # localSystem or NetworkService
 
 # Download file to current folder using default or provided name. Return saved file name
 Function Get-File([string]$url, [string]$filename) {
@@ -70,19 +71,25 @@ Function Install-FreeSWITCH() {
     else {
         $url = "http://files.freeswitch.org/windows/installer/x64/"
     }
-    $link = Get-Link $url "*1.6.*"
+    $link = Get-Link $url "*1.6.14*"
     Write-Host Download FreeSWITCH from $link -ForegroundColor Cyan
     $filename = Get-File $link
 
     Write-Host "Install Freeswitch" -ForegroundColor Cyan
 
     #Remove FreeSWITCH
-    Start-Process  MsiExec.exe "/x {B004A325-1272-47E5-A415-A74E9FC99865} /passive /qb" -Wait
+    #Start-Process  MsiExec.exe "/x {B004A325-1272-47E5-A415-A74E9FC99865} /passive /qb" -Wait
     #Install new version
     Start-Process msiexec "/i $filename /passive /qb" -Wait
     #Configure service to auto start
     Start-Process sc "config FreeSWITCH start= auto" -Wait -NoNewWindow
     #Start-Service FreeSWITCH
+
+    #Set permissions to folder "c:\Program Files\FreeSWITCH" for PHP (IIS)
+    if ($iis_identity -eq "NetworkService") {
+        Icacls "c:\Program Files\FreeSWITCH" /grant "NetworkService:(OI)(CI)M"
+    }
+    
 }
 
 Function Install-7zip() {
@@ -221,10 +228,11 @@ Function Install-FusionPBX() {
     Start-Process "C:\Program Files\Git\bin\git.exe" "clone $branch https://github.com/fusionpbx/fusionpbx.git $system_directory" -Wait
 
     #Grant permissions to FusionPBX folder
-    Icacls $system_directory /grant "NetworkService:(OI)(CI)M"
+    Icacls $system_directory /grant "${iis_identity}:(OI)(CI)M"
 
-    if (Test-Path )
-
+    #Copy configuration
+    Move-Item -Path "c:\Program Files\FreeSWITCH\conf" -Destination "c:\Program Files\FreeSWITCH\conf-orig"
+    Copy-Item "$system_directory\resources\templates\conf" "c:\Program Files\FreeSWITCH" -recurse
 
 }
 
@@ -242,7 +250,7 @@ Function Install-IIS([string]$path,[string]$hostname,[int32]$port) {
     $pool.ProcessModel.IdleTimeout = "00:30:00"
 
     #Grant permissions to path
-    Icacls $path /grant "NetworkService:(OI)(CI)M"
+    Icacls $path /grant "${iis_identity}:(OI)(CI)M"
 
     #Get site
     if ($port -eq 80) {
@@ -292,12 +300,11 @@ Function Start-WebPlatform() {
 }
 
 Function Install-Nginx() {
-	Pause Going to install NGINX 1.9.9
-    Get-File http://nginx.org/download/nginx-1.9.9.zip
-	. "C:\Program Files\7-Zip\7z.exe" "e nginx-1.9.9.zip -oc:\Nginx"
-	Set-Location "C:/nginx"
+	Write-Host Going to install NGINX
+    $filename = Get-File http://nginx.org/download/nginx-1.12.1.zip
+	. "C:\Program Files\7-Zip\7z.exe" "e $filename -oc:\Nginx"
 	# needed for php7.0
-	powershell -Command "Invoke-WebRequest https://download.microsoft.com/download/9/3/F/93FCF1E7-E6A4-478B-96E7-D4B285925B00/vc_redist.x64.exe -OutFile vc_redist.x64.exe"
+	$filename = Get-File https://download.microsoft.com/download/9/3/F/93FCF1E7-E6A4-478B-96E7-D4B285925B00/vc_redist.x64.exe
 	Start-Process vc_redist.x64.exe /quiet -Wait
 	Write-Host Going to install PHP 7.0
 	Get-File http://windows.php.net/downloads/releases/php-7.0.1-nts-Win32-VC14-x64.zip -OutFile php-7.0.1-nts-Win32-VC14-x64.zip
@@ -308,6 +315,9 @@ Function Install-Nginx() {
     Write-Host Download PHP from $link -ForegroundColor Cyan
     $filename = Get-File $link
     Start-Process "C:\Program Files\7-Zip\7z.exe" "e $filename" -Wait
+
+    Set-Location "C:/nginx"
+
 }
 
 #[System.Environment]::OSVersion.Version.Major
