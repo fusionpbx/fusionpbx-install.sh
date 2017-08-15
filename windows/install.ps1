@@ -58,8 +58,6 @@ Function Write-Log([string]$message) {
 
 Function New-Password([int32]$length) {
     ([char[]]([char]'A'..[char]'Z') + [char[]]([char]'a'..[char]'z') + 0..9 | Sort-Object {Get-Random})[0..$length] -join ''
-    #Add-Type -AssemblyName System.web
-    #[System.Web.Security.Membership]::GeneratePassword($length,0)
 }
 
 Function Get-InstalledApp([string]$name) {
@@ -123,15 +121,15 @@ Function Expand-ZIP([string]$filename) {
     if ($PSVersionTable.PSVersion.Major -ge 5) {
         Expand-Archive $filename -DestinationPath .
     }
-    else {
-        Add-Type -AssemblyName "System.IO.Compression.FileSystem"
+    elseif ( [System.Reflection.Assembly]::LoadWithPartialName("System.IO.Compression.FileSystem") ) {
         $path = Get-Location
         [System.IO.Compression.ZipFile]::ExtractToDirectory("$path\$filename",$path)
-
+    }
+    else {
         #Check if 7zip is installed and install it if needed
-        #Install-7zip
+        Install-7zip
         #Extract all files
-        #Start-Process "c:\Program Files\7-Zip\7z.exe" "e -y $filename"
+        Start-Process "c:\Program Files\7-Zip\7z.exe" "e -y $filename"
     }
 }
 
@@ -217,7 +215,6 @@ Function Install-PostgreSQL() {
     Start-PSQL "GRANT ALL PRIVILEGES ON DATABASE freeswitch to fusionpbx;"
     Start-PSQL "GRANT ALL PRIVILEGES ON DATABASE freeswitch to freeswitch;"
 }
-
 Function Install-Git(){
     if ($env:PROCESSOR_ARCHITECTURE -eq "x86") {
         $url = "https://github.com/git-for-windows/git/releases/download/v2.6.4.windows.1/Git-2.6.4-32-bit.exe"
@@ -258,6 +255,13 @@ Function Install-FusionPBX() {
     Move-Item -Path "c:\Program Files\FreeSWITCH\conf" -Destination "c:\Program Files\FreeSWITCH\conf-orig"
     Copy-Item "$system_directory\resources\templates\conf" "c:\Program Files\FreeSWITCH" -recurse
 
+    #Update xml_cdr url, user and password
+    $filename = "C:\Program Files\FreeSWITCH\conf\autoload_configs\xml_cdr.conf.xml"
+    (Get-Content $filename) -replace "{v_http_protocol}","http" `
+                            -replace "{domain_name}",$domain_name `
+                            -replace "{v_project_path}","" `
+                            -replace "{v_user}:{v_pass}",((New-Password 8) + ":" + (New-Password 8)) | Out-File $filename
+
 }
 
 Function Install-IIS([string]$path,[string]$hostname,[int32]$port) {
@@ -292,6 +296,11 @@ Function Install-IIS([string]$path,[string]$hostname,[int32]$port) {
 
     $site = $iis.Sites.Item("FusionPBX")
     $site.Bindings | Format-Table protocol,EndPoint,Host,SslFlags -AutoSize
+
+    #$cert = (Get-ChildItem –Path cert:\LocalMachine\My | Sort-Object NotAfter | Select-Object -Last 1).Thumbprint
+    #netsh http delete sslcert ipport=0.0.0.0:443
+    #netsh http add sslcert ipport=0.0.0.0:443 certhash=$cert "appid={4dc3e181-e14b-4a21-b022-59fc669b0914}"
+    #netsh http show sslcert
 
     #Set anonimous authentication to application pool identity
     $config = $iis.GetApplicationHostConfiguration()
@@ -383,6 +392,20 @@ if ($database_password -eq 'random') {
 else {
     $database_password = Read-Host -Prompt "Enter database superuser (postgres) password"
 }
+#Set the domain name
+$cert = Get-ChildItem –Path cert:\LocalMachine\My | Where-Object -Property Subject -Like "CN=${env:COMPUTERNAME}*" | Sort-Object NotAfter | Select-Object -Last 1
+if ( $cert -and ($domain_name -eq "hostname") ) {
+    $domain_name = $cert.Subject.Substring(3)
+}
+elseif ($domain_name -eq "hostname") {
+    $domain_name = $env:COMPUTERNAME
+    #$dns = [System.Net.Dns]::GetHostByName(($env:computerName))
+    #$domain_name = $dns.HostName
+    #$dns.addresslist.IPAddressToString
+}
+else {
+    $domain_name = [System.Net.Dns]::GetHostByName(($env:computerName)).AddressList.IPAddressToString
+}
 
 Install-PostgreSQL
 Install-PostgresODBC
@@ -411,12 +434,7 @@ if ($web_server -eq "IIS") {
 #Update schema
 ."C:\Program Files\PHP\v7.1\php.exe" "$system_directory/core/upgrade/upgrade_schema.php"
 
-#add the domain name
-
 [string]$domain_uuid = [System.Guid]::NewGuid()
-if ($domain_name -eq "hostname") {
-    $domain_name = $env:COMPUTERNAME
-}
 Start-PSQL "insert into v_domains (domain_uuid, domain_name, domain_enabled) values('$domain_uuid', '$domain_name', 'true');"
 ."C:\Program Files\PHP\v7.1\php.exe" "$system_directory/core/upgrade/upgrade_domains.php"
 
