@@ -19,10 +19,12 @@ apt-get install -y --force-yes freeswitch-music-default
 #make sure that postgresql is started before starting freeswitch
 sed -i /lib/systemd/system/freeswitch.service -e s:'local-fs.target:local-fs.target postgresql.service:'
 
-#remove the music package to protect music on hold from package updates
-mkdir -p /usr/share/freeswitch/sounds/temp
-mv /usr/share/freeswitch/sounds/music/*000 /usr/share/freeswitch/sounds/temp
-apt-get remove -y --force-yes freeswitch-music-default
-mkdir -p /usr/share/freeswitch/sounds/music/default
-mv /usr/share/freeswitch/sounds/temp/* /usr/share/freeswitch/sounds/music/default
-rm -R /usr/share/freeswitch/sounds/temp
+if [ ."$cpu_architecture" = ."x86" ]; then
+  #remove the music package to protect music on hold from package updates
+  mkdir -p /usr/share/freeswitch/sounds/temp
+  mv /usr/share/freeswitch/sounds/music/*000 /usr/share/freeswitch/sounds/temp
+  apt-get remove -y --force-yes freeswitch-music-default
+  mkdir -p /usr/share/freeswitch/sounds/music/default
+  mv /usr/share/freeswitch/sounds/temp/* /usr/share/freeswitch/sounds/music/default
+  rm -R /usr/share/freeswitch/sounds/temp
+fi
