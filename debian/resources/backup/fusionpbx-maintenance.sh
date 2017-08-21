@@ -35,6 +35,15 @@ fi
 #delete from the database
 #psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_fax_files WHERE fax_date < NOW() - INTERVAL '90 days'"
 
+#delete call recordings older than 90 days
+if [ .$switch_package = .true ]; then
+	find /var/lib/freeswitch/recordings/*/archive/*  -name '*.wav -mtime +90 -exec rm {} \;
+	find /var/lib/freeswitch/recordings/*/archive/*  -name '*.mp3' -mtime +90 -exec rm {} \;
+else
+	find /usr/local/freeswitch/recordings/*/archive/*  -name '*.wav -mtime +90 -exec rm {} \;
+	find /usr/local/freeswitch/recordings/*/archive/*  -name '*.mp3' -mtime +90 -exec rm {} \;
+fi
+
 #delete voicemail older than 90 days
 if [ .$switch_package = .true ]; then
 	echo ".";
