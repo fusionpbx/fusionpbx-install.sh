@@ -179,7 +179,6 @@ Function Install-PostgresODBC() {
 Function Start-PSQL([string]$command) {
     $location = Get-Location
     Set-Location "C:\Program Files\PostgreSQL\9.6\bin"
-    $env:PGPASSWORD = "$database_password"
     .\psql.exe --username=postgres -c "$command" 
     Set-Location $location
 }
@@ -292,7 +291,7 @@ Function Install-FusionPBX() {
 
 }
 
-Function Install-IIS([string]$path,[string]$hostname,[int32]$port) {
+Function Install-IIS([string]$path) {
     [System.Reflection.Assembly]::LoadWithPartialName("Microsoft.Web.Administration")
     $iis = new-object Microsoft.Web.Administration.ServerManager
 
@@ -309,21 +308,19 @@ Function Install-IIS([string]$path,[string]$hostname,[int32]$port) {
         Icacls $path /grant "${iis_identity}:(OI)(CI)M"
     }
 
+    $site= $iis.Sites | Where-Object Bindings -Like "*:80:*"
     #Get site
-    if ($port -eq 80) {
-        $site = $iis.Sites[0]
+    if ($site) {
         $site.Name = "FusionPBX"
     }
     elseif ($iis.sites.Item("FusionPBX")) {
         $site = $iis.Sites.Item("FusionPBX")
     }
     else {
-        $site = $iis.Sites.Add("FusionPBX",$path,$port)
-        Write-Host "conf/autoload_configs/xml_cdr.conf.xml should be modified" -ForegroundColor Red
+        $site = $iis.Sites.Add("FusionPBX",$path,80)
     }
 
-    $site = $iis.Sites.Item("FusionPBX")
-    $site.Bindings | Format-Table protocol,EndPoint,Host,SslFlags -AutoSize
+    #$site.Bindings | Format-Table protocol,EndPoint,Host,SslFlags -AutoSize
 
     #$cert = (Get-ChildItem –Path cert:\LocalMachine\My | Sort-Object NotAfter | Select-Object -Last 1).Thumbprint
     #netsh http delete sslcert ipport=0.0.0.0:443
@@ -343,10 +340,6 @@ Function Install-IIS([string]$path,[string]$hostname,[int32]$port) {
     $vd = $app.VirtualDirectories | Where-Object -Property Path -eq '/'
     $vd.PhysicalPath = $path
 
-    #Assign host name
-    if ($hostname) {
-        $site.Bindings[0].Host = $hostname
-    }
     #Save
     $iis.CommitChanges()
 }
@@ -389,7 +382,7 @@ Get-InstalledApp "FreeSWITCH*"
 Get-InstalledApp "PHP*"
 Get-InstalledApp "PostgreSQL*"
 #Get-InstalledApp "psqlodbc*"
-Get-InstalledApp "7*"
+#Get-InstalledApp "7*"
 
 Write-Host "This will install/update and configure FusionPBX, FreeSWITCH, PostgreSQL, PHP, 7-Zip."
 
@@ -409,17 +402,23 @@ if ( ([System.Environment]::OSVersion.Version.Build -lt 9600) -and -not (Get-Ins
 if ($system_password -eq 'random') {
     $system_password = New-Password 20
 }
-else {
+elseif ($system_password -eq '') {
     $system_password = Read-Host -Prompt "Enter system password"
 }
 
 #Database Password
+if ($env:PGPASSWORD) {
+    $database_password = $env:PGPASSWORD
+}
 if ($database_password -eq 'random') {
     $database_password = New-Password 20
 }
-else {
+elseif ($database_password -eq '') {
     $database_password = Read-Host -Prompt "Enter database superuser (postgres) password"
 }
+#Set DB password
+$env:PGPASSWORD = "$database_password"
+
 #Set the domain name
 $cert = Get-ChildItem –Path cert:\LocalMachine\My | Where-Object -Property Subject -Like "CN=${env:COMPUTERNAME}*" | Sort-Object NotAfter | Select-Object -Last 1
 if ( $cert -and ($domain_name -eq "hostname") ) {
@@ -468,10 +467,6 @@ if ($web_server -eq "IIS") {
 Start-PSQL "insert into v_domains (domain_uuid, domain_name, domain_enabled) values('$domain_uuid', '$domain_name', 'true');"
 ."C:\Program Files\PHP\v7.1\php.exe" "$system_directory/core/upgrade/upgrade_domains.php"
 
-
-#Start login page
-Start-Process https://$domain_name
-
 Write-Log ""
 Write-Log "   Use a web browser to continue setup."
 Write-Log "      domain name: https://$domain_name"
@@ -490,3 +485,6 @@ Write-Log "   Additional information."
 Write-Log "      https://fusionpbx.com/support.php"
 Write-Log "      https://www.fusionpbx.com"
 Write-Log "      http://docs.fusionpbx.com"
+
+#Start login page
+Start-Process http://$domain_name
