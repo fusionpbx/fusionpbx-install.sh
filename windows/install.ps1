@@ -154,14 +154,12 @@ Function Install-PostgresODBC() {
     if ((Get-Command Get-OdbcDsn -ErrorAction SilentlyContinue)) {
         #Get or create DSN
         $dsn = Get-OdbcDsn FusionPBX -ErrorAction SilentlyContinue
+        Remove-OdbcDsn FusionPBX -DsnType System
         if ($dsn.length -eq 0) {
             # Get ODBC Driver name
-            $driver = Get-OdbcDriver -Name "PostgreSQL Unicode*"
-            $dsn = Add-OdbcDsn -DsnType System -Name FusionPBX -DriverName $driver
+            $driver = (Get-OdbcDriver -Name "PostgreSQL Unicode*").Name
+            $dsn = Add-OdbcDsn -DsnType System -Name fusionpbx -DriverName $driver -SetPropertyValue "servername=localhost","port=5432","database=fusionpbx","GssAuthUseGSS=0"
         }
-	    $dsn | Set-OdbcDsn -SetPropertyValue servername=localhost
-	    $dsn | Set-OdbcDsn -SetPropertyValue port=5432
-	    $dsn | Set-OdbcDsn -SetPropertyValue GssAuthUseGSS=false
 	    $dsn | Set-OdbcDsn -SetPropertyValue Username=postgres
 	    $dsn | Set-OdbcDsn -SetPropertyValue password=$database_password
     }
@@ -174,9 +172,8 @@ Function Install-PostgresODBC() {
             $driver="PostgreSQL Unicode(x64)" }
         #ODBCCONF.EXE /Lv dsn_log.txt CONFIGSYSDSN "$driver" "DSN=fusionpbx|server=localhost|port=5432|database=fusionpbx|Username=postgres|password=$database_password"
         ODBCCONF.EXE /Lv dsn_log.txt CONFIGSYSDSN "$driver" "DSN=fusionpbx|server=localhost|port=5432|database=fusionpbx|Username=postgres|password=$database_password|GssAuthUseGSS=false"
-        
-        Start-Process odbcad32.exe -Wait
     }
+    Start-Process odbcad32.exe -Wait
 }
 
 Function Start-PSQL([string]$command) {
@@ -186,6 +183,37 @@ Function Start-PSQL([string]$command) {
     .\psql.exe --username=postgres -c "$command" 
     Set-Location $location
 }
+
+Function Test-ODBC([string]$DSN,[string]$username,[string]$password) {
+    $connection_string = "DSN=$DSN;"
+    if ($username) {
+        $connection_string += "username=$username;"
+    }
+    if ($password) {
+        $connection_string += "password=$password;"
+    }
+    $conn = New-Object System.Data.Odbc.OdbcConnection
+    $conn.ConnectionString = $connection_string
+    $conn.open()
+    $result = ($conn.State -eq "Open")
+    if ($result) {
+        $conn.Close()
+    }
+    return $result
+}
+
+Function Start-ODBC([string]$query) {
+    $conn = New-Object System.Data.Odbc.OdbcConnection
+    $conn.ConnectionString = "DSN=fusionpbx;username=fusionpbxadmin;password=despatch4u"
+    $conn.open()
+    if ($conn.State -eq "Open") {
+        $cmd = New-object System.Data.Odbc.OdbcCommand($query,$conn)
+        $cmd.ExecuteScalar()
+        $conn.Close()
+    }
+}
+
+Start-ODBC "select username from v_users"
 
 Function Install-PostgreSQL() {
     if (Get-InstalledApp "PostgreSQL*") {
@@ -409,6 +437,8 @@ else {
 
 Install-PostgreSQL
 Install-PostgresODBC
+Test-ODBC fusionpbx postgres $database_password
+
 Install-FreeSWITCH
 Install-Git
 Install-FusionPBX
