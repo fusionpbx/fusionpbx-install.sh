@@ -39,3 +39,15 @@ CentOS operating system is a requirement for some companies. Don't expect video 
 wget -O - https://raw.githubusercontent.com/fusionpbx/fusionpbx-install.sh/master/centos/pre-install.sh | sh
 cd /usr/src/fusionpbx-install.sh/centos && ./install.sh
 ```
+
+### Windows
+Don't expect everything to work. Testing is required.
+mod_lua is missing from builds after 1.6.14. Script will download it from github.
+Open PowerShell as Administrator and run commands
+
+```sh
+Set-Location "$env:PUBLIC\Downloads"
+Invoke-WebRequest https://raw.githubusercontent.com/fusionpbx/fusionpbx-install.sh/master/windows/install.ps1 -OutFile install.ps1
+#run the script
+.\install.ps1
+```
