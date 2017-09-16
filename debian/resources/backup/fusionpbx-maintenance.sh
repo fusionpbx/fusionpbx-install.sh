@@ -37,18 +37,18 @@ fi
 
 #delete call recordings older than 90 days
 if [ .$switch_package = .true ]; then
-	find /var/lib/freeswitch/recordings/*/archive/*  -name '*.wav -mtime +90 -exec rm {} \;
+	find /var/lib/freeswitch/recordings/*/archive/*  -name '*.wav' -mtime +90 -exec rm {} \;
 	find /var/lib/freeswitch/recordings/*/archive/*  -name '*.mp3' -mtime +90 -exec rm {} \;
 else
-	find /usr/local/freeswitch/recordings/*/archive/*  -name '*.wav -mtime +90 -exec rm {} \;
+	find /usr/local/freeswitch/recordings/*/archive/*  -name '*.wav' -mtime +90 -exec rm {} \;
 	find /usr/local/freeswitch/recordings/*/archive/*  -name '*.mp3' -mtime +90 -exec rm {} \;
 fi
 
 #delete voicemail older than 90 days
 if [ .$switch_package = .true ]; then
 	echo ".";
-	#find /usr/local/freeswitch/storage/voicemail/*  -name 'msg_*.wav' -mtime +90 -exec rm {} \;
-	#find /usr/local/freeswitch/storage/voicemail/*  -name 'msg_*.mp3' -mtime +90 -exec rm {} \;
+	#find /var/lib/freeswitch/storage/voicemail/default/*  -name 'msg_*.wav' -mtime +90 -exec rm {} \;
+	#find /var/lib/freeswitch/storage/voicemail/default/*  -name 'msg_*.mp3' -mtime +90 -exec rm {} \;
 else
 	echo ".";
 	#find /usr/local/freeswitch/storage/voicemail/*  -name 'msg_*.wav' -mtime +90 -exec rm {} \;
