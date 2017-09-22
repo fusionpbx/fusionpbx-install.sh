@@ -29,7 +29,7 @@ sed -ie 's/group = apache/group = daemon/g' /etc/php-fpm.d/www.conf
 mkdir -p /var/lib/php/session
 
 #update permissions
-chmod -Rf 700 /var/lib/php/session
+chmod -Rf 770 /var/lib/php/session
 
 #update the permissions
 find /var/www/fusionpbx -type d -exec chmod 770 {} \;
