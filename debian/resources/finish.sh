@@ -6,7 +6,6 @@ cd "$(dirname "$0")"
 #includes
 . ./config.sh
 . ./colors.sh
-. ./environment.sh
 
 #database details
 database_host=127.0.0.1
