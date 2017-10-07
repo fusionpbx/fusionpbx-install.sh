@@ -6,7 +6,6 @@ cd "$(dirname "$0")"
 #includes
 . ./config.sh
 . ./colors.sh
-. ./environment.sh
 
 #count the users
 admin_users=$(sudo -u postgres psql fusionpbx -Atc "select count(*) from v_users JOIN v_group_users USING (domain_uuid) where username='$system_username' and group_name = 'superadmin'")
