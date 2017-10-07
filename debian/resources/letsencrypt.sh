@@ -6,7 +6,6 @@ cd "$(dirname "$0")"
 #includes
 . ./config.sh
 #. ./colors.sh
-#. ./environment.sh
 
 #request the domain and email
 read -p 'Domain Name: ' domain_name
