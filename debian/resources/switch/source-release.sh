@@ -12,7 +12,7 @@ apt-get install -y --force-yes freeswitch-video-deps-most
 
 #we are about to move out of the executing directory so we need to preserve it to return after we are done
 CWD=$(pwd)
-SWITCH_VERSION=1.6.18
+SWITCH_VERSION=1.6.19
 echo "Using version $SWITCH_VERSION"
 cd /usr/src
 #git clone -b v1.6 https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
