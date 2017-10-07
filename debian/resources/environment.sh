@@ -24,6 +24,10 @@ elif [ .$cpu_name = .'armv8l' ]; then
 	os_mode='unknown'
 	cpu_mode='64'
 	cpu_architecture='arm'
+elif [ .$cpu_name = .'aarch64' ]; then
+	os_mode='64'
+	cpu_mode='64'
+	cpu_architecture='arm'
 elif [ .$cpu_name = .'i386' ]; then
 	os_mode='32'
 	if [ .$(grep -o -w 'lm' /proc/cpuinfo | head -n 1) = .'lm' ]; then
@@ -54,18 +58,6 @@ else
 fi
 
 if [ .$cpu_architecture = .'arm' ]; then
-	if [ .$os_mode = .'32' ]; then
-		verbose "Correct CPU and Operating System detected, using the ARM repo"
-	elif [ .$os_mode = .'64' ]; then
-		error "You are using a 64bit arm OS this is unsupported"
-		switch_source=true
-		switch_package=false
-	else
-		error "Unknown OS mode $os_mode this is unsupported"
-		switch_source=true
-		switch_package=false
-	fi
-elif [ .$cpu_architecture = .'aarch64' ]; then
 	if [ .$os_mode = .'32' ]; then
 		verbose "Correct CPU and Operating System detected, using the ARM repo"
 	elif [ .$os_mode = .'64' ]; then
