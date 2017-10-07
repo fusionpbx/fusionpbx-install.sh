@@ -62,6 +62,18 @@ if [ .$cpu_architecture = .'arm' ]; then
 		switch_source=true
 		switch_package=false
 	fi
+elif [ .$cpu_architecture = .'aarch64' ]; then
+	if [ .$os_mode = .'32' ]; then
+		verbose "Correct CPU and Operating System detected, using the ARM repo"
+	elif [ .$os_mode = .'64' ]; then
+		error "You are using a 64bit arm OS this is unsupported"
+		switch_source=true
+		switch_package=false
+	else
+		error "Unknown OS mode $os_mode this is unsupported"
+		switch_source=true
+		switch_package=false
+	fi
 elif [ .$cpu_architecture = .'x86' ]; then
 	if [ .$os_mode = .'32' ]; then
 		error "You are using a 32bit OS this is unsupported"
