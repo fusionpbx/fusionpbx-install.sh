@@ -89,6 +89,18 @@ maxretry = 10
 findtime = 600
 bantime  = 600
 
+[fusionpbx-invalid-mac]
+enabled  = true
+port     = 80,443
+protocol = tcp
+filter   = fusionpbx
+logpath  = /var/log/syslog.log
+action   = iptables-multiport[name=fusionpbx, port="http,https", protocol=tcp]
+#          sendmail-whois[name=fusionpbx, dest=root, sender=fail2ban@example.org] #no smtp server installed
+maxretry = 3
+findtime = 600
+bantime  = -1
+
 [nginx-404]
 enabled  = true
 port     = 80,443
@@ -102,12 +114,11 @@ maxretry = 120
 [nginx-dos]
 # Based on apache-badbots but a simple IP check (any IP requesting more than
 # 240 pages in 60 seconds, or 4p/s average, is suspicious)
-# Block for two full days.
 enabled  = true
 port     = 80,443
 protocol = tcp
 filter   = nginx-dos
 logpath  = /var/log/nginx/access*.log
 findtime = 60
-bantime  = 172800
+bantime  = -1
 maxretry = 240
