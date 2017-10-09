@@ -89,14 +89,14 @@ maxretry = 10
 findtime = 600
 bantime  = 600
 
-[fusionpbx-invalid-mac]
+[fusionpbx-mac]
 enabled  = true
 port     = 80,443
 protocol = tcp
 filter   = fusionpbx-invalid-mac
 logpath  = /var/log/syslog
-action   = iptables-multiport[name=fusionpbx-invalid-mac, port="http,https", protocol=tcp]
-#          sendmail-whois[name=fusionpbx-invalid-mac, dest=root, sender=fail2ban@example.org] #no smtp server installed
+action   = iptables-multiport[name=fusionpbx-mac, port="http,https", protocol=tcp]
+#          sendmail-whois[name=fusionpbx-mac, dest=root, sender=fail2ban@example.org] #no smtp server installed
 maxretry = 3
 findtime = 600
 bantime  = -1
