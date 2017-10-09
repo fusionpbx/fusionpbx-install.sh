@@ -93,7 +93,7 @@ bantime  = 600
 enabled  = true
 port     = 80,443
 protocol = tcp
-filter   = fusionpbx
+filter   = fusionpbx-invalid-mac
 logpath  = /var/log/syslog.log
 action   = iptables-multiport[name=fusionpbx, port="http,https", protocol=tcp]
 #          sendmail-whois[name=fusionpbx, dest=root, sender=fail2ban@example.org] #no smtp server installed
