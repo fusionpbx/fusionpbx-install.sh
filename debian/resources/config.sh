@@ -13,6 +13,8 @@ switch_package=true             # true or false
 # Database Settings
 database_password=random        # random or a custom value
 database_repo=official          # PostgresSQL official, system, 2ndquadrant
+database_host=127.0.0.1         # hostname or IP address
+database_port=5432              # port number
 database_backup=false           # true or false
 
 # General Settings
