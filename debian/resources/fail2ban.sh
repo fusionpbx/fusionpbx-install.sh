@@ -30,8 +30,4 @@ if [ .$switch_source = .true ]; then
 fi
 
 #restart fail2ban
-#systemd
-/bin/systemctl restart fail2ban
-
-#init.d
-#/usr/sbin/service fail2ban restart
+/usr/sbin/service fail2ban restart
