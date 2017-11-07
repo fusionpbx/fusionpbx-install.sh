@@ -51,6 +51,14 @@ if [ .$verified != ."y" ]; then
 	exit 0;
 fi
 
+#add the 2ndquadrant repo
+if [ ."$database_version" = ."9.6" ]; then
+	echo 'deb http://packages.2ndquadrant.com/bdr/apt/ jessie-2ndquadrant main' > /etc/apt/sources.list.d/2ndquadrant.list
+	/usr/bin/wget --quiet -O - http://packages.2ndquadrant.com/bdr/apt/AA7A6805.asc | apt-key add -
+	apt-get update && apt-get upgrade -y
+	apt-get install -y --force-yes sudo postgresql-9.6-bdr-plugin
+fi
+
 #iptables rules
 for node in $nodes; do
         iptables -A INPUT -j ACCEPT -p tcp --dport 5432 -s ${node}/32
