@@ -77,7 +77,16 @@ chmod 600 /etc/ssl/private/ssl-cert-snakeoil-postgres.key
 
 #postgresql.conf - append settings
 cp /etc/postgresql/$database_version/main/postgresql.conf /etc/postgresql/$database_version/main/postgresql.conf-$now
-cat ../postgresql/postgresql.conf > /etc/postgresql/$database_version/main/postgresql.conf
+#cat ../postgresql/postgresql.conf > /etc/postgresql/$database_version/main/postgresql.conf
+echo "listen_addresses = '*'" >> /etc/postgresql/$database_version/main/postgresql.conf
+echo "#listen_addresses = '127.0.0.1,xxx.xxx.xxx.xxx'" >> /etc/postgresql/$database_version/main/postgresql.conf
+echo "shared_preload_libraries = 'bdr'" >> /etc/postgresql/$database_version/main/postgresql.conf
+echo "wal_level = 'logical'" >> /etc/postgresql/$database_version/main/postgresql.conf
+echo "track_commit_timestamp = on" >> /etc/postgresql/$database_version/main/postgresql.conf
+echo "max_connections = 100" >> /etc/postgresql/$database_version/main/postgresql.conf
+echo "max_wal_senders = 10" >> /etc/postgresql/$database_version/main/postgresql.conf
+echo "max_replication_slots = 48" >> /etc/postgresql/$database_version/main/postgresql.conf
+echo "max_worker_processes = 48" >> /etc/postgresql/$database_version/main/postgresql.conf
 
 #pg_hba.conf - append settings
 cp /etc/postgresql/$database_version/main/pg_hba.conf /etc/postgresql/$database_version/main/pg_hba.conf-$now
