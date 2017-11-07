@@ -35,7 +35,8 @@ if [ ."$database_repo" = ."official" ]; then
 	apt-get install -y --force-yes sudo postgresql
 	if [ ."$database_version" = ."latest" ]; then
                 apt-get install -y --force-yes sudo postgresql
-	else
+	fi
+	if [ ."$database_version" = ."9.6" ]; then
                 apt-get install -y --force-yes sudo postgresql-$database_version
         fi
 fi
