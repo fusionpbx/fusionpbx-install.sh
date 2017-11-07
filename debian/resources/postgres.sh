@@ -29,22 +29,21 @@ fi
 
 #postgres official repository
 if [ ."$database_repo" = ."official" ]; then
-	echo 'deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main' > /etc/apt/sources.list.d/pgdg.list
+	echo 'deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main' > /etc/apt/sources.list.d/postgresql.list
 	wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 	apt-get update && apt-get upgrade -y
 	apt-get install -y --force-yes sudo postgresql
 	if [ ."$database_version" = ."latest" ]; then
                 apt-get install -y --force-yes sudo postgresql
-        fi
-        if [ ."$database_version" = ."9.6" ]; then
-                apt-get install -y --force-yes sudo postgresql-9.6
+	else
+                apt-get install -y --force-yes sudo postgresql-$database_version
         fi
 fi
 
 #add PostgreSQL and 2ndquadrant repos
 if [ ."$database_repo" = ."2ndquadrant" ]; then
-	echo 'deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main'  >> /etc/apt/sources.list.d/postgresql.list
-	echo 'deb http://packages.2ndquadrant.com/bdr/apt/ jessie-2ndquadrant main' >> /etc/apt/sources.list.d/2ndquadrant.list
+	echo 'deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main' > /etc/apt/sources.list.d/postgresql.list
+	echo 'deb http://packages.2ndquadrant.com/bdr/apt/ jessie-2ndquadrant main' > /etc/apt/sources.list.d/2ndquadrant.list
 	/usr/bin/wget --quiet -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | apt-key add -
 	/usr/bin/wget --quiet -O - http://packages.2ndquadrant.com/bdr/apt/AA7A6805.asc | apt-key add -
 	apt-get update && apt-get upgrade -y
