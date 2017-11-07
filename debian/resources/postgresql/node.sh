@@ -62,27 +62,27 @@ echo iptables-persistent iptables-persistent/autosave_v6 boolean true | debconf-
 apt-get install -y --force-yes iptables-persistent
 
 #setup ssl
-sed -i /etc/postgresql/9.4/main/postgresql.conf -e s:'snakeoil.key:snakeoil-postgres.key:'
+sed -i /etc/postgresql/$database_version/main/postgresql.conf -e s:'snakeoil.key:snakeoil-postgres.key:'
 cp /etc/ssl/private/ssl-cert-snakeoil.key /etc/ssl/private/ssl-cert-snakeoil-postgres.key
 chown postgres:postgres /etc/ssl/private/ssl-cert-snakeoil-postgres.key
 chmod 600 /etc/ssl/private/ssl-cert-snakeoil-postgres.key
 
 #postgresql.conf - append settings
-cp /etc/postgresql/9.4/main/postgresql.conf /etc/postgresql/9.4/main/postgresql.conf-$now
-cat ../postgresql/postgresql.conf > /etc/postgresql/9.4/main/postgresql.conf
+cp /etc/postgresql/$database_version/main/postgresql.conf /etc/postgresql/$database_version/main/postgresql.conf-$now
+cat ../postgresql/postgresql.conf > /etc/postgresql/$database_version/main/postgresql.conf
 
 #pg_hba.conf - append settings
-cp /etc/postgresql/9.4/main/pg_hba.conf /etc/postgresql/9.4/main/pg_hba.conf-$now
-cat ../postgresql/pg_hba.conf > /etc/postgresql/9.4/main/pg_hba.conf
-#chmod 640 /etc/postgresql/9.4/main/pg_hba.conf
-#chown -R postgres:postgres /etc/postgresql/9.4/main
-echo "host    all             all            127.0.0.1/32              trust" >> /etc/postgresql/9.4/main/pg_hba.conf
-echo "hostssl all             all            127.0.0.1/32              trust" >> /etc/postgresql/9.4/main/pg_hba.conf
-echo "hostssl replication     postgres       127.0.0.1/32              trust" >> /etc/postgresql/9.4/main/pg_hba.conf
+cp /etc/postgresql/$database_version/main/pg_hba.conf /etc/postgresql/$database_version/main/pg_hba.conf-$now
+cat ../postgresql/pg_hba.conf > /etc/postgresql/$database_version/main/pg_hba.conf
+#chmod 640 /etc/postgresql/$database_version/main/pg_hba.conf
+#chown -R postgres:postgres /etc/postgresql/$database_version/main
+echo "host    all             all            127.0.0.1/32              trust" >> /etc/postgresql/$database_version/main/pg_hba.conf
+echo "hostssl all             all            127.0.0.1/32              trust" >> /etc/postgresql/$database_version/main/pg_hba.conf
+echo "hostssl replication     postgres       127.0.0.1/32              trust" >> /etc/postgresql/$database_version/main/pg_hba.conf
 for node in $nodes; do
-        echo "host    all             all            ${node}/32              trust" >> /etc/postgresql/9.4/main/pg_hba.conf
-        echo "hostssl all             all            ${node}/32              trust" >> /etc/postgresql/9.4/main/pg_hba.conf
-        echo "hostssl replication     postgres       ${node}/32              trust" >> /etc/postgresql/9.4/main/pg_hba.conf
+        echo "host    all             all            ${node}/32              trust" >> /etc/postgresql/$database_version/main/pg_hba.conf
+        echo "hostssl all             all            ${node}/32              trust" >> /etc/postgresql/$database_version/main/pg_hba.conf
+        echo "hostssl replication     postgres       ${node}/32              trust" >> /etc/postgresql/$database_version/main/pg_hba.conf
 done
 
 #reload configuration
