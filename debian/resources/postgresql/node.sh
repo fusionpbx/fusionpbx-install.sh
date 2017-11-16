@@ -39,7 +39,7 @@ echo "All Node IP Addresses: $nodes";
 if [ .$group_create = .true ]; then
 	echo "This Nodes Address: $node_1";
 else
-	echo "Join using node in group: $node_1;"
+	echo "Join using node in group: $node_1";
 	echo "This Node Address: $node_2";
 fi
 echo "";
