@@ -116,20 +116,6 @@ service postgresql restart
 cwd=$(pwd)
 cd /tmp
 
-#set client encoding
-sudo -u postgres psql -c "SET client_encoding = 'UTF8';";
-
-#add the database users and databases
-sudo -u postgres psql -c "CREATE DATABASE fusionpbx;";
-sudo -u postgres psql -c "CREATE DATABASE freeswitch;";
-
-#add the users and grant permissions
-sudo -u postgres psql -c "CREATE ROLE fusionpbx WITH SUPERUSER LOGIN PASSWORD '$database_password';"
-sudo -u postgres psql -c "CREATE ROLE freeswitch WITH SUPERUSER LOGIN PASSWORD '$database_password';"
-sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE fusionpbx to fusionpbx;"
-sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE freeswitch to fusionpbx;"
-sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE freeswitch to freeswitch;"
-
 #add the postgres extensions
 sudo -u postgres psql -d fusionpbx -c "CREATE EXTENSION btree_gist;";
 sudo -u postgres psql -d fusionpbx -c "CREATE EXTENSION bdr;";
