@@ -46,7 +46,6 @@ else
 	echo "This Node Address: $node_2";
 fi
 echo "Replicate the FreeSWITCH Database: $switch_replicate";
-echo "All Node IP Addresses: $nodes";
 echo "";
 
 #verify
