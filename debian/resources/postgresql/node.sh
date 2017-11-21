@@ -66,7 +66,7 @@ fi
 #iptables rules
 for node in $nodes; do
         iptables -A INPUT -j ACCEPT -p tcp --dport 5432 -s ${node}/32
-        iptables -A INPUT -j ACCEPT -p tcp --dport 8080 -s ${node}/32
+        #iptables -A INPUT -j ACCEPT -p tcp --dport 8080 -s ${node}/32
 done
 apt-get remove iptables-persistent -y --force-yes
 echo iptables-persistent iptables-persistent/autosave_v4 boolean true | debconf-set-selections
