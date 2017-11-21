@@ -19,12 +19,20 @@ fi
 verbose "Create the database and users"
 
 #
-# Install the database backup
+# Install the database backup scripts
 #
 
 cp backup/fusionpbx-backup.sh /etc/cron.daily
 chmod 755 /etc/cron.daily/fusionpbx-backup.sh
 sed -i "s/zzz/${database_password}/g" /etc/cron.daily/fusionpbx-backup.sh
+
+#
+# Install the maintenance script
+#
+
+cp backup/fusionpbx-maintenance.sh /etc/cron.daily
+chmod 755 /etc/cron.daily/fusionpbx-maintenance.sh
+sed -i "s/zzz/${database_password}/g" /etc/cron.daily/fusionpbx-maintenance.sh
 
 #
 # Move to /tmp to prevent a red herring error when running sudo with psql
