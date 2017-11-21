@@ -30,6 +30,9 @@ else
 	read -p 'Enter this Nodes Address: ' node_2;
 fi
 
+#determine which database to replicate
+read -p 'Replicate the FreeSWITCH Database (true/false): ' switch_replicate
+
 #settings summary
 echo "-----------------------------";
 echo " Summary";
@@ -42,6 +45,8 @@ else
 	echo "Join using node in group: $node_1";
 	echo "This Node Address: $node_2";
 fi
+echo "Replicate the FreeSWITCH Database: $switch_replicate";
+echo "All Node IP Addresses: $nodes";
 echo "";
 
 #verify
@@ -136,11 +141,15 @@ sudo -u postgres psql -d freeswitch -c "CREATE EXTENSION bdr;";
 if [ .$group_create = .true ]; then
 	#add first node
 	sudo -u postgres psql -d fusionpbx -c "SELECT bdr.bdr_group_create(local_node_name := '$node_1', node_external_dsn := 'host=$node_1 port=5432 dbname=fusionpbx connect_timeout=10 keepalives_idle=5 keepalives_interval=1 sslmode=require');";
-	sudo -u postgres psql -d freeswitch -c "SELECT bdr.bdr_group_create(local_node_name := '$node_1', node_external_dsn := 'host=$node_1 port=5432 dbname=freeswitch connect_timeout=10 keepalives_idle=5 keepalives_interval=1 sslmode=require');";
+	if [ .$switch_replicate = .true ]; then
+		sudo -u postgres psql -d freeswitch -c "SELECT bdr.bdr_group_create(local_node_name := '$node_1', node_external_dsn := 'host=$node_1 port=5432 dbname=freeswitch connect_timeout=10 keepalives_idle=5 keepalives_interval=1 sslmode=require');";
+	fi
 else
 	#add additional master nodes
 	sudo -u postgres psql -d fusionpbx -c "SELECT bdr.bdr_group_join(local_node_name := '$node_2', node_external_dsn := 'host=$node_2 port=5432 dbname=fusionpbx connect_timeout=10 keepalives_idle=5 keepalives_interval=1', join_using_dsn := 'host=$node_1 port=5432 dbname=fusionpbx connect_timeout=10 keepalives_idle=5 keepalives_interval=1 sslmode=require');";
-	sudo -u postgres psql -d freeswitch -c "SELECT bdr.bdr_group_join(local_node_name := '$node_2', node_external_dsn := 'host=$node_2 port=5432 dbname=freeswitch connect_timeout=10 keepalives_idle=5 keepalives_interval=1', join_using_dsn := 'host=$node_1 port=5432 dbname=freeswitch connect_timeout=10 keepalives_idle=5 keepalives_interval=1 sslmode=require');";
+	if [ .$switch_replicate = .true ]; then
+		sudo -u postgres psql -d freeswitch -c "SELECT bdr.bdr_group_join(local_node_name := '$node_2', node_external_dsn := 'host=$node_2 port=5432 dbname=freeswitch connect_timeout=10 keepalives_idle=5 keepalives_interval=1', join_using_dsn := 'host=$node_1 port=5432 dbname=freeswitch connect_timeout=10 keepalives_idle=5 keepalives_interval=1 sslmode=require');";
+	fi
 fi
 
 #load the freeswitch database
