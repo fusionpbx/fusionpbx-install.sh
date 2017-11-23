@@ -75,6 +75,7 @@ server {
 	#rewrite "^.*/provision/([A-Fa-f0-9]{12})(\.(cfg))?$" /app/provision/?mac=$1 last;
 
 	#yealink
+	#rewrite "^.*/provision/(y[0-9]{12})(\.cfg|\.boot)?$" /app/provision/index.php?file=$1$2;
 	rewrite "^.*/provision/(y[0-9]{12})(\.cfg)?$" /app/provision/index.php?file=$1.cfg;
 	rewrite "^.*/provision/([A-Fa-f0-9]{12})(\.(xml|cfg))?$" /app/provision/index.php?mac=$1 last;
 
@@ -178,6 +179,7 @@ server {
 	#rewrite "^.*/provision/([A-Fa-f0-9]{12})(\.(cfg))?$" /app/provision/?mac=$1 last;
 
 	#yealink
+	#rewrite "^.*/provision/(y[0-9]{12})(\.cfg|\.boot)?$" /app/provision/index.php?file=$1$2;
 	rewrite "^.*/provision/(y[0-9]{12})(\.cfg)?$" /app/provision/index.php?file=$1.cfg;
 	rewrite "^.*/provision/([A-Fa-f0-9]{12})(\.(xml|cfg))?$" /app/provision/index.php?mac=$1 last;
 
