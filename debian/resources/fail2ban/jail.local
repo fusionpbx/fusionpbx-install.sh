@@ -1,6 +1,6 @@
 [ssh]
 enabled  = true
-port     = 5060-5090
+port     = 22
 protocol = ssh
 filter   = sshd
 logpath  = /var/log/auth.log
