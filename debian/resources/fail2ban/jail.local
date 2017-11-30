@@ -11,11 +11,11 @@ bantime  = 86400
 
 [freeswitch-udp]
 enabled  = true
-port     = 5060-5090
+port     = 5060:5090
 protocol = all
 filter   = freeswitch
 logpath  = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=freeswitch-udp, port="5060-5090", protocol=udp]
+action   = iptables-multiport[name=freeswitch-udp, port="5060:5090", protocol=udp]
 maxretry = 5
 findtime = 600
 bantime  = 3600
@@ -23,11 +23,11 @@ bantime  = 3600
 
 [freeswitch-tcp]
 enabled  = true
-port     = 5060-5090
+port     = 5060:5090
 protocol = all
 filter   = freeswitch
 logpath  = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=freeswitch-tcp, port="5060-5090", protocol=tcp]
+action   = iptables-multiport[name=freeswitch-tcp, port="5060:5090", protocol=tcp]
 maxretry = 5
 findtime = 600
 bantime  = 3600
@@ -35,51 +35,51 @@ bantime  = 3600
 
 [freeswitch-ip-tcp]
 enabled  = false
-port     = 5060-5090
+port     = 5060:5090
 protocol = all
 filter   = freeswitch-ip
 logpath  = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=freeswitch-ip-tcp, port="5060-5090", protocol=tcp]
+action   = iptables-multiport[name=freeswitch-ip-tcp, port="5060:5090", protocol=tcp]
 maxretry = 1
 findtime = 30
 bantime  = 86400
 
 [freeswitch-ip-udp]
 enabled  = false
-port     = 5060-5090
+port     = 5060:5090
 protocol = all
 filter   = freeswitch-ip
 logpath  = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=freeswitch-ip-udp, port="5060-5090", protocol=udp]
+action   = iptables-multiport[name=freeswitch-ip-udp, port="5060:5090", protocol=udp]
 maxretry = 1
 findtime = 30
 bantime  = 86400
 
 [freeswitch-dos-udp]
 enabled  = true
-port     = 5060-5090
+port     = 5060:5090
 protocol = all
 filter   = freeswitch-dos
 logpath  = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=freeswitch-dos-udp, port="5060-5090", protocol=udp]
+action   = iptables-multiport[name=freeswitch-dos-udp, port="5060:5090", protocol=udp]
 maxretry = 50
 findtime = 30
 bantime  = 6000
 
 [freeswitch-dos-tcp]
 enabled  = true
-port     = 5060-5090
+port     = 5060:5090
 protocol = all
 filter   = freeswitch-dos
 logpath  = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=freeswitch-dos-tcp, port="5060-5090", protocol=tcp]
+action   = iptables-multiport[name=freeswitch-dos-tcp, port="5060:5090", protocol=tcp]
 maxretry = 50
 findtime = 30
 bantime  = 7200
 
 [freeswitch-404]
 enabled  = true
-port     = 5060-5090
+port     = 5060:5090
 protocol = all
 filter   = freeswitch-404
 logpath  = /var/log/freeswitch/freeswitch.log
