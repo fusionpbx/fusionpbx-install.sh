@@ -10,8 +10,8 @@ cd "$(dirname "$0")"
 
 apt-get update && apt-get install -y --force-yes curl memcached haveged
 if [ ."$cpu_architecture" = ."arm" ]; then
-        echo "deb http://repo.sip247.com/debian/freeswitch-stable-armhf/ jessie main" > /etc/apt/sources.list.d/freeswitch.list
-        curl http://repo.sip247.com/debian/sip247.com.gpg.key | apt-key add -
+        echo "deb https://repo.fusionpbx.com/armhf jessie main" > /etc/apt/sources.list.d/freeswitch.list
+        curl https://repo.fusionpbx.com/public.key | apt-key add -
 else
         echo "deb http://files.freeswitch.org/repo/deb/freeswitch-1.6/ jessie main" > /etc/apt/sources.list.d/freeswitch.list
         curl http://files.freeswitch.org/repo/deb/freeswitch-1.6/key.gpg | apt-key add -
