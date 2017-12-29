@@ -31,6 +31,9 @@ else
 fi
 
 #determine which database to replicate
+read -p 'Replicate the FusionPBX Database (true/false): ' system_replicate
+
+#determine which database to replicate
 read -p 'Replicate the FreeSWITCH Database (true/false): ' switch_replicate
 
 #settings summary
@@ -45,6 +48,7 @@ else
 	echo "Join using node in group: $node_1";
 	echo "This Node Address: $node_2";
 fi
+echo "Replicate the FusionPBX Database: $system_replicate";
 echo "Replicate the FreeSWITCH Database: $switch_replicate";
 echo "";
 
@@ -66,7 +70,7 @@ fi
 #iptables rules
 for node in $nodes; do
         iptables -A INPUT -j ACCEPT -p tcp --dport 5432 -s ${node}/32
-        #iptables -A INPUT -j ACCEPT -p tcp --dport 8080 -s ${node}/32
+        iptables -A INPUT -j ACCEPT -p tcp --dport 22000 -s ${node}/32
 done
 apt-get remove iptables-persistent -y --force-yes
 echo iptables-persistent iptables-persistent/autosave_v4 boolean true | debconf-set-selections
@@ -125,13 +129,17 @@ sudo -u postgres psql -d freeswitch -c "CREATE EXTENSION bdr;";
 #add master nodes
 if [ .$group_create = .true ]; then
 	#add first node
-	sudo -u postgres psql -d fusionpbx -c "SELECT bdr.bdr_group_create(local_node_name := '$node_1', node_external_dsn := 'host=$node_1 port=5432 dbname=fusionpbx connect_timeout=10 keepalives_idle=5 keepalives_interval=1 sslmode=require');";
+	if [ .$system_replicate = .true ]; then
+		sudo -u postgres psql -d fusionpbx -c "SELECT bdr.bdr_group_create(local_node_name := '$node_1', node_external_dsn := 'host=$node_1 port=5432 dbname=fusionpbx connect_timeout=10 keepalives_idle=5 keepalives_interval=1 sslmode=require');";
+	fi
 	if [ .$switch_replicate = .true ]; then
 		sudo -u postgres psql -d freeswitch -c "SELECT bdr.bdr_group_create(local_node_name := '$node_1', node_external_dsn := 'host=$node_1 port=5432 dbname=freeswitch connect_timeout=10 keepalives_idle=5 keepalives_interval=1 sslmode=require');";
 	fi
 else
 	#add additional master nodes
-	sudo -u postgres psql -d fusionpbx -c "SELECT bdr.bdr_group_join(local_node_name := '$node_2', node_external_dsn := 'host=$node_2 port=5432 dbname=fusionpbx connect_timeout=10 keepalives_idle=5 keepalives_interval=1', join_using_dsn := 'host=$node_1 port=5432 dbname=fusionpbx connect_timeout=10 keepalives_idle=5 keepalives_interval=1 sslmode=require');";
+	if [ .$system_replicate = .true ]; then
+		sudo -u postgres psql -d fusionpbx -c "SELECT bdr.bdr_group_join(local_node_name := '$node_2', node_external_dsn := 'host=$node_2 port=5432 dbname=fusionpbx connect_timeout=10 keepalives_idle=5 keepalives_interval=1', join_using_dsn := 'host=$node_1 port=5432 dbname=fusionpbx connect_timeout=10 keepalives_idle=5 keepalives_interval=1 sslmode=require');";
+	fi
 	if [ .$switch_replicate = .true ]; then
 		sudo -u postgres psql -d freeswitch -c "SELECT bdr.bdr_group_join(local_node_name := '$node_2', node_external_dsn := 'host=$node_2 port=5432 dbname=freeswitch connect_timeout=10 keepalives_idle=5 keepalives_interval=1', join_using_dsn := 'host=$node_1 port=5432 dbname=freeswitch connect_timeout=10 keepalives_idle=5 keepalives_interval=1 sslmode=require');";
 	fi
