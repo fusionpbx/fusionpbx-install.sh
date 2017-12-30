@@ -40,7 +40,7 @@ resources/fail2ban.sh
 resources/switch.sh
 
 #Postgres
-resources/postgres.sh
+resources/postgresql.sh
 
 #set the ip address
 server_address=$(hostname -I)
