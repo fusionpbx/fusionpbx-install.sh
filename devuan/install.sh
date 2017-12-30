@@ -39,7 +39,7 @@ resources/fail2ban.sh
 resources/sngrep.sh
 
 #Postgres
-resources/postgres.sh
+resources/postgresql.sh
 
 #restart services
 if [ ."$php_version" = ."5" ]; then
