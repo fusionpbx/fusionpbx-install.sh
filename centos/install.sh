@@ -23,7 +23,7 @@ resources/selinux.sh
 resources/fusionpbx.sh
 
 #Postgres
-resources/postgres.sh
+resources/postgresql.sh
 
 #NGINX web server
 resources/sslcert.sh
