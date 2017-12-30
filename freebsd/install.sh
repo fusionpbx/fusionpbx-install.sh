@@ -50,7 +50,7 @@ fi
 
 #Postgres
 if [ .$database_enabled = .'true' ]; then
-	resources/postgres.sh
+	resources/postgresql.sh
 fi
 
 #restart services
