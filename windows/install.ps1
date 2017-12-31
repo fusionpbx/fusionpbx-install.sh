@@ -15,7 +15,6 @@ $database_password = "random"        # random or a custom value
 #$database_backup = $false           # true or false
 
 # General Settings
-$cpu = "x64"                         # x64 or x86
 $php_version = 7                     # PHP version 5 or 7
 $web_server = "IIS"                  # nginx or IIS
 $iis_identity = "LocalSystem"        # localSystem or NetworkService
@@ -43,6 +42,15 @@ Function Get-Link([string]$url, [string]$pattern) {
 	return $uri.AbsoluteUri
 }
 
+Function Get-CPU() {
+    if ($env:PROCESSOR_ARCHITECTURE -eq "x86") {
+        Return "x86"
+    }
+    else {
+        Return "x64"
+    }
+}
+
 Function Write-Log([string]$message) {
 	Add-Content -Path "install.log" -Value $message
 	Write-Host $message -ForegroundColor Cyan
@@ -62,6 +70,7 @@ Function Get-InstalledApp([string]$name) {
 #Download and install latest version on FreeSWITCH 1.6. 
 #Set it to auto start
 Function Install-FreeSWITCH() {
+	$cpu = Get-CPU
 	if ($cpu -eq "x86") {
 		$url = "http://files.freeswitch.org/windows/installer/x86/"
 	}
@@ -126,6 +135,7 @@ Function Expand-ZIP([string]$filename) {
 }
 
 Function Install-PostgresODBC() {
+	$cpu = Get-CPU
 	$url = "https://ftp.postgresql.org/pub/odbc/versions/msi/"
 	$link = Get-Link $url -pattern "*" + ($cpu) + "*"
 	Write-Host Download ODBC from $link -ForegroundColor Cyan
