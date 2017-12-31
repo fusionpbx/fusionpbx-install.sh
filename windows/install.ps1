@@ -172,7 +172,7 @@ Function Install-PostgresODBC() {
 
 Function Start-PSQL([string]$command) {
 	$location = Get-Location
-	Set-Location "C:\Program Files\PostgreSQL\10.1\bin"
+	Set-Location "C:\Program Files\PostgreSQL\10\bin"
 	.\psql.exe --username=postgres -c "$command" 
 	Set-Location $location
 }
