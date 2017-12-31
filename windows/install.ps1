@@ -98,9 +98,7 @@ Function Install-FreeSWITCH() {
         $cpu = Get-CPU
         Get-File "https://raw.github.com/sergey-mz/fusionpbx-install.sh/master/windows/resources/$cpu/mod_lua.dll"
         Copy-Item ".\mod_lua.dll" -Destination $lua
-    }
-    }
-    
+    }    
 }
 
 Function Install-7zip() {
