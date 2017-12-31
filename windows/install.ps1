@@ -178,7 +178,7 @@ Function Install-PostgresODBC() {
 
 Function Start-PSQL([string]$command) {
     $location = Get-Location
-    Set-Location "C:\Program Files\PostgreSQL\9.6\bin"
+    Set-Location "C:\Program Files\PostgreSQL\10.1\bin"
     .\psql.exe --username=postgres -c "$command" 
     Set-Location $location
 }
@@ -220,10 +220,10 @@ Function Install-PostgreSQL() {
         return
     }
     if ($env:PROCESSOR_ARCHITECTURE -eq "x86") {
-        $url = "https://get.enterprisedb.com/postgresql/postgresql-9.6.3-3-windows.exe"
+        $url = "https://get.enterprisedb.com/postgresql/postgresql-10.1-3-windows.exe"
     }
     else {
-        $url = "https://get.enterprisedb.com/postgresql/postgresql-9.6.3-3-windows-x64.exe"
+        $url = "https://get.enterprisedb.com/postgresql/postgresql-10.1-3-windows-x64.exe"
     }
 
     Write-Host Download PostgreSQL from $url -ForegroundColor Cyan
