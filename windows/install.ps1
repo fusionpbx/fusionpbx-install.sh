@@ -49,7 +49,10 @@ Function Write-Log([string]$message) {
 }
 
 Function New-Password([int32]$length) {
-	([char[]]([char]'A'..[char]'Z') + [char[]]([char]'a'..[char]'z') + 0..9 | Sort-Object {Get-Random})[0..$length] -join ''
+	$password = ""
+	$chars = "abcdefghijkmnopqrstuvwxyzABCEFGHJKLMNPQRSTUVWXYZ23456789!#%&?".ToCharArray()
+	1..$length | ForEach {  $password += $chars | Get-Random }
+	return $password
 }
 
 Function Get-InstalledApp([string]$name) {
