@@ -153,19 +153,19 @@ Function Install-PostgresODBC() {
 		Start-Process msiexec "/i $filename /passive /qb" -Wait
 	}
 
-	if ((Get-Command Get-OdbcDsn -ErrorAction SilentlyContinue)) {
-		#Get or create DSN
-		$dsn = Get-OdbcDsn FusionPBX -ErrorAction SilentlyContinue
-		Remove-OdbcDsn FusionPBX -DsnType System
-		if ($dsn.length -eq 0) {
-		    # Get ODBC Driver name
-		    $driver = (Get-OdbcDriver -Name "PostgreSQL Unicode*").Name
-		    $dsn = Add-OdbcDsn -DsnType System -Name fusionpbx -DriverName $driver -SetPropertyValue "servername=localhost","port=5432","database=fusionpbx","GssAuthUseGSS=0"
-		}
-		$dsn | Set-OdbcDsn -SetPropertyValue Username=postgres
-		$dsn | Set-OdbcDsn -SetPropertyValue password=$database_password
-	}
-	else {
+	#if ((Get-Command Get-OdbcDsn -ErrorAction SilentlyContinue)) {
+	#	#Get or create DSN
+	#	$dsn = Get-OdbcDsn FusionPBX -ErrorAction SilentlyContinue
+	#	Remove-OdbcDsn FusionPBX -DsnType System
+	#	if ($dsn.length -eq 0) {
+	#	    # Get ODBC Driver name
+	#	    $driver = (Get-OdbcDriver -Name "PostgreSQL Unicode*").Name
+	#	    $dsn = Add-OdbcDsn -DsnType System -Name fusionpbx -DriverName $driver -SetPropertyValue "servername=localhost","port=5432","database=fusionpbx","GssAuthUseGSS=0"
+	#	}
+	#	$dsn | Set-OdbcDsn -SetPropertyValue Username=postgres
+	#	$dsn | Set-OdbcDsn -SetPropertyValue password=$database_password
+	#}
+	#else {
 		# Configure DSN with ODBC Administrator
 		Write-Host The ODBC Administrator window will open. -ForegroundColor Yellow
 		if ($cpu -eq "x86") {
@@ -176,7 +176,7 @@ Function Install-PostgresODBC() {
 		}
 		#ODBCCONF.EXE /Lv dsn_log.txt CONFIGSYSDSN "$driver" "DSN=fusionpbx|server=localhost|port=5432|database=fusionpbx|Username=postgres|password=$database_password"
 		ODBCCONF.EXE /Lv dsn_log.txt CONFIGSYSDSN "$driver" "DSN=fusionpbx|server=localhost|port=5432|database=fusionpbx|Username=postgres|password=$database_password|GssAuthUseGSS=false"
-	}
+	#}
 	Start-Process odbcad32.exe -Wait
 }
 
