@@ -171,13 +171,13 @@ Function Install-PostgresODBC() {
 		if ($cpu -eq "x86") {
 			$driver="PostgreSQL Unicode"
 		}
-		else { 
+		else {
 			$driver="PostgreSQL Unicode(x64)"
 		}
 		#ODBCCONF.EXE /Lv dsn_log.txt CONFIGSYSDSN "$driver" "DSN=fusionpbx|server=localhost|port=5432|database=fusionpbx|Username=postgres|password=$database_password"
 		ODBCCONF.EXE /Lv dsn_log.txt CONFIGSYSDSN "$driver" "DSN=fusionpbx|server=localhost|port=5432|database=fusionpbx|Username=postgres|password=$database_password|GssAuthUseGSS=false"
 	#}
-	Start-Process odbcad32.exe -Wait
+	#Start-Process odbcad32.exe -Wait
 }
 
 Function Start-PSQL([string]$command) {
@@ -207,7 +207,7 @@ Function Test-ODBC([string]$DSN,[string]$username,[string]$password) {
 
 Function Start-ODBC([string]$query) {
 	$conn = New-Object System.Data.Odbc.OdbcConnection
-	$conn.ConnectionString = "DSN=fusionpbx;username=fusionpbxadmin;password=despatch4u"
+	$conn.ConnectionString = "DSN=fusionpbx;username=fusionpbx;password=$database_password"
 	$conn.open()
 	if ($conn.State -eq "Open") {
 		$cmd = New-object System.Data.Odbc.OdbcCommand($query,$conn)
@@ -216,7 +216,7 @@ Function Start-ODBC([string]$query) {
 	}
 }
 
-Start-ODBC "select username from v_users"
+#Start-ODBC "select username from v_users"
 
 Function Install-PostgreSQL() {
 	if (Get-InstalledApp "PostgreSQL*") {
@@ -246,6 +246,7 @@ Function Install-PostgreSQL() {
 	Start-PSQL "GRANT ALL PRIVILEGES ON DATABASE freeswitch to fusionpbx;"
 	Start-PSQL "GRANT ALL PRIVILEGES ON DATABASE freeswitch to freeswitch;"
 }
+
 Function Install-Git(){
 	if ($env:PROCESSOR_ARCHITECTURE -eq "x86") {
 		$url = "https://github.com/git-for-windows/git/releases/download/v2.15.1.windows.2/Git-2.15.1.2-32-bit.exe"
@@ -330,7 +331,7 @@ Function Install-IIS([string]$path) {
 	#netsh http add sslcert ipport=0.0.0.0:443 certhash=$cert "appid={4dc3e181-e14b-4a21-b022-59fc669b0914}"
 	#netsh http show sslcert
 
-	#Set anonimous authentication to application pool identity
+	#Set anonymous authentication to application pool identity
 	$config = $iis.GetApplicationHostConfiguration()
 	$auth = $config.GetSection("system.webServer/security/authentication/anonymousAuthentication", "FusionPBX/")
 	$auth.SetAttributeValue("userName","")
