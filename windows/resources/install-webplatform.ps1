@@ -6,7 +6,6 @@ Function Install-WebPlatform() {
 	#send message
 	if (Get-Installed-App "*Web Platform*") {
 		Write-Host "Web Platform Installer is already installed"
-		return
 	}
 
 	#download and install the web platform installer
@@ -16,7 +15,7 @@ Function Install-WebPlatform() {
         Start-Process $filename -Wait
     }
     else {
-		Start-Process "C:\Program Files\Microsoft\Web Platform Installer\WebPlatformInstaller.exe" -Wait
+		#Start-Process "C:\Program Files\Microsoft\Web Platform Installer\WebPlatformInstaller.exe /silent" -Wait
 	}
 
 	# list available applications - All, Available
@@ -26,12 +25,12 @@ Function Install-WebPlatform() {
     if (-not (Test-Path "${env:ProgramFiles}\PHP\v7.1\php.exe")) {
 	    $cpu = Get-CPU
 	    if ($cpu -eq "x86") {
-	        $command = "WebpiCmd.exe /install /Products:PHP71 /AcceptEula"
+            ."C:\Program Files\Microsoft\Web Platform Installer\WebpiCmd-x64.exe" "/install" "/Products:PHP71" "/AcceptEula"
         }
         else {
-	        $command = "WebpiCmd-x64.exe /install /Products:PHP71x64 /AcceptEula"
+	        ."C:\Program Files\Microsoft\Web Platform Installer\WebpiCmd-x64.exe" "/install" "/Products:PHP71x64" "/AcceptEula"
         }
-        Start-Process $command -Wait
     }
 
 }
+#Install-WebPlatform
