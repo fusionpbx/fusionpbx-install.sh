@@ -10,6 +10,11 @@ cd "$(dirname "$0")"
 #send a message
 verbose "Configuring PHP"
 
+#change the version of php for debian stretch
+if [ ."$os_codename" = ."stretch" ]; then
+       php_version=7
+fi
+
 #update config if source is being used
 if [ ."$php_version" = ."5" ]; then
         verbose "version 5.x"
