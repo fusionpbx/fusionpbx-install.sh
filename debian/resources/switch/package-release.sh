@@ -41,6 +41,7 @@ sed -i /lib/systemd/system/freeswitch.service -e s:'local-fs.target:local-fs.tar
 #remove the music package to protect music on hold from package updates
 mkdir -p /usr/share/freeswitch/sounds/temp
 mv /usr/share/freeswitch/sounds/music/*000 /usr/share/freeswitch/sounds/temp
+mv /usr/share/freeswitch/sounds/music/default/*000 /usr/share/freeswitch/sounds/temp
 apt-get remove -y --force-yes freeswitch-music-default
 mkdir -p /usr/share/freeswitch/sounds/music/default
 mv /usr/share/freeswitch/sounds/temp/* /usr/share/freeswitch/sounds/music/default
