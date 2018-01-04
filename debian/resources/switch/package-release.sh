@@ -8,13 +8,18 @@ cd "$(dirname "$0")"
 . ../colors.sh
 . ../environment.sh
 
-apt-get update && apt-get install -y --force-yes curl memcached haveged
+apt-get update && apt-get install -y --force-yes curl memcached haveged apt-transport-https
 if [ ."$cpu_architecture" = ."arm" ]; then
         echo "deb https://repo.fusionpbx.com/armhf jessie main" > /etc/apt/sources.list.d/freeswitch.list
         curl https://repo.fusionpbx.com/public.key | apt-key add -
 else
-        echo "deb http://files.freeswitch.org/repo/deb/freeswitch-1.6/ jessie main" > /etc/apt/sources.list.d/freeswitch.list
-        curl http://files.freeswitch.org/repo/deb/freeswitch-1.6/key.gpg | apt-key add -
+        if [ ."$os_codename" = ."stretch" ]; then
+                echo "deb https://repo.fusionpbx.com/armhf stretch stable" > /etc/apt/sources.list.d/freeswitch.list
+                curl https://repo.fusionpbx.com/public.key | apt-key add -
+        else
+                echo "deb http://files.freeswitch.org/repo/deb/freeswitch-1.6/ jessie main" > /etc/apt/sources.list.d/freeswitch.list
+                curl http://files.freeswitch.org/repo/deb/freeswitch-1.6/key.gpg | apt-key add -
+        fi
 fi
 apt-get update
 apt-get install -y --force-yes gdb ntp
