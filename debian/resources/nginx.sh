@@ -8,6 +8,11 @@ cd "$(dirname "$0")"
 . ./colors.sh
 . ./environment.sh
 
+#change the version of php for debian stretch
+if [ ."$os_codename" = ."stretch" ]; then
+       php_version=7
+fi
+
 #send a message
 verbose "Installing the web server"
 
