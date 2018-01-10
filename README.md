@@ -8,7 +8,7 @@ A quick install guide for a FusionPBX install. It is recommended to start the in
 Debian 8 is the preferred operating system by the FreeSWITCH developers. It supports the latest video dependencies. If you want to do video mixing use Debian. Download Debian 8 Jessie from here https://cdimage.debian.org/cdimage/archive/
 
 ```sh
-wget -O - https://raw.githubusercontent.com/fusionpbx/fusionpbx-install.sh/master/debian/pre-install.sh | sh
+wget -O - https://raw.githubusercontent.com/fusionpbx/fusionpbx-install.sh/master/debian/pre-install.sh | sh;
 cd /usr/src/fusionpbx-install.sh/debian && ./install.sh
 ```
 ### Devuan
@@ -17,7 +17,7 @@ Version 1 is bassed on Jessie. So you will find the same packages available.
 Please note that the source installation and installation on ARM is not fully tested.
 
 ```sh
-wget -O - https://raw.githubusercontent.com/fusionpbx/fusionpbx-install.sh/master/devuan/pre-install.sh | sh
+wget -O - https://raw.githubusercontent.com/fusionpbx/fusionpbx-install.sh/master/devuan/pre-install.sh | sh;
 cd /usr/src/fusionpbx-install.sh/devuan && ./install.sh
 ```
 
