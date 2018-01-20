@@ -22,8 +22,8 @@ echo "This Server Address: $server_address"
 read -p "Enter all Node IP Addresses: " nodes
 
 #request the domain and email
-read -p 'Create Group (true/false): ' group_create
-if [ .$group_create = .true ]; then
+read -p 'Create Group (y/n): ' group_create
+if [ .$group_create = ."y" ]; then
 	read -p 'Enter this Nodes Address: ' node_1;
 else
 	read -p 'Join using node already in group: ' node_1;
@@ -31,10 +31,13 @@ else
 fi
 
 #determine which database to replicate
-read -p 'Replicate the FusionPBX Database (true/false): ' system_replicate
+read -p 'Replicate the FusionPBX Database (y/n): ' system_replicate
 
 #determine which database to replicate
-read -p 'Replicate the FreeSWITCH Database (true/false): ' switch_replicate
+read -p 'Replicate the FreeSWITCH Database (y/n): ' switch_replicate
+
+#determine whether to add iptable rules
+read -p 'Add iptable rules (y/n): ' iptables_add
 
 #settings summary
 echo "-----------------------------";
@@ -42,7 +45,7 @@ echo " Summary";
 echo "-----------------------------";
 echo "Create Group: $group_create";
 echo "All Node IP Addresses: $nodes";
-if [ .$group_create = .true ]; then
+if [ .$group_create = ."y" ]; then
 	echo "This Nodes Address: $node_1";
 else
 	echo "Join using node in group: $node_1";
@@ -50,6 +53,7 @@ else
 fi
 echo "Replicate the FusionPBX Database: $system_replicate";
 echo "Replicate the FreeSWITCH Database: $switch_replicate";
+echo "Add iptable rules: $iptables_add";
 echo "";
 
 #verify
@@ -60,7 +64,7 @@ if [ .$verified != ."y" ]; then
 fi
 
 #add the 2ndquadrant repo
-if [ ."$database_version" = ."9.6" ]; then
+if [ .$database_version = ."9.6" ]; then
 	echo 'deb http://packages.2ndquadrant.com/bdr/apt/ jessie-2ndquadrant main' > /etc/apt/sources.list.d/2ndquadrant.list
 	/usr/bin/wget --quiet -O - http://packages.2ndquadrant.com/bdr/apt/AA7A6805.asc | apt-key add -
 	apt-get update && apt-get upgrade -y
@@ -68,14 +72,16 @@ if [ ."$database_version" = ."9.6" ]; then
 fi
 
 #iptables rules
-for node in $nodes; do
-        iptables -A INPUT -j ACCEPT -p tcp --dport 5432 -s ${node}/32
-        iptables -A INPUT -j ACCEPT -p tcp --dport 22000 -s ${node}/32
-done
-apt-get remove iptables-persistent -y --force-yes
-echo iptables-persistent iptables-persistent/autosave_v4 boolean true | debconf-set-selections
-echo iptables-persistent iptables-persistent/autosave_v6 boolean true | debconf-set-selections
-apt-get install -y --force-yes iptables-persistent
+if [ .$iptables_add = ."y" ]; then
+	for node in $nodes; do
+		iptables -A INPUT -j ACCEPT -p tcp --dport 5432 -s ${node}/32
+		iptables -A INPUT -j ACCEPT -p tcp --dport 22000 -s ${node}/32
+	done
+	apt-get remove iptables-persistent -y --force-yes
+	echo iptables-persistent iptables-persistent/autosave_v4 boolean true | debconf-set-selections
+	echo iptables-persistent iptables-persistent/autosave_v6 boolean true | debconf-set-selections
+	apt-get install -y --force-yes iptables-persistent
+fi
 
 #setup ssl
 sed -i /etc/postgresql/$database_version/main/postgresql.conf -e s:'snakeoil.key:snakeoil-postgres.key:'
@@ -127,20 +133,20 @@ sudo -u postgres psql -d freeswitch -c "CREATE EXTENSION btree_gist;";
 sudo -u postgres psql -d freeswitch -c "CREATE EXTENSION bdr;";
 
 #add master nodes
-if [ .$group_create = .true ]; then
+if [ .$group_create = ."y" ]; then
 	#add first node
-	if [ .$system_replicate = .true ]; then
+	if [ .$system_replicate = ."y" ]; then
 		sudo -u postgres psql -d fusionpbx -c "SELECT bdr.bdr_group_create(local_node_name := '$node_1', node_external_dsn := 'host=$node_1 port=5432 dbname=fusionpbx connect_timeout=10 keepalives_idle=5 keepalives_interval=1 sslmode=require');";
 	fi
-	if [ .$switch_replicate = .true ]; then
+	if [ .$switch_replicate = ."y" ]; then
 		sudo -u postgres psql -d freeswitch -c "SELECT bdr.bdr_group_create(local_node_name := '$node_1', node_external_dsn := 'host=$node_1 port=5432 dbname=freeswitch connect_timeout=10 keepalives_idle=5 keepalives_interval=1 sslmode=require');";
 	fi
 else
 	#add additional master nodes
-	if [ .$system_replicate = .true ]; then
+	if [ .$system_replicate = ."y" ]; then
 		sudo -u postgres psql -d fusionpbx -c "SELECT bdr.bdr_group_join(local_node_name := '$node_2', node_external_dsn := 'host=$node_2 port=5432 dbname=fusionpbx connect_timeout=10 keepalives_idle=5 keepalives_interval=1', join_using_dsn := 'host=$node_1 port=5432 dbname=fusionpbx connect_timeout=10 keepalives_idle=5 keepalives_interval=1 sslmode=require');";
 	fi
-	if [ .$switch_replicate = .true ]; then
+	if [ .$switch_replicate = ."y" ]; then
 		sudo -u postgres psql -d freeswitch -c "SELECT bdr.bdr_group_join(local_node_name := '$node_2', node_external_dsn := 'host=$node_2 port=5432 dbname=freeswitch connect_timeout=10 keepalives_idle=5 keepalives_interval=1', join_using_dsn := 'host=$node_1 port=5432 dbname=freeswitch connect_timeout=10 keepalives_idle=5 keepalives_interval=1 sslmode=require');";
 	fi
 fi
@@ -149,7 +155,7 @@ fi
 #sudo -u postgres psql -d freeswitch -f /var/www/fusionpbx/resources/install/sql/switch.sql -L /tmp/switch-sql.log
 
 #sleeping
-if [ .$group_create = .false ]; then
+if [ .$group_create = ."n" ]; then
 	echo "Sleeping for 15 seconds";
 	for i in `seq 1 15`; do
 		echo $i
@@ -158,7 +164,7 @@ if [ .$group_create = .false ]; then
 fi
 
 #add extension pgcrypto
-if [ .$group_create = .false ]; then
+if [ .$group_create = ."n" ]; then
 	sudo -u postgres psql -d freeswitch -c "CREATE EXTENSION pgcrypto;";
 fi
 
