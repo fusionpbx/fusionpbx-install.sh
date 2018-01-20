@@ -1,10 +1,16 @@
+Install-WindowsFeature -name Web-Server -IncludeManagementTools
+Install-WindowsFeature Web-Mgmt-Console
+Install-WindowsFeature Web-Mgmt-Service
+Install-WindowsFeature Web-Http-Redirect
 Function Install-IIS([string]$path) {
 
 	#Run IIS manager and create FusionPBX app
-	Write-Host "Create web site in IIS" -ForegroundColor Yellow
-	Write-Host "Enable extensions php_pgsql and php_pdo_pgsql" in IIS -ForegroundColor Yellow
-	Write-Host "Use URL Rewrite to import rules from .htaccess file" -ForegroundColor Yellow
-	Start-Process "${env:SystemRoot}\system32\inetsrv\InetMgr.exe"
+	#Write-Host "Create web site in IIS" -ForegroundColor Yellow
+	#Write-Host "Enable extensions php_pgsql and php_pdo_pgsql" in IIS -ForegroundColor Yellow
+	#Write-Host "Use URL Rewrite to import rules from .htaccess file" -ForegroundColor Yellow
+	#Start-Process "${env:SystemRoot}\system32\inetsrv\InetMgr.exe"
+    
+    
 
 	Install-IIS -path $system_directory -port 80
 	iisreset
@@ -42,7 +48,7 @@ Function Install-IIS([string]$path) {
 
 	#$site.Bindings | Format-Table protocol,EndPoint,Host,SslFlags -AutoSize
 
-	#$cert = (Get-ChildItem –Path cert:\LocalMachine\My | Sort-Object NotAfter | Select-Object -Last 1).Thumbprint
+	#$cert = (Get-ChildItem â€“Path cert:\LocalMachine\My | Sort-Object NotAfter | Select-Object -Last 1).Thumbprint
 	#netsh http delete sslcert ipport=0.0.0.0:443
 	#netsh http add sslcert ipport=0.0.0.0:443 certhash=$cert "appid={4dc3e181-e14b-4a21-b022-59fc669b0914}"
 	#netsh http show sslcert
