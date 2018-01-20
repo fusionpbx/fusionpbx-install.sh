@@ -45,7 +45,7 @@ Function Install-FreeSWITCH() {
 	#mod_lua.dll is missing from recent windows builds
 	$lua = "C:\Program Files\FreeSWITCH\mod\mod_lua.dll"
 	if ( -not (Test-Path $lua) )  {
-		Get-File "https://raw.github.com/sergey-mz/fusionpbx-install.sh/master/windows/resources/$cpu/mod_lua.dll"
+		Get-File "https://github.com/fusionpbx/fusionpbx-install.sh/raw/master/windows/resources/$cpu/mod_lua.dll"
 		Copy-Item ".\mod_lua.dll" -Destination $lua
 	}    
 }
