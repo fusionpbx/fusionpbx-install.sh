@@ -40,13 +40,15 @@ cd /usr/src/fusionpbx-install.sh/centos && ./install.sh
 ```
 
 ### Windows
-Don't expect everything to work. Testing is required.
-mod_lua is missing from builds after 1.6.14. Script will download it from github.
-Open PowerShell as Administrator and run commands
+*  This powershell install for windows is currently in a "beta stage".
+*  mod_lua is missing from builds after 1.6.14. Script will download it from github.
+*  Click to download the zip file and extract it.
+*  Extract the zip file
+*  Navigate to install.ps1
+*  Click on install.ps1 then right click on install.ps1 then choose Run with Powershell 
+*  If you are not allrady Administrator you will have to choose run as Administrator
 
 ```sh
-Set-Location "$env:PUBLIC\Downloads"
-Invoke-WebRequest https://raw.githubusercontent.com/fusionpbx/fusionpbx-install.sh/master/windows/install.ps1 -OutFile install.ps1
-#run the script
-.\install.ps1
+https://github.com/fusionpbx/fusionpbx-install.sh/archive/2.0.zip
+
 ```
