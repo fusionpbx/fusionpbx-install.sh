@@ -70,3 +70,8 @@ Write-Log "      http://docs.fusionpbx.com"
 
 #Start login page
 #Start-Process http://$domain_name
+
+Write-Log "      Press any key to close this window."
+Write-Log "      Please copy the important info first."
+
+cmd /c pause | out-null
