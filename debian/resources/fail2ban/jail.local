@@ -77,13 +77,13 @@ maxretry = 50
 findtime = 30
 bantime  = 7200
 
-[freeswitch-404]
+[fusionpbx-404]
 enabled  = true
 port     = 5060:5090
 protocol = all
-filter   = freeswitch-404
+filter   = fusionpbx-404
 logpath  = /var/log/freeswitch/freeswitch.log
-action   = iptables-allports[name=freeswitch-404, protocol=all]
+action   = iptables-allports[name=fusionpbx-404, protocol=all]
 maxretry = 3
 findtime = 300
 bantime  = 86400
