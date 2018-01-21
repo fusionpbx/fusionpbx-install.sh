@@ -5,15 +5,15 @@ Install-WindowsFeature Web-Http-Redirect
 Function Install-IIS([string]$path) {
 
 	#Run IIS manager and create FusionPBX app
-	#Write-Host "Create web site in IIS" -ForegroundColor Yellow
-	#Write-Host "Enable extensions php_pgsql and php_pdo_pgsql" in IIS -ForegroundColor Yellow
-	#Write-Host "Use URL Rewrite to import rules from .htaccess file" -ForegroundColor Yellow
-	#Start-Process "${env:SystemRoot}\system32\inetsrv\InetMgr.exe"
+	Write-Host "Create web site in IIS" -ForegroundColor Yellow
+	Write-Host "Enable extensions php_pgsql and php_pdo_pgsql" in IIS -ForegroundColor Yellow
+	Write-Host "Use URL Rewrite to import rules from .htaccess file" -ForegroundColor Yellow
+	Start-Process "${env:SystemRoot}\system32\inetsrv\InetMgr.exe"
     
     
 
-	Install-IIS -path $system_directory -port 80
-	iisreset
+	#Install-IIS -path $system_directory -port 80
+	invoke-command -scriptblock {iisreset}
 
 	#Remove current configuration
 	#Remove-Item c:\inetpub\FusionPBX\resources\config.php
