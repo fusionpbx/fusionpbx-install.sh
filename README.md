@@ -49,6 +49,6 @@ cd /usr/src/fusionpbx-install.sh/centos && ./install.sh
 *  If you are not allrady Administrator you will have to choose run as Administrator
 
 ```sh
-https://github.com/fusionpbx/fusionpbx-install.sh/archive/2.0.zip
 
+Master https://github.com/fusionpbx/fusionpbx-install.sh/archive/master.zip
 ```
