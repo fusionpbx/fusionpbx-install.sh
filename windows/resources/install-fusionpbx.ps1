@@ -23,7 +23,7 @@ Function Install-FusionPBX() {
 	#Clone FusionPBX GIT from Master or 4.2
 	if ($system_branch -eq "stable") { $branch = "4.2" }
 	else                             { $branch = ""}
-	Start-Process "C:\Program Files\Git\bin\git.exe" "clone $branch https://github.com/fusionpbx/fusionpbx.git $system_directory" -Wait
+	Start-Process "C:\Program Files\Git\bin\git.exe" "clone $branch https://github.com/fusionpbx/fusionpbx.git C:/inetpub/FusionPBX/" -Wait
 
 	#Grant permissions to FusionPBX folder
 	if ($iis_identity -ne "LocalSystem") {
@@ -32,7 +32,7 @@ Function Install-FusionPBX() {
 
 	#Copy configuration
 	Move-Item -Path "c:\Program Files\FreeSWITCH\conf" -Destination "c:\Program Files\FreeSWITCH\conf-orig"
-	Copy-Item "$system_directory\resources\templates\conf" "c:\Program Files\FreeSWITCH" -recurse
+	Copy-Item "c:\inetpub\FusionPBX\resources\templates\conf" "c:\Program Files\FreeSWITCH\" -recurse
 
 	#Update xml_cdr url, user and password
 	$filename = "C:\Program Files\FreeSWITCH\conf\autoload_configs\xml_cdr.conf.xml"
