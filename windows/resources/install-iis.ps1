@@ -48,7 +48,7 @@ Function Install-IIS([string]$path) {
 
 	#$site.Bindings | Format-Table protocol,EndPoint,Host,SslFlags -AutoSize
 
-	#$cert = (Get-ChildItem â€“Path cert:\LocalMachine\My | Sort-Object NotAfter | Select-Object -Last 1).Thumbprint
+	#$cert = (Get-ChildItem Ã¢â‚¬â€œPath cert:\LocalMachine\My | Sort-Object NotAfter | Select-Object -Last 1).Thumbprint
 	#netsh http delete sslcert ipport=0.0.0.0:443
 	#netsh http add sslcert ipport=0.0.0.0:443 certhash=$cert "appid={4dc3e181-e14b-4a21-b022-59fc669b0914}"
 	#netsh http show sslcert
@@ -68,4 +68,10 @@ Function Install-IIS([string]$path) {
 
 	#Save
 	$iis.CommitChanges()
+
+    #Add pgsql extensions to php.ini
+    Add-Content "c:\Program Files\PHP\v7.1\php.ini" "`n extension=php_pgsql.dll"
+    Add-Content "c:\Program Files\PHP\v7.1\php.ini" "`n extension=php_pdo_pgsql.dll"
+    invoke-command -scriptblock {iisreset}
+
 }
