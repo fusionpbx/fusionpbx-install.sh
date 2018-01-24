@@ -6,23 +6,26 @@
 . .\resources\get-system_password.ps1
 . .\resources\start-pgsql.ps1
 
+$psql = "C:\Program Files\PostgreSQL\10\bin\psql.exe"
+$php7 = "C:\Program Files\PHP\v7.1\php.exe"
+
 #add the config.php
-Copy-Item "fusionpbx/config.php" "$system_directory/resources"
-$filename = "$system_directory/resources/config.php"
+Copy-Item "fusionpbx/config.php" "C:/inetpub/FusionPBX/resources"
+$filename = "C:/inetpub/FusionPBX/resources/config.php"
 (Get-Content $filename) -replace "{database_username}","fusionpbx" `
 				-replace "{database_password}",$database_password | Out-File $filename
 
 #add the database schema
-."C:\Program Files\PHP\v7.1\php.exe" "$system_directory/core/upgrade/upgrade_schema.php"
+Start-Process $php7 "C:/inetpub/FusionPBX/core/upgrade/upgrade_schema.php"
 
 #get the domain_uuid
 [string]$domain_uuid = [System.Guid]::NewGuid()
 
 #add the domain name
-Start-PSQL "insert into v_domains (domain_uuid, domain_name, domain_enabled) values('$domain_uuid', '$domain_name', 'true');"
+Start-Process $psql "insert into v_domains (domain_uuid, domain_name, domain_enabled) values('$domain_uuid', '$domain_name', 'true');"
 
 #app defaults
-."C:\Program Files\PHP\v7.1\php.exe" "$system_directory/core/upgrade/upgrade_domains.php"
+Start-Process $php7 "C:/inetpub/FusionPBX/core/upgrade/upgrade_domains.php"
 
 #add the user
 [string]$user_uuid = [System.Guid]::NewGuid()
@@ -35,18 +38,18 @@ else {
 	$user_password=$system_password
 }
 $password_hash = ."C:\Program Files\PHP\v7.1\php.exe" "-r echo md5('$user_salt$user_password');"
-Start-PSQL "insert into v_users (user_uuid, domain_uuid, username, password, salt, user_enabled) values('$user_uuid', '$domain_uuid', '$user_name', '$password_hash', '$user_salt', 'true');"
+Start-Process $psql "insert into v_users (user_uuid, domain_uuid, username, password, salt, user_enabled) values('$user_uuid', '$domain_uuid', '$user_name', '$password_hash', '$user_salt', 'true');"
 
 #get the superadmin group_uuid
-group_uuid=Start-PSQL "select group_uuid from v_groups where group_name = 'superadmin';"
+Start-Proccess $psql "select group_uuid from v_groups where group_name = 'superadmin';"
 
 #add the user to the group
 [string]$group_user_uuid = [System.Guid]::NewGuid()
 $group_name="superadmin"
-Start-PSQL "insert into v_group_users (group_user_uuid, domain_uuid, group_name, group_uuid, user_uuid) values('$group_user_uuid', '$domain_uuid', '$group_name', '$group_uuid', '$user_uuid');"
+Start-Process $psql "insert into v_group_users (group_user_uuid, domain_uuid, group_name, group_uuid, user_uuid) values('$group_user_uuid', '$domain_uuid', '$group_name', '$group_uuid', '$user_uuid');"
 
 #app defaults
-."C:\Program Files\PHP\v7.1\php.exe" "$system_directory/core/upgrade/upgrade_domains.php"
+Start-Process $php7 "C:/inetpub/FusionPBX/core/upgrade/upgrade_domains.php"
 
 #welcome message
 Write-Log ""
