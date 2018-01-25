@@ -31,7 +31,7 @@ Function Install-FusionPBX() {
 	}
 
 	#Copy configuration
-	Move-Item -Path "c:\Program Files\FreeSWITCH\conf" -Destination "c:\Program Files\FreeSWITCH\conf-orig"
+	Move-Item "c:\Program Files\FreeSWITCH\conf" "c:\Program Files\FreeSWITCH\conf-orig"
 	Copy-Item "c:\inetpub\FusionPBX\resources\templates\conf" "c:\Program Files\FreeSWITCH\" -recurse
 
 	#Update xml_cdr url, user and password
