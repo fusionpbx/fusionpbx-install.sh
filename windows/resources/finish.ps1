@@ -6,7 +6,20 @@
 . .\resources\get-system_password.ps1
 . .\resources\start-pgsql.ps1
 
-$psql = "C:\Program Files\PostgreSQL\10\bin\psql.exe"
+#Temp Permissions
+
+$Acl = Get-Acl "C:/inetpub/FusionPBX"
+
+$Ar = New-Object System.Security.AccessControl.FileSystemAccessRule("EVERYONE", "FullControl", "ContainerInherit,ObjectInherit", "None", "Allow")
+
+$Acl.SetAccessRule($Ar)
+Set-Acl "C:/inetpub/FusionPBX" $Acl
+
+
+
+
+
+$psql = "C:\Program Files\PostgreSQL\10\bin\psql.exe -U fusionpbx"
 $php7 = "C:\Program Files\PHP\v7.1\php.exe"
 
 #add the config.php
@@ -22,7 +35,7 @@ Start-Process $php7 "C:/inetpub/FusionPBX/core/upgrade/upgrade_schema.php"
 [string]$domain_uuid = [System.Guid]::NewGuid()
 
 #add the domain name
-Start-Process $psql "insert into v_domains (domain_uuid, domain_name, domain_enabled) values('$domain_uuid', '$domain_name', 'true');"
+"C:\Program Files\PostgreSQL\10\bin\psql.exe -U fusionpbx insert into v_domains (domain_uuid, domain_name, domain_enabled) values('$domain_uuid', '$domain_name', 'true');"
 
 #app defaults
 Start-Process $php7 "C:/inetpub/FusionPBX/core/upgrade/upgrade_domains.php"
@@ -38,18 +51,27 @@ else {
 	$user_password=$system_password
 }
 $password_hash = ."C:\Program Files\PHP\v7.1\php.exe" "-r echo md5('$user_salt$user_password');"
-Start-Process $psql "insert into v_users (user_uuid, domain_uuid, username, password, salt, user_enabled) values('$user_uuid', '$domain_uuid', '$user_name', '$password_hash', '$user_salt', 'true');"
+"$psql insert into v_users (user_uuid, domain_uuid, username, password, salt, user_enabled) values('$user_uuid', '$domain_uuid', '$user_name', '$password_hash', '$user_salt', 'true');"
 
 #get the superadmin group_uuid
-Start-Proccess $psql "select group_uuid from v_groups where group_name = 'superadmin';"
+"$psql select group_uuid from v_groups where group_name = 'superadmin';"
 
 #add the user to the group
 [string]$group_user_uuid = [System.Guid]::NewGuid()
 $group_name="superadmin"
-Start-Process $psql "insert into v_group_users (group_user_uuid, domain_uuid, group_name, group_uuid, user_uuid) values('$group_user_uuid', '$domain_uuid', '$group_name', '$group_uuid', '$user_uuid');"
+"$psql insert into v_group_users (group_user_uuid, domain_uuid, group_name, group_uuid, user_uuid) values('$group_user_uuid', '$domain_uuid', '$group_name', '$group_uuid', '$user_uuid');"
 
 #app defaults
 Start-Process $php7 "C:/inetpub/FusionPBX/core/upgrade/upgrade_domains.php"
+
+#Permissions back to readonly
+
+$Acl = Get-Acl "C:/inetpub/FusionPBX"
+
+$Ar = New-Object System.Security.AccessControl.FileSystemAccessRule("EVERYONE", "Read", "ContainerInherit,ObjectInherit", "None", "Allow")
+
+$Acl.SetAccessRule($Ar)
+Set-Acl "C:/inetpub/FusionPBX" $Acl
 
 #welcome message
 Write-Log ""
