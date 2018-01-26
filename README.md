@@ -46,7 +46,7 @@ cd /usr/src/fusionpbx-install.sh/centos && ./install.sh
 *  Extract the zip file
 *  Navigate to install.ps1
 *  Click on install.ps1 then right click on install.ps1 then choose Run with Powershell 
-*  If you are not allrady Administrator you will have to choose run as Administrator
+*  If you are not already Administrator you will have to choose run as Administrator
 
 ```sh
 
