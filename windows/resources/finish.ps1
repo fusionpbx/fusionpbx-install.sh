@@ -19,7 +19,7 @@ $psql = "C:\Program Files\PostgreSQL\10\bin\psql.exe -U fusionpbx"
 
 
 #add the config.php
-Copy-Item "fusionpbx/config.php" "C:/inetpub/FusionPBX/resources"
+Copy-Item "./resources/fusionpbx/config.php" "C:/inetpub/FusionPBX/resources"
 $filename = "C:/inetpub/FusionPBX/resources/config.php"
 (Get-Content $filename) -replace "{database_username}","fusionpbx" `
 				-replace "{database_password}",$database_password | Out-File $filename
