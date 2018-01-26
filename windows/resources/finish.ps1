@@ -15,12 +15,8 @@ $Ar = New-Object System.Security.AccessControl.FileSystemAccessRule("EVERYONE", 
 $Acl.SetAccessRule($Ar)
 Set-Acl "C:/inetpub/FusionPBX" $Acl
 
-
-
-
-
 $psql = "C:\Program Files\PostgreSQL\10\bin\psql.exe -U fusionpbx"
-$php7 = "C:\Program Files\PHP\v7.1\php.exe"
+
 
 #add the config.php
 Copy-Item "fusionpbx/config.php" "C:/inetpub/FusionPBX/resources"
@@ -29,7 +25,7 @@ $filename = "C:/inetpub/FusionPBX/resources/config.php"
 				-replace "{database_password}",$database_password | Out-File $filename
 
 #add the database schema
-Start-Process $php7 "C:/inetpub/FusionPBX/core/upgrade/upgrade_schema.php"
+Start-Process "C:\Program Files\PHP\v7.1\php.exe" "C:/inetpub/FusionPBX/core/upgrade/upgrade_schema.php"
 
 #get the domain_uuid
 [string]$domain_uuid = [System.Guid]::NewGuid()
@@ -38,12 +34,12 @@ Start-Process $php7 "C:/inetpub/FusionPBX/core/upgrade/upgrade_schema.php"
 "C:\Program Files\PostgreSQL\10\bin\psql.exe -U fusionpbx insert into v_domains (domain_uuid, domain_name, domain_enabled) values('$domain_uuid', '$domain_name', 'true');"
 
 #app defaults
-Start-Process $php7 "C:/inetpub/FusionPBX/core/upgrade/upgrade_domains.php"
+Start-Process "C:\Program Files\PHP\v7.1\php.exe" "C:/inetpub/FusionPBX/core/upgrade/upgrade_domains.php"
 
 #add the user
 [string]$user_uuid = [System.Guid]::NewGuid()
 [string]$user_salt = [System.Guid]::NewGuid()
-user_name=$system_username
+$user_name=$system_username
 if ($system_password -eq 'random') {
 	$user_password = New-Password 20
 }
@@ -62,7 +58,7 @@ $group_name="superadmin"
 "$psql insert into v_group_users (group_user_uuid, domain_uuid, group_name, group_uuid, user_uuid) values('$group_user_uuid', '$domain_uuid', '$group_name', '$group_uuid', '$user_uuid');"
 
 #app defaults
-Start-Process $php7 "C:/inetpub/FusionPBX/core/upgrade/upgrade_domains.php"
+Start-Process "C:\Program Files\PHP\v7.1\php.exe" "C:/inetpub/FusionPBX/core/upgrade/upgrade_domains.php"
 
 #Permissions back to readonly
 
