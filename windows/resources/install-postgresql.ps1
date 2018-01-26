@@ -31,4 +31,12 @@ Function Install-PostgreSQL() {
 	Start-PSQL "GRANT ALL PRIVILEGES ON DATABASE fusionpbx to fusionpbx;"
 	Start-PSQL "GRANT ALL PRIVILEGES ON DATABASE freeswitch to fusionpbx;"
 	Start-PSQL "GRANT ALL PRIVILEGES ON DATABASE freeswitch to freeswitch;"
+	
+	#move pg_hba.conf
+    	Move-Item "C:\Program Files\PostgreSQL\10\data\pg_hba.conf" "C:\Program Files\PostgreSQL\10\data\BAK_pg_hba.conf"
+    	Copy-Item ".\postgresql\pg_hba.conf" "C:\Program Files\PostgreSQL\10\data\" -recurse
+
+    	#reload 
+    	C:\Windows\system32\cscript.exe //NoLogo "C:\Program Files\PostgreSQL\10\scripts\serverctl.vbs" reload
+	
 }
