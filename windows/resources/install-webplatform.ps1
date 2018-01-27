@@ -12,11 +12,14 @@ Function Install-WebPlatform() {
     if (-not (Test-Path "${env:ProgramFiles}\Microsoft\Web Platform Installer\WebPlatformInstaller.exe")) {
         $url = "http://download.microsoft.com/download/F/4/2/F42AB12D-C935-4E65-9D98-4E56F9ACBC8E/wpilauncher.exe"
         $filename = Get-File $url
-        Start-Process $filename -Wait
+        Start-Process $filename 
+        Start-Sleep -s 25
     }
     else {
 		#Start-Process "C:\Program Files\Microsoft\Web Platform Installer\WebPlatformInstaller.exe /silent" -Wait
 	}
+
+    Get-Process WebPlatformInstaller | ? { $_.CloseMainWindow() | Out-Null }
 
 	# list available applications - All, Available
 	# WebpiCmd-x64.exe /list /listoption:Available
