@@ -20,14 +20,16 @@ Group=daemon
 LimitCORE=infinity
 LimitNOFILE=100000
 LimitNPROC=60000
-LimitSTACK=240K
+LimitSTACK=250000
 LimitRTPRIO=infinity
-LimitRTTIME=7000000
+LimitRTTIME=infinity
 IOSchedulingClass=realtime
 IOSchedulingPriority=2
 CPUSchedulingPolicy=rr
 CPUSchedulingPriority=89
 UMask=0007
+
+
  
 ; alternatives which you can enforce by placing a unit drop-in into
 ; /etc/systemd/system/freeswitch.service.d/*.conf:

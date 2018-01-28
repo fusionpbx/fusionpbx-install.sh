@@ -18,7 +18,7 @@ sed -i /etc/fail2ban/jail.local -e s:'/usr/local/freeswitch/log:/var/log/freeswi
 sytemctl restart fail2ban
 
 #move source files to package directories
-rsync -avz /usr/local/freeswitch/conf /etc/freeswitch
+rsync -avz /usr/local/freeswitch/conf/* /etc/freeswitch
 rsync -avz /usr/local/freeswitch/recordings /var/lib/freeswitch
 rsync -avz /usr/local/freeswitch/storage /var/lib/freeswitch
 rsync -avz /usr/local/freeswitch/scripts /usr/share/freeswitch

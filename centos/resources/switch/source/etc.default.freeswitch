@@ -1,0 +1,4 @@
+# /etc/default/freeswitch
+FS_USER="freeswitch"
+FS_GROUP="daemon"
+DAEMON_OPTS="-nonat -ncwait -u freeswitch -g daemon -run /var/run/freeswitch"
