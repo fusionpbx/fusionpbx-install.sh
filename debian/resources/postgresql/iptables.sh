@@ -23,7 +23,6 @@ read -p 'Add iptable rules (y/n): ' iptables_add
 echo "-----------------------------";
 echo " Summary";
 echo "-----------------------------";
-
 echo "All Node IP Addresses: $nodes";
 echo "Add iptable rules: $iptables_add";
 echo "";
