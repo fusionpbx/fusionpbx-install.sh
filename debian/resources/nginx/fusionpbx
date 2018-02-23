@@ -165,7 +165,7 @@ server {
 
 	#grandstream
 	rewrite "^.*/provision/cfg([A-Fa-f0-9]{12})(\.(xml|cfg))?$" /app/provision/?mac=$1;
-	rewrite "^.*/provision/pb([A-Fa-f0-9-]{12,17})/phonebook\.xml$" /app/provision/?mac=$1&file=phonebook.xml;
+	rewrite "^.*/provision/pb/([A-Fa-f0-9]{12})/phonebook\.xml$" /app/provision/?mac=$1&file=phonebook.xml; 
 	#grandstream-wave softphone by ext because Android doesn't pass MAC.
 	rewrite "^.*/provision/([0-9]{5})/cfg([A-Fa-f0-9]{12}).xml$" /app/provision/?ext=$1;
 
