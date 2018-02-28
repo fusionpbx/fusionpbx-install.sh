@@ -23,7 +23,13 @@ rm ioncube_loaders_lin_x86-64.zip
 #copy the loader to the correct directory
 if [ ."$php_version" = ."5" ]; then
         #copy the php extension .so into the php lib directory
-        cp ioncube/ioncube_loader_lin_5.6.so /usr/lib/php/20151012
+        cp ioncube/ioncube_loader_lin_5.6.so /usr/lib/php5/20131226
+
+        #add the 00-ioncube.ini file
+        echo "zend_extension = /usr/lib/php5/20131226/ioncube_loader_lin_5.6.so" > /etc/php5/fpm/conf.d/00-ioncube.ini
+
+        #restart the service
+        service php5-fpm restart
 fi
 if [ ."$php_version" = ."7" ]; then
         #copy the php extension .so into the php lib directory
@@ -32,6 +38,6 @@ if [ ."$php_version" = ."7" ]; then
         #add the 00-ioncube.ini file
         echo "zend_extension = /usr/lib/php/20151012/ioncube_loader_lin_7.0.so" > /etc/php/7.0/fpm/conf.d/00-ioncube.ini
 
-        #restart php fpm
+        #restart the service
         service php7.0-fpm restart
 fi
