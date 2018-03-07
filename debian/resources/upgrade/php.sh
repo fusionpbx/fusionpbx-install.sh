@@ -1,25 +1,15 @@
 #!/bin/sh
 
-#move to script directory so all relative paths work
-cd "$(dirname "$0")"
-
-#includes
-. ./config.sh
-. ./colors.sh
-. ./environment.sh
-
-#send a message
-verbose "Removing PHP 5 the web server"
-
 #remove php5
 apt remove -y php5 php5-cli php5-fpm php5-pgsql php5-sqlite php5-odbc php5-curl php5-imap php5-mcrypt
 
+#remove php 7.0
+#apt remove -y php7.0 php7.0-cli php7.0-fpm php7.0-pgsql php7.0-sqlite3 php7.0-odbc php7.0-curl php7.0-imap php7.0-mcrypt php7.0-xml
+
 #add a repo for php 7.1
-if [ ."$os_codename" = ."jessie" ]; then
-        apt-get -y install apt-transport-https lsb-release ca-certificates
-        wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
-        sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
-fi
+apt-get -y install apt-transport-https lsb-release ca-certificates
+wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
 apt-get update
 
 #install php 7.1
