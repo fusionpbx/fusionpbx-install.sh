@@ -38,11 +38,11 @@ if [ ."$php_version" = ."5" ]; then
 fi
 if [ ."$php_version" = ."7" ]; then
         #copy the php extension .so into the php lib directory
-        cp ioncube/ioncube_loader_lin_7.0.so /usr/lib/php/20151012
+        cp ioncube/ioncube_loader_lin_7.1.so /usr/lib/php/20160303
 
         #add the 00-ioncube.ini file
-        echo "zend_extension = /usr/lib/php/20151012/ioncube_loader_lin_7.0.so" > /etc/php/7.0/fpm/conf.d/00-ioncube.ini
+        echo "zend_extension = /usr/lib/php/20160303/ioncube_loader_lin_7.1.so" > /etc/php/7.1/fpm/conf.d/00-ioncube.ini
 
         #restart the service
-        service php7.0-fpm restart
+        service php7.1-fpm restart
 fi
