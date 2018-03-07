@@ -44,9 +44,9 @@ else
         #9.x - */stretch/
         #8.x - */jessie/
         if [ ."$os_codename" = ."jessie" ]; then
-                echo "deb http://packages.dotdeb.org $os_codename all" > /etc/apt/sources.list.d/dotdeb.list
-                echo "deb-src http://packages.dotdeb.org $os_codename all" >> /etc/apt/sources.list.d/dotdeb.list
-                wget -O - https://www.dotdeb.org/dotdeb.gpg | apt-key add -
+                apt-get -y install apt-transport-https lsb-release ca-certificates
+				wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+                sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
         fi
 fi
 apt-get update
@@ -62,7 +62,7 @@ if [ ."$php_version" = ."5" ]; then
         apt-get install -y php5 php5-cli php5-fpm php5-pgsql php5-sqlite php5-odbc php5-curl php5-imap php5-mcrypt
 fi
 if [ ."$php_version" = ."7" ]; then
-        apt-get install -y php7.0 php7.0-cli php7.0-fpm php7.0-pgsql php7.0-sqlite3 php7.0-odbc php7.0-curl php7.0-imap php7.0-mcrypt php7.0-xml
+        apt-get install -y php7.1 php7.1-cli php7.1-fpm php7.1-pgsql php7.1-sqlite3 php7.1-odbc php7.1-curl php7.1-imap php7.1-mcrypt php7.1-xml
 fi
 
 #enable fusionpbx nginx config
@@ -73,7 +73,7 @@ if [ ."$php_version" = ."5" ]; then
         sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php5-fpm.sock;#g'
 fi
 if [ ."$php_version" = ."7" ]; then
-        sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php7.0-fpm.sock;#g'
+        sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php7.1-fpm.sock;#g'
 fi
 ln -s /etc/nginx/sites-available/fusionpbx /etc/nginx/sites-enabled/fusionpbx
 
