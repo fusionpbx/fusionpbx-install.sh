@@ -51,7 +51,7 @@ if [ ."$php_version" = ."5" ]; then
         systemctl restart php5-fpm
 fi
 if [ ."$php_version" = ."7" ]; then
-        systemctl restart php7.0-fpm
+        systemctl restart php7.1-fpm
 fi
 systemctl restart nginx
 systemctl restart fail2ban
