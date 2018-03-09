@@ -8,6 +8,7 @@ system_branch=stable            # master, stable
 # FreeSWITCH Settings
 switch_branch=stable            # master, stable
 switch_source=false             # true or false
+switch_version=1.6.20           # 1.6.20
 switch_package=true             # true or false
 
 # Database Settings
