@@ -14,74 +14,52 @@ read -p 'Email Address: ' email_address
 #domain_name=subdomain.domain.com
 #email=username@domain.com
 
-#remove previous install
-rm -R /opt/letsencrypt
-rm -R /etc/letsencrypt
+cd /usr/src && git clone https://github.com/lukas2511/dehydrated.git
+cd /usr/src/dehydrated
+cp dehydrated /usr/local/sbin
+mkdir -p /var/www/dehydrated
+mkdir -p /etc/dehydrated/certs
+#echo "$domain_name *.$domain_name" > /etc/dehydrated/domains.txt
 
-#use php version 5 for arm
-if [ .$cpu_architecture = .'arm' ]; then
-        php_version=5
-fi
+#use this for wildcard dns
+echo "*.$domain_name > $domain_name" > /etc/dehydrated/domains.txt
 
-#enable fusionpbx nginx config
-cp nginx/fusionpbx /etc/nginx/sites-available/fusionpbx
+#manual dns hook
+cd /usr/src
+git clone https://github.com/owhen/dns-01-manual.git
+cd /usr/src/dns-01-manual/
+cp hook.sh /etc/dehydrated/hook.sh
 
-#prepare socket name
-if [ ."$php_version" = ."5" ]; then
-        sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php5-fpm.sock;#g'
-fi
-if [ ."$php_version" = ."7" ]; then
-        sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php7.0-fpm.sock;#g'
-fi
-ln -s /etc/nginx/sites-available/fusionpbx /etc/nginx/sites-enabled/fusionpbx
+mkdir -p /etc/nginx/ssl
 
-#read the config
-/usr/sbin/nginx -t && /usr/sbin/nginx -s reload
+dehydrated --register --accept-terms
 
-#add jessie backports
-echo "deb http://ftp.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/jessie-backports.list
-apt-get update && apt-get upgrade
-apt-get install certbot -t jessie-backports
+#wildcard domain
+dehydrated --cron --challenge dns-01 --hook /etc/dehydrated/hook.sh
+#single domain
+#dehydrated --cron --challenge http-01
 
-#install letsencrypt
-git clone https://github.com/letsencrypt/letsencrypt /opt/letsencrypt
-chmod 755 /opt/letsencrypt/certbot-auto
-/opt/letsencrypt/./certbot-auto certonly
+cd /usr/src/dehydrated
+cp docs/examples/hook.sh /etc/dehydrated
+cp docs/examples/config /etc/dehydrated
 
-#make the directories
-mkdir -p /etc/letsencrypt/configs
-mkdir -p /var/www/letsencrypt/
-
-#cd $pwd
-#cd "$(dirname "$0")"
-
-#copy the domain conf
-cp letsencrypt/domain_name.conf /etc/letsencrypt/configs/$domain_name.conf
-
-#update the domain_name and email_address
-sed "s#{domain_name}#$domain_name#g" -i /etc/letsencrypt/configs/$domain_name.conf
-sed "s#{email_address}#$email_address#g" -i /etc/letsencrypt/configs/$domain_name.conf
-
-#letsencrypt
-#sed "s@#letsencrypt@location /.well-known/acme-challenge { root /var/www/letsencrypt; }@g" -i /etc/nginx/sites-available/fusionpbx
-
-#get the certs from letsencrypt
-cd /opt/letsencrypt && ./letsencrypt-auto --config /etc/letsencrypt/configs/$domain_name.conf certonly
+#vim /etc/dehydrated/config
+sed "s#CONTACT_EMAIL=#CONTACT_EMAIL=$email_address" -i /etc/dehydrated/config
 
 #update nginx config
-sed "s@ssl_certificate         /etc/ssl/certs/nginx.crt;@ssl_certificate /etc/letsencrypt/live/$domain_name/fullchain.pem;@g" -i /etc/nginx/sites-available/fusionpbx
-sed "s@ssl_certificate_key     /etc/ssl/private/nginx.key;@ssl_certificate_key /etc/letsencrypt/live/$domain_name/privkey.pem;@g" -i /etc/nginx/sites-available/fusionpbx
+sed "s@ssl_certificate         /etc/ssl/certs/nginx.crt;@ssl_certificate /etc/dehydrated/certs/$domain_name/fullchain.pem;@g" -i /etc/nginx/sites-available/fusionpbx
+sed "s@ssl_certificate_key     /etc/ssl/private/nginx.key;@ssl_certificate_key /etc/dehydrated/certs/$domain_name/privkey.pem;@g" -i /etc/nginx/sites-available/fusionpbx
 
 #read the config
 /usr/sbin/nginx -t && /usr/sbin/nginx -s reload
 
 #combine the certs into all.pem
-cat /etc/letsencrypt/live/$domain_name/cert.pem > /etc/letsencrypt/live/$domain_name/all.pem
-cat /etc/letsencrypt/live/$domain_name/privkey.pem >> /etc/letsencrypt/live/$domain_name/all.pem
-cat /etc/letsencrypt/live/$domain_name/chain.pem >> /etc/letsencrypt/live/$domain_name/all.pem
+cat /etc/dehydrated/certs/$domain_name/fullchain.pem > /etc/dehydrated/certs/$domain_name/all.pem
+cat /etc/dehydrated/certs/$domain_name/privkey.pem >> /etc/dehydrated/certs/$domain_name/all.pem
+#cat /etc/dehydrated/certs/$domain_name/chain.pem >> /etc/dehydrated/certs/$domain_name/all.pem
 
 #copy the certs to the switch tls directory
 mkdir -p /etc/freeswitch/tls
-cp /etc/letsencrypt/live/$domain_name/*.pem /etc/freeswitch/tls
-cp /etc/freeswitch/tls/all.pem /etc/freeswitch/tls/wss.pem
+cp /etc/dehydrated/certs/$domain_name/*.pem /etc/freeswitch/tls
+cp /etc/dehydrated/certs/all.pem /etc/freeswitch/tls/wss.pem
 chown -R www-data:www-data /etc/freeswitch
