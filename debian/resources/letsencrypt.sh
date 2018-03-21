@@ -8,6 +8,13 @@ cd "$(dirname "$0")"
 #. ./colors.sh
 . ./environment.sh
 
+#remove dehyrdated letsencrypt script
+#rm -R /etc/dehydrated/
+#rm /usr/local/sbin/dehydrated
+#rm -R /usr/src/dehydrated
+#rm -R /usr/src/dns-01-manual
+#rm -R /var/www/dehydrated
+
 #request the domain name, email address and wild card domain
 read -p 'Domain Name: ' domain_name
 read -p 'Email Address: ' email_address
