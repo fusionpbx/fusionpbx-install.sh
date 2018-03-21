@@ -29,8 +29,6 @@ mkdir -p /etc/dehydrated/certs
 #create an alias when using wildcard dns
 if [ .$wilcard_domain_name = ."y" ]; then
   echo "*.$domain_name > $domain_name" > /etc/dehydrated/domains.txt
-else
-  echo "$domain_name" > /etc/dehydrated/domains.txt
 fi
 
 #manual dns hook
