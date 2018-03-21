@@ -45,8 +45,16 @@ mkdir -p /etc/nginx/ssl
 dehydrated --register --accept-terms
 
 #wildcard domain
-dehydrated --cron --challenge dns-01 --hook /etc/dehydrated/hook.sh
+if [ .$wilcard_domain_name = ."y" ]; then
+  dehydrated --cron --challenge dns-01 --hook /etc/dehydrated/hook.sh
+fi
+
 #single domain
+if [ .$wilcard_domain_name = ."n" ]; then
+  dehydrated --cron --domain $domain_name --challenge dns-01 --hook /etc/dehydrated/hook.sh
+fi
+
+#challenge methods http-01
 #dehydrated --cron --challenge http-01
 
 cd /usr/src/dehydrated
