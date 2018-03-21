@@ -33,6 +33,7 @@ cd /usr/src
 git clone https://github.com/owhen/dns-01-manual.git
 cd /usr/src/dns-01-manual/
 cp hook.sh /etc/dehydrated/hook.sh
+chmod 755 /etc/dehydrated/hook.sh
 
 mkdir -p /etc/nginx/ssl
 
