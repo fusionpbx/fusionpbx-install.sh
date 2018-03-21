@@ -8,12 +8,12 @@ cd "$(dirname "$0")"
 #. ./colors.sh
 . ./environment.sh
 
-#request the domain and email
+#request the domain name, email address and wild card domain
 read -p 'Domain Name: ' domain_name
 read -p 'Email Address: ' email_address
-#domain_name=subdomain.domain.com
-#email=username@domain.com
+read -p 'Wild card domain name? (y/n): ' wilcard_domain_name
 
+#get and install dehydrated
 cd /usr/src && git clone https://github.com/lukas2511/dehydrated.git
 cd /usr/src/dehydrated
 cp dehydrated /usr/local/sbin
@@ -21,8 +21,12 @@ mkdir -p /var/www/dehydrated
 mkdir -p /etc/dehydrated/certs
 #echo "$domain_name *.$domain_name" > /etc/dehydrated/domains.txt
 
-#use this for wildcard dns
-echo "*.$domain_name > $domain_name" > /etc/dehydrated/domains.txt
+#create an alias when using wildcard dns
+if [ .$wilcard_domain_name = ."y" ]; then
+  echo "*.$domain_name > $domain_name" > /etc/dehydrated/domains.txt
+else
+  echo "$domain_name" > /etc/dehydrated/domains.txt
+fi
 
 #manual dns hook
 cd /usr/src
