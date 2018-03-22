@@ -33,6 +33,9 @@ mkdir -p /var/www/dehydrated
 mkdir -p /etc/dehydrated/certs
 #echo "$domain_name *.$domain_name" > /etc/dehydrated/domains.txt
 
+#remove the wildcard and period
+domain_name=$(echo "$domain_name" | cut -c3-255)
+
 #create an alias when using wildcard dns
 if [ .$wilcard_domain = ."y" ]; then
   echo "*.$domain_name > $domain_name" > /etc/dehydrated/domains.txt
