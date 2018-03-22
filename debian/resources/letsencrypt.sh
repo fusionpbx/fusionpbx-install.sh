@@ -16,7 +16,14 @@ cd "$(dirname "$0")"
 #request the domain name, email address and wild card domain
 read -p 'Domain Name: ' domain_name
 read -p 'Email Address: ' email_address
-read -p 'Wild card domain name? (y/n): ' wilcard_domain_name
+
+#wildcard detection
+wilcard_domain=$(echo $domain_name | cut -c1-1)
+if [ "$wilcard_domain" = "*" ]; then
+        wilcard_domain="y"
+else
+        wilcard_domain="n"
+fi
 
 #get and install dehydrated
 cd /usr/src && git clone https://github.com/lukas2511/dehydrated.git
@@ -27,7 +34,7 @@ mkdir -p /etc/dehydrated/certs
 #echo "$domain_name *.$domain_name" > /etc/dehydrated/domains.txt
 
 #create an alias when using wildcard dns
-if [ .$wilcard_domain_name = ."y" ]; then
+if [ .$wilcard_domain = ."y" ]; then
   echo "*.$domain_name > $domain_name" > /etc/dehydrated/domains.txt
 fi
 
@@ -43,12 +50,12 @@ mkdir -p /etc/nginx/ssl
 dehydrated --register --accept-terms
 
 #wildcard domain
-if [ .$wilcard_domain_name = ."y" ]; then
+if [ .$wilcard_domain = ."y" ]; then
   dehydrated --cron --challenge dns-01 --hook /etc/dehydrated/hook.sh
 fi
 
 #single domain
-if [ .$wilcard_domain_name = ."n" ]; then
+if [ .$wilcard_domain = ."n" ]; then
   dehydrated --cron --domain $domain_name --challenge dns-01 --hook /etc/dehydrated/hook.sh
 fi
 
