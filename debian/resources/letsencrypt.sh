@@ -39,7 +39,9 @@ mkdir -p /etc/dehydrated/certs
 #echo "$domain_name *.$domain_name" > /etc/dehydrated/domains.txt
 
 #remove the wildcard and period
-domain_name=$(echo "$domain_name" | cut -c3-255)
+if [ .$wilcard_domain = ."y" ]; then
+      domain_name=$(echo "$domain_name" | cut -c3-255)
+fi
 
 #create an alias when using wildcard dns
 if [ .$wilcard_domain = ."y" ]; then
@@ -86,6 +88,9 @@ sed "s@ssl_certificate_key     /etc/ssl/private/nginx.key;@ssl_certificate_key /
 
 #make sure the freeswitch directory exists
 mkdir -p /etc/freeswitch/tls
+
+#make sure the freeswitch certificate directory is empty
+rm /etc/freeswitch/tls/*
 
 #combine the certs into all.pem
 cat /etc/dehydrated/certs/$domain_name/fullchain.pem > /etc/freeswitch/tls/all.pem
