@@ -1,5 +1,10 @@
 #!/bin/sh
 
+# FusionPBX - Install
+# Mark J Crane <markjcrane@fusionpbx.com>
+# Copyright (C) 2018
+# All Rights Reserved.
+      
 #move to script directory so all relative paths work
 cd "$(dirname "$0")"
 
