@@ -36,7 +36,6 @@ cd /usr/src/dehydrated
 cp dehydrated /usr/local/sbin
 mkdir -p /var/www/dehydrated
 mkdir -p /etc/dehydrated/certs
-#echo "$domain_name *.$domain_name" > /etc/dehydrated/domains.txt
 
 #remove the wildcard and period
 if [ .$wilcard_domain = ."y" ]; then
@@ -44,9 +43,9 @@ if [ .$wilcard_domain = ."y" ]; then
 fi
 
 #create an alias when using wildcard dns
-if [ .$wilcard_domain = ."y" ]; then
-  echo "*.$domain_name > $domain_name" > /etc/dehydrated/domains.txt
-fi
+#if [ .$wilcard_domain = ."y" ]; then
+#  echo "*.$domain_name > $domain_name" > /etc/dehydrated/domains.txt
+#fi
 
 #manual dns hook
 cd /usr/src
@@ -57,16 +56,16 @@ chmod 755 /etc/dehydrated/hook.sh
 
 mkdir -p /etc/nginx/ssl
 
-dehydrated --register --accept-terms
+dehydrated --register --accept-terms --config /etc/dehydrated/config
 
 #wildcard domain
 if [ .$wilcard_domain = ."y" ]; then
-  dehydrated --cron --challenge dns-01 --hook /etc/dehydrated/hook.sh
+  dehydrated --cron --domain *.$domain_name --alias $domain_name --config /etc/dehydrated/config --out /etc/dehydrated/certs --challenge dns-01 --hook /etc/dehydrated/hook.sh
 fi
 
 #single domain
 if [ .$wilcard_domain = ."n" ]; then
-  dehydrated --cron --domain $domain_name --challenge dns-01 --hook /etc/dehydrated/hook.sh
+  dehydrated --cron --domain $domain_name --config /etc/dehydrated/config --config /etc/dehydrated/config --out /etc/dehydrated/certs --challenge dns-01 --hook /etc/dehydrated/hook.sh
 fi
 
 #challenge methods http-01
