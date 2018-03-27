@@ -57,7 +57,7 @@ chmod 755 /etc/dehydrated/hook.sh
 #copy config and hook.sh into /etc/dehydrated
 cd /usr/src/dehydrated
 cp docs/examples/config /etc/dehydrated
-cp docs/examples/hook.sh /etc/dehydrated
+#cp docs/examples/hook.sh /etc/dehydrated
 
 #vim /etc/dehydrated/config
 #sed "s#CONTACT_EMAIL=#CONTACT_EMAIL=$email_address" -i /etc/dehydrated/config
