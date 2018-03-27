@@ -54,8 +54,18 @@ cd /usr/src/dns-01-manual/
 cp hook.sh /etc/dehydrated/hook.sh
 chmod 755 /etc/dehydrated/hook.sh
 
+#copy config and hook.sh into /etc/dehydrated
+cd /usr/src/dehydrated
+cp docs/examples/config /etc/dehydrated
+cp docs/examples/hook.sh /etc/dehydrated
+
+#vim /etc/dehydrated/config
+#sed "s#CONTACT_EMAIL=#CONTACT_EMAIL=$email_address" -i /etc/dehydrated/config
+
+#make sure the nginx ssl directory exists
 mkdir -p /etc/nginx/ssl
 
+#accept the terms
 dehydrated --register --accept-terms --config /etc/dehydrated/config
 
 #wildcard domain
@@ -67,16 +77,6 @@ fi
 if [ .$wilcard_domain = ."n" ]; then
   dehydrated --cron --domain $domain_name --config /etc/dehydrated/config --config /etc/dehydrated/config --out /etc/dehydrated/certs --challenge dns-01 --hook /etc/dehydrated/hook.sh
 fi
-
-#challenge methods http-01
-#dehydrated --cron --challenge http-01
-
-cd /usr/src/dehydrated
-cp docs/examples/hook.sh /etc/dehydrated
-cp docs/examples/config /etc/dehydrated
-
-#vim /etc/dehydrated/config
-sed "s#CONTACT_EMAIL=#CONTACT_EMAIL=$email_address" -i /etc/dehydrated/config
 
 #update nginx config
 sed "s@ssl_certificate         /etc/ssl/certs/nginx.crt;@ssl_certificate /etc/dehydrated/certs/$domain_name/fullchain.pem;@g" -i /etc/nginx/sites-available/fusionpbx
