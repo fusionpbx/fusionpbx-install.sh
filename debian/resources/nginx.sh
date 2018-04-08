@@ -40,9 +40,8 @@ elif [ ."$cpu_architecture" = ."arm" ]; then
         #Odroid
         php_version=5
         apt-get -y install apt-transport-https lsb-release ca-certificates
-                wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
-                sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
-        fi
+        wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+        sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
 else
         #9.x - */stretch/
         #8.x - */jessie/
