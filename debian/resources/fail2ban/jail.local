@@ -11,7 +11,7 @@ bantime  = 86400
 
 [freeswitch-udp]
 enabled  = true
-port     = 5060:5090
+port     = 5060:5091
 protocol = all
 filter   = freeswitch
 logpath  = /var/log/freeswitch/freeswitch.log
@@ -23,7 +23,7 @@ bantime  = 3600
 
 [freeswitch-tcp]
 enabled  = true
-port     = 5060:5090
+port     = 5060:5091
 protocol = all
 filter   = freeswitch
 logpath  = /var/log/freeswitch/freeswitch.log
@@ -35,7 +35,7 @@ bantime  = 3600
 
 [freeswitch-ip-tcp]
 enabled  = false
-port     = 5060:5090
+port     = 5060:5091
 protocol = all
 filter   = freeswitch-ip
 logpath  = /var/log/freeswitch/freeswitch.log
@@ -46,7 +46,7 @@ bantime  = 86400
 
 [freeswitch-ip-udp]
 enabled  = false
-port     = 5060:5090
+port     = 5060:5091
 protocol = all
 filter   = freeswitch-ip
 logpath  = /var/log/freeswitch/freeswitch.log
@@ -57,7 +57,7 @@ bantime  = 86400
 
 [freeswitch-dos-udp]
 enabled  = true
-port     = 5060:5090
+port     = 5060:5091
 protocol = all
 filter   = freeswitch-dos
 logpath  = /var/log/freeswitch/freeswitch.log
@@ -68,7 +68,7 @@ bantime  = 6000
 
 [freeswitch-dos-tcp]
 enabled  = true
-port     = 5060:5090
+port     = 5060:5091
 protocol = all
 filter   = freeswitch-dos
 logpath  = /var/log/freeswitch/freeswitch.log
@@ -79,7 +79,7 @@ bantime  = 7200
 
 [fusionpbx-404]
 enabled  = true
-port     = 5060:5090
+port     = 5060:5091
 protocol = all
 filter   = fusionpbx-404
 logpath  = /var/log/freeswitch/freeswitch.log
