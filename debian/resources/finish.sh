@@ -108,7 +108,7 @@ echo "      Available online and in person. Includes documentation and recording
 echo ""
 echo "      Location          Online and Boise,Idaho"
 echo "      Admin Training    22 - 24 May 2018 (3 Days)"
-echo "      Advanced Training TBD 2018"
+echo "      "
 echo "      Timezone: https://www.timeanddate.com/worldclock/usa/boise"
 echo ""
 echo "   Additional information."
