@@ -14,8 +14,8 @@ verbose "Installing Fail2ban"
 apt-get install -y --force-yes fail2ban
 
 #move the filters
-cp fail2ban/freeswitch-auth_failure.conf /etc/fail2ban/filter.d/freeswitch-auth_failure.conf
-cp fail2ban/freeswitch-auth_challenge.conf /etc/fail2ban/filter.d/freeswitch-auth_challenge.conf
+cp fail2ban/sip-auth_failure.conf /etc/fail2ban/filter.d/sip-auth_failure.conf
+cp fail2ban/sip-auth_challenge.conf /etc/fail2ban/filter.d/sip-auth_challenge.conf
 cp fail2ban/freeswitch-ip.conf /etc/fail2ban/filter.d/freeswitch-ip.conf
 cp fail2ban/freeswitch.conf /etc/fail2ban/filter.d/freeswitch.conf
 cp fail2ban/fusionpbx.conf /etc/fail2ban/filter.d/fusionpbx.conf
