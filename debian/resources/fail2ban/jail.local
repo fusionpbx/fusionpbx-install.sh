@@ -62,7 +62,7 @@ protocol = all
 filter   = freeswitch-auth_failure
 logpath  = /var/log/freeswitch/freeswitch.log
 action   = iptables-multiport[name=freeswitch-auth_failure-udp, port="5060:5090", protocol=udp]
-maxretry = 50
+maxretry = 3
 findtime = 30
 bantime  = 6000
 
@@ -73,7 +73,7 @@ protocol = all
 filter   = freeswitch-auth_failure
 logpath  = /var/log/freeswitch/freeswitch.log
 action   = iptables-multiport[name=freeswitch-auth_failure-tcp, port="5060:5090", protocol=tcp]
-maxretry = 10
+maxretry = 3
 findtime = 30
 bantime  = 7200
 
