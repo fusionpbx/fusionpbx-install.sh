@@ -35,6 +35,7 @@ sed -i' ' -e s:'#applications/mod_cidlookup:applications/mod_cidlookup:' /usr/sr
 sed -i' ' -e s:'#applications/mod_memcache:applications/mod_memcache:' /usr/src/freeswitch/modules.conf
 sed -i' ' -e s:'#applications/mod_curl:applications/mod_curl:' /usr/src/freeswitch/modules.conf
 #sed -i' ' -e s:'#formats/mod_shout:formats/mod_shout:' /usr/src/freeswitch/modules.conf
+#sed -i' ' -e s:'#formats/mod_nibblebill:formats/mod_nibblebill:' /usr/src/freeswitch/modules.conf
 
 #disable mod_fsv
 #sed -i '' -e s:'applications/mod_fsv:#applications/mod_fsv:' /usr/src/freeswitch/modules.conf
