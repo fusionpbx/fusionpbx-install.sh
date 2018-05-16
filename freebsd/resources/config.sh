@@ -13,7 +13,7 @@ switch_source=source            # package, port, source
 # Database Settings
 database_enabled=true           # true or false
 database_password=random        # random or as a pre-set value
-database_version=9.6            # Postgres 9.3, 9.6
+database_version=10             # Postgres 10, 9.6, 9.5, 9.4
 database_host=127.0.0.1         # hostname or IP address
 database_port=5432              # port number
 database_backup=false           # true or false
