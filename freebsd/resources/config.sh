@@ -23,7 +23,7 @@ firewall_enabled=true           # true or false
 
 # General Settings
 interface_name=auto             # auto, em0, igb0, vtnet0, or other valid names
-php_version=7                   # PHP version 7
+php_version=7.2                 # PHP version 7.2, 7.1, 5
 portsnap_enabled=false          # true or false
 sngrep_enabled=true             # true or false
 fail2ban_enabled=true           # true or false
