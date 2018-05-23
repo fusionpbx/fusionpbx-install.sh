@@ -19,7 +19,7 @@ if [ ."$php_version" = ."5" ]; then
 	pkg install --yes php56 php56-phar php56-pgsql php56-pdo php56-pdo_pgsql php56-pdo_odbc php56-pdo_sqlite php56-json php56-gd
 	pkg install --yes php56-imap php56-ldap php56-mcrypt php56-openssl php56-sockets php56-simplexml php56-xml php56-session
 fi
-if [ ."$php_version" = ."7" ]; then
+if [ ."$php_version" = ."7.1" ]; then
 	#pkg install --yes php70 php70-phar php70-pgsql php70-pdo php70-pdo_pgsql php70-pdo_odbc php70-pdo_sqlite php70-json php70-gd 
 	#pkg install --yes php70-imap php70-ldap php70-mcrypt php70-openssl php70-sockets php70-simplexml php70-xml php70-session
 	pkg install --yes php71 php71-phar php71-pdo php71-pdo_odbc php71-pdo_sqlite php71-json php71-gd php71-imap
@@ -46,6 +46,21 @@ if [ ."$php_version" = ."7" ]; then
 		#cd /usr/ports/databases/php71-pgsql && make install clean BATCH=yes
 		##reset the current working directory
 		#cd $cwd
+	fi
+fi
+if [ ."$php_version" = ."7.2" ]; then
+	pkg install --yes php72 php72-phar php72-pdo php72-pdo_odbc php72-pdo_sqlite php72-json php72-gd php72-imap
+	pkg install --yes php72-ldap php72-mcrypt php72-openssl php72-sockets php72-simplexml php72-xml php72-session
+	if [ ."$database_version" = ."9.5" ]; then
+		pkg install --yes postgresql95-client
+		pkg install --yes php72-pdo_pgsql php72-pgsql
+	fi
+	if [ ."$database_version" = ."10" ]; then
+		pkg install --yes postgresql10-client
+		if [ .$(freebsd-version | head -c 2) = ."11" ]; then
+			pkg add https://www.fusionpbx.com/downloads/freebsd11/php72-pdo_pgsql-7.1.6_1.txz
+			pkg add https://www.fusionpbx.com/downloads/freebsd11/php72-pgsql-7.1.6_1.txz
+		fi
 	fi
 fi
 
