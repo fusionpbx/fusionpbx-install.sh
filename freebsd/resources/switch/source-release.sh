@@ -20,13 +20,13 @@ pkg install --yes gcc49 wget sudo libsndfile lua52 opus libmemcached libvorbis l
 #pkg install --yes libshout mpg123 lame
 
 #get the source from git and run boostrap
-git clone -b v1.6 https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
-cd /usr/src/freeswitch && /bin/sh /usr/src/freeswitch/bootstrap.sh -j
+#git clone -b v1.6 https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
+#cd /usr/src/freeswitch && /bin/sh /usr/src/freeswitch/bootstrap.sh -j
 
 #get the release from https
-#cd /usr/src && fetch https://files.freeswitch.org/freeswitch-releases/freeswitch-1.6.17.zip
-#cd /usr/src && unzip /usr/src/freeswitch-1.6.17.zip
-#mv /usr/src/freeswitch-1.6.17 /usr/src/freeswitch
+cd /usr/src && fetch https://files.freeswitch.org/freeswitch-releases/freeswitch-1.6.20.zip
+cd /usr/src && unzip /usr/src/freeswitch-1.6.20.zip
+mv /usr/src/freeswitch-1.6.20 /usr/src/freeswitch
 
 #enable the modules
 sed -i' ' -e s:'#applications/mod_avmd:applications/mod_avmd:' /usr/src/freeswitch/modules.conf
