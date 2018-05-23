@@ -50,7 +50,7 @@ if [ ."$php_version" = ."7.1" ]; then
 fi
 if [ ."$php_version" = ."7.2" ]; then
 	pkg install --yes php72 php72-phar php72-pdo php72-pdo_odbc php72-pdo_sqlite php72-json php72-gd php72-imap
-	pkg install --yes php72-ldap php72-mcrypt php72-openssl php72-sockets php72-simplexml php72-xml php72-session
+	pkg install --yes php72-ldap php72-openssl php72-sockets php72-simplexml php72-xml php72-session
 	if [ ."$database_version" = ."9.5" ]; then
 		pkg install --yes postgresql95-client
 		pkg install --yes php72-pdo_pgsql php72-pgsql
