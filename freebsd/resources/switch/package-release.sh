@@ -15,8 +15,12 @@ cwd=$(pwd)
 #send a message
 echo "Installing the FreeSWITCH package"
 
+#get the package
+cd /usr/src && fetch https://www.fusionpbx.com/downloads/freebsd11/freeswitch-pgsql10-1.6.19_2.txz
+
 #install the package
-pkg install --yes freeswitch
+#pkg install --yes freeswitch
+pkg instal /usr/src/freeswitch-pgsql10-1.6.19_2.txz
 
 #set the original working directory
 cd $cwd
