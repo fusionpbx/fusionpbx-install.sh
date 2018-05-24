@@ -20,7 +20,7 @@ cd /usr/src && fetch https://www.fusionpbx.com/downloads/freebsd11/freeswitch-pg
 
 #install the package
 #pkg install --yes freeswitch
-pkg instal /usr/src/freeswitch-pgsql10-1.6.19_2.txz
+pkg install --yes /usr/src/freeswitch-pgsql10-1.6.19_2.txz
 
 #set the original working directory
 cd $cwd
