@@ -52,8 +52,8 @@ rm -rf /usr/local/freeswitch/{lib,mod,bin}/*
 gmake install
 gmake sounds-install moh-install
 gmake hd-sounds-install hd-moh-install
-gmake cd-sounds-install cd-moh-install
-gmake uhd-sounds-install uhd-sounds-install
+#gmake cd-sounds-install cd-moh-install
+#gmake uhd-sounds-install uhd-sounds-install
 
 #move the music into music/default directory
 mkdir -p /usr/local/freeswitch/sounds/music/default
