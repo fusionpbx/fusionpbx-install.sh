@@ -41,8 +41,8 @@ sed -i' ' -e s:'#applications/mod_curl:applications/mod_curl:' /usr/src/freeswit
 #sed -i '' -e s:'applications/mod_fsv:#applications/mod_fsv:' /usr/src/freeswitch/modules.conf
 
 #set the variables
-#export CC=gcc49
-#export CFLAGS="-Wno-error -std=gnu99 -Wno-c11-extensions -Wno-deprecated-declarations -Wno-zero-length-array -Wno-incompatible-pointer-types"
+export CC=gcc49
+export CFLAGS="-Wno-error -std=gnu99 -Wno-c11-extensions -Wno-deprecated-declarations -Wno-zero-length-array -Wno-incompatible-pointer-types"
 
 #configure the source (additional option --enable-system-lua)
 /usr/src/freeswitch/./configure --prefix=/usr/local/freeswitch --enable-core-pgsql-support --disable-fhs
