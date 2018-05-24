@@ -8,7 +8,7 @@ system_branch=stable            # master, stable
 # FreeSWITCH Settings
 switch_enabled=true             # true or false
 switch_branch=stable            # master, stable (master requires source)
-switch_source=source            # package, port, source
+switch_source=package            # package, port, source
 
 # Database Settings
 database_enabled=true           # true or false
