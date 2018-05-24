@@ -90,7 +90,7 @@ if [ .$nginx_enabled = .'true' ]; then
 	psql --host=$database_host --port=$database_port --username=$database_username -c "insert into v_group_users (group_user_uuid, domain_uuid, group_name, group_uuid, user_uuid) values('$group_user_uuid', '$domain_uuid', '$group_name', '$group_uuid', '$user_uuid');"
 
 	#add the local_ip_v4 address
-	psql --host=$database_host --port=$database_port --username=$database_username -t -c "insert into v_vars (var_uuid, var_name, var_value, var_cat, var_order, var_enabled) values ('4507f7a9-2cbb-40a6-8799-f8f168082585', 'local_ip_v4', '$local_ip_v4', 'Defaults', '0', 'true');";
+	psql --host=$database_host --port=$database_port --username=$database_username -t -c "insert into v_vars (var_uuid, var_name, var_value, var_category, var_order, var_enabled) values ('4507f7a9-2cbb-40a6-8799-f8f168082585', 'local_ip_v4', '$local_ip_v4', 'Defaults', '0', 'true');";
 
 	#app defaults
 	if [ .$nginx_enabled = .'true' ]; then
