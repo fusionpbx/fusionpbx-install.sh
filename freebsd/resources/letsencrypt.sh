@@ -63,7 +63,7 @@ cp docs/examples/config /etc/dehydrated
 #sed "s#CONTACT_EMAIL=#CONTACT_EMAIL=$email_address" -i /etc/dehydrated/config
 
 #make sure the nginx ssl directory exists
-mkdir -p /etc/nginx/ssl
+mkdir -p /usr/local/etc/nginx/ssl
 
 #accept the terms
 dehydrated --register --accept-terms --config /etc/dehydrated/config
@@ -79,34 +79,34 @@ if [ .$wilcard_domain = ."n" ]; then
 fi
 
 #update nginx config
-sed "s@ssl_certificate         /etc/ssl/certs/nginx.crt;@ssl_certificate /etc/dehydrated/certs/$domain_name/fullchain.pem;@g" -i /etc/nginx/sites-available/fusionpbx
-sed "s@ssl_certificate_key     /etc/ssl/private/nginx.key;@ssl_certificate_key /etc/dehydrated/certs/$domain_name/privkey.pem;@g" -i /etc/nginx/sites-available/fusionpbx
+sed "s@ssl_certificate         /etc/ssl/certs/nginx.crt;@ssl_certificate /etc/dehydrated/certs/$domain_name/fullchain.pem;@g" -i /usr/local/etc/nginx/sites-available/fusionpbx
+sed "s@ssl_certificate_key     /etc/ssl/private/nginx.key;@ssl_certificate_key /etc/dehydrated/certs/$domain_name/privkey.pem;@g" -i /usr/local/etc/nginx/sites-available/fusionpbx
 
 #read the config
 /usr/sbin/nginx -t && /usr/sbin/nginx -s reload
 
 #make sure the freeswitch directory exists
-mkdir -p /etc/freeswitch/tls
+mkdir -p /usr/local/etc/freeswitch/tls
 
 #make sure the freeswitch certificate directory is empty
-rm /etc/freeswitch/tls/*
+rm /usr/local/etc/freeswitch/tls/*
 
 #combine the certs into all.pem
-cat /etc/dehydrated/certs/$domain_name/fullchain.pem > /etc/freeswitch/tls/all.pem
-cat /etc/dehydrated/certs/$domain_name/privkey.pem >> /etc/freeswitch/tls/all.pem
-#cat /etc/dehydrated/certs/$domain_name/chain.pem >> /etc/freeswitch/tls/all.pem
+cat /etc/dehydrated/certs/$domain_name/fullchain.pem > /usr/local/etc/freeswitch/tls/all.pem
+cat /etc/dehydrated/certs/$domain_name/privkey.pem >> /usr/local/etc/freeswitch/tls/all.pem
+#cat /etc/dehydrated/certs/$domain_name/chain.pem >> /usr/local/etc/freeswitch/tls/all.pem
 
 #copy the certificates
-cp /etc/dehydrated/certs/$domain_name/cert.pem /etc/freeswitch/tls
-cp /etc/dehydrated/certs/$domain_name/chain.pem /etc/freeswitch/tls
-cp /etc/dehydrated/certs/$domain_name/fullchain.pem /etc/freeswitch/tls
-cp /etc/dehydrated/certs/$domain_name/privkey.pem /etc/freeswitch/tls
+cp /etc/dehydrated/certs/$domain_name/cert.pem /usr/local/etc/freeswitch/tls
+cp /etc/dehydrated/certs/$domain_name/chain.pem /usr/local/etc/freeswitch/tls
+cp /etc/dehydrated/certs/$domain_name/fullchain.pem /usr/local/etc/freeswitch/tls
+cp /etc/dehydrated/certs/$domain_name/privkey.pem /usr/local/etc/freeswitch/tls
 
 #add symbolic links
-ln -s /etc/freeswitch/tls/all.pem /etc/freeswitch/tls/agent.pem
-ln -s /etc/freeswitch/tls/all.pem /etc/freeswitch/tls/tls.pem
-ln -s /etc/freeswitch/tls/all.pem /etc/freeswitch/tls/wss.pem
-ln -s /etc/freeswitch/tls/all.pem /etc/freeswitch/tls/dtls-srtp.pem
+ln -s /usr/local/etc/freeswitch/tls/all.pem /usr/local/etc/freeswitch/tls/agent.pem
+ln -s /usr/local/etc/freeswitch/tls/all.pem /usr/local/etc/freeswitch/tls/tls.pem
+ln -s /usr/local/etc/freeswitch/tls/all.pem /usr/local/etc/freeswitch/tls/wss.pem
+ln -s /usr/local/etc/freeswitch/tls/all.pem /usr/local/etc/freeswitch/tls/dtls-srtp.pem
 
 #set the permissions
-chown -R www-data:www-data /etc/freeswitch/tls
+chown -R www-data:www-data /usr/local/etc/freeswitch/tls
