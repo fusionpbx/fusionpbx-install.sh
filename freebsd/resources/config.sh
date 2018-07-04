@@ -6,8 +6,8 @@ system_password=random          # random or as a pre-set value
 system_branch=stable            # master, stable
 
 # FreeSWITCH Settings
-switch_enabled=true             # true or false
-switch_branch=stable            # master, stable (master requires source)
+switch_enabled=false             # true or false
+switch_branch=stable             # master, stable (master requires source)
 switch_source=package            # package, port, source
 
 # Database Settings
@@ -28,4 +28,4 @@ portsnap_enabled=false          # true or false
 sngrep_enabled=true             # true or false
 fail2ban_enabled=true           # true or false
 nginx_enabled=true              # true or false
-monit_enabled=true              # true or false
+monit_enabled=false              # true or false
