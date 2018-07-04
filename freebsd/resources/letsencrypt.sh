@@ -12,6 +12,7 @@ cd "$(dirname "$0")"
 . ./config.sh
 
 #remove dehyrdated letsencrypt script
+#pkg remove dehydrated
 #rm -R /usr/local/etc/dehydrated/
 #rm /usr/local/sbin/dehydrated
 #rm -R /usr/src/dehydrated
@@ -31,11 +32,12 @@ else
 fi
 
 #get and install dehydrated
-cd /usr/src && git clone https://github.com/lukas2511/dehydrated.git
-cd /usr/src/dehydrated
-cp dehydrated /usr/local/sbin
-mkdir -p /usr/local/www/dehydrated
-mkdir -p /usr/local/etc/dehydrated/certs
+pkg install dehydrated
+#cd /usr/src && git clone https://github.com/lukas2511/dehydrated.git
+#cd /usr/src/dehydrated
+#cp dehydrated /usr/local/sbin
+#mkdir -p /usr/local/www/dehydrated
+#mkdir -p /usr/local/etc/dehydrated/certs
 
 #remove the wildcard and period
 if [ .$wilcard_domain = ."y" ]; then
@@ -62,9 +64,6 @@ cp docs/examples/config /usr/local/etc/dehydrated
 #vim /usr/local/etc/dehydrated/config
 #sed "s#CONTACT_EMAIL=#CONTACT_EMAIL=$email_address" -i /usr/local/etc/dehydrated/config
 
-#make sure the nginx ssl directory exists
-mkdir -p /usr/local/etc/nginx/ssl
-
 #accept the terms
 dehydrated --register --accept-terms --config /usr/local/etc/dehydrated/config
 
@@ -78,9 +77,15 @@ if [ .$wilcard_domain = ."n" ]; then
   dehydrated --cron --domain $domain_name --config /usr/local/etc/dehydrated/config --config /usr/local/etc/dehydrated/config --out /usr/local/etc/dehydrated/certs --challenge dns-01 --hook /usr/local/etc/dehydrated/hook.sh
 fi
 
-#update nginx config
-sed "s@ssl_certificate         /etc/ssl/certs/nginx.crt;@ssl_certificate /usr/local/etc/dehydrated/certs/$domain_name/fullchain.pem;@g" -i /usr/local/etc/nginx/sites-available/fusionpbx
-sed "s@ssl_certificate_key     /etc/ssl/private/nginx.key;@ssl_certificate_key /usr/local/etc/dehydrated/certs/$domain_name/privkey.pem;@g" -i /usr/local/etc/nginx/sites-available/fusionpbx
+#remove the old backups
+rm /usr/local/etc/nginx/server.crt.backup
+rm /usr/local/etc/nginx/server.key.backup
+
+#nginx config - backup the original certificates and copy the news ones for nginx
+mv /usr/local/etc/nginx/server.crt /usr/local/etc/nginx/server.crt.backup
+mv /usr/local/etc/nginx/server.key /usr/local/etc/nginx/server.key.backup
+cp /usr/local/etc/dehydrated/certs/$domain_name/fullchain.pem /usr/local/etc/nginx/server.crt
+cp /usr/local/etc/dehydrated/certs/$domain_name/privkey.pem /usr/local/etc/nginx/server.key
 
 #read the config
 /usr/local/sbin/nginx -t && /usr/local/sbin/nginx -s reload
