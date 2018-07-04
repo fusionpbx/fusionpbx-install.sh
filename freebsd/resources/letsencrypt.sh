@@ -114,4 +114,4 @@ ln -s /usr/local/etc/freeswitch/tls/all.pem /usr/local/etc/freeswitch/tls/wss.pe
 ln -s /usr/local/etc/freeswitch/tls/all.pem /usr/local/etc/freeswitch/tls/dtls-srtp.pem
 
 #set the permissions
-chown -R www-data:www-data /usr/local/etc/freeswitch/tls
+chown -R www:www /usr/local/etc/freeswitch/tls
