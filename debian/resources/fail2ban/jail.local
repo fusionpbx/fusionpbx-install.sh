@@ -15,7 +15,7 @@ port     = 5060:5091
 protocol = all
 filter   = freeswitch
 logpath  = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=freeswitch-udp, port="5060:5090", protocol=all]
+action   = iptables-multiport[name=freeswitch, port="5060:5090", protocol=all]
 maxretry = 5
 findtime = 600
 bantime  = 3600
@@ -27,7 +27,7 @@ port     = 5060:5091
 protocol = all
 filter   = freeswitch-ip
 logpath  = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=freeswitch-ip-tcp, port="5060:5090", protocol=all]
+action   = iptables-multiport[name=freeswitch-ip, port="5060:5090", protocol=all]
 maxretry = 1
 findtime = 30
 bantime  = 86400
