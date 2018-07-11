@@ -9,48 +9,25 @@ maxretry = 5
 findtime = 7200
 bantime  = 86400
 
-[freeswitch-udp]
+[freeswitch]
 enabled  = true
 port     = 5060:5091
 protocol = all
 filter   = freeswitch
 logpath  = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=freeswitch-udp, port="5060:5090", protocol=udp]
+action   = iptables-multiport[name=freeswitch-udp, port="5060:5090", protocol=all]
 maxretry = 5
 findtime = 600
 bantime  = 3600
 #          sendmail-whois[name=FreeSwitch, dest=root, sender=fail2ban@example.org] #no smtp server installed
 
-[freeswitch-tcp]
-enabled  = true
-port     = 5060:5091
-protocol = all
-filter   = freeswitch
-logpath  = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=freeswitch-tcp, port="5060:5090", protocol=tcp]
-maxretry = 5
-findtime = 600
-bantime  = 3600
-#          sendmail-whois[name=FreeSwitch, dest=root, sender=fail2ban@example.org] #no smtp server installed
-
-[freeswitch-ip-tcp]
+[freeswitch-ip]
 enabled  = false
 port     = 5060:5091
 protocol = all
 filter   = freeswitch-ip
 logpath  = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=freeswitch-ip-tcp, port="5060:5090", protocol=tcp]
-maxretry = 1
-findtime = 30
-bantime  = 86400
-
-[freeswitch-ip-udp]
-enabled  = false
-port     = 5060:5091
-protocol = all
-filter   = freeswitch-ip
-logpath  = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=freeswitch-ip-udp, port="5060:5090", protocol=udp]
+action   = iptables-multiport[name=freeswitch-ip-tcp, port="5060:5090", protocol=all]
 maxretry = 1
 findtime = 30
 bantime  = 86400
