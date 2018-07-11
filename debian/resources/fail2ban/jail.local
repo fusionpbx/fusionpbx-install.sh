@@ -56,7 +56,7 @@ findtime = 30
 bantime  = 86400
 
 [sip-auth-failure-ip]
-enabled  = true
+enabled  = false
 port     = 5060:5091
 protocol = all
 filter   = sip-auth-failure-ip
