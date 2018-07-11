@@ -55,27 +55,16 @@ maxretry = 1
 findtime = 30
 bantime  = 86400
 
-[sip-auth-failure-ip]
+[sip-auth-challenge-ip]
 enabled  = false
 port     = 5060:5091
 protocol = all
-filter   = sip-auth-failure-ip
+filter   = sip-auth-challenge-ip
 logpath  = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=sip-auth-failure-ip, port="5060:5090", protocol=all]
+action   = iptables-multiport[name=sip-auth-challenge-ip, port="5060:5090", protocol=all]
 maxretry = 1
 findtime = 30
 bantime  = 86400
-
-[sip-auth-failure]
-enabled  = true
-port     = 5060:5091
-protocol = all
-filter   = sip-auth-failure
-logpath  = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=sip-auth-failure, port="5060:5090", protocol=all]
-maxretry = 3
-findtime = 30
-bantime  = 7200
 
 [sip-auth-challenge]
 enabled  = true
@@ -85,6 +74,17 @@ filter   = sip-auth-challenge
 logpath  = /var/log/freeswitch/freeswitch.log
 action   = iptables-multiport[name=sip-auth-challenge, port="5060:5090", protocol=all]
 maxretry = 50
+findtime = 30
+bantime  = 7200
+
+[sip-auth-failure]
+enabled  = true
+port     = 5060:5091
+protocol = all
+filter   = sip-auth-failure
+logpath  = /var/log/freeswitch/freeswitch.log
+action   = iptables-multiport[name=sip-auth-failure, port="5060:5090", protocol=all]
+maxretry = 3
 findtime = 30
 bantime  = 7200
 
