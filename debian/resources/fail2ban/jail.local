@@ -32,13 +32,13 @@ maxretry = 1
 findtime = 30
 bantime  = 86400
 
-[sip-auth-challenge-ip]
+[auth-challenge-ip]
 enabled  = false
 port     = 5060:5091
 protocol = all
 filter   = sip-auth-challenge-ip
 logpath  = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=sip-auth-challenge-ip, port="5060:5090", protocol=all]
+action   = iptables-multiport[name=auth-challenge-ip, port="5060:5090", protocol=all]
 maxretry = 1
 findtime = 30
 bantime  = 86400
