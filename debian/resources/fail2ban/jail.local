@@ -55,6 +55,17 @@ maxretry = 1
 findtime = 30
 bantime  = 86400
 
+[sip-auth-failure-ip]
+enabled  = true
+port     = 5060:5091
+protocol = all
+filter   = sip-auth-failure-ip
+logpath  = /var/log/freeswitch/freeswitch.log
+action   = iptables-multiport[name=sip-auth-failure-ip, port="5060:5090", protocol=all]
+maxretry = 1
+findtime = 30
+bantime  = 86400
+
 [sip-auth-failure]
 enabled  = true
 port     = 5060:5091
