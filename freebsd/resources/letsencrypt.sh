@@ -53,34 +53,34 @@ dehydrated --register --accept-terms --config /usr/local/etc/dehydrated/config
 #wildcard detection
 wilcard_domain=$(echo $domain_name | cut -c1-1)
 if [ "$wilcard_domain" = "*" ]; then
-        wilcard_domain="true"
+	wilcard_domain="true"
 else
-        wilcard_domain="false"
+	wilcard_domain="false"
 fi
 
 #remove the wildcard and period
 if [ .$wilcard_domain = ."true" ]; then
-      domain_name=$(echo "$domain_name" | cut -c3-255)
+	domain_name=$(echo "$domain_name" | cut -c3-255)
 fi
 
 #create an alias when using wildcard dns
 if [ .$wilcard_domain = ."true" ]; then
-  echo "*.$domain_name > $domain_name" > /usr/local/etc/dehydrated/domains.txt
+	echo "*.$domain_name > $domain_name" > /usr/local/etc/dehydrated/domains.txt
 fi
 
 #add the domain_name to domains.txt
 if [ .$wilcard_domain = ."false" ]; then
-  echo "$domain_name" > /usr/local/etc/dehydrated/domains.txt
+	echo "$domain_name" > /usr/local/etc/dehydrated/domains.txt
 fi
 
 #wildcard domain
 if [ .$wilcard_domain = ."true" ]; then
-  dehydrated --cron --domain *.$domain_name --alias $domain_name --config /usr/local/etc/dehydrated/config --out /usr/local/etc/dehydrated/certs --challenge dns-01 --hook /usr/local/etc/dehydrated/hook.sh
+	dehydrated --cron --domain *.$domain_name --alias $domain_name --config /usr/local/etc/dehydrated/config --out /usr/local/etc/dehydrated/certs --challenge dns-01 --hook /usr/local/etc/dehydrated/hook.sh
 fi
 
 #single domain
 if [ .$wilcard_domain = ."false" ]; then
-  dehydrated --cron --domain $domain_name --config /usr/local/etc/dehydrated/config --out /usr/local/etc/dehydrated/certs --challenge http-01
+	dehydrated --cron --domain $domain_name --config /usr/local/etc/dehydrated/config --out /usr/local/etc/dehydrated/certs --challenge http-01
 fi
 
 #remove the old backups
@@ -98,29 +98,29 @@ cp /usr/local/etc/dehydrated/certs/$domain_name/privkey.pem /usr/local/etc/nginx
 
 #setup freeswitch tls 
 if [ .$switch_tls = ."true" ]; then
-        #make sure the freeswitch directory exists
-        mkdir -p /usr/local/etc/freeswitch/tls
+	#make sure the freeswitch directory exists
+	mkdir -p /usr/local/etc/freeswitch/tls
 
-        #make sure the freeswitch certificate directory is empty
-        rm /usr/local/etc/freeswitch/tls/*
+	#make sure the freeswitch certificate directory is empty
+	rm /usr/local/etc/freeswitch/tls/*
 
-        #combine the certs into all.pem
-        cat /usr/local/etc/dehydrated/certs/$domain_name/fullchain.pem > /usr/local/etc/freeswitch/tls/all.pem
-        cat /usr/local/etc/dehydrated/certs/$domain_name/privkey.pem >> /usr/local/etc/freeswitch/tls/all.pem
-        #cat /usr/local/etc/dehydrated/certs/$domain_name/chain.pem >> /usr/local/etc/freeswitch/tls/all.pem
+	#combine the certs into all.pem
+	cat /usr/local/etc/dehydrated/certs/$domain_name/fullchain.pem > /usr/local/etc/freeswitch/tls/all.pem
+	cat /usr/local/etc/dehydrated/certs/$domain_name/privkey.pem >> /usr/local/etc/freeswitch/tls/all.pem
+	#cat /usr/local/etc/dehydrated/certs/$domain_name/chain.pem >> /usr/local/etc/freeswitch/tls/all.pem
 
-        #copy the certificates
-        cp /usr/local/etc/dehydrated/certs/$domain_name/cert.pem /usr/local/etc/freeswitch/tls
-        cp /usr/local/etc/dehydrated/certs/$domain_name/chain.pem /usr/local/etc/freeswitch/tls
-        cp /usr/local/etc/dehydrated/certs/$domain_name/fullchain.pem /usr/local/etc/freeswitch/tls
-        cp /usr/local/etc/dehydrated/certs/$domain_name/privkey.pem /usr/local/etc/freeswitch/tls
+	#copy the certificates
+	cp /usr/local/etc/dehydrated/certs/$domain_name/cert.pem /usr/local/etc/freeswitch/tls
+	cp /usr/local/etc/dehydrated/certs/$domain_name/chain.pem /usr/local/etc/freeswitch/tls
+	cp /usr/local/etc/dehydrated/certs/$domain_name/fullchain.pem /usr/local/etc/freeswitch/tls
+	cp /usr/local/etc/dehydrated/certs/$domain_name/privkey.pem /usr/local/etc/freeswitch/tls
 
-        #add symbolic links
-        ln -s /usr/local/etc/freeswitch/tls/all.pem /usr/local/etc/freeswitch/tls/agent.pem
-        ln -s /usr/local/etc/freeswitch/tls/all.pem /usr/local/etc/freeswitch/tls/tls.pem
-        ln -s /usr/local/etc/freeswitch/tls/all.pem /usr/local/etc/freeswitch/tls/wss.pem
-        ln -s /usr/local/etc/freeswitch/tls/all.pem /usr/local/etc/freeswitch/tls/dtls-srtp.pem
+	#add symbolic links
+	ln -s /usr/local/etc/freeswitch/tls/all.pem /usr/local/etc/freeswitch/tls/agent.pem
+	ln -s /usr/local/etc/freeswitch/tls/all.pem /usr/local/etc/freeswitch/tls/tls.pem
+	ln -s /usr/local/etc/freeswitch/tls/all.pem /usr/local/etc/freeswitch/tls/wss.pem
+	ln -s /usr/local/etc/freeswitch/tls/all.pem /usr/local/etc/freeswitch/tls/dtls-srtp.pem
 
-        #set the permissions
-        chown -R www:www /usr/local/etc/freeswitch/tls
+	#set the permissions
+	chown -R www:www /usr/local/etc/freeswitch/tls
 fi
