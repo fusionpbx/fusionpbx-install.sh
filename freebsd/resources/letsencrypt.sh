@@ -74,7 +74,7 @@ fi
 
 #single domain
 if [ .$wilcard_domain = ."false" ]; then
-  dehydrated --cron --domain $domain_name --config /usr/local/etc/dehydrated/config --config /usr/local/etc/dehydrated/config --out /usr/local/etc/dehydrated/certs --challenge dns-01 --hook /usr/local/etc/dehydrated/hook.sh
+  dehydrated --cron --domain $domain_name --config /usr/local/etc/dehydrated/config --out /usr/local/etc/dehydrated/certs --challenge dns-01 --hook /usr/local/etc/dehydrated/hook.sh
 fi
 
 #remove the old backups
