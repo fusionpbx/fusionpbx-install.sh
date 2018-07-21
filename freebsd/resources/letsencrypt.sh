@@ -63,9 +63,14 @@ if [ .$wilcard_domain = ."true" ]; then
 fi
 
 #create an alias when using wildcard dns
-#if [ .$wilcard_domain = ."true" ]; then
-#  echo "*.$domain_name > $domain_name" > /usr/local/etc/dehydrated/domains.txt
-#fi
+if [ .$wilcard_domain = ."true" ]; then
+  echo "*.$domain_name > $domain_name" > /usr/local/etc/dehydrated/domains.txt
+fi
+
+#add the domain_name to domains.txt
+if [ .$wilcard_domain = ."false" ]; then
+  echo "$domain_name" > /usr/local/etc/dehydrated/domains.txt
+fi
 
 #wildcard domain
 if [ .$wilcard_domain = ."true" ]; then
@@ -74,7 +79,7 @@ fi
 
 #single domain
 if [ .$wilcard_domain = ."false" ]; then
-  dehydrated --cron --domain $domain_name --config /usr/local/etc/dehydrated/config --out /usr/local/etc/dehydrated/certs --challenge dns-01 --hook /usr/local/etc/dehydrated/hook.sh
+  dehydrated --cron --domain $domain_name --config /usr/local/etc/dehydrated/config --out /usr/local/etc/dehydrated/certs --challenge http-01
 fi
 
 #remove the old backups
