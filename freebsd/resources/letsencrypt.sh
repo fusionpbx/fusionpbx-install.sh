@@ -43,8 +43,9 @@ cd /usr/src/dehydrated
 cp docs/examples/config /usr/local/etc/dehydrated
 #cp docs/examples/hook.sh /usr/local/etc/dehydrated
 
-#vim /usr/local/etc/dehydrated/config
-#sed "s#CONTACT_EMAIL=#CONTACT_EMAIL=$email_address" -i /usr/local/etc/dehydrated/config
+#update the dehydrated config
+sed -i' ' -e s:'#CONTACT_EMAIL=":CONTACT_EMAIL=$email_address:' /usr/local/etc/dehydrated/config
+sed -i' ' -e s:'#WELLKNOWN="/var/www/dehydrated":WELLKNOWN="/usr/local/www/dehydrated":' /usr/local/etc/dehydrated/config
 
 #accept the terms
 dehydrated --register --accept-terms --config /usr/local/etc/dehydrated/config
