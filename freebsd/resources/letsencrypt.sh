@@ -63,24 +63,27 @@ if [ .$wilcard_domain = ."true" ]; then
 	domain_name=$(echo "$domain_name" | cut -c3-255)
 fi
 
+#set the domain alias
+domain_alias=$(echo "$domain_name" | head -n1 | cut -d " " -f1)
+
 #create an alias when using wildcard dns
 if [ .$wilcard_domain = ."true" ]; then
 	echo "*.$domain_name > $domain_name" > /usr/local/etc/dehydrated/domains.txt
 fi
 
-#add the domain_name to domains.txt
+#add the domain name to domains.txt
 if [ .$wilcard_domain = ."false" ]; then
 	echo "$domain_name" > /usr/local/etc/dehydrated/domains.txt
 fi
 
 #wildcard domain
 if [ .$wilcard_domain = ."true" ]; then
-	dehydrated --cron --domain *.$domain_name --alias $domain_name --config /usr/local/etc/dehydrated/config --out /usr/local/etc/dehydrated/certs --challenge dns-01 --hook /usr/local/etc/dehydrated/hook.sh
+	dehydrated --cron --domain *.$domain_name --alias $domain_alias --config /usr/local/etc/dehydrated/config --out /usr/local/etc/dehydrated/certs --challenge dns-01 --hook /usr/local/etc/dehydrated/hook.sh
 fi
 
 #single domain
 if [ .$wilcard_domain = ."false" ]; then
-	dehydrated --cron --domain $domain_name --config /usr/local/etc/dehydrated/config --out /usr/local/etc/dehydrated/certs --challenge http-01
+	dehydrated --cron --domain '$domain_name' --alias $domain_alias --config /usr/local/etc/dehydrated/config --out /usr/local/etc/dehydrated/certs --challenge http-01
 fi
 
 #remove the old backups
@@ -90,8 +93,8 @@ rm /usr/local/etc/nginx/server.key.backup
 #nginx config - backup the original certificates and copy the news ones for nginx
 mv /usr/local/etc/nginx/server.crt /usr/local/etc/nginx/server.crt.backup
 mv /usr/local/etc/nginx/server.key /usr/local/etc/nginx/server.key.backup
-cp /usr/local/etc/dehydrated/certs/$domain_name/fullchain.pem /usr/local/etc/nginx/server.crt
-cp /usr/local/etc/dehydrated/certs/$domain_name/privkey.pem /usr/local/etc/nginx/server.key
+cp /usr/local/etc/dehydrated/certs/$domain_alias/fullchain.pem /usr/local/etc/nginx/server.crt
+cp /usr/local/etc/dehydrated/certs/$domain_alias/privkey.pem /usr/local/etc/nginx/server.key
 
 #read the config
 /usr/local/sbin/nginx -t && /usr/local/sbin/nginx -s reload
@@ -105,15 +108,15 @@ if [ .$switch_tls = ."true" ]; then
 	rm /usr/local/etc/freeswitch/tls/*
 
 	#combine the certs into all.pem
-	cat /usr/local/etc/dehydrated/certs/$domain_name/fullchain.pem > /usr/local/etc/freeswitch/tls/all.pem
-	cat /usr/local/etc/dehydrated/certs/$domain_name/privkey.pem >> /usr/local/etc/freeswitch/tls/all.pem
-	#cat /usr/local/etc/dehydrated/certs/$domain_name/chain.pem >> /usr/local/etc/freeswitch/tls/all.pem
+	cat /usr/local/etc/dehydrated/certs/$domain_alias/fullchain.pem > /usr/local/etc/freeswitch/tls/all.pem
+	cat /usr/local/etc/dehydrated/certs/$domain_alias/privkey.pem >> /usr/local/etc/freeswitch/tls/all.pem
+	#cat /usr/local/etc/dehydrated/certs/$domain_alias/chain.pem >> /usr/local/etc/freeswitch/tls/all.pem
 
 	#copy the certificates
-	cp /usr/local/etc/dehydrated/certs/$domain_name/cert.pem /usr/local/etc/freeswitch/tls
-	cp /usr/local/etc/dehydrated/certs/$domain_name/chain.pem /usr/local/etc/freeswitch/tls
-	cp /usr/local/etc/dehydrated/certs/$domain_name/fullchain.pem /usr/local/etc/freeswitch/tls
-	cp /usr/local/etc/dehydrated/certs/$domain_name/privkey.pem /usr/local/etc/freeswitch/tls
+	cp /usr/local/etc/dehydrated/certs/$domain_alias/cert.pem /usr/local/etc/freeswitch/tls
+	cp /usr/local/etc/dehydrated/certs/$domain_alias/chain.pem /usr/local/etc/freeswitch/tls
+	cp /usr/local/etc/dehydrated/certs/$domain_alias/fullchain.pem /usr/local/etc/freeswitch/tls
+	cp /usr/local/etc/dehydrated/certs/$domain_alias/privkey.pem /usr/local/etc/freeswitch/tls
 
 	#add symbolic links
 	ln -s /usr/local/etc/freeswitch/tls/all.pem /usr/local/etc/freeswitch/tls/agent.pem
