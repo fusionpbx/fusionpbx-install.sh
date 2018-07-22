@@ -1,3 +1,4 @@
+
 #!/bin/sh
 
 # FusionPBX - Install
@@ -31,25 +32,6 @@ pkg install dehydrated
 #mkdir -p /usr/local/www/dehydrated
 #mkdir -p /usr/local/etc/dehydrated/certs
 
-#manual dns hook
-cd /usr/src
-git clone https://github.com/owhen/dns-01-manual.git
-cd /usr/src/dns-01-manual/
-cp hook.sh /usr/local/etc/dehydrated/hook.sh
-chmod 755 /usr/local/etc/dehydrated/hook.sh
-
-#copy config and hook.sh into /usr/local/etc/dehydrated
-cd /usr/src/dehydrated
-cp docs/examples/config /usr/local/etc/dehydrated
-#cp docs/examples/hook.sh /usr/local/etc/dehydrated
-
-#update the dehydrated config
-sed -i' ' -e s:'#CONTACT_EMAIL=":CONTACT_EMAIL=$email_address:' /usr/local/etc/dehydrated/config
-sed -i' ' -e s:'#WELLKNOWN="/var/www/dehydrated":WELLKNOWN="/usr/local/www/dehydrated":' /usr/local/etc/dehydrated/config
-
-#accept the terms
-dehydrated --register --accept-terms --config /usr/local/etc/dehydrated/config
-
 #wildcard detection
 wilcard_domain=$(echo $domain_name | cut -c1-1)
 if [ "$wilcard_domain" = "*" ]; then
@@ -62,6 +44,24 @@ fi
 if [ .$wilcard_domain = ."true" ]; then
 	domain_name=$(echo "$domain_name" | cut -c3-255)
 fi
+
+#manual dns hook
+if [ .$wilcard_domain = ."true" ]; then
+	if [ ! -f /usr/local/etc/dehydrated/hook.sh]; then
+		cd /usr/src
+		git clone https://github.com/owhen/dns-01-manual.git
+		cd /usr/src/dns-01-manual/
+		cp hook.sh /usr/local/etc/dehydrated/hook.sh
+		chmod 755 /usr/local/etc/dehydrated/hook.sh
+	fi
+fi
+
+#update the dehydrated config
+sed -i' ' -e s:'#CONTACT_EMAIL=":CONTACT_EMAIL=$email_address:' /usr/local/etc/dehydrated/config
+sed -i' ' -e s:'#WELLKNOWN="/var/www/dehydrated":WELLKNOWN="/usr/local/www/dehydrated":' /usr/local/etc/dehydrated/config
+
+#accept the terms
+dehydrated --register --accept-terms --config /usr/local/etc/dehydrated/config
 
 #set the domain alias
 domain_alias=$(echo "$domain_name" | head -n1 | cut -d " " -f1)
@@ -76,30 +76,32 @@ if [ .$wilcard_domain = ."false" ]; then
 	echo "$domain_name" > /usr/local/etc/dehydrated/domains.txt
 fi
 
-#wildcard domain
+#request the certificates
 if [ .$wilcard_domain = ."true" ]; then
 	dehydrated --cron --domain *.$domain_name --alias $domain_alias --config /usr/local/etc/dehydrated/config --out /usr/local/etc/dehydrated/certs --challenge dns-01 --hook /usr/local/etc/dehydrated/hook.sh
 fi
-
-#single domain
 if [ .$wilcard_domain = ."false" ]; then
-	dehydrated --cron --domain '$domain_name' --alias $domain_alias --config /usr/local/etc/dehydrated/config --out /usr/local/etc/dehydrated/certs --challenge http-01
+	dehydrated --cron --alias $domain_alias --config /usr/local/etc/dehydrated/config --out /usr/local/etc/dehydrated/certs --challenge http-01
 fi
 
 #remove the old backups
-rm /usr/local/etc/nginx/server.crt.backup
-rm /usr/local/etc/nginx/server.key.backup
+rm -f /usr/local/etc/nginx/server.crt.backup
+rm -f /usr/local/etc/nginx/server.key.backup
 
 #nginx config - backup the original certificates and copy the news ones for nginx
-mv /usr/local/etc/nginx/server.crt /usr/local/etc/nginx/server.crt.backup
-mv /usr/local/etc/nginx/server.key /usr/local/etc/nginx/server.key.backup
+if [ -e /usr/local/etc/nginx/server.crt]; then
+	mv /usr/local/etc/nginx/server.crt /usr/local/etc/nginx/server.crt.backup
+fi
+if [ -e /usr/local/etc/nginx/server.key]; then
+	mv /usr/local/etc/nginx/server.key /usr/local/etc/nginx/server.key.backup
+fi
 cp /usr/local/etc/dehydrated/certs/$domain_alias/fullchain.pem /usr/local/etc/nginx/server.crt
 cp /usr/local/etc/dehydrated/certs/$domain_alias/privkey.pem /usr/local/etc/nginx/server.key
 
 #read the config
 /usr/local/sbin/nginx -t && /usr/local/sbin/nginx -s reload
 
-#setup freeswitch tls 
+#setup freeswitch tls
 if [ .$switch_tls = ."true" ]; then
 	#make sure the freeswitch directory exists
 	mkdir -p /usr/local/etc/freeswitch/tls
