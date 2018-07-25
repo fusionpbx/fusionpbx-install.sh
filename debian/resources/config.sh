@@ -9,6 +9,7 @@ system_branch=stable            # master, stable
 switch_branch=stable            # master, stable
 switch_source=false             # true or false
 switch_package=true             # true or false
+switch_tls=true                 # true or false
 
 # Database Settings
 database_password=random        # random or a custom value
