@@ -46,6 +46,15 @@ server {
 server {
 	listen 80;
 	server_name fusionpbx;
+
+	#redirect letsencrypt to dehydrated
+	location ^~ /.well-known/acme-challenge {
+		default_type "text/plain";
+		auth_basic "off";
+		alias /var/www/dehydrated;
+	}
+
+	#rewrite rule - send to https with an exception for provisioning
 	if ($uri !~* ^.*(provision|xml_cdr).*$) {
 		rewrite ^(.*) https://$host$1 permanent;
 		break;
@@ -149,6 +158,13 @@ server {
 	ssl_protocols           TLSv1 TLSv1.1 TLSv1.2;
 	ssl_ciphers             HIGH:!ADH:!MD5:!aNULL;
 	#ssl_dhparam
+
+	#redirect letsencrypt to dehydrated
+	location ^~ /.well-known/acme-challenge {
+		default_type "text/plain";
+		auth_basic "off";
+		alias /var/www/dehydrated;
+	}
 
 	#REST api
 	if ($uri ~* ^.*/api/.*$) {
