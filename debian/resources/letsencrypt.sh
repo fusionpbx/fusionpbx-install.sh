@@ -22,14 +22,6 @@ cd "$(dirname "$0")"
 read -p 'Domain Name: ' domain_name
 read -p 'Email Address: ' email_address
 
-#wildcard detection
-wilcard_domain=$(echo $domain_name | cut -c1-1)
-if [ "$wilcard_domain" = "*" ]; then
-        wilcard_domain="y"
-else
-        wilcard_domain="n"
-fi
-
 #get and install dehydrated
 cd /usr/src && git clone https://github.com/lukas2511/dehydrated.git
 cd /usr/src/dehydrated
@@ -37,30 +29,50 @@ cp dehydrated /usr/local/sbin
 mkdir -p /var/www/dehydrated
 mkdir -p /etc/dehydrated/certs
 
+#wildcard detection
+wilcard_domain=$(echo $domain_name | cut -c1-1)
+if [ "$wilcard_domain" = "*" ]; then
+	wilcard_domain="true"
+else
+	wilcard_domain="false"
+fi
+
 #remove the wildcard and period
-if [ .$wilcard_domain = ."y" ]; then
+if [ .$wilcard_domain = ."true" ]; then
       domain_name=$(echo "$domain_name" | cut -c3-255)
 fi
 
-#create an alias when using wildcard dns
-#if [ .$wilcard_domain = ."y" ]; then
-#  echo "*.$domain_name > $domain_name" > /etc/dehydrated/domains.txt
-#fi
-
 #manual dns hook
-cd /usr/src
-git clone https://github.com/owhen/dns-01-manual.git
-cd /usr/src/dns-01-manual/
-cp hook.sh /etc/dehydrated/hook.sh
-chmod 755 /etc/dehydrated/hook.sh
+if [ .$wilcard_domain = ."true" ]; then
+      if [ ! -f /usr/local/etc/dehydrated/hook.sh]; then
+            cd /usr/src
+            git clone https://github.com/owhen/dns-01-manual.git
+            cd /usr/src/dns-01-manual/
+            cp hook.sh /etc/dehydrated/hook.sh
+            chmod 755 /etc/dehydrated/hook.sh
+	fi
+fi
+
+#update the dehydrated config
+#sed "s#CONTACT_EMAIL=#CONTACT_EMAIL=$email_address" -i /etc/dehydrated/config
+sed -i' ' -e s:'#CONTACT_EMAIL=":CONTACT_EMAIL=$email_address:' /etc/dehydrated/config
+sed -i' ' -e s:'#WELLKNOWN="/var/www/dehydrated":WELLKNOWN="/usr/local/www/dehydrated":' /etc/dehydrated/config
+
+#accept the terms
+dehydrated --register --accept-terms --config /etc/dehydrated/config
+
+#set the domain alias
+domain_alias=$(echo "$domain_name" | head -n1 | cut -d " " -f1)
+
+#add the domain name to domains.txt
+if [ .$wilcard_domain = ."false" ]; then
+	echo "$domain_name" > /etc/dehydrated/domains.txt
+fi
 
 #copy config and hook.sh into /etc/dehydrated
 cd /usr/src/dehydrated
 cp docs/examples/config /etc/dehydrated
 #cp docs/examples/hook.sh /etc/dehydrated
-
-#vim /etc/dehydrated/config
-#sed "s#CONTACT_EMAIL=#CONTACT_EMAIL=$email_address" -i /etc/dehydrated/config
 
 #make sure the nginx ssl directory exists
 mkdir -p /etc/nginx/ssl
@@ -68,13 +80,11 @@ mkdir -p /etc/nginx/ssl
 #accept the terms
 dehydrated --register --accept-terms --config /etc/dehydrated/config
 
-#wildcard domain
-if [ .$wilcard_domain = ."y" ]; then
+#request the certificates
+if [ .$wilcard_domain = ."true" ]; then
   dehydrated --cron --domain *.$domain_name --alias $domain_name --config /etc/dehydrated/config --out /etc/dehydrated/certs --challenge dns-01 --hook /etc/dehydrated/hook.sh
 fi
-
-#single domain
-if [ .$wilcard_domain = ."n" ]; then
+if [ .$wilcard_domain = ."false" ]; then
   dehydrated --cron --domain $domain_name --config /etc/dehydrated/config --config /etc/dehydrated/config --out /etc/dehydrated/certs --challenge dns-01 --hook /etc/dehydrated/hook.sh
 fi
 
@@ -85,28 +95,32 @@ sed "s@ssl_certificate_key     /etc/ssl/private/nginx.key;@ssl_certificate_key /
 #read the config
 /usr/sbin/nginx -t && /usr/sbin/nginx -s reload
 
-#make sure the freeswitch directory exists
-mkdir -p /etc/freeswitch/tls
+#setup freeswitch tls
+if [ .$switch_tls = ."true" ]; then
 
-#make sure the freeswitch certificate directory is empty
-rm /etc/freeswitch/tls/*
+	#make sure the freeswitch directory exists
+	mkdir -p /etc/freeswitch/tls
 
-#combine the certs into all.pem
-cat /etc/dehydrated/certs/$domain_name/fullchain.pem > /etc/freeswitch/tls/all.pem
-cat /etc/dehydrated/certs/$domain_name/privkey.pem >> /etc/freeswitch/tls/all.pem
-#cat /etc/dehydrated/certs/$domain_name/chain.pem >> /etc/freeswitch/tls/all.pem
+	#make sure the freeswitch certificate directory is empty
+	rm /etc/freeswitch/tls/*
 
-#copy the certificates
-cp /etc/dehydrated/certs/$domain_name/cert.pem /etc/freeswitch/tls
-cp /etc/dehydrated/certs/$domain_name/chain.pem /etc/freeswitch/tls
-cp /etc/dehydrated/certs/$domain_name/fullchain.pem /etc/freeswitch/tls
-cp /etc/dehydrated/certs/$domain_name/privkey.pem /etc/freeswitch/tls
+	#combine the certs into all.pem
+	cat /etc/dehydrated/certs/$domain_name/fullchain.pem > /etc/freeswitch/tls/all.pem
+	cat /etc/dehydrated/certs/$domain_name/privkey.pem >> /etc/freeswitch/tls/all.pem
+	#cat /etc/dehydrated/certs/$domain_name/chain.pem >> /etc/freeswitch/tls/all.pem
 
-#add symbolic links
-ln -s /etc/freeswitch/tls/all.pem /etc/freeswitch/tls/agent.pem
-ln -s /etc/freeswitch/tls/all.pem /etc/freeswitch/tls/tls.pem
-ln -s /etc/freeswitch/tls/all.pem /etc/freeswitch/tls/wss.pem
-ln -s /etc/freeswitch/tls/all.pem /etc/freeswitch/tls/dtls-srtp.pem
+	#copy the certificates
+	cp /etc/dehydrated/certs/$domain_name/cert.pem /etc/freeswitch/tls
+	cp /etc/dehydrated/certs/$domain_name/chain.pem /etc/freeswitch/tls
+	cp /etc/dehydrated/certs/$domain_name/fullchain.pem /etc/freeswitch/tls
+	cp /etc/dehydrated/certs/$domain_name/privkey.pem /etc/freeswitch/tls
 
-#set the permissions
-chown -R www-data:www-data /etc/freeswitch/tls
+	#add symbolic links
+	ln -s /etc/freeswitch/tls/all.pem /etc/freeswitch/tls/agent.pem
+	ln -s /etc/freeswitch/tls/all.pem /etc/freeswitch/tls/tls.pem
+	ln -s /etc/freeswitch/tls/all.pem /etc/freeswitch/tls/wss.pem
+	ln -s /etc/freeswitch/tls/all.pem /etc/freeswitch/tls/dtls-srtp.pem
+
+	#set the permissions
+	chown -R www-data:www-data /etc/freeswitch/tls
+  fi  
