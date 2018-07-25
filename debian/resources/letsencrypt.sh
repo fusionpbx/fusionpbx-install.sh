@@ -91,8 +91,8 @@ fi
 mkdir -p /etc/nginx/ssl
 
 #update nginx config
-sed "s@ssl_certificate         /etc/ssl/certs/nginx.crt;@ssl_certificate /etc/dehydrated/certs/$domain_name/fullchain.pem;@g" -i /etc/nginx/sites-available/fusionpbx
-sed "s@ssl_certificate_key     /etc/ssl/private/nginx.key;@ssl_certificate_key /etc/dehydrated/certs/$domain_name/privkey.pem;@g" -i /etc/nginx/sites-available/fusionpbx
+sed "s@ssl_certificate         /etc/ssl/certs/nginx.crt;@ssl_certificate /etc/dehydrated/certs/$domain_alias/fullchain.pem;@g" -i /etc/nginx/sites-available/fusionpbx
+sed "s@ssl_certificate_key     /etc/ssl/private/nginx.key;@ssl_certificate_key /etc/dehydrated/certs/$domain_alias/privkey.pem;@g" -i /etc/nginx/sites-available/fusionpbx
 
 #read the config
 /usr/sbin/nginx -t && /usr/sbin/nginx -s reload
@@ -107,15 +107,15 @@ if [ .$switch_tls = ."true" ]; then
 	rm /etc/freeswitch/tls/*
 
 	#combine the certs into all.pem
-	cat /etc/dehydrated/certs/$domain_name/fullchain.pem > /etc/freeswitch/tls/all.pem
-	cat /etc/dehydrated/certs/$domain_name/privkey.pem >> /etc/freeswitch/tls/all.pem
-	#cat /etc/dehydrated/certs/$domain_name/chain.pem >> /etc/freeswitch/tls/all.pem
+	cat /etc/dehydrated/certs/$domain_alias/fullchain.pem > /etc/freeswitch/tls/all.pem
+	cat /etc/dehydrated/certs/$domain_alias/privkey.pem >> /etc/freeswitch/tls/all.pem
+	#cat /etc/dehydrated/certs/$domain_alias/chain.pem >> /etc/freeswitch/tls/all.pem
 
 	#copy the certificates
-	cp /etc/dehydrated/certs/$domain_name/cert.pem /etc/freeswitch/tls
-	cp /etc/dehydrated/certs/$domain_name/chain.pem /etc/freeswitch/tls
-	cp /etc/dehydrated/certs/$domain_name/fullchain.pem /etc/freeswitch/tls
-	cp /etc/dehydrated/certs/$domain_name/privkey.pem /etc/freeswitch/tls
+	cp /etc/dehydrated/certs/$domain_alias/cert.pem /etc/freeswitch/tls
+	cp /etc/dehydrated/certs/$domain_alias/chain.pem /etc/freeswitch/tls
+	cp /etc/dehydrated/certs/$domain_alias/fullchain.pem /etc/freeswitch/tls
+	cp /etc/dehydrated/certs/$domain_alias/privkey.pem /etc/freeswitch/tls
 
 	#add symbolic links
 	ln -s /etc/freeswitch/tls/all.pem /etc/freeswitch/tls/agent.pem
