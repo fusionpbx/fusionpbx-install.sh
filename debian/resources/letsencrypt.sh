@@ -44,13 +44,11 @@ fi
 
 #manual dns hook
 if [ .$wilcard_domain = ."true" ]; then
-      if [ ! -f /etc/dehydrated/hook.sh]; then
-            cd /usr/src
-            git clone https://github.com/owhen/dns-01-manual.git
-            cd /usr/src/dns-01-manual/
-            cp hook.sh /etc/dehydrated/hook.sh
-            chmod 755 /etc/dehydrated/hook.sh
-	fi
+    cd /usr/src
+    git clone https://github.com/owhen/dns-01-manual.git
+    cd /usr/src/dns-01-manual/
+    cp hook.sh /etc/dehydrated/hook.sh
+    chmod 755 /etc/dehydrated/hook.sh
 fi
 
 #copy config and hook.sh into /etc/dehydrated
@@ -125,4 +123,5 @@ if [ .$switch_tls = ."true" ]; then
 
 	#set the permissions
 	chown -R www-data:www-data /etc/freeswitch/tls
-  fi  
+
+fi  
