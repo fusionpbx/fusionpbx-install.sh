@@ -55,6 +55,7 @@ else
 	#find /usr/local/freeswitch/storage/voicemail/*  -name 'msg_*.mp3' -mtime +90 -exec rm {} \;
 fi
 #psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_voicemail_messages WHERE to_timestamp(created_epoch) < NOW() - INTERVAL '90 days'"
+
 #delete call detail records older 90 days
 #psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_xml_cdr WHERE start_stamp < NOW() - INTERVAL '90 days'"
 
