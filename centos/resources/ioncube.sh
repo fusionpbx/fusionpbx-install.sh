@@ -27,5 +27,5 @@ cp ioncube/ioncube_loader_lin_7.1.so /usr/lib64/php/modules
 echo "zend_extension = /usr/lib64/php/modules/ioncube_loader_lin_7.1.so" > /etc/php.d/00-ioncube.ini
 
 #restart the service
-service php7.1-fpm restart
-
+#service httpd restart
+service php-fpm restart
