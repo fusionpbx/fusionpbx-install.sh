@@ -43,6 +43,8 @@ else
 	find /usr/local/freeswitch/recordings/*/archive/*  -name '*.wav' -mtime +90 -exec rm {} \;
 	find /usr/local/freeswitch/recordings/*/archive/*  -name '*.mp3' -mtime +90 -exec rm {} \;
 fi
+psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_call_recordings WHERE call_recording_date < NOW() - INTERVAL '90 days'"
+
 
 #delete voicemail older than 90 days
 if [ .$switch_package = .true ]; then
