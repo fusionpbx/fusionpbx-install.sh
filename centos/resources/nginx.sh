@@ -11,7 +11,7 @@ cd "$(dirname "$0")"
 verbose "Installing the web server"
 
 #install dependencies
-yum -y install nginx php-fpm php-gd php-pgsql php-odbc php-curl php-imap php-mcrypt php-opcache php-common php-pdo php-soap php-xml php-xmlrpc php-cli
+yum -y install nginx php-fpm php-gd php-pgsql php-odbc php-curl php-imap php-mcrypt php-opcache php-common php-pdo php-soap php-xml php-xmlrpc php-cli php-gd
 
 #setup nginx
 mkdir -p /etc/nginx/sites-available
