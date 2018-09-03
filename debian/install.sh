@@ -17,6 +17,10 @@ apt-get update && apt-get upgrade -y --force-yes
 
 #Add dependencies
 apt-get install -y lsb-release
+apt-get install -y systemd
+apt-get install -y systemd-sysv
+apt-get install -y ca-certificate
+apt-get install -y dialog
 
 #IPTables
 resources/iptables.sh
