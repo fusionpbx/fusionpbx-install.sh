@@ -21,6 +21,7 @@ apt-get install -y systemd
 apt-get install -y systemd-sysv
 apt-get install -y ca-certificate
 apt-get install -y dialog
+apt-get install -y nano
 
 #IPTables
 resources/iptables.sh
