@@ -16,6 +16,7 @@ verbose "Update installed packages"
 apt-get update && apt-get upgrade -y --force-yes
 
 #Add dependencies
+apt-get install -y wget
 apt-get install -y lsb-release
 apt-get install -y systemd
 apt-get install -y systemd-sysv
