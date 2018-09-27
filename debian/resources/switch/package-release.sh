@@ -14,8 +14,8 @@ if [ ."$cpu_architecture" = ."arm" ]; then
         curl https://repo.fusionpbx.com/public.key | apt-key add -
 else
         if [ ."$os_codename" = ."stretch" ]; then
-                echo "deb https://repo.fusionpbx.com/armhf stretch 1.6.20" > /etc/apt/sources.list.d/freeswitch.list
-                curl https://repo.fusionpbx.com/public.key | apt-key add -
+                wget -qO - http://files.freeswitch.org/repo/deb/freeswitch-1.8/fsstretch-archive-keyring.gpg | apt-key add -
+                echo "deb http://files.freeswitch.org/repo/deb/freeswitch-1.8/ stretch main" > /etc/apt/sources.list.d/freeswitch.list      
         else
                 echo "deb http://files.freeswitch.org/repo/deb/freeswitch-1.6/ jessie main" > /etc/apt/sources.list.d/freeswitch.list
                 curl http://files.freeswitch.org/repo/deb/freeswitch-1.6/key.gpg | apt-key add -
