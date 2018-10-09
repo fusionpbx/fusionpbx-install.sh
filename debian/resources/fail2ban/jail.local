@@ -104,7 +104,7 @@ action   = iptables-allports[name=fusionpbx-mac, protocol=all]
 #          sendmail-whois[name=fusionpbx-mac, dest=root, sender=fail2ban@example.org] #no smtp server installed
 maxretry = 5
 findtime = 300
-bantime  = -1
+bantime  = 86400
 
 [nginx-404]
 enabled  = true
@@ -113,19 +113,19 @@ protocol = tcp
 filter   = nginx-404
 logpath  = /var/log/nginx/access*.log
 action   = iptables-allports[name=nginx-404, protocol=all]
-bantime  = 3600
+bantime  = 600
 findtime = 60
 maxretry = 120
 
 [nginx-dos]
 # Based on apache-badbots but a simple IP check (any IP requesting more than
 # 240 pages in 60 seconds, or 4p/s average, is suspicious)
-enabled  = true
+enabled  = false
 port     = 80,443
 protocol = tcp
 filter   = nginx-dos
 logpath  = /var/log/nginx/access*.log
 action   = iptables-allports[name=nginx-dos, protocol=all]
 findtime = 60
-bantime  = -1
+bantime  = 86400
 maxretry = 240
