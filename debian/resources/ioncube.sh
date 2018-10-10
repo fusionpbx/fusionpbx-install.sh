@@ -22,11 +22,11 @@ rm ioncube_loaders_lin_x86-64.zip
 
 #change the version of php for debian stretch
 if [ ."$os_codename" = ."stretch" ]; then
-       php_version=7
+       php_version=7.0
 fi
 
 #copy the loader to the correct directory
-if [ ."$php_version" = ."5" ]; then
+if [ ."$php_version" = ."5.6" ]; then
         #copy the php extension .so into the php lib directory
         cp ioncube/ioncube_loader_lin_5.6.so /usr/lib/php5/20131226
 
@@ -36,7 +36,7 @@ if [ ."$php_version" = ."5" ]; then
         #restart the service
         service php5-fpm restart
 fi
-if [ ."$php_version" = ."7" ]; then
+if [ ."$php_version" = ."7.1" ]; then
         #copy the php extension .so into the php lib directory
         cp ioncube/ioncube_loader_lin_7.1.so /usr/lib/php/20160303
 
