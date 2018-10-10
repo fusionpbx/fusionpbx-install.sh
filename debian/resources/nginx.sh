@@ -11,6 +11,11 @@ cd "$(dirname "$0")"
 #send a message
 verbose "Installing the web server"
 
+#change the version of php for debian stretch
+if [ ."$os_codename" = ."stretch" ]; then
+       php_version=7.0
+fi
+
 #if [ ."$cpu_architecture" = ."arm" ]; then
         #9.x - */stretch/
         #8.x - */jessie/
