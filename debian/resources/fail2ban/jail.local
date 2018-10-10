@@ -113,7 +113,7 @@ protocol = tcp
 filter   = nginx-404
 logpath  = /var/log/nginx/access*.log
 action   = iptables-allports[name=nginx-404, protocol=all]
-bantime  = 600
+bantime  = 3600
 findtime = 60
 maxretry = 120
 

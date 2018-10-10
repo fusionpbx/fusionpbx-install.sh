@@ -80,7 +80,7 @@ logpath  = /var/log/nginx/access*.log
 findtime = 60
 maxretry = 120
 banaction = pf
-bantime  = 600
+bantime  = 3600
 
 [nginx-dos]
 # Based on apache-badbots but a simple IP check (any IP requesting more than
