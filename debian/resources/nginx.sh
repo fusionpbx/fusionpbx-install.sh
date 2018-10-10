@@ -22,7 +22,7 @@ verbose "Installing the web server"
         #9.x - */stretch/
         #8.x - */jessie/
 #fi
-if [ ."$php_version" = ."5" ]; then
+if [ ."$php_version" = ."5.6" ]; then
         #verbose "Switching forcefully to php5* packages"
         which add-apt-repository || apt-get install -y software-properties-common
         #LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
@@ -53,29 +53,41 @@ else
 fi
 apt-get update
 
-#use php version 5 for arm
+#use php version 5.6 for arm
 #if [ .$cpu_architecture = .'arm' ]; then
-#        php_version=5
+#        php_version=5.6
 #fi
 
 #install dependencies
 apt-get install -y nginx
-if [ ."$php_version" = ."5" ]; then
+if [ ."$php_version" = ."5.6" ]; then
         apt-get install -y php5 php5-cli php5-fpm php5-pgsql php5-sqlite php5-odbc php5-curl php5-imap php5-mcrypt php5-gd
 fi
-if [ ."$php_version" = ."7" ]; then
+if [ ."$php_version" = ."7.0" ]; then
+        apt-get install -y php7.0 php7.0-cli php7.0-fpm php7.0-pgsql php7.0-sqlite3 php7.0-odbc php7.0-curl php7.0-imap php7.0-mcrypt php7.0-xml php7.0-gd
+fi
+if [ ."$php_version" = ."7.1" ]; then
         apt-get install -y php7.1 php7.1-cli php7.1-fpm php7.1-pgsql php7.1-sqlite3 php7.1-odbc php7.1-curl php7.1-imap php7.1-mcrypt php7.1-xml php7.1-gd
+fi
+if [ ."$php_version" = ."7.2" ]; then
+        apt-get install -y php7.2 php7.2-cli php7.2-fpm php7.2-pgsql php7.2-sqlite3 php7.2-odbc php7.2-curl php7.2-imap php7.2-mcrypt php7.2-xml php7.2-gd
 fi
 
 #enable fusionpbx nginx config
 cp nginx/fusionpbx /etc/nginx/sites-available/fusionpbx
 
 #prepare socket name
-if [ ."$php_version" = ."5" ]; then
+if [ ."$php_version" = ."5.6" ]; then
         sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php5-fpm.sock;#g'
 fi
-if [ ."$php_version" = ."7" ]; then
+if [ ."$php_version" = ."7.0" ]; then
+        sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php7.0-fpm.sock;#g'
+fi
+if [ ."$php_version" = ."7.1" ]; then
         sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php7.1-fpm.sock;#g'
+fi
+if [ ."$php_version" = ."7.2" ]; then
+        sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php7.2-fpm.sock;#g'
 fi
 ln -s /etc/nginx/sites-available/fusionpbx /etc/nginx/sites-enabled/fusionpbx
 
