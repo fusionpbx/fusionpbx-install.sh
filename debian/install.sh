@@ -23,7 +23,10 @@ apt-get install -y systemd-sysv
 apt-get install -y ca-certificates
 apt-get install -y dialog
 apt-get install -y nano
+
+#SNMP
 apt-get install -y snmpd
+echo "rocommunity public" > /etc/snmp/snmpd.conf
 
 #IPTables
 resources/iptables.sh
