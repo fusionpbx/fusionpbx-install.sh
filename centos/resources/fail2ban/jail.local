@@ -103,7 +103,7 @@ maxretry = 120
 # Based on apache-badbots but a simple IP check (any IP requesting more than
 # 300 pages in 60 seconds, or 5p/s average, is suspicious)
 # Block for two full days.
-enabled  = false
+enabled  = true
 port     = 80,443
 protocol = tcp
 filter   = nginx-dos
