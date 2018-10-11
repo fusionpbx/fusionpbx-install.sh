@@ -101,13 +101,13 @@ maxretry = 120
 
 [nginx-dos]
 # Based on apache-badbots but a simple IP check (any IP requesting more than
-# 240 pages in 60 seconds, or 4p/s average, is suspicious)
+# 300 pages in 60 seconds, or 5p/s average, is suspicious)
 # Block for two full days.
-enabled  = false
+enabled  = true
 port     = 80,443
 protocol = tcp
 filter   = nginx-dos
 logpath  = /var/log/nginx/access*.log
 findtime = 60
 bantime  = 86400
-maxretry = 240
+maxretry = 300
