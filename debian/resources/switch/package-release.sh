@@ -33,8 +33,9 @@ apt-get install -y --force-yes freeswitch-mod-xml-cdr freeswitch-mod-verto frees
 apt-get install -y --force-yes freeswitch-mod-sms freeswitch-mod-sms-dbg freeswitch-mod-cidlookup freeswitch-mod-memcache
 apt-get install -y --force-yes freeswitch-mod-imagick freeswitch-mod-tts-commandline freeswitch-mod-directory
 apt-get install -y --force-yes freeswitch-mod-flite freeswitch-mod-distributor freeswitch-meta-codecs
-apt-get install -y --force-yes freeswitch-mod-skypopen freeswitch-mod-skypopen-dbg libyuv-dev
+apt-get install -y --force-yes freeswitch-mod-skypopen freeswitch-mod-skypopen-dbg
 apt-get install -y --force-yes freeswitch-music-default
+apt-get install -y --force-yes libyuv-dev
 
 #make sure that postgresql is started before starting freeswitch
 sed -i /lib/systemd/system/freeswitch.service -e s:'local-fs.target:local-fs.target postgresql.service:'
