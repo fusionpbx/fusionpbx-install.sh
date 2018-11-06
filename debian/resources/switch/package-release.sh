@@ -10,8 +10,13 @@ cd "$(dirname "$0")"
 
 apt-get update && apt-get install -y --force-yes curl memcached haveged apt-transport-https
 if [ ."$cpu_architecture" = ."arm" ]; then
-        echo "deb https://repo.fusionpbx.com/armhf jessie 1.6.20" > /etc/apt/sources.list.d/freeswitch.list
-        curl https://repo.fusionpbx.com/public.key | apt-key add -
+        if [ ."$os_codename" = ."stretch" ]; then
+		echo "deb https://repo.fusionpbx.com/armhf stretch 1.8.2" > /etc/apt/sources.list.d/freeswitch.list
+        	curl https://repo.fusionpbx.com/public.key | apt-key add -
+        else
+		echo "deb https://repo.fusionpbx.com/armhf jessie 1.6.20" > /etc/apt/sources.list.d/freeswitch.list
+        	curl https://repo.fusionpbx.com/public.key | apt-key add -
+        fi
 else
         if [ ."$os_codename" = ."stretch" ]; then
                 wget -qO - http://files.freeswitch.org/repo/deb/freeswitch-1.8/fsstretch-archive-keyring.gpg | apt-key add -
