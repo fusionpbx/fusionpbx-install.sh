@@ -6,6 +6,7 @@ cd "$(dirname "$0")"
 #includes
 . ./config.sh
 . ./colors.sh
+. ./environment.sh
 
 #send a message
 verbose "Configuring PHP"
