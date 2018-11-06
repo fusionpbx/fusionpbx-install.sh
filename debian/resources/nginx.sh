@@ -72,7 +72,8 @@ if [ ."$php_version" = ."7.1" ]; then
         apt-get install -y php7.1 php7.1-cli php7.1-fpm php7.1-pgsql php7.1-sqlite3 php7.1-odbc php7.1-curl php7.1-imap php7.1-mcrypt php7.1-xml php7.1-gd
 fi
 if [ ."$php_version" = ."7.2" ]; then
-        apt-get install -y php7.2 php7.2-cli php7.2-fpm php7.2-pgsql php7.2-sqlite3 php7.2-odbc php7.2-curl php7.2-imap php7.2-mcrypt php7.2-xml php7.2-gd
+        apt-get install -y php7.2 php7.2-cli php7.2-fpm php7.2-pgsql php7.2-sqlite3 php7.2-odbc php7.2-curl php7.2-imap php7.2-xml php7.2-gd
+	apt-get install -y php7.2-mcrypt
 fi
 
 #enable fusionpbx nginx config
