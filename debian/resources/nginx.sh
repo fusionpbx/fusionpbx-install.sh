@@ -13,7 +13,11 @@ verbose "Installing the web server"
 
 #change the version of php for debian stretch
 if [ ."$os_codename" = ."stretch" ]; then
-       php_version=7.0
+       if [ ."$cpu_architecture" = ."arm" ]; then
+              php_version=7.2
+       else
+              php_version=7.0
+       fi
 fi
 
 #if [ ."$cpu_architecture" = ."arm" ]; then
