@@ -13,11 +13,7 @@ verbose "Installing the web server"
 
 #change the version of php for debian stretch
 if [ ."$os_codename" = ."stretch" ]; then
-       if [ ."$cpu_architecture" = ."arm" ]; then
-              php_version=7.2
-       else
-              php_version=7.0
-       fi
+	php_version=7.0
 fi
 
 #if [ ."$cpu_architecture" = ."arm" ]; then
@@ -38,12 +34,16 @@ elif [ ."$os_name" = ."Ubuntu" ]; then
                 LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
         fi
 elif [ ."$cpu_architecture" = ."arm" ]; then
-        #Pi2 and Pi3 Raspbian
-        #Odroid
-        php_version=5
-        apt-get -y install apt-transport-https lsb-release ca-certificates
-        wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
-        sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+	#Pi2 and Pi3 Raspbian
+	#Odroid
+	if [ ."$os_codename" = ."stretch" ]; then
+	      php_version=7.2
+	else
+	      php_version=5.6
+	fi
+	apt-get -y install apt-transport-https lsb-release ca-certificates
+	wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+	sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
 else
         #9.x - */stretch/
         #8.x - */jessie/
