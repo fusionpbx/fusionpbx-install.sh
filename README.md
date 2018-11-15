@@ -1,11 +1,11 @@
 
 FusionPBX Install
 --------------------------------------
-A quick install guide for a FusionPBX install. It is recommended to start the install on a minimal install of the operating system. Notes on further tweaking your configuration are at end of the file.
+A quick install guide & scripts for installing FusionPBX. It is recommended to start with a minimal install of the operating system. Notes on further tweaking your configuration are at end of the file.
 
 ## Operating Systems
 ### Debian
-Debian 9 is the preferred operating system by the FreeSWITCH developers. It supports the latest video dependencies. If you want to do video mixing use Debian. Download Debian 9 Stretch from here https://cdimage.debian.org/cdimage/release/current-live/
+Debian 9 is the preferred operating system by the FreeSWITCH developers. It supports the latest video dependencies and should be used if you want to do video mixing. Download Debian 9 Stretch at https://cdimage.debian.org/cdimage/release/current/
 
 ```sh
 wget -O - https://raw.githubusercontent.com/fusionpbx/fusionpbx-install.sh/master/debian/pre-install.sh | sh;
@@ -13,7 +13,7 @@ cd /usr/src/fusionpbx-install.sh/debian && ./install.sh
 ```
 ### Devuan
 If you like Debian but rather not bother with systemd, Devuan is a "drop in" replacement.
-Version 1 is bassed on Jessie, so you will find the same packages available.
+Devuan ASCII is based on Stretch, so you will find most of the same packages available.
 Please note that the source installation and installation on ARM is not fully tested.
 
 ```sh
