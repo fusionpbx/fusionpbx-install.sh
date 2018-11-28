@@ -11,7 +11,7 @@ switch_package=true             # true or false
 
 # Database Settings
 database_password=random        # random or as a pre-set value
-database_repo=system            # PostgresSQL official, system, 2ndquadrant
+database_repo=system            # PostgreSQL official, system, 2ndquadrant
 database_backup=false           # true or false
 
 # General Settings
