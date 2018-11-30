@@ -12,3 +12,4 @@ fi
 systemctl enable freeswitch
 systemctl unmask freeswitch.service
 systemctl daemon-reload
+systemctl start freeswitch
