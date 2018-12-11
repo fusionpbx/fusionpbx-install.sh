@@ -6,7 +6,7 @@ cd "$(dirname "$0")"
 #includes
 . ./config.sh
 . ./colors.sh
-. ./environment.sh
+. ./environment.s
 
 #send a message
 echo "Install PostgreSQL"
@@ -57,12 +57,12 @@ systemctl restart postgresql
 #/usr/sbin/service postgresql restart
 
 #install the database backup
-cp backup/fusionpbx-backup.sh /etc/cron.daily
-cp backup/fusionpbx-maintenance.sh /etc/cron.daily
-chmod 755 /etc/cron.daily/fusionpbx-backup.sh
-chmod 755 /etc/cron.daily/fusionpbx-maintenance.sh
-sed -i "s/zzz/$password/g" /etc/cron.daily/fusionpbx-backup.sh
-sed -i "s/zzz/$password/g" /etc/cron.daily/fusionpbx-maintenance.sh
+cp backup/fusionpbx-backup /etc/cron.daily
+cp backup/fusionpbx-maintenance /etc/cron.daily
+chmod 755 /etc/cron.daily/fusionpbx-backup
+chmod 755 /etc/cron.daily/fusionpbx-maintenance
+sed -i "s/zzz/$password/g" /etc/cron.daily/fusionpbx-backup
+sed -i "s/zzz/$password/g" /etc/cron.daily/fusionpbx-maintenance
 
 #move to /tmp to prevent a red herring error when running sudo with psql
 cwd=$(pwd)
