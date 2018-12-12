@@ -18,6 +18,13 @@ iptables -A INPUT -j DROP -p udp --dport 5060:5091 -m string --string "sipcli/" 
 iptables -A INPUT -j DROP -p tcp --dport 5060:5091 -m string --string "sipcli/" --algo bm
 iptables -A INPUT -j DROP -p udp --dport 5060:5091 -m string --string "VaxSIPUserAgent/" --algo bm
 iptables -A INPUT -j DROP -p tcp --dport 5060:5091 -m string --string "VaxSIPUserAgent/" --algo bm
+iptables -A INPUT -j DROP -p udp --dport 5060:5091 -m string --string "pplsip" --algo bm
+iptables -A INPUT -j DROP -p tcp --dport 5060:5091 -m string --string "pplsip" --algo bm
+iptables -A INPUT -j DROP -p udp --dport 5060:5091 -m string --string "script" --algo bm
+iptables -A INPUT -j DROP -p tcp --dport 5060:5091 -m string --string "script" --algo bm
+iptables -A INPUT -j DROP -p udp --dport 5060:5091 -m string --string "exec" --algo bm
+iptables -A INPUT -j DROP -p tcp --dport 5060:5091 -m string --string "exec" --algo bm
+
 iptables -A INPUT -p tcp --dport 22 -j ACCEPT
 iptables -A INPUT -p tcp --dport 80 -j ACCEPT
 iptables -A INPUT -p tcp --dport 443 -j ACCEPT
