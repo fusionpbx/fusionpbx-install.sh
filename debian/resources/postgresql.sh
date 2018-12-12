@@ -6,7 +6,7 @@ cd "$(dirname "$0")"
 #includes
 . ./config.sh
 . ./colors.sh
-. ./environment.s
+. ./environment.sh
 
 #send a message
 echo "Install PostgreSQL"
