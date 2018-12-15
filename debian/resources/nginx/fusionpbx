@@ -31,7 +31,7 @@ server {
 		fastcgi_read_timeout 15m;
 	}
 
-	# Disable viewing .htaccess & .htpassword & .db
+	# Disable viewing .htaccess & .htpassword & .db & .git
 	location ~ .htaccess {
 			deny all;
 	}
@@ -39,6 +39,9 @@ server {
 			deny all;
 	}
 	location ~^.+.(db)$ {
+			deny all;
+	}
+	location ~ /.git/ {
 			deny all;
 	}
 }
@@ -137,7 +140,7 @@ server {
 		fastcgi_read_timeout 15m;
 	}
 
-	# Disable viewing .htaccess & .htpassword & .db
+	# Disable viewing .htaccess & .htpassword & .db & .git
 	location ~ .htaccess {
 		deny all;
 	}
@@ -145,6 +148,9 @@ server {
 		deny all;
 	}
 	location ~^.+.(db)$ {
+		deny all;
+	}
+	location ~ /.git/ {
 		deny all;
 	}
 }
@@ -243,7 +249,7 @@ server {
 		fastcgi_read_timeout 15m;
 	}
 
-	# Disable viewing .htaccess & .htpassword & .db
+	# Disable viewing .htaccess & .htpassword & .db & .git
 	location ~ .htaccess {
 		deny all;
 	}
@@ -251,6 +257,9 @@ server {
 		deny all;
 	}
 	location ~^.+.(db)$ {
+		deny all;
+	}
+	location ~ /.git/ {
 		deny all;
 	}
 }
