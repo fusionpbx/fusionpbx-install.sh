@@ -26,7 +26,7 @@ iptables -A INPUT -j DROP -p udp --dport 5060:5091 -m string --string "exec." --
 iptables -A INPUT -j DROP -p tcp --dport 5060:5091 -m string --string "exec." --algo bm
 iptables -A INPUT -j DROP -p udp --dport 5060:5091 -m string --string "system" --algo bm
 iptables -A INPUT -j DROP -p tcp --dport 5060:5091 -m string --string "system" --algo bm
-iptables -A INPUT -j DROP -p sip --dport 5060:5091 -m string --string "multipart/mixed;boundary" --algo bm
+iptables -A INPUT -j DROP -p udp --dport 5060:5091 -m string --string "multipart/mixed;boundary" --algo bm
 iptables -A INPUT -j DROP -p tcp --dport 5060:5091 -m string --string "multipart/mixed;boundary" --algo bm
 iptables -A INPUT -p tcp --dport 22 -j ACCEPT
 iptables -A INPUT -p tcp --dport 80 -j ACCEPT
