@@ -24,6 +24,10 @@ password=$(cat /dev/random | env LC_CTYPE=C tr -dc a-zA-Z0-9 | head -c 20)
 echo "Install PostgreSQL and create the database and users\n"
 
 #postgres install
+if [ ."$database_version" = ."11" ]; then
+	pkg install --yes postgresql11-server
+	#cd /usr/ports/databases/postgresql10-server/ && make install clean BATCH=yes
+fi
 if [ ."$database_version" = ."10" ]; then
 	pkg install --yes postgresql10-server
 	#cd /usr/ports/databases/postgresql10-server/ && make install clean BATCH=yes
@@ -52,6 +56,9 @@ echo 'postgresql_enable=true' >> /etc/rc.conf
 /usr/local/etc/rc.d/postgresql initdb
 
 #start postgresql
+if [ ."$database_version" = ."11" ]; then
+	sudo -u postgres /usr/local/bin/pg_ctl -D /var/db/postgres/data11 -l logfile start
+fi
 if [ ."$database_version" = ."10" ]; then
 	sudo -u postgres /usr/local/bin/pg_ctl -D /var/db/postgres/data10 -l logfile start
 fi
