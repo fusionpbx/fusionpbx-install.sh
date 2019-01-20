@@ -36,6 +36,16 @@ if [ ."$php_version" = ."5.6" ]; then
         #restart the service
         service php5-fpm restart
 fi
+if [ ."$php_version" = ."7.0" ]; then
+        #copy the php extension .so into the php lib directory
+        cp ioncube/ioncube_loader_lin_7.0.so /usr/lib/php/20151012
+
+        #add the 00-ioncube.ini file
+        echo "zend_extension = /usr/lib/php/20151012/ioncube_loader_lin_7.0.so" > /etc/php/7.0/fpm/conf.d/00-ioncube.ini
+
+        #restart the service
+        service php7.0-fpm restart
+fi
 if [ ."$php_version" = ."7.1" ]; then
         #copy the php extension .so into the php lib directory
         cp ioncube/ioncube_loader_lin_7.1.so /usr/lib/php/20160303
