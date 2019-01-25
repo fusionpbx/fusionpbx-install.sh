@@ -20,7 +20,7 @@ now=$(date +%Y-%m-%d)
 mkdir -p /var/backups/fusionpbx/postgresql
 
 #backup the database
-pg_dump --verbose -Fc --host=$db_host --port=$db_port -U fusionpbx fusionpbx --schema=public -f /var/backups/fusionpbx/postgresql/fusionpbx_pgsql_$now.sql
+pg_dump --verbose -Fc --host=$db_host --port=$db_port -U fusionpbx fusionpbx --schema=public -f /var/backups/fusionpbx/postgresql/fusionpbx_auto_$now.sql
 
 #empty the fusionpbx database
 sudo -u postgres psql -d fusionpbx -c "drop schema public cascade;";
