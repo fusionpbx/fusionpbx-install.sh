@@ -85,9 +85,9 @@ if [ .$nginx_enabled = .'true' ]; then
 	group_uuid=$(echo $group_uuid | sed 's/^[[:blank:]]*//;s/[[:blank:]]*$//')
 
 	#add the user to the group
-	group_user_uuid=$(/usr/local/bin/php /usr/local/www/fusionpbx/resources/uuid.php);
+	user_group_uuid=$(/usr/local/bin/php /usr/local/www/fusionpbx/resources/uuid.php);
 	group_name=superadmin
-	psql --host=$database_host --port=$database_port --username=$database_username -c "insert into v_group_users (group_user_uuid, domain_uuid, group_name, group_uuid, user_uuid) values('$group_user_uuid', '$domain_uuid', '$group_name', '$group_uuid', '$user_uuid');"
+	psql --host=$database_host --port=$database_port --username=$database_username -c "insert into v_user_groups (user_group_uuid, domain_uuid, group_name, group_uuid, user_uuid) values('$user_group_uuid', '$domain_uuid', '$group_name', '$group_uuid', '$user_uuid');"
 
 	#add the local_ip_v4 address
 	psql --host=$database_host --port=$database_port --username=$database_username -t -c "insert into v_vars (var_uuid, var_name, var_value, var_category, var_order, var_enabled) values ('4507f7a9-2cbb-40a6-8799-f8f168082585', 'local_ip_v4', '$local_ip_v4', 'Defaults', '0', 'true');";
