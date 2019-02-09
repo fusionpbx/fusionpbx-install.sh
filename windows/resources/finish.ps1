@@ -53,9 +53,9 @@ $password_hash = ."C:\Program Files\PHP\v7.1\php.exe" "-r echo md5('$user_salt$u
 "$psql select group_uuid from v_groups where group_name = 'superadmin';"
 
 #add the user to the group
-[string]$group_user_uuid = [System.Guid]::NewGuid()
+[string]$user_group_uuid = [System.Guid]::NewGuid()
 $group_name="superadmin"
-"$psql insert into v_group_users (group_user_uuid, domain_uuid, group_name, group_uuid, user_uuid) values('$group_user_uuid', '$domain_uuid', '$group_name', '$group_uuid', '$user_uuid');"
+"$psql insert into v_user_groups (user_group_uuid, domain_uuid, group_name, group_uuid, user_uuid) values('$user_group_uuid', '$domain_uuid', '$group_name', '$group_uuid', '$user_uuid');"
 
 #app defaults
 Start-Process "C:\Program Files\PHP\v7.1\php.exe" "C:/inetpub/FusionPBX/core/upgrade/upgrade_domains.php"
