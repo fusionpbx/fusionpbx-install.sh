@@ -66,7 +66,7 @@ group_uuid=$(echo $group_uuid | sed 's/^[[:blank:]]*//;s/[[:blank:]]*$//')
 #add the user to the group
 user_group_uuid=$(/usr/bin/php /var/www/fusionpbx/resources/uuid.php);
 group_name=superadmin
-psql --host=$database_host --port=$database_port --username=$database_username -c "insert into v_user_groups (user_group_uuid, domain_uuid, group_name, group_uuid, user_uuid) values('$group_user_uuid', '$domain_uuid', '$group_name', '$group_uuid', '$user_uuid');"
+psql --host=$database_host --port=$database_port --username=$database_username -c "insert into v_user_groups (user_group_uuid, domain_uuid, group_name, group_uuid, user_uuid) values('$user_group_uuid', '$domain_uuid', '$group_name', '$group_uuid', '$user_uuid');"
 
 #update the php configuration
 sed -i 's/user nginx/user freeswitch daemon/g' /etc/nginx/nginx.conf
