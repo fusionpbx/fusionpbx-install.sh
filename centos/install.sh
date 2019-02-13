@@ -13,12 +13,12 @@ cd "$(dirname "$0")"
 verbose "Updating CentOS"
 yum -y update && yum -y upgrade
 
-# Installing basics packages
-yum -y install ntp htop epel-release vim openssl
-
 # Add additional repository
-yum install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
 
+# Installing basics packages
+yum -y install ntp yum-utils epel-release htop vim openssl
+ 
 # Disable SELinux
 resources/selinux.sh
 
