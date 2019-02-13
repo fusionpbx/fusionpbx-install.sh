@@ -17,7 +17,7 @@ yum -y update && yum -y upgrade
 yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
 
 # Installing basics packages
-yum -y install ntp yum-utils epel-release htop vim openssl
+yum -y install ntp yum-utils net-tools epel-release htop vim openssl
  
 # Disable SELinux
 resources/selinux.sh
