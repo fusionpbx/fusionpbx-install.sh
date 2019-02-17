@@ -1,4 +1,4 @@
-apt-get remove -y --force-yes freeswitch-systemd
+apt-get remove -y freeswitch-systemd
 cp "$(dirname $0)/source/freeswitch.service.package" /lib/systemd/system/freeswitch.service
 cp "$(dirname $0)/source/etc.default.freeswitch.package" /etc/default/freeswitch
 chmod 644 /lib/systemd/system/freeswitch.service 
