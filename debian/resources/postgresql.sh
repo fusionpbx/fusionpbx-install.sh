@@ -19,7 +19,7 @@ echo "Install PostgreSQL and create the database and users\n"
 
 #included in the distribution
 if [ ."$database_repo" = ."system" ]; then
-	apt-get install -y --force-yes sudo postgresql
+	apt-get install -y sudo postgresql
 fi
 
 #postgres official repository
@@ -28,13 +28,13 @@ if [ ."$database_repo" = ."official" ]; then
 	wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 	apt-get update && apt-get upgrade -y
 	if [ ."$database_version" = ."latest" ]; then
-                apt-get install -y --force-yes sudo postgresql
+                apt-get install -y sudo postgresql
 	fi
 	if [ ."$database_version" = ."9.6" ]; then
-                apt-get install -y --force-yes sudo postgresql-$database_version
+                apt-get install -y sudo postgresql-$database_version
         fi
 	if [ ."$database_version" = ."9.4" ]; then
-                apt-get install -y --force-yes sudo postgresql-$database_version
+                apt-get install -y sudo postgresql-$database_version
         fi
 fi
 
@@ -45,7 +45,7 @@ if [ ."$database_repo" = ."2ndquadrant" ]; then
 	/usr/bin/wget --quiet -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | apt-key add -
 	/usr/bin/wget --quiet -O - http://packages.2ndquadrant.com/bdr/apt/AA7A6805.asc | apt-key add -
 	apt-get update && apt-get upgrade -y
-	apt-get install -y --force-yes sudo postgresql-bdr-9.4 postgresql-bdr-9.4-bdr-plugin postgresql-bdr-contrib-9.4
+	apt-get install -y sudo postgresql-bdr-9.4 postgresql-bdr-9.4-bdr-plugin postgresql-bdr-contrib-9.4
 fi
 
 
