@@ -20,6 +20,11 @@ unzip ioncube_loaders_lin_x86-64.zip
 #remove the zip file
 rm ioncube_loaders_lin_x86-64.zip
 
+#remove the ioncube directory if it exists
+if [ -d "ioncube" ]; then
+        rm -Rf ioncube
+fi
+
 #copy the loader to the correct directory
 if [ ."$php_version" = ."5.6" ]; then
         #copy the php extension .so into the php lib directory
