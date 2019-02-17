@@ -8,7 +8,7 @@ cd "$(dirname "$0")"
 . ../colors.sh
 . ../environment.sh
 
-apt-get update && apt-get install -y --force-yes curl memcached haveged apt-transport-https
+apt-get update && apt-get install -y curl memcached haveged apt-transport-https
 if [ ."$cpu_architecture" = ."arm" ]; then
         if [ ."$os_codename" = ."stretch" ]; then
 		echo "deb https://repo.fusionpbx.com/armhf stretch 1.8.4" > /etc/apt/sources.list.d/freeswitch.list
@@ -27,20 +27,20 @@ else
         fi
 fi
 apt-get update
-apt-get install -y --force-yes gdb ntp
-apt-get install -y --force-yes freeswitch-meta-bare freeswitch-conf-vanilla freeswitch-mod-commands freeswitch-mod-console freeswitch-mod-logfile
-apt-get install -y --force-yes freeswitch-lang-en freeswitch-mod-say-en freeswitch-sounds-en-us-callie
-apt-get install -y --force-yes freeswitch-mod-enum freeswitch-mod-cdr-csv freeswitch-mod-event-socket freeswitch-mod-sofia freeswitch-mod-sofia-dbg freeswitch-mod-loopback
-apt-get install -y --force-yes freeswitch-mod-conference freeswitch-mod-db freeswitch-mod-dptools freeswitch-mod-expr freeswitch-mod-fifo freeswitch-mod-httapi
-apt-get install -y --force-yes freeswitch-mod-hash freeswitch-mod-esl freeswitch-mod-esf freeswitch-mod-fsv freeswitch-mod-valet-parking freeswitch-mod-dialplan-xml freeswitch-dbg
-apt-get install -y --force-yes freeswitch-mod-sndfile freeswitch-mod-native-file freeswitch-mod-local-stream freeswitch-mod-tone-stream freeswitch-mod-lua freeswitch-meta-mod-say
-apt-get install -y --force-yes freeswitch-mod-xml-cdr freeswitch-mod-verto freeswitch-mod-callcenter freeswitch-mod-rtc freeswitch-mod-png freeswitch-mod-json-cdr freeswitch-mod-shout
-apt-get install -y --force-yes freeswitch-mod-sms freeswitch-mod-sms-dbg freeswitch-mod-cidlookup freeswitch-mod-memcache
-apt-get install -y --force-yes freeswitch-mod-imagick freeswitch-mod-tts-commandline freeswitch-mod-directory
-apt-get install -y --force-yes freeswitch-mod-flite freeswitch-mod-distributor freeswitch-meta-codecs
-apt-get install -y --force-yes freeswitch-mod-skypopen freeswitch-mod-skypopen-dbg
-apt-get install -y --force-yes freeswitch-music-default
-apt-get install -y --force-yes libyuv-dev
+apt-get install -y gdb ntp
+apt-get install -y freeswitch-meta-bare freeswitch-conf-vanilla freeswitch-mod-commands freeswitch-mod-console freeswitch-mod-logfile
+apt-get install -y freeswitch-lang-en freeswitch-mod-say-en freeswitch-sounds-en-us-callie
+apt-get install -y freeswitch-mod-enum freeswitch-mod-cdr-csv freeswitch-mod-event-socket freeswitch-mod-sofia freeswitch-mod-sofia-dbg freeswitch-mod-loopback
+apt-get install -y freeswitch-mod-conference freeswitch-mod-db freeswitch-mod-dptools freeswitch-mod-expr freeswitch-mod-fifo freeswitch-mod-httapi
+apt-get install -y freeswitch-mod-hash freeswitch-mod-esl freeswitch-mod-esf freeswitch-mod-fsv freeswitch-mod-valet-parking freeswitch-mod-dialplan-xml freeswitch-dbg
+apt-get install -y freeswitch-mod-sndfile freeswitch-mod-native-file freeswitch-mod-local-stream freeswitch-mod-tone-stream freeswitch-mod-lua freeswitch-meta-mod-say
+apt-get install -y freeswitch-mod-xml-cdr freeswitch-mod-verto freeswitch-mod-callcenter freeswitch-mod-rtc freeswitch-mod-png freeswitch-mod-json-cdr freeswitch-mod-shout
+apt-get install -y freeswitch-mod-sms freeswitch-mod-sms-dbg freeswitch-mod-cidlookup freeswitch-mod-memcache
+apt-get install -y freeswitch-mod-imagick freeswitch-mod-tts-commandline freeswitch-mod-directory
+apt-get install -y freeswitch-mod-flite freeswitch-mod-distributor freeswitch-meta-codecs
+apt-get install -y freeswitch-mod-skypopen freeswitch-mod-skypopen-dbg
+apt-get install -y freeswitch-music-default
+apt-get install -y libyuv-dev
 
 #make sure that postgresql is started before starting freeswitch
 sed -i /lib/systemd/system/freeswitch.service -e s:'local-fs.target:local-fs.target postgresql.service:'
