@@ -11,7 +11,7 @@ cd "$(dirname "$0")"
 #send a message
 verbose "Configuring PHP"
 
-#add the repos
+#add the repository
 if [ ."$os_name" = ."Ubuntu" ]; then
         #16.10.x - */yakkety/
         #16.04.x - */xenial/
