@@ -9,7 +9,12 @@ cd "$(dirname "$0")"
 . ./environment.sh
 
 #make sure unzip is install
-apt-get install unzip
+apt-get install -y unzip
+
+#remove the ioncube directory if it exists
+if [ -d "ioncube" ]; then
+        rm -Rf ioncube;
+fi
 
 #get the ioncube 64 bit loader
 wget https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.zip
@@ -19,11 +24,6 @@ unzip ioncube_loaders_lin_x86-64.zip
 
 #remove the zip file
 rm ioncube_loaders_lin_x86-64.zip
-
-#remove the ioncube directory if it exists
-if [ -d "$(dirname "$0")/ioncube" ]; then
-        rm -Rf $(dirname "$0")/ioncube
-fi
 
 #copy the loader to the correct directory
 if [ ."$php_version" = ."5.6" ]; then
