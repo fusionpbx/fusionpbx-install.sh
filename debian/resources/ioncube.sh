@@ -16,14 +16,16 @@ if [ -d "ioncube" ]; then
         rm -Rf ioncube;
 fi
 
-#get the ioncube 64 bit loader
-wget https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.zip
+if [ .$cpu_architecture = .'x86' ]; then
+	#get the ioncube 64 bit loader
+	wget https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.zip
 
-#uncompress the file
-unzip ioncube_loaders_lin_x86-64.zip
+	#uncompress the file
+	unzip ioncube_loaders_lin_x86-64.zip
 
-#remove the zip file
-rm ioncube_loaders_lin_x86-64.zip
+	#remove the zip file
+	rm ioncube_loaders_lin_x86-64.zip
+fi
 
 #copy the loader to the correct directory
 if [ ."$php_version" = ."5.6" ]; then
