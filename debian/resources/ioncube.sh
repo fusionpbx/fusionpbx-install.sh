@@ -21,8 +21,8 @@ unzip ioncube_loaders_lin_x86-64.zip
 rm ioncube_loaders_lin_x86-64.zip
 
 #remove the ioncube directory if it exists
-if [ -d "ioncube" ]; then
-        rm -Rf ioncube
+if [ -d "$(dirname "$0")/ioncube" ]; then
+        rm -Rf $(dirname "$0")/ioncube
 fi
 
 #copy the loader to the correct directory
