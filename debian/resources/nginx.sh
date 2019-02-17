@@ -57,5 +57,8 @@ if [ .$letsencrypt_folder = .true ]; then
         mkdir -p /var/www/letsencrypt/
 fi
 
+#flush systemd cache
+systemctl daemon-reload
+
 #restart nginx
 service nginx restart
