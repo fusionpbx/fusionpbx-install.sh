@@ -38,11 +38,11 @@ resources/sngrep.sh
 #FusionPBX
 resources/fusionpbx.sh
 
-#NGINX web server
-resources/nginx.sh
-
 #PHP
 resources/php.sh
+
+#NGINX web server
+resources/nginx.sh
 
 #Fail2ban
 resources/fail2ban.sh
