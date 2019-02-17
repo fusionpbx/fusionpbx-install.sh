@@ -20,11 +20,6 @@ unzip ioncube_loaders_lin_x86-64.zip
 #remove the zip file
 rm ioncube_loaders_lin_x86-64.zip
 
-#change the version of php for debian stretch
-if [ ."$os_codename" = ."stretch" ]; then
-       php_version=7.0
-fi
-
 #copy the loader to the correct directory
 if [ ."$php_version" = ."5.6" ]; then
         #copy the php extension .so into the php lib directory
