@@ -77,7 +77,7 @@ sed 's#post_max_size = .*#post_max_size = 80M#g' -i $php_ini_file
 sed 's#upload_max_filesize = .*#upload_max_filesize = 80M#g' -i $php_ini_file
 
 #restart php-fpm
-#systemd
+systemctl daemon-reload
 if [ ."$php_version" = ."5.6" ]; then
         systemctl restart php5-fpm
 fi
