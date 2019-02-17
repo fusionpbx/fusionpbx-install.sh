@@ -68,7 +68,7 @@ if [ .$database_version = ."9.6" ]; then
 	echo 'deb http://packages.2ndquadrant.com/bdr/apt/ jessie-2ndquadrant main' > /etc/apt/sources.list.d/2ndquadrant.list
 	/usr/bin/wget --quiet -O - http://packages.2ndquadrant.com/bdr/apt/AA7A6805.asc | apt-key add -
 	apt-get update && apt-get upgrade -y
-	apt-get install -y --force-yes sudo postgresql-9.6-bdr-plugin
+	apt-get install -y sudo postgresql-9.6-bdr-plugin
 fi
 
 #iptables rules
@@ -77,10 +77,10 @@ if [ .$iptables_add = ."y" ]; then
 		iptables -A INPUT -j ACCEPT -p tcp --dport 5432 -s ${node}/32
 		iptables -A INPUT -j ACCEPT -p tcp --dport 22000 -s ${node}/32
 	done
-	apt-get remove iptables-persistent -y --force-yes
+	apt-get remove iptables-persistent -y
 	echo iptables-persistent iptables-persistent/autosave_v4 boolean true | debconf-set-selections
 	echo iptables-persistent iptables-persistent/autosave_v6 boolean true | debconf-set-selections
-	apt-get install -y --force-yes iptables-persistent
+	apt-get install -y iptables-persistent
 fi
 
 #setup ssl
