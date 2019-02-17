@@ -77,7 +77,9 @@ sed 's#post_max_size = .*#post_max_size = 80M#g' -i $php_ini_file
 sed 's#upload_max_filesize = .*#upload_max_filesize = 80M#g' -i $php_ini_file
 
 #install
-. ./ioncube.sh
+if [ .$cpu_architecture = .'x86' ]; then
+	. ./ioncube.sh
+fi
 
 #restart php-fpm
 systemctl daemon-reload
