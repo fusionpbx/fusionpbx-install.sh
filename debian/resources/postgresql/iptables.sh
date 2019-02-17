@@ -40,10 +40,10 @@ if [ .$iptables_add = ."y" ]; then
 		iptables -A INPUT -j ACCEPT -p tcp --dport 5432 -s ${node}/32
 		iptables -A INPUT -j ACCEPT -p tcp --dport 22000 -s ${node}/32
 	done
-	apt-get remove iptables-persistent -y --force-yes
+	apt-get remove iptables-persistent -y
 	echo iptables-persistent iptables-persistent/autosave_v4 boolean true | debconf-set-selections
 	echo iptables-persistent iptables-persistent/autosave_v6 boolean true | debconf-set-selections
-	apt-get install -y --force-yes iptables-persistent
+	apt-get install -y iptables-persistent
 fi
 
 #set the working directory
