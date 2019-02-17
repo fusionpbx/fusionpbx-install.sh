@@ -56,23 +56,5 @@ resources/postgresql.sh
 #set the ip address
 server_address=$(hostname -I)
 
-#restart services
-systemctl daemon-reload
-if [ ."$php_version" = ."5.6" ]; then
-        service php5-fpm restart
-fi
-if [ ."$php_version" = ."7.0" ]; then
-        service php7.0-fpm restart
-fi
-if [ ."$php_version" = ."7.1" ]; then
-        service php7.1-fpm restart
-fi
-if [ ."$php_version" = ."7.2" ]; then
-        service php7.2-fpm restart
-fi
-
-service nginx restart
-service fail2ban restart
-
 #add the database schema, user and groups
 resources/finish.sh
