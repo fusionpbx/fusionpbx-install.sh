@@ -17,10 +17,12 @@ if [ .$switch_source = .true ]; then
 	switch/conf-copy.sh
 
 	#set the file permissions
-	switch/source-permissions.sh
+	#switch/source-permissions.sh
+	switch/package-permissions.sh
 
 	#systemd service
-	switch/source-systemd.sh
+	#switch/source-systemd.sh
+	switch/package-systemd.sh
 fi
 
 if [ .$switch_package = .true ]; then
