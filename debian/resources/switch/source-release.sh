@@ -8,16 +8,13 @@ echo "deb  http://files.freeswitch.org/repo/deb/freeswitch-1.8/  stretch main" >
 echo "deb-src  http://files.freeswitch.org/repo/deb/freeswitch-1.8/  stretch main" >> /etc/apt/sources.list.d/freeswitch.list
 
 #upgrade packages
-apt update && apt upgrade
+apt update && apt upgrade -y
 
 # install dependencies
-apt-get build-dep freeswitch
-
-# install dependencies
-apt-get build-dep freeswitch
+apt build-dep freeswitch -y
 
 # additional dependencies
-apt install sqlite3 swig3.0 unzip
+apt install -y sqlite3 swig3.0 unzip
 
 #we are about to move out of the executing directory so we need to preserve it to return after we are done
 CWD=$(pwd)
