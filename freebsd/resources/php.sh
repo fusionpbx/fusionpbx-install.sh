@@ -31,12 +31,12 @@ if [ ."$php_version" = ."7.1" ]; then
 	if [ ."$database_version" = ."9.6" ]; then
 		pkg install --yes postgresql96-client
 		if [ .$(freebsd-version | head -c 2) = ."10" ]; then
-			pkg add https://www.fusionpbx.com/downloads/freebsd10/php71-pdo_pgsql-7.1.6_1.txz
-			pkg add https://www.fusionpbx.com/downloads/freebsd10/php71-pgsql-7.1.6_1.txz
+			pkg add https://www.fusionpbx.com/downloads/freebsd/10/php71-pdo_pgsql-7.1.6_1.txz
+			pkg add https://www.fusionpbx.com/downloads/freebsd/10/php71-pgsql-7.1.6_1.txz
 		fi
 		if [ .$(freebsd-version | head -c 2) = ."11" ]; then
-			pkg add https://www.fusionpbx.com/downloads/freebsd11/php71-pdo_pgsql-7.1.6_1.txz
-			pkg add https://www.fusionpbx.com/downloads/freebsd11/php71-pgsql-7.1.6_1.txz
+			pkg add https://www.fusionpbx.com/downloads/freebsd/11/php71-pdo_pgsql-7.1.6_1.txz
+			pkg add https://www.fusionpbx.com/downloads/freebsd/11/php71-pgsql-7.1.6_1.txz
 		fi
 
 		##set the current working directory
@@ -58,8 +58,12 @@ if [ ."$php_version" = ."7.2" ]; then
 	if [ ."$database_version" = ."10" ]; then
 		pkg install --yes postgresql10-client
 		if [ .$(freebsd-version | head -c 2) = ."11" ]; then
-			pkg add https://www.fusionpbx.com/downloads/freebsd11/php72-pdo_pgsql10-7.2.5.txz
-			pkg add https://www.fusionpbx.com/downloads/freebsd11/php72-pgsql10-7.2.5.txz
+			pkg add https://www.fusionpbx.com/downloads/freebsd/11/php72-pdo_pgsql10-7.2.5.txz
+			pkg add https://www.fusionpbx.com/downloads/freebsd/11/php72-pgsql10-7.2.5.txz
+		fi
+		if [ .$(freebsd-version | head -c 2) = ."12" ]; then
+			pkg add https://www.fusionpbx.com/downloads/freebsd/12/php72-pdo_pgsql10-7.2.5.txz
+			pkg add https://www.fusionpbx.com/downloads/freebsd/12/php72-pgsql10-7.2.5.txz
 		fi
 	fi
 fi
