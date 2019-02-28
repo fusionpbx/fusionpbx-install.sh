@@ -18,14 +18,13 @@ apt install -y sqlite3 swig3.0 unzip
 
 #we are about to move out of the executing directory so we need to preserve it to return after we are done
 CWD=$(pwd)
-SWITCH_VERSION=1.8.2
-echo "Using version $SWITCH_VERSION"
+echo "Using version $switch_version"
 cd /usr/src
 #git clone -b v1.8 https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
-wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$SWITCH_VERSION.zip
-unzip freeswitch-$SWITCH_VERSION.zip
+wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.zip
+unzip freeswitch-$switch_version.zip
 rm -R freeswitch
-mv freeswitch-$SWITCH_VERSION freeswitch
+mv freeswitch-$switch_version freeswitch
 cd /usr/src/freeswitch
 
 # bootstrap is needed if using git
