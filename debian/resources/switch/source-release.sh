@@ -1,5 +1,11 @@
 #!/bin/sh
 
+#move to script directory so all relative paths work
+cd "$(dirname "$0")"
+
+#includes
+. ./config.sh
+
 # add repo key
 wget -O - https://files.freeswitch.org/repo/deb/freeswitch-1.8/fsstretch-archive-keyring.asc | apt-key add -
 
