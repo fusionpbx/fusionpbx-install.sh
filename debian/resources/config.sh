@@ -9,7 +9,7 @@ system_branch=stable            # master, stable
 switch_branch=stable            # master, stable
 switch_source=false             # true or false
 switch_package=true             # true or false
-switch_version=1.8.2            # only for source
+switch_version=1.8.4            # only for source
 switch_tls=true                 # true or false
 
 # Database Settings
