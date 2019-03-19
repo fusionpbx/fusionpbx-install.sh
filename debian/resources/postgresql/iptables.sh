@@ -46,6 +46,9 @@ if [ .$iptables_add = ."y" ]; then
 	apt-get install -y iptables-persistent
 fi
 
+#restart fail2ban
+/usr/sbin/service fail2ban restart
+
 #set the working directory
 cwd=$(pwd)
 cd /tmp
