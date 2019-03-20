@@ -13,7 +13,7 @@ switch_version=1.8.4            # only for source
 switch_tls=true                 # true or false
 
 # Database Settings
-database_password=random        # random or a custom (safe characters A-Z, a-z, 0-9)
+database_password=random        # random or a custom value (safe characters A-Z, a-z, 0-9)
 database_repo=official          # PostgreSQL official, system, 2ndquadrant
 database_version=latest         # requires repo official
 database_host=127.0.0.1         # hostname or IP address
