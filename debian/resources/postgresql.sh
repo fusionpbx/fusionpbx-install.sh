@@ -40,6 +40,7 @@ fi
 
 #add PostgreSQL and 2ndquadrant repos
 if [ ."$database_repo" = ."2ndquadrant" ]; then
+	apt install -y curl
 	curl https://dl.2ndquadrant.com/default/release/get/deb | bash
 	apt-get install -y sudo postgresql-bdr-9.4 postgresql-bdr-9.4-bdr-plugin postgresql-bdr-contrib-9.4
 fi
