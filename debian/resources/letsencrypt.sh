@@ -45,7 +45,7 @@ fi
 #manual dns hook
 if [ .$wilcard_domain = ."true" ]; then
     cd /usr/src
-    git clone https://github.com/owhen/dns-01-manual.git
+    git clone https://github.com/gheja/dns-01-manual.git
     cd /usr/src/dns-01-manual/
     cp hook.sh /etc/dehydrated/hook.sh
     chmod 755 /etc/dehydrated/hook.sh
