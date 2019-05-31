@@ -24,8 +24,6 @@ iptables -A INPUT -j DROP -p udp --dport 5060:5091 -m string --string "script" -
 iptables -A INPUT -j DROP -p tcp --dport 5060:5091 -m string --string "script" --algo bm --icase
 iptables -A INPUT -j DROP -p udp --dport 5060:5091 -m string --string "exec." --algo bm --icase
 iptables -A INPUT -j DROP -p tcp --dport 5060:5091 -m string --string "exec." --algo bm --icase
-iptables -A INPUT -j DROP -p udp --dport 5060:5091 -m string --string "system" --algo bm --icase
-iptables -A INPUT -j DROP -p tcp --dport 5060:5091 -m string --string "system" --algo bm --icase
 iptables -A INPUT -j DROP -p udp --dport 5060:5091 -m string --string "multipart/mixed;boundary" --algo bm --icase
 iptables -A INPUT -j DROP -p tcp --dport 5060:5091 -m string --string "multipart/mixed;boundary" --algo bm --icase
 iptables -A INPUT -p tcp --dport 22 -j ACCEPT
