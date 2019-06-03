@@ -70,3 +70,13 @@ if [ ."$php_version" = ."7.1" ]; then
         #restart the service
         service php7.1-fpm restart
 fi
+if [ ."$php_version" = ."7.2" ]; then
+        #copy the php extension .so into the php lib directory
+        cp ioncube/ioncube_loader_lin_7.2.so /usr/lib/php/20160303
+
+        #add the 00-ioncube.ini file
+        echo "zend_extension = /usr/lib/php/20160303/ioncube_loader_lin_7.2.so" > /etc/php/7.2/fpm/conf.d/00-ioncube.ini
+
+        #restart the service
+        service php7.2-fpm restart
+fi
