@@ -45,6 +45,9 @@ if [ ."$database_repo" = ."2ndquadrant" ]; then
 	apt-get install -y sudo postgresql-bdr-9.4 postgresql-bdr-9.4-bdr-plugin postgresql-bdr-contrib-9.4
 fi
 
+#add additional dependencies
+apt install -y libpq-dev
+
 #systemd
 systemctl daemon-reload
 systemctl restart postgresql
