@@ -10,18 +10,19 @@ cd "$(dirname "$0")"
 apt update && apt upgrade -y
 
 # install dependencies
-apt install -y autoconf automake devscripts g++ git-core libncurses5-dev libtool make libjpeg-dev pkg-config flac libuuid
-apt install -y libgdbm-dev libdb-dev gettext sudo equivs mlocate git dpkg-dev devscripts libtiff5-dev libperl-dev
+apt install -y autoconf automake devscripts g++ git-core libncurses5-dev libtool make libjpeg-dev pkg-config flac 
+apt install -y libgdbm-dev libdb-dev gettext sudo equivs mlocate git dpkg-dev devscripts libtiff5-dev libperl-dev 
+apt intsall -y libcurl4-openssl-dev libuuid libsqlite3-dev libpcre3-dev libspeexdsp-dev
 
 # additional dependencies
-apt install -y libsqlite3-dev swig3.0 unzip sox wget
+apt install -y swig3.0 unzip sox wget
 
 #we are about to move out of the executing directory so we need to preserve it to return after we are done
 CWD=$(pwd)
 echo "Using version $switch_version"
 cd /usr/src
 #git clone -b v1.8 https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
-wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.zip
+#wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.zip
 unzip freeswitch-$switch_version.zip
 rm -R freeswitch
 mv freeswitch-$switch_version freeswitch
