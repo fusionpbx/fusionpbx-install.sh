@@ -10,11 +10,11 @@ cd "$(dirname "$0")"
 apt update && apt upgrade -y
 
 # install dependencies
-apt -y install autoconf automake devscripts g++ git-core libncurses5-dev libtool make libjpeg-dev pkg-config flac libuuid
-apt -y install libgdbm-dev libdb-dev gettext sudo equivs mlocate git dpkg-dev devscripts libtiff5-dev libperl-dev
+apt install -y autoconf automake devscripts g++ git-core libncurses5-dev libtool make libjpeg-dev pkg-config flac libuuid
+apt install -y libgdbm-dev libdb-dev gettext sudo equivs mlocate git dpkg-dev devscripts libtiff5-dev libperl-dev
 
 # additional dependencies
-apt install -y sqlite3 swig3.0 unzip sox wget
+apt install -y libsqlite3-dev swig3.0 unzip sox wget
 
 #we are about to move out of the executing directory so we need to preserve it to return after we are done
 CWD=$(pwd)
