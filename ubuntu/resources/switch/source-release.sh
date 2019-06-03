@@ -6,21 +6,15 @@ cd "$(dirname "$0")"
 #includes
 . ../config.sh
 
-# add repo key
-wget -O - https://files.freeswitch.org/repo/deb/freeswitch-1.8/fsstretch-archive-keyring.asc | apt-key add -
-
-# add repo
-echo "deb  http://files.freeswitch.org/repo/deb/freeswitch-1.8/  stretch main" > /etc/apt/sources.list.d/freeswitch.list
-echo "deb-src  http://files.freeswitch.org/repo/deb/freeswitch-1.8/  stretch main" >> /etc/apt/sources.list.d/freeswitch.list
-
 #upgrade packages
 apt update && apt upgrade -y
 
 # install dependencies
-apt build-dep freeswitch -y
+apt -y install autoconf automake devscripts g++ git-core libncurses5-dev libtool make libjpeg-dev pkg-config flac
+apt -y install libgdbm-dev libdb-dev gettext sudo equivs mlocate git dpkg-dev devscripts libtiff5-dev libperl-dev
 
 # additional dependencies
-apt install -y sqlite3 swig3.0 unzip
+apt install -y sqlite3 swig3.0 unzip sox wget
 
 #we are about to move out of the executing directory so we need to preserve it to return after we are done
 CWD=$(pwd)
