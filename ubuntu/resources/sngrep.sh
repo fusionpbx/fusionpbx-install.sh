@@ -18,8 +18,6 @@ if [ ."$cpu_architecture" = ."arm" ]; then
 	cd /usr/src/sngrep && make install
 else
 	#package install
-	echo "deb http://packages.irontec.com/ubuntu $os_codename main" > /etc/apt/sources.list.d/sngrep.list
-	wget http://packages.irontec.com/public.key -q -O - | apt-key add -
 	apt-get update
 	apt-get install -y sngrep
 fi
