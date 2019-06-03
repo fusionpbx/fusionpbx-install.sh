@@ -16,6 +16,7 @@ if [ ."$os_name" = ."Ubuntu" ]; then
 	#18.04.x - /*bionic/
         if [ ."$os_codename" = ."bionic" ]; then
                 echo "Ubuntu 18.04 LTS\n"
+		php_version=7.2
         fi
         #16.10.x - */yakkety/
         #16.04.x - */xenial/
