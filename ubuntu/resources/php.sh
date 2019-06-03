@@ -25,7 +25,7 @@ if [ ."$os_name" = ."Ubuntu" ]; then
                 LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
         fi
 elif [ ."$cpu_architecture" = ."arm" ]; then
-	echo arm"
+	echo "arm"
 fi
 apt-get update -y
 
