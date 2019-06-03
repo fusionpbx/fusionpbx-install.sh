@@ -24,7 +24,7 @@ CWD=$(pwd)
 echo "Using version $switch_version"
 cd /usr/src
 #git clone -b v1.8 https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
-#wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.zip
+wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.zip
 unzip freeswitch-$switch_version.zip
 rm -R freeswitch
 mv freeswitch-$switch_version freeswitch
@@ -53,9 +53,9 @@ sed -i /usr/src/freeswitch/modules.conf -e s:'applications/mod_signalwire:#appli
 # compile and install
 make
 make install
-#make sounds-install moh-install
-#make hd-sounds-install hd-moh-install
-#make cd-sounds-install cd-moh-install
+make sounds-install moh-install
+make hd-sounds-install hd-moh-install
+make cd-sounds-install cd-moh-install
 
 #move the music into music/default directory
 mkdir -p /usr/share/freeswitch/sounds/music/default
