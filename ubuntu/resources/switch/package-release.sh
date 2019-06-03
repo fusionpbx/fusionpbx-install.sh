@@ -9,23 +9,15 @@ cd "$(dirname "$0")"
 . ../environment.sh
 
 apt-get update && apt-get install -y curl memcached haveged apt-transport-https
-if [ ."$cpu_architecture" = ."arm" ]; then
-        if [ ."$os_codename" = ."stretch" ]; then
-		echo "deb https://repo.fusionpbx.com/armhf stretch 1.8.4" > /etc/apt/sources.list.d/freeswitch.list
-        	curl https://repo.fusionpbx.com/public.key | apt-key add -
-        else
-		echo "deb https://repo.fusionpbx.com/armhf jessie 1.6.20" > /etc/apt/sources.list.d/freeswitch.list
-        	curl https://repo.fusionpbx.com/public.key | apt-key add -
-        fi
+
+if [ ."$os_codename" = ."xenial" ]; then
+	wget -O - https://files.freeswitch.org/repo/ubuntu-1604/freeswitch-1.6/freeswitch_archive_g0.pub | apt-key add -
+	echo "deb http://files.freeswitch.org/repo/ubuntu-1604/freeswitch-1.6/ xenial main" > /etc/apt/sources.list.d/freeswitch.list
 else
-        if [ ."$os_codename" = ."stretch" ]; then
-                wget -qO - http://files.freeswitch.org/repo/deb/freeswitch-1.8/fsstretch-archive-keyring.gpg | apt-key add -
-                echo "deb http://files.freeswitch.org/repo/deb/freeswitch-1.8/ stretch main" > /etc/apt/sources.list.d/freeswitch.list      
-        else
-                echo "deb http://files.freeswitch.org/repo/deb/freeswitch-1.6/ jessie main" > /etc/apt/sources.list.d/freeswitch.list
-                curl http://files.freeswitch.org/repo/deb/freeswitch-1.6/key.gpg | apt-key add -
-        fi
+	wget -O - https://files.freeswitch.org/repo/ubuntu-1604/freeswitch-1.6/freeswitch_archive_g0.pub | apt-key add -
+	echo "deb http://files.freeswitch.org/repo/ubuntu-1604/freeswitch-1.6/ xenial main" > /etc/apt/sources.list.d/freeswitch.list
 fi
+
 apt-get update
 apt-get install -y gdb ntp
 apt-get install -y freeswitch-meta-bare freeswitch-conf-vanilla freeswitch-mod-commands freeswitch-mod-console freeswitch-mod-logfile
