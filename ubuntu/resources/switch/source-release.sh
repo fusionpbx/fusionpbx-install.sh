@@ -10,7 +10,7 @@ cd "$(dirname "$0")"
 apt update && apt upgrade -y
 
 # install dependencies
-apt -y install autoconf automake devscripts g++ git-core libncurses5-dev libtool make libjpeg-dev pkg-config flac
+apt -y install autoconf automake devscripts g++ git-core libncurses5-dev libtool make libjpeg-dev pkg-config flac libuuid
 apt -y install libgdbm-dev libdb-dev gettext sudo equivs mlocate git dpkg-dev devscripts libtiff5-dev libperl-dev
 
 # additional dependencies
