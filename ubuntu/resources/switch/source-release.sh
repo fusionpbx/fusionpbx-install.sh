@@ -14,7 +14,7 @@ apt install -y autoconf automake devscripts g++ git-core libncurses5-dev libtool
 apt install -y pkg-config flac  libgdbm-dev libdb-dev gettext sudo equivs mlocate git dpkg-dev 
 apt intsall -y libtiff5-dev libperl-dev libcurl4-openssl-dev libuuid libsqlite3-dev libpcre3-dev
 apt install -y devscripts libspeexdsp-dev libspeex-dev libldns-dev libedit-dev libopus-dev 
-apt install -y libsndfile-dev  liblua5.2-dev libyuv-dev  libvpx2-dev ibvpx2-dev libvpx2 
+apt install -y yasm nasm libsndfile-dev  liblua5.2-dev libyuv-dev  libvpx2-dev ibvpx2-dev libvpx2 
 
 # additional dependencies
 apt install -y swig3.0 unzip sox wget
