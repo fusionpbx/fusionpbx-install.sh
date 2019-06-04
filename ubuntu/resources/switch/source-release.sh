@@ -40,6 +40,7 @@ sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_cidlookup:applic
 sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_memcache:applications/mod_memcache:'
 sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_curl:applications/mod_curl:'
 sed -i /usr/src/freeswitch/modules.conf -e s:'#formats/mod_shout:formats/mod_shout:'
+sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_translate:applications/mod_translate:'
 
 #disable module or install dependency libks to compile signalwire
 sed -i /usr/src/freeswitch/modules.conf -e s:'applications/mod_signalwire:#applications/mod_signalwire:'
