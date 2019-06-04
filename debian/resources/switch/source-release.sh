@@ -41,6 +41,9 @@ sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_memcache:applica
 sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_curl:applications/mod_curl:'
 sed -i /usr/src/freeswitch/modules.conf -e s:'#formats/mod_shout:formats/mod_shout:'
 
+#disable module or install dependency libks to compile signalwire
+sed -i /usr/src/freeswitch/modules.conf -e s:'applications/mod_signalwire:#applications/mod_signalwire:'
+
 # prepare the build
 #./configure --prefix=/usr/local/freeswitch --enable-core-pgsql-support --disable-fhs
 ./configure -C --enable-portable-binary --disable-dependency-tracking \
