@@ -41,7 +41,7 @@ sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_memcache:applica
 sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_curl:applications/mod_curl:'
 sed -i /usr/src/freeswitch/modules.conf -e s:'#formats/mod_shout:formats/mod_shout:'
 
-#disable module as it causes the compile to fail
+#disable module or install dependency libks to compile signalwire
 sed -i /usr/src/freeswitch/modules.conf -e s:'applications/mod_signalwire:#applications/mod_signalwire:'
 
 # prepare the build
