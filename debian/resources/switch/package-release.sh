@@ -19,8 +19,8 @@ if [ ."$cpu_architecture" = ."arm" ]; then
         fi
 else
         if [ ."$os_codename" = ."stretch" ]; then
-                wget -qO - http://files.freeswitch.org/repo/deb/freeswitch-1.8/fsstretch-archive-keyring.gpg | apt-key add -
-                echo "deb http://files.freeswitch.org/repo/deb/freeswitch-1.8/ stretch main" > /etc/apt/sources.list.d/freeswitch.list      
+                wget -qO - http://freeswitch.sip247.com/debian/freeswitch-stable-amd64/fs-stretch.gpg.key | apt-key add -
+                echo "deb http://freeswitch.sip247.com/debian/freeswitch-stable-amd64/ stretch main" > /etc/apt/sources.list.d/freeswitch.list      
         else
                 echo "deb http://files.freeswitch.org/repo/deb/freeswitch-1.6/ jessie main" > /etc/apt/sources.list.d/freeswitch.list
                 curl http://files.freeswitch.org/repo/deb/freeswitch-1.6/key.gpg | apt-key add -
