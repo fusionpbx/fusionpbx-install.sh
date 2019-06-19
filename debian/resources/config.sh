@@ -3,12 +3,12 @@
 domain_name=ip_address          # hostname, ip_address or a custom value
 system_username=admin           # default username admin
 system_password=random          # random or a custom value
-system_branch=stable            # master, stable
+system_branch=master            # master, stable
 
 # FreeSWITCH Settings
 switch_branch=stable            # master, stable
-switch_source=false             # true or false
-switch_package=true             # true or false
+switch_source=true              # true or false
+switch_package=false            # true or false
 switch_version=1.8.4            # only for source
 switch_tls=true                 # true or false
 
