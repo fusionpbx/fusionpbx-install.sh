@@ -35,6 +35,7 @@ sed -ie 's/group = apache/group = daemon/g' /etc/php-fpm.d/www.conf
 #update the php.ini
 #sed -ie 's/post_max_size = .*/post_max_size = 80M/g' /etc/php.ini
 #sed -ie 's/upload_max_filesize = .*/upload_max_filesize = 80M/g' /etc/php.ini
+#sed -ie 's/; max_input_vars = .*/max_input_vars = 8000/g' /etc/php.ini
 
 #make the session directory
 mkdir -p /var/lib/php/session
