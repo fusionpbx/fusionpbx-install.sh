@@ -39,6 +39,7 @@ apt-get install -y freeswitch-mod-sms freeswitch-mod-sms-dbg freeswitch-mod-cidl
 apt-get install -y freeswitch-mod-imagick freeswitch-mod-tts-commandline freeswitch-mod-directory
 apt-get install -y freeswitch-mod-flite freeswitch-mod-distributor freeswitch-meta-codecs
 apt-get install -y freeswitch-mod-skypopen freeswitch-mod-skypopen-dbg
+apt-get install -y freeswitch-mod-pgsql
 apt-get install -y freeswitch-music-default
 apt-get install -y libyuv-dev
 
