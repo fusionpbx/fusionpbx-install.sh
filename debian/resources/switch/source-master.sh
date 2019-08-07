@@ -19,7 +19,7 @@ sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_cidlookup:applic
 sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_memcache:applications/mod_memcache:'
 sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_curl:applications/mod_curl:'
 sed -i /usr/src/freeswitch/modules.conf -e s:'#formats/mod_shout:formats/mod_shout:'
-sed -i /usr/src/freeswitch/modules.conf -e s:'#formats/mod_shout:formats/mod_pgsql:'
+sed -i /usr/src/freeswitch/modules.conf -e s:'#formats/mod_pgsql:formats/mod_pgsql:'
 ./bootstrap.sh -j
 #./configure --prefix=/usr/local/freeswitch --enable-core-pgsql-support --enable-system-lua --disable-fhs
 ./configure --prefix=/usr/local/freeswitch --enable-core-pgsql-support --disable-fhs
