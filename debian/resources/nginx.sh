@@ -22,6 +22,17 @@ if [ ."$cpu_architecture" = ."arm" ]; then
 	fi
 fi
 
+#set the version of php
+if [ ."$os_codename" = ."buster" ]; then
+	php_version=7.3
+fi
+if [ ."$os_codename" = ."stretch" ]; then
+	php_version=7.1
+fi
+if [ ."$os_codename" = ."jessie" ]; then
+	php_version=7.1
+fi
+
 #enable fusionpbx nginx config
 cp nginx/fusionpbx /etc/nginx/sites-available/fusionpbx
 
