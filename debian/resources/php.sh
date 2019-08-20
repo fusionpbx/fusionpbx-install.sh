@@ -65,6 +65,10 @@ if [ ."$php_version" = ."7.2" ]; then
         apt-get install -y php7.2 php7.2-cli php7.2-fpm php7.2-pgsql php7.2-sqlite3 php7.2-odbc php7.2-curl php7.2-imap php7.2-xml php7.2-gd
 	apt-get install -y php7.2-mcrypt
 fi
+if [ ."$php_version" = ."7.3" ]; then
+        apt-get install -y php7.3 php7.3-cli php7.3-fpm php7.3-pgsql php7.3-sqlite3 php7.3-odbc php7.3-curl php7.3-imap php7.3-xml php7.3-gd
+	apt-get install -y php7.3-mcrypt
+fi
 
 #update config if source is being used
 if [ ."$php_version" = ."5" ]; then
@@ -82,6 +86,10 @@ fi
 if [ ."$php_version" = ."7.2" ]; then
         verbose "version 7.2"
         php_ini_file='/etc/php/7.2/fpm/php.ini'
+fi
+if [ ."$php_version" = ."7.3" ]; then
+        verbose "version 7.3"
+        php_ini_file='/etc/php/7.3/fpm/php.ini'
 fi
 sed 's#post_max_size = .*#post_max_size = 80M#g' -i $php_ini_file
 sed 's#upload_max_filesize = .*#upload_max_filesize = 80M#g' -i $php_ini_file
