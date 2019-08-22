@@ -21,14 +21,13 @@ if [ ."$os_name" = ."Ubuntu" ]; then
                 LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
         fi
 elif [ ."$cpu_architecture" = ."arm" ]; then
-	#Pi2 and Pi3 Raspbian
-	#Odroid
+	#Pi2 and Pi3 Raspbian, #Odroid
 	#if [ ."$os_codename" = ."stretch" ]; then
-	#      php_version=7.2
-	#else
-	#      php_version=
+	#      php_version=7.0
 	#fi
-	php_version=
+	if [ ."$os_codename" = ."buster" ]; then
+	      php_version=7.3
+	fi
 else
         #10.x - buster
 	#9.x  - stretch
@@ -115,6 +114,9 @@ if [ ."$php_version" = ."7.1" ]; then
 fi
 if [ ."$php_version" = ."7.2" ]; then
         systemctl restart php7.2-fpm
+fi
+if [ ."$php_version" = ."7.3" ]; then
+        systemctl restart php7.3-fpm
 fi
 
 #init.d
