@@ -57,6 +57,7 @@ if [ ."$php_version" = ."5.6" ]; then
 
         #add the 00-ioncube.ini file
         echo "zend_extension = /usr/lib/php5/20131226/ioncube_loader_lin_5.6.so" > /etc/php5/fpm/conf.d/00-ioncube.ini
+	echo "zend_extension = /usr/lib/php5/20131226/ioncube_loader_lin_5.6.so" > /etc/php5/cli/conf.d/00-ioncube.ini
 
         #restart the service
         service php5-fpm restart
@@ -67,6 +68,7 @@ if [ ."$php_version" = ."7.0" ]; then
 
         #add the 00-ioncube.ini file
         echo "zend_extension = /usr/lib/php/20151012/ioncube_loader_lin_7.0.so" > /etc/php/7.0/fpm/conf.d/00-ioncube.ini
+	echo "zend_extension = /usr/lib/php/20151012/ioncube_loader_lin_7.0.so" > /etc/php/7.0/cli/conf.d/00-ioncube.ini
 
         #restart the service
         service php7.0-fpm restart
@@ -77,6 +79,7 @@ if [ ."$php_version" = ."7.1" ]; then
 
         #add the 00-ioncube.ini file
         echo "zend_extension = /usr/lib/php/20160303/ioncube_loader_lin_7.1.so" > /etc/php/7.1/fpm/conf.d/00-ioncube.ini
+	echo "zend_extension = /usr/lib/php/20160303/ioncube_loader_lin_7.1.so" > /etc/php/7.1/cli/conf.d/00-ioncube.ini
 
         #restart the service
         service php7.1-fpm restart
@@ -87,6 +90,7 @@ if [ ."$php_version" = ."7.3" ]; then
 
         #add the 00-ioncube.ini file
         echo "zend_extension = /usr/lib/php/20160303/ioncube_loader_lin_7.3.so" > /etc/php/7.3/fpm/conf.d/00-ioncube.ini
+	echo "zend_extension = /usr/lib/php/20160303/ioncube_loader_lin_7.3.so" > /etc/php/7.3/cli/conf.d/00-ioncube.ini
 
         #restart the service
         service php7.3-fpm restart
