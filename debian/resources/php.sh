@@ -23,14 +23,12 @@ if [ ."$os_name" = ."Ubuntu" ]; then
 elif [ ."$cpu_architecture" = ."arm" ]; then
 	#Pi2 and Pi3 Raspbian
 	#Odroid
-	if [ ."$os_codename" = ."stretch" ]; then
-	      php_version=7.2
-	else
-	      php_version=5.6
-	fi
-	apt-get -y install apt-transport-https lsb-release ca-certificates
-	wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
-	sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+	#if [ ."$os_codename" = ."stretch" ]; then
+	#      php_version=7.2
+	#else
+	#      php_version=
+	#fi
+	php_version=
 else
         #10.x - buster
 	#9.x  - stretch
@@ -52,6 +50,10 @@ apt-get update -y
 
 #install dependencies
 apt-get install -y nginx
+if [ ."$php_version" = ."" ]; then
+        apt-get install -y php php-cli php-fpm php-pgsql php-sqlite3 php-odbc php-curl php-imap php-xml php-gd
+	apt-get install -y php-mcrypt
+fi
 if [ ."$php_version" = ."5.6" ]; then
         apt-get install -y php5 php5-cli php5-fpm php5-pgsql php5-sqlite php5-odbc php5-curl php5-imap php5-mcrypt php5-gd
 fi
