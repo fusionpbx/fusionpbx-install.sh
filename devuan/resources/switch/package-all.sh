@@ -7,7 +7,6 @@ cd "$(dirname "$0")"
 . ../config.sh
 . ../colors.sh
 . ../environment.sh
-. ../arguments.sh
 
 apt-get -q update && apt-get install -y -q ntp curl memcached haveged
 
