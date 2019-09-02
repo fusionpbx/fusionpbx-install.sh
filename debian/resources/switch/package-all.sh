@@ -10,12 +10,15 @@ cd "$(dirname "$0")"
 
 apt-get update && apt-get install -y ntp curl memcached haveged
 
+if [ ."$cpu_architecture" = ."x86" ]; then
+	wget -O - https://files.freeswitch.org/repo/deb/debian-release/fsstretch-archive-keyring.asc | apt-key add -
+	echo "deb http://files.freeswitch.org/repo/deb/debian-release/ `lsb_release -sc` main" > /etc/apt/sources.list.d/freeswitch.list
+	echo "deb-src http://files.freeswitch.org/repo/deb/debian-release/ `lsb_release -sc` main" >> /etc/apt/sources.list.d/freeswitch.list
+fi
 if [ ."$cpu_architecture" = ."arm" ]; then
-        echo "deb http://repo.sip247.com/debian/freeswitch-stable-armhf/ jessie main" > /etc/apt/sources.list.d/freeswitch.list
-        curl http://repo.sip247.com/debian/sip247.com.gpg.key | apt-key add -
-else
-        echo "deb http://files.freeswitch.org/repo/deb/freeswitch-1.6/ jessie main" > /etc/apt/sources.list.d/freeswitch.list
-        curl http://files.freeswitch.org/repo/deb/freeswitch-1.6/key.gpg | apt-key add -
+	wget -O - https://files.freeswitch.org/repo/deb/rpi/debian-release/freeswitch_archive_g0.pub | apt-key add -
+	echo "deb http://files.freeswitch.org/repo/deb/rpi/debian-release/ `lsb_release -sc` main" > /etc/apt/sources.list.d/freeswitch.list
+	echo "deb-src http://files.freeswitch.org/repo/deb/rpi/debian-release/ `lsb_release -sc` main" >> /etc/apt/sources.list.d/freeswitch.list
 fi
 apt-get update && apt-get install -y freeswitch-meta-all freeswitch-all-dbg gdb
 
