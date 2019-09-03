@@ -14,7 +14,12 @@ cpu_architecture='unknown'
 cpu_mode='unknown'
 
 #check what the CPU and OS are
-if [ .$cpu_name = .'armv7l' ]; then
+if [ .$cpu_name = .'armv6l' ]; then
+	# RaspberryPi Zero
+	os_mode='32'
+	cpu_mode='32'
+	cpu_architecture='arm'
+elif [ .$cpu_name = .'armv7l' ]; then
 	# RaspberryPi 3 is actually armv8l but current Raspbian reports the cpu as armv7l and no Raspbian 64Bit has been released at this time
 	os_mode='32'
 	cpu_mode='32'
