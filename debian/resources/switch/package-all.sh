@@ -8,7 +8,8 @@ cd "$(dirname "$0")"
 . ../colors.sh
 . ../environment.sh
 
-apt-get update && apt-get install -y ntp curl memcached haveged
+apt-get update && apt-get install -y ntp curl memcached haveged apt-transport-https
+apt-get update && apt-get install -y wget lsb-release gnupg2
 
 if [ ."$cpu_architecture" = ."x86" ]; then
 	wget -O - https://files.freeswitch.org/repo/deb/debian-release/fsstretch-archive-keyring.asc | apt-key add -
