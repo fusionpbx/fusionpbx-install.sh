@@ -57,10 +57,10 @@ fi
 #install dependencies
 apt-get install -y -q nginx
 if [ ."$php_version" = ."5" ]; then
-        apt-get install -y -q php5 php5-cli php5-fpm php5-pgsql php5-sqlite php5-odbc php5-curl php5-imap php5-mcrypt
+        apt-get install -y -q php5 php5-cli php5-fpm php5-pgsql php5-sqlite php5-odbc php5-curl php5-imap
 fi
 if [ ."$php_version" = ."7" ]; then
-        apt-get install -y -q php7.0 php7.0-cli php7.0-fpm php7.0-pgsql php7.0-sqlite3 php7.0-odbc php7.0-curl php7.0-imap php7.0-mcrypt php7.0-xml
+        apt-get install -y -q php7.0 php7.0-cli php7.0-fpm php7.0-pgsql php7.0-sqlite3 php7.0-odbc php7.0-curl php7.0-imap php7.0-xml
 fi
 
 #enable fusionpbx nginx config
