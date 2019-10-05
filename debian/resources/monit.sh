@@ -5,7 +5,6 @@ cd "$(dirname "$0")"
 
 #includes
 . ./config.sh
-. ./environment.sh
 
 #make the monit shell script executable
 chmod 755 monit/shell.sh
