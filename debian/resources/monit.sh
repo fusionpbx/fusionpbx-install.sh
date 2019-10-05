@@ -6,6 +6,9 @@ cd "$(dirname "$0")"
 #includes
 . ./config.sh
 
+#install monit
+apt-get install -y monit
+
 #make the monit shell script executable
 chmod 755 monit/shell.sh
 
