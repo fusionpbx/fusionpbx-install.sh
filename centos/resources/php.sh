@@ -16,7 +16,7 @@ verbose "Install PHP and PHP-FPM"
 yum-config-manager --enable remi-php72
 
 #install dependencies
-yum -y install php-fpm php-gd php-pgsql php-odbc php-curl php-imap php-mcrypt php-opcache php-common php-pdo php-soap php-xml php-xmlrpc php-cli php-gd
+yum -y install php-fpm php-gd php-pgsql php-odbc php-curl php-imap php-opcache php-common php-pdo php-soap php-xml php-xmlrpc php-cli php-gd
 
 #send a message
 verbose "Configuring php/nginx/php-fpm and permissions"

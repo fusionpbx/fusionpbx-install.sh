@@ -34,6 +34,7 @@ else
 fi
 #delete from the database
 #psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_fax_files WHERE fax_date < NOW() - INTERVAL '90 days'"
+#psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_fax_logs WHERE fax_date < NOW() - INTERVAL '90 days'"
 
 #delete voicemail older than 90 days
 if [ .$switch_package = .true ]; then
