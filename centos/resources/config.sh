@@ -2,7 +2,7 @@
 # FusionPBX Settings
 system_username=admin           # default username admin
 system_password=random          # random or as a pre-set value
-system_branch=stable            # master, stable
+system_branch=master            # master, stable
 
 # FreeSWITCH Settings
 switch_branch=stable            # master, stable
