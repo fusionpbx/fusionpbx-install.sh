@@ -24,7 +24,10 @@ CWD=$(pwd)
 echo "Using version $switch_version"
 cd /usr/src
 #git clone -b v1.8 https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
-wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version-release.zip
+#1.8 and older
+#wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.zip
+#1.10.0 and newer
+wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.-release.zip
 unzip freeswitch-$switch_version.zip
 rm -R freeswitch
 mv freeswitch-$switch_version freeswitch
