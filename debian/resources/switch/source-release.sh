@@ -19,15 +19,24 @@ apt install -y libshout3-dev libmpg123-dev libmp3lame-dev yasm nasm libsndfile1-
 # additional dependencies
 apt install -y sqlite3 swig3.0 unzip
 
+# function to check version numbers
+function version_gt() { test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1"; }
+
 #we are about to move out of the executing directory so we need to preserve it to return after we are done
 CWD=$(pwd)
 echo "Using version $switch_version"
 cd /usr/src
-#git clone -b v1.8 https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
-wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version-release.zip
-unzip freeswitch-$switch_version.zip
+if version_gt $switch_version '1.8.7'; then
+     wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.-release.zip
+     unzip freeswitch-$switch_version.-release.zip
+     mv freeswitch-$switch_version.-release freeswitch
+else
+     wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.zip
+     unzip freeswitch-$switch_version.zip
+     mv freeswitch-$switch_version freeswitch
+fi
 rm -R freeswitch
-mv freeswitch-$switch_version freeswitch
+#git clone -b v1.8 https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
 cd /usr/src/freeswitch
 
 # bootstrap is needed if using git
