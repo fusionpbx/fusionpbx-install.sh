@@ -49,7 +49,7 @@ if [ ."$database_repo" = ."official" ]; then
         fi
 fi
 
-#add PostgreSQL and 2ndquadrant repos
+#add PostgreSQL and 2ndquadrant repos (Fail when chose this option)
 if [ ."$database_repo" = ."2ndquadrant" ]; then
 	apt install -y curl
 	curl https://dl.2ndquadrant.com/default/release/get/deb | bash
