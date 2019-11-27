@@ -64,7 +64,7 @@ user_uuid=$(/usr/bin/php /var/www/fusionpbx/resources/uuid.php);
 user_salt=$(/usr/bin/php /var/www/fusionpbx/resources/uuid.php);
 user_name=$system_username
 if [ .$system_password = .'random' ]; then
-	user_password=$(dd if=/dev/urandom bs=1 count=12 2>/dev/null | base64 | sed 's/[=\+//]//g')
+	user_password=$(dd if=/dev/urandom bs=1 count=20 2>/dev/null | base64 | sed 's/[=\+//]//g')
 else
 	user_password=$system_password
 fi
