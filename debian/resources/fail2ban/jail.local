@@ -5,8 +5,8 @@ protocol = ssh
 filter   = sshd
 logpath  = /var/log/auth.log
 action   = iptables-allports[name=sshd, protocol=all]
-maxretry = 5
-findtime = 7200
+maxretry = 3
+findtime = 30
 bantime  = 86400
 
 [freeswitch]
@@ -18,7 +18,7 @@ logpath  = /var/log/freeswitch/freeswitch.log
 #logpath  = /usr/local/freeswitch/log/freeswitch.log
 action   = iptables-allports[name=freeswitch, protocol=all]
 maxretry = 5
-findtime = 600
+findtime = 30
 bantime  = 3600
 #          sendmail-whois[name=FreeSwitch, dest=root, sender=fail2ban@example.org] #no smtp server installed
 
@@ -79,7 +79,7 @@ logpath  = /var/log/freeswitch/freeswitch.log
 #logpath  = /usr/local/freeswitch/log/freeswitch.log
 action   = iptables-allports[name=fusionpbx-404, protocol=all]
 maxretry = 3
-findtime = 300
+findtime = 30
 bantime  = 86400
 
 [fusionpbx]
@@ -91,7 +91,7 @@ logpath  = /var/log/auth.log
 action   = iptables-allports[name=fusionpbx, protocol=all]
 #          sendmail-whois[name=fusionpbx, dest=root, sender=fail2ban@example.org] #no smtp server installed
 maxretry = 10
-findtime = 600
+findtime = 30
 bantime  = 3600
 
 [fusionpbx-mac]
@@ -103,7 +103,7 @@ logpath  = /var/log/syslog
 action   = iptables-allports[name=fusionpbx-mac, protocol=all]
 #          sendmail-whois[name=fusionpbx-mac, dest=root, sender=fail2ban@example.org] #no smtp server installed
 maxretry = 5
-findtime = 300
+findtime = 30
 bantime  = 86400
 
 [nginx-404]
@@ -114,7 +114,7 @@ filter   = nginx-404
 logpath  = /var/log/nginx/access*.log
 action   = iptables-allports[name=nginx-404, protocol=all]
 bantime  = 3600
-findtime = 60
+findtime = 30
 maxretry = 120
 
 [nginx-dos]
@@ -126,6 +126,6 @@ protocol = tcp
 filter   = nginx-dos
 logpath  = /var/log/nginx/access*.log
 action   = iptables-allports[name=nginx-dos, protocol=all]
-findtime = 60
+findtime = 30
 bantime  = 86400
 maxretry = 300
