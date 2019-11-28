@@ -6,3 +6,4 @@
 chown -R freeswitch:freeswitch /usr/share/freeswitch
 touch /var/log/freeswitch/freeswitch.log
 chown -R freeswitch:freeswitch /var/log/freeswitch
+chmod -R 554 /usr/share/freeswitch/scripts
