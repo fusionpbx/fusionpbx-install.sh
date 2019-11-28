@@ -28,9 +28,9 @@ cd /usr/src
 #wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.zip
 #1.10.0 and newer
 wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.-release.zip
-unzip freeswitch-$switch_version.zip
+unzip freeswitch-$switch_version.-release.zip
 rm -R freeswitch
-mv freeswitch-$switch_version freeswitch
+mv freeswitch-$switch_version.-release freeswitch
 cd /usr/src/freeswitch
 
 # bootstrap is needed if using git
