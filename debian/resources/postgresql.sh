@@ -53,6 +53,10 @@ fi
 if [ ."$database_repo" = ."2ndquadrant" ]; then
 	apt install -y curl
 	curl https://dl.2ndquadrant.com/default/release/get/deb | bash
+        if [ ."$os_codename" = ."buster" ]; then
+                sed -i /etc/apt/sources.list.d/2ndquadrant-dl-default-release.list -e 's#buster#stretch#g'
+        fi
+        apt update
 	apt-get install -y sudo postgresql-bdr-9.4 postgresql-bdr-9.4-bdr-plugin postgresql-bdr-contrib-9.4
 fi
 
