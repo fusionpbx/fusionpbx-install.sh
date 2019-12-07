@@ -6,4 +6,3 @@ chmod -R ug+rw /usr/local/freeswitch
 #touch /var/log/freeswitch/freeswitch.log
 #chown -R www:www /var/log/freeswitch
 find /usr/local/freeswitch -type d -exec chmod 2770 {} \;
-chmod -R 554 /usr/local/freeswitch/scripts
