@@ -30,5 +30,5 @@ fi
 #get the source code
 git clone $branch https://github.com/fusionpbx/fusionpbx.git /var/www/fusionpbx
 chown -R www-data:www-data /var/www/fusionpbx
-chmod -R 554 /var/www/fusionpbx
-chmod -R 554 /var/www/fusionpbx/secure
+chmod -R 744 /var/www/fusionpbx
+chmod -R 755 /var/www/fusionpbx/secure
