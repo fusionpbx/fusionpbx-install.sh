@@ -3,4 +3,3 @@ chmod -R ug+rw /usr/local/freeswitch
 touch /usr/local/freeswitch/freeswitch.log
 chown -R www-data:www-data /usr/local/freeswitch
 find /usr/local/freeswitch -type d -exec chmod 2770 {} \;
-chmod -R 554 /usr/local/freeswitch/scripts
