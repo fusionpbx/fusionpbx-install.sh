@@ -10,4 +10,4 @@ apt-get install -y git lsb-release
 cd /usr/src && git clone https://github.com/fusionpbx/fusionpbx-install.sh.git
 
 #change the working directory
-cd /usr/src/fusionpbx-install.sh/debian
+cd /usr/src/fusionpbx-install.sh/ubuntu
