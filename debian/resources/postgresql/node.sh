@@ -81,7 +81,7 @@ if [ .$iptables_add = ."y" ]; then
 	echo iptables-persistent iptables-persistent/autosave_v4 boolean true | debconf-set-selections
 	echo iptables-persistent iptables-persistent/autosave_v6 boolean true | debconf-set-selections
 	apt-get install -y iptables-persistent
-	systemctl restart fail2ban
+	service fail2ban restart
 fi
 
 #setup ssl
