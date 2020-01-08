@@ -41,9 +41,12 @@ server {
 	location ~^.+.(db)$ {
 			deny all;
 	}
-	location ~ /.git/ {
-			deny all;
-	}
+        location ~ /\.git {
+                deny all;
+        }
+        location ~ /\. {
+                deny all;
+        }
 }
 
 server {
@@ -155,9 +158,12 @@ server {
 	location ~^.+.(db)$ {
 		deny all;
 	}
-	location ~ /.git/ {
-		deny all;
-	}
+        location ~ /\.git {
+                deny all;
+        }
+        location ~ /\. {
+                deny all;
+        }
 }
 
 server {
@@ -269,7 +275,10 @@ server {
 	location ~^.+.(db)$ {
 		deny all;
 	}
-	location ~ /.git/ {
-		deny all;
-	}
+        location ~ /\.git {
+                deny all;
+        }
+        location ~ /\. {
+                deny all;
+        }
 }
