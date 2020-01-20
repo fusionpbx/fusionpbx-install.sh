@@ -2,6 +2,8 @@
 #   Installs PostreSQL, PostgreSQL ODBC driver, PHP 7.1, GIT, Web Platform Installer,
 #   Configures ODBC, IIS, and FusionPBX
 
+[Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls, ssl3"
+
 # includes
 . .\resources\config.ps1
 . .\resources\get-file.ps1
