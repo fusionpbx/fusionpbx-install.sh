@@ -66,6 +66,11 @@ if [ ."$php_version" = ."7.2" ]; then
 			pkg add -f https://www.fusionpbx.com/downloads/freebsd/12/php72-pdo_pgsql-7.2.15.txz	
 		fi
 	fi
+  if [ ."$database_version" = ."11" ]; then
+    pkg install --yes postgresql11-client
+    pkg install --yes php72-pgsql
+    pkg install --yes php72-pdo_pgsql
+  fi
 fi
 
 #send a message

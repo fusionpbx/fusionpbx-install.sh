@@ -11,12 +11,14 @@ cd "$(dirname "$0")"
 verbose "Installing Fail2ban"
 
 #add the dependencies
-pkg install --yes py27-fail2ban
+pkg install --yes py37-fail2ban
 
 #enable fail2ban service
 echo 'fail2ban_enable="YES"' >> /etc/rc.conf
 
 #move the filters
+cp fail2ban/sip-auth-challenge-ip.conf /usr/local/etc/fail2ban/filter.d/sip-auth-challenge-ip.conf
+cp fail2ban/sip-auth-challenge.conf /usr/local/etc/fail2ban/filter.d/sip-auth-challenge.conf
 cp fail2ban/freeswitch-dos.conf /usr/local/etc/fail2ban/filter.d/freeswitch-dos.conf
 cp fail2ban/freeswitch-ip.conf /usr/local/etc/fail2ban/filter.d/freeswitch-ip.conf
 cp fail2ban/freeswitch-404.conf /usr/local/etc/fail2ban/filter.d/freeswitch-404.conf
