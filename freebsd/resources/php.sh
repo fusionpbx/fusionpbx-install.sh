@@ -72,6 +72,30 @@ if [ ."$php_version" = ."7.2" ]; then
     pkg install --yes php72-pdo_pgsql
   fi
 fi
+if [ ."$php_version" = ."7.3" ]; then
+  pkg install --yes php73 php73-phar php73-pdo php73-pdo_odbc php73-pdo_sqlite php73-json php73-gd php73-imap
+	pkg install --yes php73-ldap php73-openssl php73-sockets php73-simplexml php73-xml php73-session
+  if [ ."$database_version" != ."11" ]; then
+    echo "please use postgresql11."
+  fi
+  if [ ."$database_version" = ."11" ]; then
+    pkg install --yes postgresql11-client
+    pkg install --yes php73-pgsql
+    pkg install --yes php73-pdo_pgsql
+  fi
+fi
+if [ ."$php_version" = ."7.4" ]; then
+  pkg install --yes php74 php74-phar php74-pdo php74-pdo_odbc php74-pdo_sqlite php74-json php74-gd php74-imap
+	pkg install --yes php74-ldap php74-openssl php74-sockets php74-simplexml php74-xml php74-session
+  if [ ."$database_version" != ."11" ]; then
+    echo "please use postgresql11."
+  fi
+  if [ ."$database_version" = ."11" ]; then
+    pkg install --yes postgresql11-client
+    pkg install --yes php74-pgsql
+    pkg install --yes php74-pdo_pgsql
+  fi
+fi
 
 #send a message
 verbose "Configuring PHP"
