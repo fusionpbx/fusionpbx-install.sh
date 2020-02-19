@@ -67,7 +67,7 @@ findtime = 30
 bantime  = 6000
 
 [freeswitch-404]
-enabled  = true
+enabled  = false
 port     = 5060,5061,5080,5081
 protocol = all
 filter   = freeswitch-404
