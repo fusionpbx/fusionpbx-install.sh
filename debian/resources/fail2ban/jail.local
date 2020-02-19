@@ -71,7 +71,7 @@ findtime = 30
 bantime  = 7200
 
 [fusionpbx-404]
-enabled  = true
+enabled  = false
 port     = 5060:5091
 protocol = all
 filter   = fusionpbx-404
