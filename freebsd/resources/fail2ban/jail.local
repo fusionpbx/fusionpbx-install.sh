@@ -48,7 +48,7 @@ banaction = pf
 bantime  = 7200
 
 [freeswitch-404]
-enabled  = true
+enabled  = false
 port     = 5060:5091
 protocol = all
 filter   = freeswitch-404
