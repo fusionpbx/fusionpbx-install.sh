@@ -9,7 +9,8 @@ cd "$(dirname "$0")"
 . ../environment.sh
 
 apt-get update && apt-get install -y curl memcached haveged apt-transport-https
-apt-get update && apt-get install -y wget lsb-release gnupg2
+apt-get update && apt-get install -y gnupg gnupg2
+apt-get update && apt-get install -y wget lsb-release
 
 if [ ."$cpu_architecture" = ."x86" ]; then
 	wget -O - https://files.freeswitch.org/repo/deb/debian-release/fsstretch-archive-keyring.asc | apt-key add -
