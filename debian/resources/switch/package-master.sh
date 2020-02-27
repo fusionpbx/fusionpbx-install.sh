@@ -4,6 +4,8 @@ curl https://files.freeswitch.org/repo/deb/debian/freeswitch_archive_g0.pub | ap
 echo "deb http://files.freeswitch.org/repo/deb/freeswitch-1.6/ jessie main" > /etc/apt/sources.list.d/freeswitch.list
 echo "deb http://files.freeswitch.org/repo/deb/debian-unstable/ jessie main" >> /etc/apt/sources.list.d/freeswitch.list
 apt-get update
+apt-get install -y gnupg gnupg2
+apt-get install -y wget lsb-release
 apt-get install -y ntp gdb
 apt-get install -y freeswitch-meta-bare freeswitch-conf-vanilla freeswitch-mod-commands freeswitch-meta-codecs freeswitch-mod-console freeswitch-mod-logfile freeswitch-mod-distributor
 apt-get install -y freeswitch-lang-en freeswitch-mod-say-en freeswitch-sounds-en-us-callie
