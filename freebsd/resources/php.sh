@@ -67,7 +67,14 @@ if [ ."$php_version" = ."7.2" ]; then
 		fi
 	fi
 fi
-
+if [ ."$php_version" = ."7.3" ]; then
+	pkg install --yes php73 php73-phar php73-pdo php73-pdo_odbc php73-pdo_sqlite php73-json php73-gd php73-imap
+	pkg install --yes php73-ldap php73-openssl php73-sockets php73-simplexml php73-xml php73-session
+	if [ ."$database_version" = ."11" ]; then
+		pkg install --yes postgresql11-client
+		pkg install --yes php73-pdo_pgsql php73-pgsql
+	fi
+fi
 #send a message
 verbose "Configuring PHP"
 
