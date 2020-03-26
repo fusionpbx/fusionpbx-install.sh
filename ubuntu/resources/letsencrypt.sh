@@ -119,4 +119,10 @@ if [ .$switch_tls = ."true" ]; then
 	chmod a+r /etc/dehydrated/certs/$domain_alias/*
 	chown -R www-data:www-data /etc/freeswitch/tls
 
+	# install cron script
+	cp ./letsencrypt/letsencrypt-cron.sh /usr/local/sbin
+	chmod 754 /usr/local/sbin/letsencrypt-cron.sh
+	cron="0 9 * * mon /usr/local/sbin/letsencrypt-cron.sh >/dev/null"
+	(crontab -l 2>/dev/null; echo "$cron") | crontab -
+
 fi
