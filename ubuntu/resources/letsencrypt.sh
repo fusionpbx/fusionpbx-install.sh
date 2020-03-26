@@ -4,7 +4,7 @@
 # Mark J Crane <markjcrane@fusionpbx.com>
 # Copyright (C) 2018
 # All Rights Reserved.
-      
+
 #move to script directory so all relative paths work
 cd "$(dirname "$0")"
 
@@ -23,7 +23,7 @@ read -p 'Domain Name: ' domain_name
 read -p 'Email Address: ' email_address
 
 #get and install dehydrated
-cd /usr/src && git clone https://github.com/lukas2511/dehydrated.git
+cd /usr/src && git clone https://github.com/dehydrated-io/dehydrated.git
 cd /usr/src/dehydrated
 cp dehydrated /usr/local/sbin
 mkdir -p /var/www/dehydrated
@@ -58,8 +58,8 @@ cp docs/examples/config /etc/dehydrated
 
 #update the dehydrated config
 #sed "s#CONTACT_EMAIL=#CONTACT_EMAIL=$email_address" -i /etc/dehydrated/config
-sed -i' ' -e s:'#CONTACT_EMAIL=":CONTACT_EMAIL=$email_address:' /etc/dehydrated/config
-sed -i' ' -e s:'#WELLKNOWN="/var/www/dehydrated":WELLKNOWN="/var/www/dehydrated":' /etc/dehydrated/config
+sed -i 's/#CONTACT_EMAIL=/CONTACT_EMAIL="'"$email_address"'"/g' /etc/dehydrated/config
+sed -i 's/#WELLKNOWN=/WELLKNOWN=/g' /etc/dehydrated/config
 
 #accept the terms
 dehydrated --register --accept-terms --config /etc/dehydrated/config
@@ -124,4 +124,4 @@ if [ .$switch_tls = ."true" ]; then
 	#set the permissions
 	chown -R www-data:www-data /etc/freeswitch/tls
 
-fi  
+fi
