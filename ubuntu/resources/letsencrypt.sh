@@ -99,23 +99,24 @@ if [ .$switch_tls = ."true" ]; then
 	rm /etc/freeswitch/tls/*
 
 	#combine the certs into all.pem
-	cat /etc/dehydrated/certs/$domain_alias/fullchain.pem > /etc/freeswitch/tls/all.pem
-	cat /etc/dehydrated/certs/$domain_alias/privkey.pem >> /etc/freeswitch/tls/all.pem
-	#cat /etc/dehydrated/certs/$domain_alias/chain.pem >> /etc/freeswitch/tls/all.pem
+	cat /etc/dehydrated/certs/$domain_alias/fullchain.pem > /etc/dehydrated/certs/$domain_alias/all.pem
+	cat /etc/dehydrated/certs/$domain_alias/privkey.pem >> /etc/dehydrated/certs/$domain_alias/all.pem
 
-	#copy the certificates
-	cp /etc/dehydrated/certs/$domain_alias/cert.pem /etc/freeswitch/tls
-	cp /etc/dehydrated/certs/$domain_alias/chain.pem /etc/freeswitch/tls
-	cp /etc/dehydrated/certs/$domain_alias/fullchain.pem /etc/freeswitch/tls
-	cp /etc/dehydrated/certs/$domain_alias/privkey.pem /etc/freeswitch/tls
+	#link the certificates
+	ln -s /etc/dehydrated/certs/$domain_alias/cert.pem /etc/freeswitch/tls
+	ln -s /etc/dehydrated/certs/$domain_alias/chain.pem /etc/freeswitch/tls
+	ln -s /etc/dehydrated/certs/$domain_alias/fullchain.pem /etc/freeswitch/tls
+	ln -s /etc/dehydrated/certs/$domain_alias/privkey.pem /etc/freeswitch/tls
+	ln -s /etc/dehydrated/certs/$domain_alias/all.pem /etc/freeswitch/tls
 
-	#add symbolic links
-	ln -s /etc/freeswitch/tls/all.pem /etc/freeswitch/tls/agent.pem
-	ln -s /etc/freeswitch/tls/all.pem /etc/freeswitch/tls/tls.pem
-	ln -s /etc/freeswitch/tls/all.pem /etc/freeswitch/tls/wss.pem
-	ln -s /etc/freeswitch/tls/all.pem /etc/freeswitch/tls/dtls-srtp.pem
+	#add extra symbolic links
+	ln -s /etc/dehydrated/certs/$domain_alias/all.pem /etc/freeswitch/tls/agent.pem
+	ln -s /etc/dehydrated/certs/$domain_alias/all.pem /etc/freeswitch/tls/tls.pem
+	ln -s /etc/dehydrated/certs/$domain_alias/all.pem /etc/freeswitch/tls/wss.pem
+	ln -s /etc/dehydrated/certs/$domain_alias/all.pem /etc/freeswitch/tls/dtls-srtp.pem
 
 	#set the permissions
+	chmod a+r /etc/dehydrated/certs/$domain_alias/*
 	chown -R www-data:www-data /etc/freeswitch/tls
 
 fi
