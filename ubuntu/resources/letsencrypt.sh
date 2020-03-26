@@ -6,7 +6,7 @@
 # All Rights Reserved.
 
 #move to script directory so all relative paths work
-cd "$(dirname "$0")"
+cd $(dirname "$0")
 
 #includes
 . ./config.sh
@@ -19,7 +19,7 @@ cd "$(dirname "$0")"
 #rm -R /var/www/dehydrated
 
 #request the domain name, email address and wild card domain
-read -p 'Domain Name: ' domain_name
+read -p 'Domain Name(s): ' domain_name
 read -p 'Email Address: ' email_address
 
 #get and install dehydrated
@@ -30,20 +30,25 @@ mkdir -p /var/www/dehydrated
 mkdir -p /etc/dehydrated/certs
 
 #wildcard detection
-wilcard_domain=$(echo $domain_name | cut -c1-1)
-if [ "$wilcard_domain" = "*" ]; then
-	wilcard_domain="true"
+wildcard_domain=$(echo "$domain_name" | cut -c1-2)
+if [ "$wildcard_domain" = "*." ]; then
+	wildcard_domain="true"
+	domain_alias=$(echo "$domain_name" | cut -c3-)
 else
-	wilcard_domain="false"
+	wildcard_domain="false"
+	domain_alias="$domain_name"
 fi
 
-#remove the wildcard and period
-if [ .$wilcard_domain = ."true" ]; then
-      domain_name=$(echo "$domain_name" | cut -c3-255)
+#set the domain alias
+domain_alias=$(echo "$domain_alias" | head -n1 | cut -d " " -f1)
+
+#cater for domain lists with wildcards
+if echo "$domain_name" | grep -Eq "\*\."; then
+      wildcard_domain="true"
 fi
 
 #manual dns hook
-if [ .$wilcard_domain = ."true" ]; then
+if [ .$wildcard_domain = ."true" ]; then
     cd /usr/src
     git clone https://github.com/gheja/dns-01-manual.git
     cd /usr/src/dns-01-manual/
@@ -51,10 +56,9 @@ if [ .$wilcard_domain = ."true" ]; then
     chmod 755 /etc/dehydrated/hook.sh
 fi
 
-#copy config and hook.sh into /etc/dehydrated
+#copy default config into /etc/dehydrated
 cd /usr/src/dehydrated
 cp docs/examples/config /etc/dehydrated
-#cp docs/examples/hook.sh /etc/dehydrated
 
 #update the dehydrated config
 #sed "s#CONTACT_EMAIL=#CONTACT_EMAIL=$email_address" -i /etc/dehydrated/config
@@ -64,25 +68,15 @@ sed -i 's/#WELLKNOWN=/WELLKNOWN=/g' /etc/dehydrated/config
 #accept the terms
 dehydrated --register --accept-terms --config /etc/dehydrated/config
 
-#set the domain alias
-domain_alias=$(echo "$domain_name" | head -n1 | cut -d " " -f1)
-
-#create an alias when using wildcard dns
-if [ .$wilcard_domain = ."true" ]; then
-	echo "*.$domain_name > $domain_name" > /etc/dehydrated/domains.txt
-fi
-
 #add the domain name to domains.txt
-if [ .$wilcard_domain = ."false" ]; then
-	echo "$domain_name" > /etc/dehydrated/domains.txt
-fi
+echo "$domain_name > $domain_alias" > /etc/dehydrated/domains.txt
 
 #request the certificates
-if [ .$wilcard_domain = ."true" ]; then
-	dehydrated --cron --domain *.$domain_name --alias $domain_alias --config /etc/dehydrated/config --out /etc/dehydrated/certs --challenge dns-01 --hook /etc/dehydrated/hook.sh
+if [ .$wildcard_domain = ."true" ]; then
+	dehydrated --cron --config /etc/dehydrated/config --out /etc/dehydrated/certs --challenge dns-01 --hook /etc/dehydrated/hook.sh
 fi
-if [ .$wilcard_domain = ."false" ]; then
-	dehydrated --cron --alias $domain_alias --config /etc/dehydrated/config --config /etc/dehydrated/config --out /etc/dehydrated/certs --challenge http-01
+if [ .$wildcard_domain = ."false" ]; then
+	dehydrated --cron --config /etc/dehydrated/config --out /etc/dehydrated/certs --challenge http-01
 fi
 
 #make sure the nginx ssl directory exists
