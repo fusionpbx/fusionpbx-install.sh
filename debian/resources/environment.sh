@@ -13,6 +13,9 @@ cpu_name=$(uname -m)
 cpu_architecture='unknown'
 cpu_mode='unknown'
 
+#set the environment path
+export PATH=$PATH:/sbin
+
 #check what the CPU and OS are
 if [ .$cpu_name = .'armv6l' ]; then
 	# RaspberryPi Zero
