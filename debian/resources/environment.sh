@@ -14,7 +14,7 @@ cpu_architecture='unknown'
 cpu_mode='unknown'
 
 #set the environment path
-export PATH=$PATH:/sbin
+export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 #check what the CPU and OS are
 if [ .$cpu_name = .'armv6l' ]; then
