@@ -3,8 +3,10 @@
 #move to script directory so all relative paths work
 cd "$(dirname "$0")"
 
+#add the includes
 . ./config.sh
 . ./colors.sh
+. ./environment.sh
 
 #send a message
 verbose "Configuring IPTables"
