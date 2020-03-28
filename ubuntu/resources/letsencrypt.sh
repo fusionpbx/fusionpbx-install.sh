@@ -116,7 +116,7 @@ if [ .$switch_tls = ."true" ]; then
 	ln -s /etc/dehydrated/certs/$domain_alias/all.pem /etc/freeswitch/tls/dtls-srtp.pem
 
 	#set the permissions
-	chmod a+r /etc/dehydrated/certs/$domain_alias/*
+	chmod -R a+rx /etc/dehydrated/certs
 	chown -R www-data:www-data /etc/freeswitch/tls
 
 	# install cron script
