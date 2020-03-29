@@ -6,6 +6,7 @@ cd "$(dirname "$0")"
 #includes
 . ./config.sh
 . ./colors.sh
+. ./resources/environment.sh
 
 #send a message
 verbose "Installing Fail2ban"
@@ -32,4 +33,4 @@ cp fail2ban/jail.local /etc/fail2ban/jail.local
 #fi
 
 #restart fail2ban
-/usr/sbin/service fail2ban restart
+service fail2ban restart
