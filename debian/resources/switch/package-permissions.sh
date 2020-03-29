@@ -1,3 +1,10 @@
+#move to script directory so all relative paths work
+cd "$(dirname "$0")"
+
+#includes
+. ../config.sh
+. ../environment.sh
+
 #default permissions
 chown -R www-data:www-data /etc/freeswitch
 chown -R www-data:www-data /var/lib/freeswitch
