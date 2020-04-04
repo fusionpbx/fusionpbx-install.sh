@@ -25,13 +25,13 @@ if [ -d "$php_lib_directory" ]; then
 fi
 php_lib_directory=/usr/local/lib/php/20170718
 if [ -d "$php_lib_directory" ]; then
-  cp ioncube/ioncube_loader_fre_7.1.so /usr/local/lib/php/$php_lib_directory
-  echo "zend_extension = /usr/local/lib/php/$php_lib_directory/ioncube_loader_fre_7.1.so" > /usr/local/etc/php/00-ioncube.ini
+  cp ioncube/ioncube_loader_fre_7.2.so /usr/local/lib/php/$php_lib_directory
+  echo "zend_extension = /usr/local/lib/php/$php_lib_directory/ioncube_loader_fre_7.2.so" > /usr/local/etc/php/00-ioncube.ini
 fi
 php_lib_directory=/usr/local/lib/php/20180731
 if [ -d "$php_lib_directory" ]; then
-  cp ioncube/ioncube_loader_fre_7.1.so /usr/local/lib/php/$php_lib_directory
-  echo "zend_extension = /usr/local/lib/php/$php_lib_directory/ioncube_loader_fre_7.1.so" > /usr/local/etc/php/00-ioncube.ini
+  cp ioncube/ioncube_loader_fre_7.3.so /usr/local/lib/php/$php_lib_directory
+  echo "zend_extension = /usr/local/lib/php/$php_lib_directory/ioncube_loader_fre_7.3.so" > /usr/local/etc/php/00-ioncube.ini
 fi
 
 #restart the service
