@@ -18,20 +18,20 @@ tar -xvzf ioncube_loaders_fre_9_x86-64.tar.gz
 rm ioncube_loaders_fre_9_x86-64.tar.gz
 
 #copy the php extension .so into the php lib directory and then add the 00-ioncube.ini file
-php_build=20160303
-if [ -d "$php_lib_directory" ]; then
-  cp ioncube/ioncube_loader_fre_7.1.so /usr/local/lib/php/$php_build
-  echo "zend_extension = $php_build/ioncube_loader_fre_7.1.so" > /usr/local/etc/php/00-ioncube.ini
+php_lib_directory=/usr/local/lib/php/20160303
+if [ -d "$php_lib_directory/$php_build" ]; then
+  cp ioncube/ioncube_loader_fre_7.1.so $php_lib_directory
+  echo "zend_extension = $php_lib_directory/ioncube_loader_fre_7.1.so" > /usr/local/etc/php/00-ioncube.ini
 fi
-php_build=20170718
+php_lib_directory=/usr/local/lib/php/20170718
 if [ -d "$php_lib_directory" ]; then
-  cp ioncube/ioncube_loader_fre_7.2.so /usr/local/lib/php/$php_build
-  echo "zend_extension = /usr/local/lib/php/$php_build/ioncube_loader_fre_7.2.so" > /usr/local/etc/php/00-ioncube.ini
+  cp ioncube/ioncube_loader_fre_7.2.so $php_lib_directory
+  echo "zend_extension = $php_lib_directory/ioncube_loader_fre_7.2.so" > /usr/local/etc/php/00-ioncube.ini
 fi
-php_build=20180731
+php_lib_directory=/usr/local/lib/php/20180731
 if [ -d "$php_lib_directory" ]; then
-  cp ioncube/ioncube_loader_fre_7.3.so /usr/local/lib/php/$php_build
-  echo "zend_extension = /usr/local/lib/php/$php_build/ioncube_loader_fre_7.3.so" > /usr/local/etc/php/00-ioncube.ini
+  cp ioncube/ioncube_loader_fre_7.3.so $php_lib_directory
+  echo "zend_extension = $php_lib_directory/ioncube_loader_fre_7.3.so" > /usr/local/etc/php/00-ioncube.ini
 fi
 
 #restart the service
