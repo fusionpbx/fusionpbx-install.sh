@@ -62,7 +62,7 @@ sed -i 's/#CONTACT_EMAIL=/CONTACT_EMAIL="'"$email_address"'"/g' /etc/dehydrated/
 sed -i 's/#WELLKNOWN=/WELLKNOWN=/g' /etc/dehydrated/config
 
 #accept the terms
-dehydrated --register --accept-terms --config /etc/dehydrated/config
+./dehydrated --register --accept-terms --config /etc/dehydrated/config
 
 #set the domain alias
 domain_alias=$(echo "$domain_name" | head -n1 | cut -d " " -f1)
@@ -79,10 +79,10 @@ fi
 
 #request the certificates
 if [ .$wildcard_domain = ."true" ]; then
-	dehydrated --cron --domain *.$domain_name --alias $domain_alias --config /etc/dehydrated/config --out /etc/dehydrated/certs --challenge dns-01 --hook /etc/dehydrated/hook.sh
+	./dehydrated --cron --domain *.$domain_name --alias $domain_alias --config /etc/dehydrated/config --out /etc/dehydrated/certs --challenge dns-01 --hook /etc/dehydrated/hook.sh
 fi
 if [ .$wildcard_domain = ."false" ]; then
-	dehydrated --cron --alias $domain_alias --config /etc/dehydrated/config --config /etc/dehydrated/config --out /etc/dehydrated/certs --challenge http-01
+	./dehydrated --cron --alias $domain_alias --config /etc/dehydrated/config --config /etc/dehydrated/config --out /etc/dehydrated/certs --challenge http-01
 fi
 
 #make sure the nginx ssl directory exists
