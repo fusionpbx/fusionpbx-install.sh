@@ -2,22 +2,25 @@
 
 [Unit]
 Description=freeswitch
-After=syslog.target network.target local-fs.target postgresql.service
+Wants=network-online.target
+Requires=network.target local-fs.target
+After=network.target network-online.target local-fs.target
 
 [Service]
 ; service
 Type=forking
 PIDFile=/run/freeswitch/freeswitch.pid
 Environment="DAEMON_OPTS=-nonat"
+Environment="USER=www-data"
+Environment="GROUP=www-data"
 EnvironmentFile=-/etc/default/freeswitch
-ExecStartPre=/bin/mkdir -p /var/run/freeswitch/
-ExecStartPre=/bin/chown -R www-data:www-data /var/run/freeswitch/
-ExecStart=/usr/bin/freeswitch -u www-data -g www-data -ncwait $DAEMON_OPTS
+ExecStartPre=/bin/chown -R ${USER}:${GROUP} /var/lib/freeswitch /var/log/freeswitch /etc/freeswitch /usr/share/freeswitch /var/run/freeswitch
+ExecStart=/usr/bin/freeswitch -u ${USER} -g ${GROUP} -ncwait ${DAEMON_OPTS}
 TimeoutSec=45s
 Restart=always
 ; exec
-User=root
-Group=daemon
+;User=${USER}
+;Group=${GROUP}
 LimitCORE=infinity
 LimitNOFILE=100000
 LimitNPROC=60000
@@ -29,6 +32,7 @@ IOSchedulingPriority=2
 CPUSchedulingPolicy=rr
 CPUSchedulingPriority=89
 UMask=0007
+NoNewPrivileges=false
 
 ; alternatives which you can enforce by placing a unit drop-in into
 ; /etc/systemd/system/freeswitch.service.d/*.conf:
