@@ -11,7 +11,7 @@ cd "$(dirname "$0")"
 verbose "Installing FusionPBX"
 
 #install dependencies
-pkg install --yes git
+pkg install --yes git ossp-uuid
 
 #set the version
 if [ .$system_branch = .'master' ]; then
