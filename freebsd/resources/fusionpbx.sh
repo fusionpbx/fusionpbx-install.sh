@@ -10,9 +10,6 @@ cd "$(dirname "$0")"
 #send a message
 verbose "Installing FusionPBX"
 
-#install dependencies
-pkg install --yes git ghostscript9-base tiff
-
 #set the version
 if [ .$system_branch = .'master' ]; then
 	verbose "Using master"
