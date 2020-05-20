@@ -14,8 +14,13 @@ pkg upgrade --yes
 
 #Update the ports
 if [ .$portsnap_enabled = .'true' ]; then
-	portsnap fetch extract
-	echo "/usr/ports added"
+	if [ -f /usr/ports/UPDATING]; then
+		portsnap fetch && portsnap update
+		echo "/usr/ports updated"
+	else
+		portsnap fetch extract
+		echo "/usr/ports added"
+	fi
 fi
 
 #PF - Packet Filter
