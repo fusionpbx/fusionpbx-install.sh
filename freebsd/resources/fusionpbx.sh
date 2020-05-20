@@ -10,6 +10,9 @@ cd "$(dirname "$0")"
 #send a message
 verbose "Installing FusionPBX"
 
+#install dependencies
+pkg install --yes git
+
 #set the version
 if [ .$system_branch = .'master' ]; then
 	verbose "Using master"
