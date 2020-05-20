@@ -17,7 +17,7 @@ echo "Installing the FreeSWITCH package"
 
 #install the package
 if [ .$portsnap_enabled = .'true' ]; then
-	cd /usr/ports/net/freeswitch/ && make install clean
+	cd /usr/ports/net/freeswitch/ && make -DBATCH install clean
 else
 	pkg install --yes freeswitch
 fi
