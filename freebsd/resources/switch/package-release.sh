@@ -16,7 +16,11 @@ cwd=$(pwd)
 echo "Installing the FreeSWITCH package"
 
 #install the package
-pkg install --yes freeswitch
+if [ .$portsnap_enabled = .'true' ]; then
+	cd /usr/ports/net/freeswitch/ && make install clean
+else
+	pkg install --yes freeswitch
+fi
 
 #set the original working directory
 cd $cwd
