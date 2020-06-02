@@ -20,7 +20,9 @@ fi
 if [ .$cpu_architecture = .'x86' ]; then
 	#get the ioncube 64 bit loader
 	wget https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.zip
-
+	if [! -f ioncube_loaders_lin_x86-64.zip]
+		wget --no-check-certificate https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.zip
+	fi
 	#uncompress the file
 	unzip ioncube_loaders_lin_x86-64.zip
 
@@ -30,7 +32,9 @@ elif [ ."$cpu_architecture" = ."arm" ]; then
 	if [ .$cpu_name = .'armv7l' ]; then
 		#get the ioncube 64 bit loader
 		wget https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_armv7l.zip
-
+		if [! -f ioncube_loaders_lin_armv7l.zip]
+			wget --no-check-certificate https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_armv7l.zip
+		fi
 		#uncompress the file
 		unzip ioncube_loaders_lin_armv7l.zip
 
