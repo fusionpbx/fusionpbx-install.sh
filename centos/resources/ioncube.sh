@@ -12,7 +12,7 @@ cd "$(dirname "$0")"
 yum install unzip
 
 #get the ioncube 64 bit loader
-wget https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.zip
+wget --no-check-certificate https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.zip
 
 #uncompress the file
 unzip ioncube_loaders_lin_x86-64.zip
