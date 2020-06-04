@@ -23,6 +23,7 @@ apt-get install -y systemd-sysv
 apt-get install -y ca-certificates
 apt-get install -y dialog
 apt-get install -y nano
+apt-get install -y net-tools
 
 #SNMP
 apt-get install -y snmpd
