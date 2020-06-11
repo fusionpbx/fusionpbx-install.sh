@@ -11,7 +11,7 @@ cd "$(dirname "$0")"
 verbose "Installing Fail2ban"
 
 #add the dependencies
-pkg install --yes py27-fail2ban
+pkg install --yes py37-fail2ban
 
 #enable fail2ban service
 echo 'fail2ban_enable="YES"' >> /etc/rc.conf

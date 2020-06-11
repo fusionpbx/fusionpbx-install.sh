@@ -14,7 +14,7 @@ pkg upgrade --yes
 
 #Update the ports
 if [ .$portsnap_enabled = .'true' ]; then
-	if [ -f /usr/ports/UPDATING]; then
+	if [ -f /usr/ports/UPDATING ]; then
 		portsnap fetch && portsnap update
 		echo "/usr/ports updated"
 	else
