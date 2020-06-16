@@ -8,5 +8,5 @@ mkdir -p /usr/local/etc/freeswitch
 cp -R /usr/local/www/fusionpbx/resources/templates/conf/* /usr/local/etc/freeswitch
 
 #copy the scripts
-cp -R /usr/local/www/fusionpbx/resources/install/scripts /usr/local/share/freeswitch
+cp -R /usr/local/www/fusionpbx/app/scripts/resources/scripts /usr/local/share/freeswitch
 chown -R www:www /usr/local/share/freeswitch
