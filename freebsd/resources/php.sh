@@ -48,6 +48,7 @@ fi
 if [ ."$php_version" = ."7.2" ]; then
 	pkg install --yes php72 php72-phar php72-pdo php72-pdo_odbc php72-pdo_sqlite php72-json php72-gd php72-imap
 	pkg install --yes php72-ldap php72-openssl php72-sockets php72-simplexml php72-xml php72-session php72-iconv
+	pkg intsall --yes php72-zlib 
 	if [ ."$database_version" = ."9.5" ]; then
 		pkg install --yes postgresql95-client
 		pkg install --yes php72-pdo_pgsql php72-pgsql
@@ -67,6 +68,7 @@ fi
 if [ ."$php_version" = ."7.3" ]; then
 	pkg install --yes php73 php73-phar php73-pdo php73-pdo_odbc php73-pdo_sqlite php73-json php73-gd php73-imap
 	pkg install --yes php73-ldap php73-openssl php73-sockets php73-simplexml php73-xml php73-session php73-iconv
+	pkg intsall --yes php73-zlib
 	if [ ."$database_version" = ."11" ]; then
 		pkg install --yes postgresql11-client
 		pkg install --yes php73-pdo_pgsql php73-pgsql
