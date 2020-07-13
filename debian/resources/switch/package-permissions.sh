@@ -3,7 +3,6 @@ cd "$(dirname "$0")"
 
 #includes
 . ../config.sh
-. ../environment.sh
 
 #default permissions
 chown -R www-data:www-data /etc/freeswitch
