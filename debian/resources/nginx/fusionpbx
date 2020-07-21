@@ -61,7 +61,7 @@ server {
 	}
 
 	#rewrite rule - send to https with an exception for provisioning
-	if ($uri !~* ^.*(provision|xml_cdr).*$) {
+	if ($uri !~* ^.*(provision|xml_cdr|firmware).*$) {
 		rewrite ^(.*) https://$host$1 permanent;
 		break;
 	}
