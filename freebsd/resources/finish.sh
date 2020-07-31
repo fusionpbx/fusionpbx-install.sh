@@ -32,6 +32,7 @@ if [ .$nginx_enabled = .'true' ]; then
 	mkdir -p /etc/fusionpbx
 	chown -R www:www /etc/fusionpbx
 	cp fusionpbx/config.php /etc/fusionpbx
+	sed -i' ' -e s:"{database_host}:$database_host:" /etc/fusionpbx/config.php
 	sed -i' ' -e s:'{database_username}:fusionpbx:' /etc/fusionpbx/config.php
 	sed -i' ' -e s:"{database_password}:$database_password:" /etc/fusionpbx/config.php
 

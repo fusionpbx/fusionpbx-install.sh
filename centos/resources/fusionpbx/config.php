@@ -32,7 +32,7 @@
 	//$db_path = '/var/www/fusionpbx/secure'; //the path is determined by a php variable
 
 //pgsql: database connection information
-	$db_host = 'localhost'; //set the host only if the database is not local
+	$db_host = '{database_host}';
 	$db_port = '5432';
 	$db_name = 'fusionpbx';
 	$db_username = '{database_username}';
