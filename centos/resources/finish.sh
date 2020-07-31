@@ -26,6 +26,7 @@ sudo -u postgres /usr/pgsql-9.4/bin/psql -c "ALTER USER freeswitch WITH PASSWORD
 mkdir -p /etc/fusionpbx
 chown -R freeswitch:daemon /etc/fusionpbx
 cp fusionpbx/config.php /etc/fusionpbx
+sed -i /etc/fusionpbx/config.php -e s:"{database_host}:$database_host:"
 sed -i /etc/fusionpbx/config.php -e s:'{database_username}:fusionpbx:'
 sed -i /etc/fusionpbx/config.php -e s:"{database_password}:$database_password:"
 
