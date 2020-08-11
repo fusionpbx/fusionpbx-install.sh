@@ -95,8 +95,10 @@ fi
 if [ -e /usr/local/etc/nginx/server.key]; then
 	mv /usr/local/etc/nginx/server.key /usr/local/etc/nginx/server.key.backup
 fi
-cp /usr/local/etc/dehydrated/certs/$domain_alias/fullchain.pem /usr/local/etc/nginx/server.crt
-cp /usr/local/etc/dehydrated/certs/$domain_alias/privkey.pem /usr/local/etc/nginx/server.key
+ln -s /usr/local/etc/dehydrated/certs/$domain_alias/fullchain.pem /usr/local/etc/nginx/server.crt
+ls -s /usr/local/etc/dehydrated/certs/$domain_alias/privkey.pem /usr/local/etc/nginx/server.key
+#cp /usr/local/etc/dehydrated/certs/$domain_alias/fullchain.pem /usr/local/etc/nginx/server.crt
+#cp /usr/local/etc/dehydrated/certs/$domain_alias/privkey.pem /usr/local/etc/nginx/server.key
 
 #read the config
 /usr/local/sbin/nginx -t && /usr/local/sbin/nginx -s reload
@@ -115,10 +117,14 @@ if [ .$switch_tls = ."true" ]; then
 	#cat /usr/local/etc/dehydrated/certs/$domain_alias/chain.pem >> /usr/local/etc/freeswitch/tls/all.pem
 
 	#copy the certificates
-	cp /usr/local/etc/dehydrated/certs/$domain_alias/cert.pem /usr/local/etc/freeswitch/tls
-	cp /usr/local/etc/dehydrated/certs/$domain_alias/chain.pem /usr/local/etc/freeswitch/tls
-	cp /usr/local/etc/dehydrated/certs/$domain_alias/fullchain.pem /usr/local/etc/freeswitch/tls
-	cp /usr/local/etc/dehydrated/certs/$domain_alias/privkey.pem /usr/local/etc/freeswitch/tls
+	ln -s /usr/local/etc/dehydrated/certs/$domain_alias/cert.pem /usr/local/etc/freeswitch/tls/cert.pem
+	ln -s /usr/local/etc/dehydrated/certs/$domain_alias/chain.pem /usr/local/etc/freeswitch/tls/chain.pem
+	ln -s /usr/local/etc/dehydrated/certs/$domain_alias/fullchain.pem /usr/local/etc/freeswitch/tls/fullchain.pem
+	ln -s /usr/local/etc/dehydrated/certs/$domain_alias/privkey.pem /usr/local/etc/freeswitch/tls/privkey.pem
+	#cp /usr/local/etc/dehydrated/certs/$domain_alias/cert.pem /usr/local/etc/freeswitch/tls
+	#cp /usr/local/etc/dehydrated/certs/$domain_alias/chain.pem /usr/local/etc/freeswitch/tls
+	#cp /usr/local/etc/dehydrated/certs/$domain_alias/fullchain.pem /usr/local/etc/freeswitch/tls
+	#cp /usr/local/etc/dehydrated/certs/$domain_alias/privkey.pem /usr/local/etc/freeswitch/tls
 
 	#add symbolic links
 	ln -s /usr/local/etc/freeswitch/tls/all.pem /usr/local/etc/freeswitch/tls/agent.pem
