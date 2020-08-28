@@ -14,7 +14,7 @@ verbose "Installing FreeSWITCH"
 yum -y install memcached curl gdb
 
 #install freeswitch packages
-yum install -y http://files.freeswitch.org/freeswitch-release-1-6.noarch.rpm
+yum install -y https://files.freeswitch.org/repo/yum/centos-release/freeswitch-release-repo-0-1.noarch.rpm epel-release
 yum install -y freeswitch-config-vanilla freeswitch-lang-* freeswitch-sounds-* freeswitch-lua freeswitch-xml-cdr
 
 #remove the music package to protect music on hold from package updates
