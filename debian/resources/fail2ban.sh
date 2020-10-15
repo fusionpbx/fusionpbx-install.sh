@@ -33,4 +33,4 @@ cp fail2ban/jail.local /etc/fail2ban/jail.local
 #fi
 
 #restart fail2ban
-service fail2ban restart
+/usr/sbin/service fail2ban restart
