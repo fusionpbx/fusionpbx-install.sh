@@ -24,9 +24,17 @@ password=$(cat /dev/random | env LC_CTYPE=C tr -dc a-zA-Z0-9 | head -c 20)
 echo "Install PostgreSQL and create the database and users\n"
 
 #postgres install
+if [ ."$database_version" = ."13" ]; then
+	pkg install --yes postgresql13-server
+	#cd /usr/ports/databases/postgresql13-server/ && make install clean BATCH=yes
+fi
+if [ ."$database_version" = ."12" ]; then
+	pkg install --yes postgresql12-server
+	#cd /usr/ports/databases/postgresql12-server/ && make install clean BATCH=yes
+fi
 if [ ."$database_version" = ."11" ]; then
 	pkg install --yes postgresql11-server
-	#cd /usr/ports/databases/postgresql10-server/ && make install clean BATCH=yes
+	#cd /usr/ports/databases/postgresql11-server/ && make install clean BATCH=yes
 fi
 if [ ."$database_version" = ."10" ]; then
 	pkg install --yes postgresql10-server
