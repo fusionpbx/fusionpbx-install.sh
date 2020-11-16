@@ -48,7 +48,7 @@ fi
 if [ ."$php_version" = ."7.2" ]; then
 	pkg install --yes php72 php72-phar php72-pdo php72-pdo_odbc php72-pdo_sqlite php72-json php72-gd php72-imap
 	pkg install --yes php72-ldap php72-openssl php72-sockets php72-simplexml php72-xml php72-session php72-iconv
-	pkg intsall --yes php72-zlib php72-filter php72-pdo_pgsql php72-pgsql
+	pkg install --yes php72-zlib php72-filter php72-pdo_pgsql php72-pgsql
 	if [ ."$database_version" = ."9.5" ]; then
 		pkg install --yes postgresql95-client
 	fi
@@ -67,7 +67,7 @@ fi
 if [ ."$php_version" = ."7.3" ]; then
 	pkg install --yes php73 php73-phar php73-pdo php73-pdo_odbc php73-pdo_sqlite php73-json php73-gd php73-imap
 	pkg install --yes php73-ldap php73-openssl php73-sockets php73-simplexml php73-xml php73-session php73-iconv
-	pkg intsall --yes php73-zlib php73-filter php73-pdo_pgsql php73-pgsql
+	pkg install --yes php73-zlib php73-filter php73-pdo_pgsql php73-pgsql
 	if [ ."$database_version" = ."11" ]; then
 		pkg install --yes postgresql11-client
 	fi
@@ -75,7 +75,7 @@ fi
 if [ ."$php_version" = ."7.4" ]; then
 	pkg install --yes php74 php74-phar php74-pdo php74-pdo_odbc php74-pdo_sqlite php74-json php74-gd php74-imap
 	pkg install --yes php74-ldap php74-openssl php74-sockets php74-simplexml php74-xml php74-session php74-iconv
-	pkg intsall --yes php74-zlib php74-filter php74-pdo_pgsql php74-pgsql
+	pkg install --yes php74-zlib php74-filter php74-pdo_pgsql php74-pgsql
 	if [ ."$database_version" = ."12" ]; then
 		pkg install --yes postgresql12-client
 	fi
