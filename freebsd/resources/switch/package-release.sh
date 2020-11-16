@@ -16,11 +16,12 @@ cwd=$(pwd)
 echo "Installing the FreeSWITCH package"
 
 #install the package
-if [ .$portsnap_enabled = .'true' ]; then
+if [ .$switch_source = ."package" ]; then
+	pkg install --yes freeswitch
+fi
+if [ .$switch_source = ."port" ]; then
 	#dbatch uses the defaults alternative is make config-recursive
 	cd /usr/ports/net/freeswitch/ && make -DBATCH install clean
-else
-	pkg install --yes freeswitch
 fi
 
 #set the original working directory
