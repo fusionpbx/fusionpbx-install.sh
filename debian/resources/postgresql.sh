@@ -19,7 +19,7 @@ echo "Install PostgreSQL and create the database and users\n"
 
 #included in the distribution
 if [ ."$database_repo" = ."system" ]; then
-	if [ ."$database_host" != "127.0.0.1" ] && [ ."$database_host" != "::1" ] ; then
+	if [ ."$database_host" = ."127.0.0.1" ] || [ ."$database_host" = ."::1" ] ; then
 		apt-get install -y sudo postgresql
 	else
 		apt-get install -y sudo postgresql-client
@@ -42,7 +42,7 @@ if [ ."$database_repo" = ."official" ]; then
 		echo "deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main" > /etc/apt/sources.list.d/postgresql.list
 		wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 	fi
-	if [ ."$database_host" != "127.0.0.1" ] && [ ."$database_host" != "::1" ] ; then
+	if [ ."$database_host" = ."127.0.0.1" ] || [ ."$database_host" = ."::1" ] ; then
 		if [ ."$database_version" = ."latest" ]; then
 			apt-get install -y sudo postgresql
 		fi
@@ -59,7 +59,7 @@ fi
 
 #add PostgreSQL and 2ndquadrant repos
 if [ ."$database_repo" = ."2ndquadrant" ]; then
-	if [ ."$database_host" != "127.0.0.1" ] && [ ."$database_host" != "::1" ] ; then
+	if [ ."$database_host" = ."127.0.0.1" ] || [ ."$database_host" = ."::1" ] ; then
 		apt install -y curl
 		curl https://dl.2ndquadrant.com/default/release/get/deb | bash
 		if [ ."$os_codename" = ."buster" ]; then
@@ -71,7 +71,7 @@ if [ ."$database_repo" = ."2ndquadrant" ]; then
 fi
 
 #systemd
-if [ ."$database_host" != "127.0.0.1" ] && [ ."$database_host" != "::1" ] ; then
+if [ ."$database_host" = ."127.0.0.1" ] || [ ."$database_host" = ."::1" ] ; then
 	systemctl daemon-reload
 	systemctl restart postgresql
 fi
@@ -91,7 +91,7 @@ fi
 cwd=$(pwd)
 cd /tmp
 
-if [ ."$database_host" != "127.0.0.1" ] && [ ."$database_host" != "::1" ] ; then
+if [ ."$database_host" = ."127.0.0.1" ] || [ ."$database_host" = ."::1" ] ; then
 	# add the databases, users and grant permissions to them
 	sudo -u postgres psql -c "CREATE DATABASE fusionpbx;";
 	sudo -u postgres psql -c "CREATE DATABASE freeswitch;";
