@@ -24,7 +24,7 @@ yum -y install postgresql96-server postgresql96-contrib postgresql96 postgresql9
 verbose "Initalize PostgreSQL database"
 
 #initialize the database
-/usr/pgsql-9.4/bin/postgresql96-setup initdb
+/usr/pgsql-9.6/bin/postgresql96-setup initdb
 
 #allow loopback
 sed -i 's/\(host  *all  *all  *127.0.0.1\/32  *\)ident/\1md5/' /var/lib/pgsql/9.6/data/pg_hba.conf
