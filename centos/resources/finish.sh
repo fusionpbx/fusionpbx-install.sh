@@ -113,7 +113,7 @@ systemctl enable php-fpm
 systemctl enable nginx
 systemctl enable freeswitch
 systemctl enable memcached
-systemctl enable postgresql-9.4
+systemctl enable postgresql-9.6
 systemctl daemon-reload
 systemctl restart freeswitch
 
