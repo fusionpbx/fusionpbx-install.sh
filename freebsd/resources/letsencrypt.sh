@@ -57,8 +57,8 @@ if [ .$wilcard_domain = ."true" ]; then
 fi
 
 #update the dehydrated config
-sed -i ' ' -e 's/#CONTACT_EMAIL=/CONTACT_EMAIL=$email_address/g' /usr/local/etc/dehydrated/config
-sed -i ' ' -e 's/#WELLKNOWN=/WELLKNOWN=/g' /usr/local/etc/dehydrated/config
+sed -i ' ' -e "s/#CONTACT_EMAIL=/CONTACT_EMAIL=$email_address/g" /usr/local/etc/dehydrated/config
+sed -i ' ' -e "s/#WELLKNOWN=/WELLKNOWN=/g" /usr/local/etc/dehydrated/config
 
 #accept the terms
 dehydrated --register --accept-terms --config /usr/local/etc/dehydrated/config
