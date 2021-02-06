@@ -13,6 +13,10 @@ verbose "Configuring PHP"
 
 #add the repository
 if [ ."$os_name" = ."Ubuntu" ]; then
+        if [ ."$os_codename" = ."focal" ]; then
+                echo "Ubuntu 20.04 LTS\n"
+		php_version=7.4
+        fi
 	#18.04.x - /*bionic/
         if [ ."$os_codename" = ."bionic" ]; then
                 echo "Ubuntu 18.04 LTS\n"
@@ -47,6 +51,9 @@ fi
 if [ ."$php_version" = ."7.3" ]; then
         apt-get install -y php7.3 php7.3-cli php7.3-fpm php7.3-pgsql php7.3-sqlite3 php7.3-odbc php7.3-curl php7.3-imap php7.3-xml php7.3-gd
 fi
+if [ ."$php_version" = ."7.4" ]; then
+        apt-get install -y php7.4 php7.4-cli php7.4-fpm php7.4-pgsql php7.4-sqlite3 php7.4-odbc php7.4-curl php7.4-imap php7.4-xml php7.4-gd
+fi
 
 #update config if source is being used
 if [ ."$php_version" = ."5" ]; then
@@ -64,6 +71,10 @@ fi
 if [ ."$php_version" = ."7.2" ]; then
         verbose "version 7.2"
         php_ini_file='/etc/php/7.2/fpm/php.ini'
+fi
+if [ ."$php_version" = ."7.4" ]; then
+        verbose "version 7.4"
+        php_ini_file='/etc/php/7.4/fpm/php.ini'
 fi
 sed 's#post_max_size = .*#post_max_size = 80M#g' -i $php_ini_file
 sed 's#upload_max_filesize = .*#upload_max_filesize = 80M#g' -i $php_ini_file
@@ -88,7 +99,9 @@ fi
 if [ ."$php_version" = ."7.2" ]; then
         systemctl restart php7.2-fpm
 fi
-
+if [ ."$php_version" = ."7.4" ]; then
+        systemctl restart php7.4-fpm
+fi
 #init.d
 #/usr/sbin/service php5-fpm restart
 #/usr/sbin/service php7.0-fpm restart
