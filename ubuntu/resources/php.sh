@@ -13,7 +13,7 @@ verbose "Configuring PHP"
 
 #add the repository
 if [ ."$os_name" = ."Ubuntu" ]; then
-	#18.04.x - /*bionic/
+	#20.04.x - /*bionic/
         if [ ."$os_codename" = ."focal" ]; then
                 echo "Ubuntu 20.04 LTS\n"
 		php_version=7.4
