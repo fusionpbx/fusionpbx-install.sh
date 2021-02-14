@@ -10,12 +10,12 @@ cd "$(dirname "$0")"
 apt update && apt upgrade -y
 
 # install dependencies
-apt install -y autoconf automake devscripts g++ git-core libncurses5-dev libtool make libjpeg-dev 
-apt install -y pkg-config flac  libgdbm-dev libdb-dev gettext sudo equivs mlocate git dpkg-dev libpq-dev
-apt install -y liblua5.2-dev libtiff5-dev libperl-dev libcurl4-openssl-dev libsqlite3-dev libpcre3-dev
-apt install -y devscripts libspeexdsp-dev libspeex-dev libldns-dev libedit-dev libopus-dev libmemcached-dev
-apt install -y libshout3-dev libmpg123-dev libmp3lame-dev yasm nasm libsndfile1-dev libuv1-dev libvpx-dev libvpx5
-apt install -y libavformat-dev libswscale-dev
+apt install -y autoconf automake devscripts g++ git-core libncurses5-dev libtool make libjpeg-dev \
+  pkg-config flac  libgdbm-dev libdb-dev gettext sudo equivs mlocate git dpkg-dev libpq-dev \
+  liblua5.2-dev libtiff5-dev libperl-dev libcurl4-openssl-dev libsqlite3-dev libpcre3-dev \
+  devscripts libspeexdsp-dev libspeex-dev libldns-dev libedit-dev libopus-dev libmemcached-dev \
+  libshout3-dev libmpg123-dev libmp3lame-dev yasm nasm libsndfile1-dev libuv1-dev libvpx-dev \
+  libavformat-dev libswscale-dev libspandsp3-dev
 
 # additional dependencies
 apt install -y swig3.0 unzip sox wget
@@ -32,11 +32,11 @@ cd /usr/src
 #mv freeswitch-$switch_version freeswitch
 #cd /usr/src/freeswitch
 #1.10.0 and newer
-wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.-release.zip
+wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.-release.zip -O freeswitch-$switch_version.-release.zip
 unzip freeswitch-$switch_version.-release.zip
 rm -R freeswitch
 mv freeswitch-$switch_version.-release freeswitch
-cd /usr/src/freeswitch
+pushd /usr/src/freeswitch
 
 # bootstrap is needed if using git
 #./bootstrap.sh -j
@@ -61,10 +61,15 @@ sed -i /usr/src/freeswitch/modules.conf -e s:'applications/mod_signalwire:#appli
 
 # compile and install
 make
+
+rm -rf /usr/share/freeswitch/sounds/music/default
+
 make install
 make sounds-install moh-install
 make hd-sounds-install hd-moh-install
 make cd-sounds-install cd-moh-install
+
+popd
 
 #move the music into music/default directory
 mkdir -p /usr/share/freeswitch/sounds/music/default

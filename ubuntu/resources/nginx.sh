@@ -38,6 +38,9 @@ fi
 if [ ."$php_version" = ."7.2" ]; then
         sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php7.2-fpm.sock;#g'
 fi
+if [ ."$php_version" = ."7.4" ]; then
+        sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php7.4-fpm.sock;#g'
+fi
 ln -s /etc/nginx/sites-available/fusionpbx /etc/nginx/sites-enabled/fusionpbx
 
 #self signed certificate
