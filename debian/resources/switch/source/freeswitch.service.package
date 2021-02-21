@@ -16,6 +16,7 @@ Environment="GROUP=www-data"
 EnvironmentFile=-/etc/default/freeswitch
 ExecStartPre=/bin/mkdir -p /var/run/freeswitch
 ExecStartPre=/bin/chown -R ${USER}:${GROUP} /var/lib/freeswitch /var/log/freeswitch /etc/freeswitch /usr/share/freeswitch /var/run/freeswitch
+ExecStartPre=/bin/sleep 10
 ExecStart=/usr/bin/freeswitch -u ${USER} -g ${GROUP} -ncwait ${DAEMON_OPTS}
 TimeoutSec=45s
 Restart=always
