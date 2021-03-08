@@ -45,11 +45,11 @@ resources/php.sh
 #NGINX web server
 resources/nginx.sh
 
-#Fail2ban
-resources/fail2ban.sh
-
 #FreeSWITCH
 resources/switch.sh
+
+#Fail2ban
+resources/fail2ban.sh
 
 #Postgres
 resources/postgresql.sh
