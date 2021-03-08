@@ -43,11 +43,6 @@ if [ .$nginx_enabled = .'true' ]; then
 	resources/nginx.sh
 fi
 
-#Fail2ban
-if [ .$fail2ban_enabled = .'true' ]; then
-	resources/fail2ban.sh
-fi
-
 #FreeSWITCH
 if [ .$switch_enabled = .'true' ]; then
 	resources/switch.sh
@@ -65,6 +60,11 @@ if [ .$nginx_enabled = .'true' ]; then
 fi
 if [ .$fail2ban_enabled = .'true' ]; then
 	service fail2ban restart
+fi
+
+#Fail2ban
+if [ .$fail2ban_enabled = .'true' ]; then
+	resources/fail2ban.sh
 fi
 
 #add the database schema, user and groups
