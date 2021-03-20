@@ -36,7 +36,7 @@ wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.
 unzip freeswitch-$switch_version.-release.zip
 rm -R freeswitch
 mv freeswitch-$switch_version.-release freeswitch
-pushd /usr/src/freeswitch
+cd /usr/src/freeswitch
 
 # bootstrap is needed if using git
 #./bootstrap.sh -j
@@ -68,8 +68,6 @@ make install
 make sounds-install moh-install
 make hd-sounds-install hd-moh-install
 make cd-sounds-install cd-moh-install
-
-popd
 
 #move the music into music/default directory
 mkdir -p /usr/share/freeswitch/sounds/music/default
