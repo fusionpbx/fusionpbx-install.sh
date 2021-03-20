@@ -86,8 +86,8 @@ if [ ."$php_version" = ."7.4" ]; then
         cp ioncube/ioncube_loader_lin_7.4.so /usr/lib/php/20170718
 
         #add the 00-ioncube.ini file
-        echo "zend_extension = /usr/lib/php/20170718/ioncube_loader_lin_7.4.so" > /etc/php/7.4/fpm/conf.d/00-ioncube.ini
-	echo "zend_extension = /usr/lib/php/20170718/ioncube_loader_lin_7.4.so" > /etc/php/7.4/cli/conf.d/00-ioncube.ini
+        echo "zend_extension = /usr/lib/php/20190902/ioncube_loader_lin_7.4.so" > /etc/php/7.4/fpm/conf.d/00-ioncube.ini
+	echo "zend_extension = /usr/lib/php/20190902/ioncube_loader_lin_7.4.so" > /etc/php/7.4/cli/conf.d/00-ioncube.ini
 
         #restart the service
         service php7.4-fpm restart
