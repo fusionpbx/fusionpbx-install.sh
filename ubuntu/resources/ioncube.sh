@@ -83,7 +83,7 @@ if [ ."$php_version" = ."7.2" ]; then
 fi
 if [ ."$php_version" = ."7.4" ]; then
         #copy the php extension .so into the php lib directory
-        cp ioncube/ioncube_loader_lin_7.4.so /usr/lib/php/20170718
+        cp ioncube/ioncube_loader_lin_7.4.so /usr/lib/php/20190902
 
         #add the 00-ioncube.ini file
         echo "zend_extension = /usr/lib/php/20190902/ioncube_loader_lin_7.4.so" > /etc/php/7.4/fpm/conf.d/00-ioncube.ini
