@@ -62,5 +62,10 @@ fi
 #delete call detail records older 90 days
 #psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_xml_cdr WHERE start_stamp < NOW() - INTERVAL '90 days'"
 
+
+#delete database_transactions older 90 days
+psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_database_transactions where transaction_date < NOW() - INTERVAL '90 days'"
+
+
 #completed message
 echo "Maintenance Completed";
