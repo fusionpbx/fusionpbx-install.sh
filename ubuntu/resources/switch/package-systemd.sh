@@ -7,6 +7,10 @@ then
     #Disable CPU Scheduler for OpenVZ, not supported on OpenVZ."
     sed -i -e "s/CPUSchedulingPolicy=rr/;CPUSchedulingPolicy=rr/g" /lib/systemd/system/freeswitch.service
 fi
+
+# To access root-owned public-private keys:
+adduser www-data root
+
 systemctl enable freeswitch
 systemctl unmask freeswitch.service
 systemctl daemon-reload
