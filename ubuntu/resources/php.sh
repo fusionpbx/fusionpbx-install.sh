@@ -80,9 +80,9 @@ sed 's#;max_input_vars = .*#max_input_vars = 8000#g' -i $php_ini_file
 sed 's#; max_input_vars = .*#max_input_vars = 8000#g' -i $php_ini_file
 
 #install ioncube
-#if [ .$cpu_architecture = .'x86' ]; then
-#	. ./ioncube.sh
-#fi
+if [ .$cpu_architecture = .'x86' ]; then
+	. ./ioncube.sh
+fi
 
 #restart php-fpm
 systemctl daemon-reload
