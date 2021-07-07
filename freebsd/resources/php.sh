@@ -19,9 +19,9 @@ fi
 if [ ."$php_version" = ."7.1" ]; then
 	#pkg install --yes php70 php70-phar php70-pgsql php70-pdo php70-pdo_pgsql php70-pdo_odbc php70-pdo_sqlite php70-json php70-gd 
 	#pkg install --yes php70-imap php70-ldap php70-openssl php70-sockets php70-simplexml php70-xml php70-session
-	pkg install --yes php71 php71-phar php71-pdo php71-pdo_odbc php71-pdo_sqlite php71-json php71-gd php71-imap
+	pkg install --yes php71 php71-phar php71-pdo php71-pdo_odbc php71-pdo_sqlite php71-json php71-gd php71-imap 
 	pkg install --yes php71-ldap php71-openssl php71-sockets php71-simplexml php71-xml php71-session php71-filter
-	pkg install --yes php71-pdo_pgsql php71-pgsql php71-curl
+	pkg install --yes php71-pdo_pgsql php71-pgsql php71-curl php71-mbstring
 	if [ ."$database_version" = ."9.3" ]; then
 		pkg install --yes postgresql93-client
 	fi
@@ -48,7 +48,7 @@ fi
 if [ ."$php_version" = ."7.2" ]; then
 	pkg install --yes php72 php72-phar php72-pdo php72-pdo_odbc php72-pdo_sqlite php72-json php72-gd php72-imap
 	pkg install --yes php72-ldap php72-openssl php72-sockets php72-simplexml php72-xml php72-session php72-iconv
-	pkg install --yes php72-zlib php72-filter php72-pdo_pgsql php72-pgsql php72-curl
+	pkg install --yes php72-zlib php72-filter php72-pdo_pgsql php72-pgsql php72-curl php72-mbstring
 	if [ ."$database_version" = ."10" ]; then
 		pkg install --yes postgresql10-client
 		if [ .$(freebsd-version | head -c 2) = ."11" ]; then
@@ -64,12 +64,12 @@ fi
 if [ ."$php_version" = ."7.3" ]; then
 	pkg install --yes php73 php73-phar php73-pdo php73-pdo_odbc php73-pdo_sqlite php73-json php73-gd php73-imap
 	pkg install --yes php73-ldap php73-openssl php73-sockets php73-simplexml php73-xml php73-session php73-iconv
-	pkg install --yes php73-zlib php73-filter php73-pdo_pgsql php73-pgsql php73-curl
+	pkg install --yes php73-zlib php73-filter php73-pdo_pgsql php73-pgsql php73-curl php73-mbstring
 fi
 if [ ."$php_version" = ."7.4" ]; then
 	pkg install --yes php74 php74-phar php74-pdo php74-pdo_odbc php74-pdo_sqlite php74-json php74-gd php74-imap
 	pkg install --yes php74-ldap php74-openssl php74-sockets php74-simplexml php74-xml php74-session php74-iconv
-	pkg install --yes php74-zlib php74-filter php74-pdo_pgsql php74-pgsql php74-curl
+	pkg install --yes php74-zlib php74-filter php74-pdo_pgsql php74-pgsql php74-curl php74-mbstring
 fi
 #send a message
 verbose "Configuring PHP"
