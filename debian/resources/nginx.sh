@@ -63,7 +63,8 @@ rm /etc/nginx/sites-enabled/default
 
 #update config if LetsEncrypt folder is unwanted
 if [ .$letsencrypt_folder = .false ]; then
-        sed -i '151,155d' /etc/nginx/sites-available/fusionpbx
+        sed -i '59,65d' /etc/nginx/sites-available/fusionpbx
+	sed -i '188,194d' /etc/nginx/sites-available/fusionpbx
 fi
 
 #add the letsencrypt directory
