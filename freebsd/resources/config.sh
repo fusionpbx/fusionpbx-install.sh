@@ -14,7 +14,7 @@ switch_tls=true                 # true or false
 # Database Settings
 database_enabled=true           # true or false
 database_password=random        # random or as a pre-set value
-database_version=12             # Postgres 13, 12, 11, 10, 9.6, 9.5, 9.4
+database_version=12             # Postgres 14, 13, 12, 11, 10, 9.6
 database_host=127.0.0.1         # hostname or IP address
 database_port=5432              # port number
 database_backup=false           # true or false
