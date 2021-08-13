@@ -15,7 +15,8 @@ password=$(dd if=/dev/urandom bs=1 count=20 2>/dev/null | base64)
 
 #included in the distribution
 #rpm -ivh --quiet http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-3.noarch.rpm
-rpm -ivh --quiet https://yum.postgresql.org/9.6/redhat/rhel-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+#rpm -ivh --quiet https://yum.postgresql.org/9.6/redhat/rhel-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+rpm -ivh --quiet https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
 yum -y update
 #yum -y install postgresql94-server postgresql94-contrib postgresql94
 yum -y install postgresql96-server postgresql96-contrib postgresql96 postgresql96-libs postgresql96-devel
