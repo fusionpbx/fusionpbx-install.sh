@@ -45,16 +45,16 @@ if [ .$purge_fax = .true]; then
 	#delete fax older than 90 days
 	if [ .$switch_package = .true ]; then
 		echo ".";
-		#find /var/lib/freeswitch/storage/fax/*  -name '*.tif' -mtime +$days_keep_fax -exec rm {} \;
-		#find /var/lib/freeswitch/storage/fax/*  -name '*.pdf' -mtime +$days_keep_fax -exec rm {} \;
+		find /var/lib/freeswitch/storage/fax/*  -name '*.tif' -mtime +$days_keep_fax -exec rm {} \;
+		find /var/lib/freeswitch/storage/fax/*  -name '*.pdf' -mtime +$days_keep_fax -exec rm {} \;
 	else
 		echo ".";
-		#find /usr/local/freeswitch/storage/fax/*  -name '*.tif' -mtime +$days_keep_fax -exec rm {} \;
-		#find /usr/local/freeswitch/storage/fax/*  -name '*.pdf' -mtime +$days_keep_fax -exec rm {} \;
+		find /usr/local/freeswitch/storage/fax/*  -name '*.tif' -mtime +$days_keep_fax -exec rm {} \;
+		find /usr/local/freeswitch/storage/fax/*  -name '*.pdf' -mtime +$days_keep_fax -exec rm {} \;
 	fi
 	#delete from the database
-	#psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_fax_files WHERE fax_date < NOW() - INTERVAL '$days_keep_fax days'"
-	#psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_fax_logs WHERE fax_date < NOW() - INTERVAL '$days_keep_fax days'"
+	psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_fax_files WHERE fax_date < NOW() - INTERVAL '$days_keep_fax days'"
+	psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_fax_logs WHERE fax_date < NOW() - INTERVAL '$days_keep_fax days'"
 else
 	echo "not purging Faxes"
 fi
@@ -77,21 +77,21 @@ if [ .$purge_voicemail = .true ]; then
 	#delete voicemail older than 90 days
 	if [ .$switch_package = .true ]; then
 		echo ".";
-		#find /var/lib/freeswitch/storage/voicemail/default/*  -name 'msg_*.wav' -mtime +$days_keep_voicemail -exec rm {} \;
-		#find /var/lib/freeswitch/storage/voicemail/default/*  -name 'msg_*.mp3' -mtime +$days_keep_voicemail -exec rm {} \;
+		find /var/lib/freeswitch/storage/voicemail/default/*  -name 'msg_*.wav' -mtime +$days_keep_voicemail -exec rm {} \;
+		find /var/lib/freeswitch/storage/voicemail/default/*  -name 'msg_*.mp3' -mtime +$days_keep_voicemail -exec rm {} \;
 	else
 		echo ".";
-		#find /usr/local/freeswitch/storage/voicemail/*  -name 'msg_*.wav' -mtime +$days_keep_voicemail -exec rm {} \;
-		#find /usr/local/freeswitch/storage/voicemail/*  -name 'msg_*.mp3' -mtime +$days_keep_voicemail -exec rm {} \;
+		find /usr/local/freeswitch/storage/voicemail/*  -name 'msg_*.wav' -mtime +$days_keep_voicemail -exec rm {} \;
+		find /usr/local/freeswitch/storage/voicemail/*  -name 'msg_*.mp3' -mtime +$days_keep_voicemail -exec rm {} \;
 	fi
-	#psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_voicemail_messages WHERE to_timestamp(created_epoch) < NOW() - INTERVAL '$days_keep_voicemail days'"
+	psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_voicemail_messages WHERE to_timestamp(created_epoch) < NOW() - INTERVAL '$days_keep_voicemail days'"
 else
 	echo "not purging voicemails."
 fi
 
 if [ .$purge_cdrs = .true ]; then
 	#delete call detail records older 90 days
-	#psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_xml_cdr WHERE start_stamp < NOW() - INTERVAL '$days_keep_cdrs days'"
+	psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_xml_cdr WHERE start_stamp < NOW() - INTERVAL '$days_keep_cdrs days'"
 else
         echo "not purging CDRs."
 fi
