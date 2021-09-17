@@ -7,16 +7,16 @@ db_port=5432
 switch_package=true # true or false
 
 purge_voicemail=false
-purge_recordings=false
+purge_call_recordings=false
 purge_cdrs=false
 purge_fax=false
-purge_fslogs=false
+purge_switch_logs=true
 
 days_keep_voicemail=90
-days_keep_recordings=90
+days_keep_call_recordings=90
 days_keep_cdrs=90
 days_keep_fax=90
-days_keep_fslogs=7
+days_keep_switch_logs=7
 #set the date
 now=$(date +%Y-%m-%d)
 
@@ -30,12 +30,12 @@ fi
 #show message to the console
 echo "Maintenance Started"
 
-if [ .$purge_fslogs = .true ]; then
+if [ .$purge_switch_logs = .true ]; then
 	#delete freeswitch logs older 7 days
 	if [ .$switch_package = .true ]; then
-		find /var/log/freeswitch/freeswitch.log.* -mtime +$days_keep_fslogs -exec rm {} \;
+		find /var/log/freeswitch/freeswitch.log.* -mtime +$days_keep_switch_logs -exec rm {} \;
 	else
-		find /usr/local/freeswitch/log/freeswitch.log.* -mtime +$days_keep_fslogs -exec rm {} \;
+		find /usr/local/freeswitch/log/freeswitch.log.* -mtime +$days_keep_switch_logs -exec rm {} \;
 	fi
 else
 	echo "not purging Freeswitch logs"
@@ -59,14 +59,14 @@ else
 	echo "not purging Faxes"
 fi
 
-if [ .$purge_recordings = .true ]; then
+if [ .$purge_call_recordings = .true ]; then
 	#delete call recordings older than 90 days
 	if [ .$switch_package = .true ]; then
-		find /var/lib/freeswitch/recordings/*/archive/*  -name '*.wav' -mtime +$days_keep_recordings -exec rm {} \;
-		find /var/lib/freeswitch/recordings/*/archive/*  -name '*.mp3' -mtime +$days_keep_recordings -exec rm {} \;
+		find /var/lib/freeswitch/recordings/*/archive/*  -name '*.wav' -mtime +$days_keep_call_recordings -exec rm {} \;
+		find /var/lib/freeswitch/recordings/*/archive/*  -name '*.mp3' -mtime +$days_keep_call_recordings -exec rm {} \;
 	else
-		find /usr/local/freeswitch/recordings/*/archive/*  -name '*.wav' -mtime +$days_keep_recordings -exec rm {} \;
-		find /usr/local/freeswitch/recordings/*/archive/*  -name '*.mp3' -mtime +$days_keep_recordings -exec rm {} \;
+		find /usr/local/freeswitch/recordings/*/archive/*  -name '*.wav' -mtime +$days_keep_call_recordings -exec rm {} \;
+		find /usr/local/freeswitch/recordings/*/archive/*  -name '*.mp3' -mtime +$days_keep_call_recordings -exec rm {} \;
 	fi
 	psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_call_recordings WHERE call_recording_date < NOW() - INTERVAL '90 days'"
 else
