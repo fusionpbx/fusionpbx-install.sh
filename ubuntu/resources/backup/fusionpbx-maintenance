@@ -27,7 +27,7 @@ now=$(date +%Y-%m-%d)
 
 #make sure the directory exists
 if [ -e /var/backups/fusionpbx/postgresql ]; then
-	echo "postgres backup directory exists"
+	echo " "
 else
 	mkdir -p /var/backups/fusionpbx/postgresql
 fi
