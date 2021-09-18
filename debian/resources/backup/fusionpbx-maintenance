@@ -11,12 +11,17 @@ purge_call_recordings=false
 purge_cdrs=false
 purge_fax=false
 purge_switch_logs=true
+purge_php_sessions=true
+purge_database_transactions=true
 
 days_keep_voicemail=90
 days_keep_call_recordings=90
 days_keep_cdrs=90
 days_keep_fax=90
 days_keep_switch_logs=7
+days_keep_php_sessions=8
+days_keep_database_transactions=30
+
 #set the date
 now=$(date +%Y-%m-%d)
 
@@ -94,6 +99,21 @@ if [ .$purge_cdrs = .true ]; then
 	psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_xml_cdr WHERE start_stamp < NOW() - INTERVAL '$days_keep_cdrs days'"
 else
         echo "not purging CDRs."
+fi
+
+#delete php sessions
+if [ .$purge_php_sessions = .true ]; then
+	rm /var/lib/php/sessions/*
+	find /var/lib/php/sessions/*  -name 'sess_*' -mtime -mtime +$days_keep_php_sessions -exec rm {} \;
+else
+        echo "not purging PHP Sessions."
+fi
+
+#delete database_transactions older 90 days
+if [ .$purge_database_transactions = .true ]; then
+	psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_database_transactions where transaction_date < NOW() - INTERVAL '$days_keep_database_transactions days'"
+else
+        echo "not purging database_transactions."
 fi
 
 #completed message
