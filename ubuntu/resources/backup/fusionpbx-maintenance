@@ -46,7 +46,7 @@ else
 	echo "not purging Freeswitch logs"
 fi
 
-if [ .$purge_fax = .true]; then
+if [ .$purge_fax = .true ]; then
 	#delete fax older than 90 days
 	if [ .$switch_package = .true ]; then
 		echo ".";
