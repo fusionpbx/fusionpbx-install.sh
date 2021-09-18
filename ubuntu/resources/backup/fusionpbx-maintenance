@@ -103,8 +103,7 @@ fi
 
 #delete php sessions
 if [ .$purge_php_sessions = .true ]; then
-	rm /var/lib/php/sessions/*
-	find /var/lib/php/sessions/*  -name 'sess_*' -mtime -mtime +$days_keep_php_sessions -exec rm {} \;
+	find /var/lib/php/sessions/*  -name 'sess_*' -mtime +$days_keep_php_sessions -exec rm {} \;
 else
         echo "not purging PHP Sessions."
 fi
