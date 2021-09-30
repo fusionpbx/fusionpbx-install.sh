@@ -33,16 +33,16 @@ server {
 
 	# Disable viewing .htaccess & .htpassword & .db & .git
 	location ~ .htaccess {
-			deny all;
+		deny all;
 	}
 	location ~ .htpassword {
-			deny all;
+		deny all;
 	}
 	location ~^.+.(db)$ {
-			deny all;
+		deny all;
 	}
 	location ~ /.git/ {
-			deny all;
+		deny all;
 	}
 }
 
@@ -69,8 +69,8 @@ server {
 		break;
 	}
 
-        #algo
-        rewrite "^.*/provision/algom([A-Fa-f0-9]{12})\.conf" /app/provision/?mac=$1&file=algom%7b%24mac%7d.conf last;
+	#algo
+	rewrite "^.*/provision/algom([A-Fa-f0-9]{12})\.conf" /app/provision/?mac=$1&file=algom%7b%24mac%7d.conf last;
 
 	#mitel
 	rewrite "^.*/provision/MN_([A-Fa-f0-9]{12})\.cfg" /app/provision/index.php?mac=$1&file=MN_%7b%24mac%7d.cfg last;
@@ -178,8 +178,11 @@ server {
 		break;
 	}
 
-        #algo
-        rewrite "^.*/provision/algom([A-Fa-f0-9]{12})\.conf" /app/provision/?mac=$1&file=algom%7b%24mac%7d.conf last;
+	#message media
+	rewrite "^/app/messages/media/(.*)/(.*)" /app/messages/message_media.php?id=$1&action=download last;
+
+	#algo
+	rewrite "^.*/provision/algom([A-Fa-f0-9]{12})\.conf" /app/provision/?mac=$1&file=algom%7b%24mac%7d.conf last;
 
 	#mitel
 	rewrite "^.*/provision/MN_([A-Fa-f0-9]{12})\.cfg" /app/provision/index.php?mac=$1&file=MN_%7b%24mac%7d.cfg last;
