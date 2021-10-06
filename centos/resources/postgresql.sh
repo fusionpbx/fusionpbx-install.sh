@@ -8,23 +8,24 @@ cd "$(dirname "$0")"
 . ./colors.sh
 
 #send a message
-verbose "Installing PostgreSQL 9.6"
+verbose "Installing PostgreSQL"
 
 #generate a random password
 password=$(dd if=/dev/urandom bs=1 count=20 2>/dev/null | base64)
 
-#included in the distribution
-#rpm -ivh --quiet http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-3.noarch.rpm
-rpm -ivh --quiet https://yum.postgresql.org/9.6/redhat/rhel-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
-yum -y update
-#yum -y install postgresql94-server postgresql94-contrib postgresql94
-yum -y install postgresql96-server postgresql96-contrib postgresql96 postgresql96-libs postgresql96-devel
+# Install the repository
+sudo yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+
+# Install PostgreSQL:
+sudo yum install -y postgresql14-server postgresql14-contrib postgresql14 postgresql14-libs
 
 #send a message
 verbose "Initalize PostgreSQL database"
 
 #initialize the database
-/usr/pgsql-9.6/bin/postgresql96-setup initdb
+sudo /usr/pgsql-14/bin/postgresql-14-setup initdb
+sudo systemctl enable postgresql-14
+sudo systemctl start postgresql-14
 
 #allow loopback
 sed -i 's/\(host  *all  *all  *127.0.0.1\/32  *\)ident/\1md5/' /var/lib/pgsql/9.6/data/pg_hba.conf
