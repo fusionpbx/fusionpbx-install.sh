@@ -40,15 +40,15 @@ cwd=$(pwd)
 cd /tmp
 
 #add the databases, users and grant permissions to them
-sudo -u postgres /usr/pgsql-9.6/bin/psql -d fusionpbx -c "DROP SCHEMA public cascade;";
-sudo -u postgres /usr/pgsql-9.6/bin/psql -d fusionpbx -c "CREATE SCHEMA public;";
-sudo -u postgres /usr/pgsql-9.6/bin/psql -c "CREATE DATABASE fusionpbx";
-sudo -u postgres /usr/pgsql-9.6/bin/psql -c "CREATE DATABASE freeswitch";
-sudo -u postgres /usr/pgsql-9.6/bin/psql -c "CREATE ROLE fusionpbx WITH SUPERUSER LOGIN PASSWORD '$password';"
-sudo -u postgres /usr/pgsql-9.6/bin/psql -c "CREATE ROLE freeswitch WITH SUPERUSER LOGIN PASSWORD '$password';"
-sudo -u postgres /usr/pgsql-9.6/bin/psql -c "GRANT ALL PRIVILEGES ON DATABASE fusionpbx to fusionpbx;"
-sudo -u postgres /usr/pgsql-9.6/bin/psql -c "GRANT ALL PRIVILEGES ON DATABASE freeswitch to fusionpbx;"
-sudo -u postgres /usr/pgsql-9.6/bin/psql -c "GRANT ALL PRIVILEGES ON DATABASE freeswitch to freeswitch;"
+sudo -u postgres /usr/bin/psql -d fusionpbx -c "DROP SCHEMA public cascade;";
+sudo -u postgres /usr/bin/psql -d fusionpbx -c "CREATE SCHEMA public;";
+sudo -u postgres /usr/bin/psql -c "CREATE DATABASE fusionpbx";
+sudo -u postgres /usr/bin/psql -c "CREATE DATABASE freeswitch";
+sudo -u postgres /usr/bin/psql -c "CREATE ROLE fusionpbx WITH SUPERUSER LOGIN PASSWORD '$password';"
+sudo -u postgres /usr/bin/psql -c "CREATE ROLE freeswitch WITH SUPERUSER LOGIN PASSWORD '$password';"
+sudo -u postgres /usr/bin/psql -c "GRANT ALL PRIVILEGES ON DATABASE fusionpbx to fusionpbx;"
+sudo -u postgres /usr/bin/psql -c "GRANT ALL PRIVILEGES ON DATABASE freeswitch to fusionpbx;"
+sudo -u postgres /usr/bin/psql -c "GRANT ALL PRIVILEGES ON DATABASE freeswitch to freeswitch;"
 #ALTER USER fusionpbx WITH PASSWORD 'newpassword';
 cd $cwd
 
