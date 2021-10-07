@@ -31,10 +31,10 @@ if [ ."$database_repo" = ."official" ]; then
 		if [ ."$database_version" = ."latest" ]; then
 			apt-get install -y sudo postgresql
 		fi
-		if [ ."$database_version" = ."9.6" ]; then
+		if [ ."$database_version" = ."14" ]; then
 			apt-get install -y sudo postgresql-$database_version
 		fi
-		if [ ."$database_version" = ."9.4" ]; then
+		if [ ."$database_version" = ."13" ]; then
 			apt-get install -y sudo postgresql-$database_version
 		fi
 	fi
