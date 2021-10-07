@@ -28,8 +28,8 @@ sudo systemctl enable postgresql-14
 sudo systemctl start postgresql-14
 
 #allow loopback
-sed -i 's/\(host  *all  *all  *127.0.0.1\/32  *\)ident/\1md5/' /var/lib/pgsql/9.6/data/pg_hba.conf
-sed -i 's/\(host  *all  *all  *::1\/128  *\)ident/\1md5/' /var/lib/pgsql/9.6/data/pg_hba.conf
+sed -i 's/\(host  *all  *all  *127.0.0.1\/32  *\)ident/\1md5/' /var/lib/pgsql/14/data/pg_hba.conf
+sed -i 's/\(host  *all  *all  *::1\/128  *\)ident/\1md5/' /var/lib/pgsql/14/data/pg_hba.conf
 
 #systemd
 systemctl daemon-reload
@@ -53,4 +53,4 @@ sudo -u postgres /usr/bin/psql -c "GRANT ALL PRIVILEGES ON DATABASE freeswitch t
 cd $cwd
 
 #send a message
-verbose "PostgreSQL 9.6 installed"
+verbose "PostgreSQL installed"
