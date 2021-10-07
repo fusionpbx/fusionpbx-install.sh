@@ -115,6 +115,8 @@ systemctl enable freeswitch
 systemctl enable memcached
 systemctl enable postgresql-14
 systemctl daemon-reload
+systemctl restart php-fpm
+systemctl restart nginx
 systemctl restart freeswitch
 
 #welcome message
