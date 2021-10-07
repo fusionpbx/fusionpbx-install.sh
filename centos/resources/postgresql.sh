@@ -33,7 +33,7 @@ sed -i 's/\(host  *all  *all  *::1\/128  *\)ident/\1md5/' /var/lib/pgsql/14/data
 
 #systemd
 systemctl daemon-reload
-systemctl restart postgresql-9.6
+systemctl restart postgresql-14
 
 #move to /tmp to prevent a red herring error when running sudo with psql
 cwd=$(pwd)
