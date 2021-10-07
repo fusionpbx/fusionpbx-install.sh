@@ -19,8 +19,8 @@ fi
 export PGPASSWORD=$database_password
 
 #update the database password
-sudo -u postgres /usr/pgsql-9.6/bin/psql -c "ALTER USER fusionpbx WITH PASSWORD '$database_password';"
-sudo -u postgres /usr/pgsql-9.6/bin/psql -c "ALTER USER freeswitch WITH PASSWORD '$database_password';"
+sudo -u postgres /usr/bin/psql -c "ALTER USER fusionpbx WITH PASSWORD '$database_password';"
+sudo -u postgres /usr/bin/psql -c "ALTER USER freeswitch WITH PASSWORD '$database_password';"
 
 #add the config.php
 mkdir -p /etc/fusionpbx
@@ -113,7 +113,7 @@ systemctl enable php-fpm
 systemctl enable nginx
 systemctl enable freeswitch
 systemctl enable memcached
-systemctl enable postgresql-9.6
+systemctl enable postgresql-14
 systemctl daemon-reload
 systemctl restart freeswitch
 
