@@ -100,6 +100,8 @@ cd /var/www/fusionpbx && php /var/www/fusionpbx/core/upgrade/upgrade_domains.php
 #restart freeswitch
 /bin/systemctl daemon-reload
 /bin/systemctl restart freeswitch
+/bin/systemctl restart php${php_version}-fpm
+
 
 #welcome message
 echo ""
