@@ -176,9 +176,8 @@ server {
 }
 
 server {
-	listen 443;
+	listen 443 ssl;
 	server_name fusionpbx;
-	ssl                     on;
 	ssl_certificate         /etc/ssl/certs/nginx.crt;
 	ssl_certificate_key     /etc/ssl/private/nginx.key;
 	ssl_protocols           TLSv1 TLSv1.1 TLSv1.2;
