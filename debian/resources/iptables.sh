@@ -16,6 +16,10 @@ if [ ."$os_codename" = ."buster" ]; then
 	update-alternatives --set iptables /usr/sbin/iptables-legacy
 	update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
 fi
+if [ ."$os_codename" = ."bullseye" ]; then
+	update-alternatives --set iptables /usr/sbin/iptables-legacy
+	update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
+fi
 
 #run iptables commands
 iptables -A INPUT -i lo -j ACCEPT
