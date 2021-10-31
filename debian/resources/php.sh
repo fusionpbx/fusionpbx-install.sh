@@ -29,9 +29,10 @@ elif [ ."$cpu_architecture" = ."arm" ]; then
 	      php_version=7.3
 	fi
 else
-        #10.x - buster
+	#11.x - bullseye
+	#10.x - buster
 	#9.x  - stretch
-        #8.x  - jessie
+	#8.x  - jessie
 	apt-get -y install apt-transport-https lsb-release ca-certificates
 	if [ ."$os_codename" = ."jessie" ]; then
 		wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
@@ -44,28 +45,34 @@ else
 	if [ ."$os_codename" = ."buster" ]; then
 	      php_version=7.3
 	fi
+	if [ ."os_codename" = ."bullseye" ]; then
+	      php_version=7.4
+	fi
 fi
 apt-get update -y
 
 #install dependencies
 apt-get install -y nginx
 if [ ."$php_version" = ."" ]; then
-        apt-get install -y php php-cli php-fpm php-pgsql php-sqlite3 php-odbc php-curl php-imap php-xml php-gd
+		apt-get install -y php php-cli php-fpm php-pgsql php-sqlite3 php-odbc php-curl php-imap php-xml php-gd
 fi
 if [ ."$php_version" = ."5.6" ]; then
-        apt-get install -y php5 php5-cli php5-fpm php5-pgsql php5-sqlite php5-odbc php5-curl php5-imap php5-gd
+		apt-get install -y php5 php5-cli php5-fpm php5-pgsql php5-sqlite php5-odbc php5-curl php5-imap php5-gd
 fi
 if [ ."$php_version" = ."7.0" ]; then
-        apt-get install -y php7.0 php7.0-cli php7.0-fpm php7.0-pgsql php7.0-sqlite3 php7.0-odbc php7.0-curl php7.0-imap php7.0-xml php7.0-gd php7.0-mbstring
+		apt-get install -y php7.0 php7.0-cli php7.0-fpm php7.0-pgsql php7.0-sqlite3 php7.0-odbc php7.0-curl php7.0-imap php7.0-xml php7.0-gd php7.0-mbstring
 fi
 if [ ."$php_version" = ."7.1" ]; then
-        apt-get install -y php7.1 php7.1-cli php7.1-fpm php7.1-pgsql php7.1-sqlite3 php7.1-odbc php7.1-curl php7.1-imap php7.1-xml php7.1-gd php7.1-mbstring
+		apt-get install -y php7.1 php7.1-cli php7.1-fpm php7.1-pgsql php7.1-sqlite3 php7.1-odbc php7.1-curl php7.1-imap php7.1-xml php7.1-gd php7.1-mbstring
 fi
 if [ ."$php_version" = ."7.2" ]; then
-        apt-get install -y php7.2 php7.2-cli php7.2-fpm php7.2-pgsql php7.2-sqlite3 php7.2-odbc php7.2-curl php7.2-imap php7.2-xml php7.2-gd php7.2-mbstring
+		apt-get install -y php7.2 php7.2-cli php7.2-fpm php7.2-pgsql php7.2-sqlite3 php7.2-odbc php7.2-curl php7.2-imap php7.2-xml php7.2-gd php7.2-mbstring
 fi
 if [ ."$php_version" = ."7.3" ]; then
-        apt-get install -y php7.3 php7.3-cli php7.3-fpm php7.3-pgsql php7.3-sqlite3 php7.3-odbc php7.3-curl php7.3-imap php7.3-xml php7.3-gd php7.3-mbstring
+		apt-get install -y php7.3 php7.3-cli php7.3-fpm php7.3-pgsql php7.3-sqlite3 php7.3-odbc php7.3-curl php7.3-imap php7.3-xml php7.3-gd php7.3-mbstring
+fi
+if [ ."$php_version" = ."7.4" ]; then
+		apt-get install -y php7.4 php7.4-cli php7.4-fpm php7.4-pgsql php7.4-sqlite3 php7.4-odbc php7.4-curl php7.4-imap php7.4-xml php7.4-gd php7.4-mbstring
 fi
 
 #update config if source is being used
@@ -88,6 +95,10 @@ fi
 if [ ."$php_version" = ."7.3" ]; then
         verbose "version 7.3"
         php_ini_file='/etc/php/7.3/fpm/php.ini'
+fi
+if [ ."$php_version" = ."7.4" ]; then
+        verbose "version 7.4"
+        php_ini_file='/etc/php/7.4/fpm/php.ini'
 fi
 sed 's#post_max_size = .*#post_max_size = 80M#g' -i $php_ini_file
 sed 's#upload_max_filesize = .*#upload_max_filesize = 80M#g' -i $php_ini_file
@@ -115,6 +126,9 @@ if [ ."$php_version" = ."7.2" ]; then
 fi
 if [ ."$php_version" = ."7.3" ]; then
         systemctl restart php7.3-fpm
+fi
+if [ ."$php_version" = ."7.4" ]; then
+        systemctl restart php7.4-fpm
 fi
 
 #init.d
