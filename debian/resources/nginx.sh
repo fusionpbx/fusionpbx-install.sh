@@ -23,6 +23,9 @@ if [ ."$cpu_architecture" = ."arm" ]; then
 fi
 
 #set the version of php
+if [ ."$os_codename" = ."bullseye" ]; then
+	php_version=7.4
+fi
 if [ ."$os_codename" = ."buster" ]; then
 	php_version=7.3
 fi
@@ -51,6 +54,9 @@ if [ ."$php_version" = ."7.2" ]; then
 fi
 if [ ."$php_version" = ."7.3" ]; then
         sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php7.3-fpm.sock;#g'
+fi
+if [ ."$php_version" = ."7.4" ]; then
+        sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php7.4-fpm.sock;#g'
 fi
 ln -s /etc/nginx/sites-available/fusionpbx /etc/nginx/sites-enabled/fusionpbx
 

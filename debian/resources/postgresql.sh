@@ -42,6 +42,10 @@ if [ ."$database_repo" = ."official" ]; then
 		echo "deb http://apt.postgresql.org/pub/repos/apt/ buster-pgdg main" > /etc/apt/sources.list.d/postgresql.list
 		wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 	fi
+	if [ ."$os_codename" = ."bullseye" ]; then
+		echo "deb http://apt.postgresql.org/pub/repos/apt/ bullseye-pgdg main" > /etc/apt/sources.list.d/postgresql.list
+		wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+	fi
 	if [ ."$database_host" = ."127.0.0.1" ] || [ ."$database_host" = ."::1" ] ; then
 		if [ ."$database_version" = ."latest" ]; then
 			apt-get install -y sudo postgresql
@@ -64,6 +68,9 @@ if [ ."$database_repo" = ."2ndquadrant" ]; then
 		curl https://dl.2ndquadrant.com/default/release/get/deb | bash
 		if [ ."$os_codename" = ."buster" ]; then
 			sed -i /etc/apt/sources.list.d/2ndquadrant-dl-default-release.list -e 's#buster#stretch#g'
+		fi
+		if [ ."$os_codename" = ."bullseye" ]; then
+			sed -i /etc/apt/sources.list.d/2ndquadrant-dl-default-release.list -e 's#bullseye#stretch#g'
 		fi
 		apt update
 		apt-get install -y sudo postgresql-bdr-9.4 postgresql-bdr-9.4-bdr-plugin postgresql-bdr-contrib-9.4	

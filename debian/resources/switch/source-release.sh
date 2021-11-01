@@ -25,6 +25,9 @@ fi
 if [ ."$os_codename" = ."buster" ]; then
 	apt install -y libvpx5
 fi
+if [ ."$os_codename" = ."bullseye" ]; then
+	apt install -y libvpx6
+fi
 
 # additional dependencies
 apt install -y sqlite3 swig3.0 unzip
