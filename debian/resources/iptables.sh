@@ -21,6 +21,11 @@ if [ ."$os_codename" = ."bullseye" ]; then
 	update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
 fi
 
+#remove ufw
+ufw disable
+apt-get remove ufw
+#apt-get purge ufw
+
 #run iptables commands
 iptables -A INPUT -i lo -j ACCEPT
 iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
