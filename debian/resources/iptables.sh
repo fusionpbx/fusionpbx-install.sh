@@ -22,8 +22,9 @@ if [ ."$os_codename" = ."bullseye" ]; then
 fi
 
 #remove ufw
+ufw reset
 ufw disable
-apt-get remove ufw
+apt-get remove -y ufw
 #apt-get purge ufw
 
 #run iptables commands
