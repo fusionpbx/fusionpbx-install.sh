@@ -28,6 +28,9 @@ elif [ ."$cpu_architecture" = ."arm" ]; then
 	if [ ."$os_codename" = ."buster" ]; then
 	      php_version=7.3
 	fi
+	if [ ."$os_codename" = ."bullseye" ]; then
+	      php_version=7.4
+	fi
 else
 	#11.x - bullseye
 	#10.x - buster
