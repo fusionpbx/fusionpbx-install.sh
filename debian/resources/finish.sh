@@ -106,7 +106,9 @@ cd /var/www/fusionpbx && php /var/www/fusionpbx/core/upgrade/upgrade_domains.php
 #welcome message
 echo ""
 echo ""
-verbose "Installation has completed."
+verbose "Installation Notes. "
+echo ""
+echo "   Please save the this information and reboot this system to complete the install. "
 echo ""
 echo "   Use a web browser to login."
 echo "      domain name: https://$domain_name"
