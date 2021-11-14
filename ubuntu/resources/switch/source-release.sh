@@ -73,5 +73,9 @@ make cd-sounds-install cd-moh-install
 mkdir -p /usr/share/freeswitch/sounds/music/default
 mv /usr/share/freeswitch/sounds/music/*000 /usr/share/freeswitch/sounds/music/default
 
+#add the default-recordings directory
+mkdir -p /var/lib/freeswitch/recordings/$domain_name
+chown -R www-data:www-data /var/lib/freeswitch/recordings/$domain_name
+
 #return to the executing directory
 cd $CWD
