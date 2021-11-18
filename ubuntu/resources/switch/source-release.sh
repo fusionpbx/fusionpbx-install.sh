@@ -41,7 +41,11 @@ then
 
 # sofia-sip
 cd /usr/src
-git clone https://github.com/freeswitch/sofia-sip.git sofia-sip
+#git clone https://github.com/freeswitch/sofia-sip.git sofia-sip
+wget https://github.com/freeswitch/sofia-sip/archive/refs/tags/v1.13.6.zip
+unzip v1.13.6.zip
+rm -R sofia-sip
+mv sofia-sip-1.13.6 sofia-sip
 cd sofia-sip
 sh autogen.sh
 ./configure
