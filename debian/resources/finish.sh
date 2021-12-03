@@ -95,7 +95,7 @@ sed -i /etc/freeswitch/autoload_configs/xml_cdr.conf.xml -e s:"{v_user}:$xml_cdr
 sed -i /etc/freeswitch/autoload_configs/xml_cdr.conf.xml -e s:"{v_pass}:$xml_cdr_password:"
 
 #app defaults
-cd /var/www/fusionpbx && php /var/www/fusionpbx/core/upgrade/upgrade_domains.php
+cd /var/www/fusionpbx && php /var/www/fusionpbx/core/upgrade/upgrade.php
 
 #restart freeswitch
 /bin/systemctl daemon-reload
