@@ -79,10 +79,10 @@ fi
 
 #request the certificates
 if [ .$wildcard_domain = ."true" ]; then
-	./dehydrated --cron --domain *.$domain_name --alias $domain_alias --config /etc/dehydrated/config --out /etc/dehydrated/certs --challenge dns-01 --hook /etc/dehydrated/hook.sh
+	./dehydrated --cron --domain *.$domain_name --preferred-chain "ISRG Root X1" --alias $domain_alias --config /etc/dehydrated/config --out /etc/dehydrated/certs --challenge dns-01 --hook /etc/dehydrated/hook.sh
 fi
 if [ .$wildcard_domain = ."false" ]; then
-	./dehydrated --cron --alias $domain_alias --config /etc/dehydrated/config --config /etc/dehydrated/config --out /etc/dehydrated/certs --challenge http-01
+	./dehydrated --cron --alias $domain_alias --preferred-chain "ISRG Root X1" --config /etc/dehydrated/config --config /etc/dehydrated/config --out /etc/dehydrated/certs --challenge http-01
 fi
 
 #make sure the nginx ssl directory exists
