@@ -12,9 +12,9 @@ cd "$(dirname "$0")"
 . ./config.sh
 
 #remove dehyrdated letsencrypt script
+rm /usr/local/sbin/dehydrated
+rm -R /usr/src/dehydrated
 #rm -R /etc/dehydrated/
-#rm /usr/local/sbin/dehydrated
-#rm -R /usr/src/dehydrated
 #rm -R /usr/src/dns-01-manual
 #rm -R /var/www/dehydrated
 
