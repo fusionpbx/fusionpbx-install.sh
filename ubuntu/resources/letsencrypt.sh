@@ -12,9 +12,9 @@ cd "$(dirname "$0")"
 . ./config.sh
 
 #remove dehyrdated letsencrypt script
+rm /usr/local/sbin/dehydrated
+rm -R /usr/src/dehydrated
 #rm -R /etc/dehydrated/
-#rm /usr/local/sbin/dehydrated
-#rm -R /usr/src/dehydrated
 #rm -R /usr/src/dns-01-manual
 #rm -R /var/www/dehydrated
 
@@ -79,10 +79,10 @@ fi
 
 #request the certificates
 if [ .$wilcard_domain = ."true" ]; then
-	dehydrated --cron --domain *.$domain_name --alias $domain_alias --config /etc/dehydrated/config --out /etc/dehydrated/certs --challenge dns-01 --hook /etc/dehydrated/hook.sh
+	dehydrated --cron --domain *.$domain_name --preferred-chain "ISRG Root X1" --alias $domain_alias --config /etc/dehydrated/config --out /etc/dehydrated/certs --challenge dns-01 --hook /etc/dehydrated/hook.sh
 fi
 if [ .$wilcard_domain = ."false" ]; then
-	dehydrated --cron --alias $domain_alias --config /etc/dehydrated/config --config /etc/dehydrated/config --out /etc/dehydrated/certs --challenge http-01
+	dehydrated --cron  --preferred-chain "ISRG Root X1" --alias $domain_alias --config /etc/dehydrated/config --config /etc/dehydrated/config --out /etc/dehydrated/certs --challenge http-01
 fi
 
 #make sure the nginx ssl directory exists
