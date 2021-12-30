@@ -78,10 +78,10 @@ fi
 
 #request the certificates
 if [ .$wilcard_domain = ."true" ]; then
-	dehydrated --cron --domain *.$domain_name --alias $domain_alias --config /usr/local/etc/dehydrated/config --out /usr/local/etc/dehydrated/certs --challenge dns-01 --hook /usr/local/etc/dehydrated/hook.sh
+	dehydrated --cron --domain *.$domain_name --alias $domain_alias --preferred-chain "ISRG Root X1" --config /usr/local/etc/dehydrated/config --out /usr/local/etc/dehydrated/certs --challenge dns-01 --hook /usr/local/etc/dehydrated/hook.sh
 fi
 if [ .$wilcard_domain = ."false" ]; then
-	dehydrated --cron --alias $domain_alias --config /usr/local/etc/dehydrated/config --out /usr/local/etc/dehydrated/certs --challenge http-01
+	dehydrated --cron --alias $domain_alias --preferred-chain "ISRG Root X1" --config /usr/local/etc/dehydrated/config --out /usr/local/etc/dehydrated/certs --challenge http-01
 fi
 
 #remove the old backups
