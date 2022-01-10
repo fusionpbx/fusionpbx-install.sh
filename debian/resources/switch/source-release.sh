@@ -11,7 +11,7 @@ cd "$(dirname "$0")"
 apt update && apt upgrade -y
 
 # install dependencies
-apt install -y autoconf automake devscripts g++ git-core libncurses5-dev libtool make libjpeg-dev 
+apt install -y autoconf automake devscripts g++ git-core libncurses5-dev libtool make libjpeg-dev
 apt install -y pkg-config flac  libgdbm-dev libdb-dev gettext sudo equivs mlocate git dpkg-dev libpq-dev
 apt install -y liblua5.2-dev libtiff5-dev libperl-dev libcurl4-openssl-dev libsqlite3-dev libpcre3-dev
 apt install -y devscripts libspeexdsp-dev libspeex-dev libldns-dev libedit-dev libopus-dev libmemcached-dev
@@ -20,20 +20,61 @@ apt install -y libavformat-dev libswscale-dev
 
 #install dependencies that depend on the operating system version
 if [ ."$os_codename" = ."stretch" ]; then
-	apt install -y libvpx4
+	apt install -y libvpx4 swig3.0
 fi
 if [ ."$os_codename" = ."buster" ]; then
-	apt install -y libvpx5
+	apt install -y libvpx5 swig3.0
 fi
 if [ ."$os_codename" = ."bullseye" ]; then
-	apt install -y libvpx6
+	apt install -y libvpx6 swig4.0 python3-distutils
 fi
 
 # additional dependencies
-apt install -y sqlite3 swig3.0 unzip
+apt install -y sqlite3 unzip
 
 #we are about to move out of the executing directory so we need to preserve it to return after we are done
 CWD=$(pwd)
+
+if [ $(echo "$switch_version" | tr -d '.') -gt 1103 ]
+then
+# libks build-requirements
+apt install -y cmake uuid-dev
+
+# libks
+cd /usr/src
+git clone https://github.com/signalwire/libks.git libks
+cd libks
+cmake .
+make
+make install
+
+# libks C includes
+export C_INCLUDE_PATH=/usr/include/libks
+
+# sofia-sip
+cd /usr/src
+#git clone https://github.com/freeswitch/sofia-sip.git sofia-sip
+wget https://github.com/freeswitch/sofia-sip/archive/refs/tags/v$sofia_version.zip
+unzip v$sofia_version.zip
+rm -R sofia-sip
+mv sofia-sip-$sofia_version sofia-sip
+cd sofia-sip
+sh autogen.sh
+./configure
+make
+make install
+
+# spandsp
+cd /usr/src
+git clone https://github.com/freeswitch/spandsp.git spandsp
+cd spandsp
+sh autogen.sh
+./configure
+make
+make install
+ldconfig
+fi
+
 echo "Using version $switch_version"
 cd /usr/src
 #git clone -b v1.8 https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
@@ -50,7 +91,7 @@ cd /usr/src/freeswitch
 #./bootstrap.sh -j
 
 # enable required modules
-sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_avmd:applications/mod_avmd:'
+#sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_avmd:applications/mod_avmd:'
 sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_callcenter:applications/mod_callcenter:'
 sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_cidlookup:applications/mod_cidlookup:'
 sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_memcache:applications/mod_memcache:'
