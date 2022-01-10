@@ -22,6 +22,47 @@ apt install -y swig3.0 unzip sox wget
 
 #we are about to move out of the executing directory so we need to preserve it to return after we are done
 CWD=$(pwd)
+
+if [ $(echo "$switch_version" | tr -d '.') -gt 1103 ]
+then
+# libks build-requirements
+#apt install -y cmake uuid-dev
+
+# libks
+#cd /usr/src
+#git clone https://github.com/signalwire/libks.git libks
+#cd libks
+#cmake .
+#make
+#make install
+
+# libks C includes
+#export C_INCLUDE_PATH=/usr/include/libks
+
+# sofia-sip
+cd /usr/src
+#git clone https://github.com/freeswitch/sofia-sip.git sofia-sip
+wget https://github.com/freeswitch/sofia-sip/archive/refs/tags/v$sofia_version.zip
+unzip v$sofia_version.zip
+rm -R sofia-sip
+mv sofia-sip-$sofia_version sofia-sip
+cd sofia-sip
+sh autogen.sh
+./configure
+make
+make install
+
+# spandsp
+cd /usr/src
+git clone https://github.com/freeswitch/spandsp.git spandsp
+cd spandsp
+sh autogen.sh
+./configure
+make
+make install
+ldconfig
+fi
+
 echo "Using version $switch_version"
 cd /usr/src
 #git clone -b v1.8 https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch

@@ -12,6 +12,9 @@ switch_package=false            # true or false
 switch_version=1.10.3           # only for source
 switch_tls=true                 # true or false
 
+# Sofia-Sip Settings
+sofia_version=1.13.6            # release-version for sofia-sip to use
+
 # Database Settings
 database_password=random        # random or a custom value (safe characters A-Z, a-z, 0-9)
 database_repo=system            # PostgreSQL official, system, 2ndquadrant
