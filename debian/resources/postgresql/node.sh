@@ -125,7 +125,7 @@ systemctl daemon-reload
 sudo -u postgres psql -p $database_port -c "SELECT pg_reload_conf();"
 
 #restart postgres
-#systemctl restart postgresql
+systemctl restart postgresql
 
 #set the working directory
 cwd=$(pwd)
