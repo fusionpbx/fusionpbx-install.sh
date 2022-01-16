@@ -37,8 +37,8 @@ fi
 #iptables rules
 if [ .$iptables_add = ."y" ]; then
 	for node in $nodes; do
-		iptables -A INPUT -j ACCEPT -p tcp --dport 5432 -s ${node}/32
-		iptables -A INPUT -j ACCEPT -p tcp --dport 22000 -s ${node}/32
+		/usr/sbin/iptables -A INPUT -j ACCEPT -p tcp --dport 5432 -s ${node}/32
+		/usr/sbin/iptables -A INPUT -j ACCEPT -p tcp --dport 22000 -s ${node}/32
 	done
 	apt-get remove iptables-persistent -y
 	echo iptables-persistent iptables-persistent/autosave_v4 boolean true | debconf-set-selections
