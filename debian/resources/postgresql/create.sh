@@ -24,5 +24,8 @@ sudo -u postgres psql -p $database_port -c "GRANT ALL PRIVILEGES ON DATABASE fus
 sudo -u postgres psql -p $database_port -c "GRANT ALL PRIVILEGES ON DATABASE freeswitch to fusionpbx;"
 sudo -u postgres psql -p $database_port -c "GRANT ALL PRIVILEGES ON DATABASE freeswitch to freeswitch;"
 
+#reload the config
+sudo -u postgres psql -p $database_port -c "SELECT pg_reload_conf();"
+
 #restart postgres
-service postgresql restart
+#systemctl restart postgresql
