@@ -81,7 +81,7 @@ if [ .$iptables_add = ."y" ]; then
 	echo iptables-persistent iptables-persistent/autosave_v4 boolean true | debconf-set-selections
 	echo iptables-persistent iptables-persistent/autosave_v6 boolean true | debconf-set-selections
 	apt-get install -y iptables-persistent
-	service fail2ban restart
+	systemctl restart fail2ban
 fi
 
 #setup ssl
@@ -117,11 +117,15 @@ for node in $nodes; do
         echo "hostssl replication     postgres       ${node}/32              trust" >> /etc/postgresql/$database_version/main/pg_hba.conf
 done
 
+
 #reload configuration
 systemctl daemon-reload
 
+#reload the config
+sudo -u postgres psql -p $database_port -c "SELECT pg_reload_conf();"
+
 #restart postgres
-service postgresql restart
+#systemctl restart postgresql
 
 #set the working directory
 cwd=$(pwd)
