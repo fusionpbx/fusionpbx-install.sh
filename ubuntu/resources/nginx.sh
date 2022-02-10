@@ -15,8 +15,8 @@ verbose "Installing the web server"
 if [ ."$cpu_architecture" = ."arm" ]; then
 	#Pi2 and Pi3 Raspbian
 	#Odroid
-	if [ ."$os_codename" = ."stretch" ]; then
-	      php_version=7.2
+	if [ ."$os_codename" = ."focal" ]; then
+	      php_version=7.4
 	else
 	      php_version=5.6
 	fi
