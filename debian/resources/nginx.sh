@@ -68,9 +68,9 @@ ln -s /etc/ssl/certs/ssl-cert-snakeoil.pem /etc/ssl/certs/nginx.crt
 rm /etc/nginx/sites-enabled/default
 
 #update config if LetsEncrypt folder is unwanted
-if [ .$letsencrypt_folder = .false ]; then
-        sed -i '151,155d' /etc/nginx/sites-available/fusionpbx
-fi
+# if [ .$letsencrypt_folder = .false ]; then
+#         sed -i '151,155d' /etc/nginx/sites-available/fusionpbx
+# fi
 
 #add the letsencrypt directory
 if [ .$letsencrypt_folder = .true ]; then
