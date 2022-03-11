@@ -33,6 +33,11 @@ if [ -d "$php_lib_directory" ]; then
   cp ioncube/ioncube_loader_fre_7.3.so $php_lib_directory
   echo "zend_extension = $php_lib_directory/ioncube_loader_fre_7.3.so" > /usr/local/etc/php/00-ioncube.ini
 fi
+php_lib_directory=/usr/local/lib/php/20190902
+if [ -d "$php_lib_directory" ]; then
+  cp ioncube/ioncube_loader_fre_7.4.so $php_lib_directory
+  echo "zend_extension = $php_lib_directory/ioncube_loader_fre_7.4.so" > /usr/local/etc/php/00-ioncube.ini
+fi
 
 #restart the service
 service php-fpm restart
