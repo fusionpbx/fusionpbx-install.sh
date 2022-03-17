@@ -78,8 +78,14 @@ fi
 echo "Using version $switch_version"
 cd /usr/src
 #git clone -b v1.8 https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
+
 #1.8 and older
 #wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.zip
+#rm -R freeswitch
+#unzip freeswitch-$switch_version.zip
+#mv freeswitch-$switch_version freeswitch
+#cd /usr/src/freeswitch
+
 #1.10.0 and newer
 wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.-release.zip
 unzip freeswitch-$switch_version.-release.zip
