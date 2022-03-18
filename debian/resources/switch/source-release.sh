@@ -96,6 +96,9 @@ cd /usr/src/freeswitch
 # bootstrap is needed if using git
 #./bootstrap.sh -j
 
+#apply patch
+patch -u /usr/src/freeswitch/src/mod/databases/mod_pgsql/mod_pgsql.c -i "$(dirname $0)/source/mod_pgsql.patch"
+
 # enable required modules
 #sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_avmd:applications/mod_avmd:'
 sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_callcenter:applications/mod_callcenter:'
