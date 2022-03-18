@@ -11,6 +11,7 @@ switch_source=false             # true or false
 switch_package=true             # true or false
 switch_version=1.10.7           # only for source
 switch_tls=true                 # true or false
+switch_token=                   # Personal Auth Token from https://signalwire.com
 
 # Sofia-Sip Settings
 sofia_version=1.13.6            # release-version for sofia-sip to use
