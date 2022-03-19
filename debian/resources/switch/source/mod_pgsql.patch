@@ -4,8 +4,11 @@
  //#endif
  		case PGRES_COPY_OUT:
  		case PGRES_COPY_IN:
++#if POSTGRESQL_MAJOR_VERSION >= 14
 +		case PGRES_PIPELINE_SYNC:
 +		case PGRES_PIPELINE_ABORTED:
++ 			break;
++#endif
  		case PGRES_COMMAND_OK:
  			break;
  		case PGRES_EMPTY_QUERY:
