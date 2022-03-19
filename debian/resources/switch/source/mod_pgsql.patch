@@ -1,6 +1,6 @@
 --- mod_pgsql.c	2020-05-12 10:19:16.000000000 +0000
 +++ mod_pgsql.c.modified	2022-03-18 16:54:55.956097877 +0000
-@@ -737,6 +737,8 @@
+@@ -737,6 +737,11 @@
  //#endif
  		case PGRES_COPY_OUT:
  		case PGRES_COPY_IN:
