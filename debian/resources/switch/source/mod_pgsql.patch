@@ -1,14 +1,12 @@
 --- mod_pgsql.c	2020-05-12 10:19:16.000000000 +0000
 +++ mod_pgsql.c.modified	2022-03-18 16:54:55.956097877 +0000
-@@ -737,6 +737,11 @@
+@@ -737,6 +737,9 @@
  //#endif
  		case PGRES_COPY_OUT:
  		case PGRES_COPY_IN:
-+#if POSTGRESQL_MAJOR_VERSION >= 14
 +		case PGRES_PIPELINE_SYNC:
 +		case PGRES_PIPELINE_ABORTED:
 + 			break;
-+#endif
  		case PGRES_COMMAND_OK:
  			break;
  		case PGRES_EMPTY_QUERY:
