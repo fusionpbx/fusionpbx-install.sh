@@ -13,7 +13,7 @@ switch_version=1.10.7           # only for source
 switch_tls=true                 # true or false
 
 # Sofia-Sip Settings
-sofia_version=1.13.6            # release-version for sofia-sip to use
+sofia_version=1.13.7            # release-version for sofia-sip to use
 
 # Database Settings
 database_password=random        # random or a custom value (safe characters A-Z, a-z, 0-9)

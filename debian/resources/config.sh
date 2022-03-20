@@ -14,7 +14,7 @@ switch_tls=true                             # true or false
 switch_token=                               # Get the auth token from https://signalwire.com
                                             # Signup or Login -> Profile -> Personal Auth Token
 # Sofia-Sip Settings
-sofia_version=1.13.6                        # release-version for sofia-sip to use
+sofia_version=1.13.7                        # release-version for sofia-sip to use
 
 # Database Settings
 database_password=random                    # random or a custom value (safe characters A-Z, a-z, 0-9)
