@@ -35,44 +35,45 @@ apt install -y sqlite3 unzip
 #we are about to move out of the executing directory so we need to preserve it to return after we are done
 CWD=$(pwd)
 
-if [ $(echo "$switch_version" | tr -d '.') -gt 1103 ]
-then
-# libks build-requirements
-apt install -y cmake uuid-dev
+#install the following dependencies if the switch version is greater than 1.10.0
+if [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
 
-# libks
-cd /usr/src
-git clone https://github.com/signalwire/libks.git libks
-cd libks
-cmake .
-make
-make install
+	# libks build-requirements
+	apt install -y cmake uuid-dev
 
-# libks C includes
-export C_INCLUDE_PATH=/usr/include/libks
+	# libks
+	cd /usr/src
+	git clone https://github.com/signalwire/libks.git libks
+	cd libks
+	cmake .
+	make
+	make install
 
-# sofia-sip
-cd /usr/src
-#git clone https://github.com/freeswitch/sofia-sip.git sofia-sip
-wget https://github.com/freeswitch/sofia-sip/archive/refs/tags/v$sofia_version.zip
-unzip v$sofia_version.zip
-rm -R sofia-sip
-mv sofia-sip-$sofia_version sofia-sip
-cd sofia-sip
-sh autogen.sh
-./configure
-make
-make install
+	# libks C includes
+	export C_INCLUDE_PATH=/usr/include/libks
 
-# spandsp
-cd /usr/src
-git clone https://github.com/freeswitch/spandsp.git spandsp
-cd spandsp
-sh autogen.sh
-./configure
-make
-make install
-ldconfig
+	# sofia-sip
+	cd /usr/src
+	#git clone https://github.com/freeswitch/sofia-sip.git sofia-sip
+	wget https://github.com/freeswitch/sofia-sip/archive/refs/tags/v$sofia_version.zip
+	unzip v$sofia_version.zip
+	rm -R sofia-sip
+	mv sofia-sip-$sofia_version sofia-sip
+	cd sofia-sip
+	sh autogen.sh
+	./configure
+	make
+	make install
+
+	# spandsp
+	cd /usr/src
+	git clone https://github.com/freeswitch/spandsp.git spandsp
+	cd spandsp
+	sh autogen.sh
+	./configure
+	make
+	make install
+	ldconfig
 fi
 
 echo "Using version $switch_version"
@@ -80,18 +81,22 @@ cd /usr/src
 #git clone -b v1.8 https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
 
 #1.8 and older
-#wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.zip
-#rm -R freeswitch
-#unzip freeswitch-$switch_version.zip
-#mv freeswitch-$switch_version freeswitch
-#cd /usr/src/freeswitch
+if [ $(echo "$switch_version" | tr -d '.') -lt 1100 ]; then
+	#wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.zip
+	#rm -R freeswitch
+	#unzip freeswitch-$switch_version.zip
+	#mv freeswitch-$switch_version freeswitch
+	#cd /usr/src/freeswitch
+end
 
 #1.10.0 and newer
-wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.-release.zip
-unzip freeswitch-$switch_version.-release.zip
-rm -R freeswitch
-mv freeswitch-$switch_version.-release freeswitch
-cd /usr/src/freeswitch
+if [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
+	wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.-release.zip
+	unzip freeswitch-$switch_version.-release.zip
+	rm -R freeswitch
+	mv freeswitch-$switch_version.-release freeswitch
+	cd /usr/src/freeswitch
+fi
 
 # bootstrap is needed if using git
 #./bootstrap.sh -j
