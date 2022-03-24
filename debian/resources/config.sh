@@ -9,12 +9,12 @@ system_branch=master                        # master, stable
 switch_branch=stable                        # master, stable
 switch_source=true                          # true (source compile) or false (binary package)
 switch_package=false                        # true (binary package) or false (source compile)
-switch_version=1.10.3                       # which source code to download, only for source
+switch_version=1.10.7                       # which source code to download, only for source
 switch_tls=true                             # true or false
 switch_token=                               # Get the auth token from https://signalwire.com
                                             # Signup or Login -> Profile -> Personal Auth Token
 # Sofia-Sip Settings
-sofia_version=1.13.6                        # release-version for sofia-sip to use
+sofia_version=1.13.7                        # release-version for sofia-sip to use
 
 # Database Settings
 database_password=random                    # random or a custom value (safe characters A-Z, a-z, 0-9)
