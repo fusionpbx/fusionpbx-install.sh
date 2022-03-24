@@ -82,12 +82,12 @@ cd /usr/src
 
 #1.8 and older
 if [ $(echo "$switch_version" | tr -d '.') -lt 1100 ]; then
-	#wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.zip
-	#rm -R freeswitch
-	#unzip freeswitch-$switch_version.zip
-	#mv freeswitch-$switch_version freeswitch
-	#cd /usr/src/freeswitch
-end
+	wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.zip
+	rm -R freeswitch
+	unzip freeswitch-$switch_version.zip
+	mv freeswitch-$switch_version freeswitch
+	cd /usr/src/freeswitch
+fi
 
 #1.10.0 and newer
 if [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
