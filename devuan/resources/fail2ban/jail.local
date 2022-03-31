@@ -1,80 +1,97 @@
-[freeswitch-udp]
+[ssh]
 enabled  = true
-port     = 5060,5061,5080,5081
+port     = 22
+protocol = ssh
+filter   = sshd
+logpath  = /var/log/auth.log
+action   = iptables-allports[name=sshd, protocol=all]
+maxretry = 6
+findtime = 60
+bantime  = 86400
+
+[freeswitch]
+enabled  = true
+port     = 5060:5091
 protocol = all
 filter   = freeswitch
 logpath  = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=freeswitch-udp, port="5060,5061,5080,5081", protocol=udp]
-maxretry = 5
-findtime = 600
-bantime  = 600
+#logpath  = /usr/local/freeswitch/log/freeswitch.log
+action   = iptables-allports[name=freeswitch, protocol=all]
+maxretry = 10
+findtime = 60
+bantime  = 3600
 #          sendmail-whois[name=FreeSwitch, dest=root, sender=fail2ban@example.org] #no smtp server installed
 
-[freeswitch-tcp]
+[freeswitch-acl]
 enabled  = true
-port     = 5060,5061,5080,5081
+port     = 5060:5091
 protocol = all
-filter   = freeswitch
+filter   = freeswitch-acl
 logpath  = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=freeswitch-tcp, port="5060,5061,5080,5081", protocol=tcp]
-maxretry = 5
-findtime = 600
-bantime  = 600
-#          sendmail-whois[name=FreeSwitch, dest=root, sender=fail2ban@example.org] #no smtp server installed
+#logpath  = /usr/local/freeswitch/log/freeswitch.log
+action   = iptables-allports[name=freeswitch-acl, protocol=all]
+maxretry = 900
+findtime = 60
+bantime  = 86400
 
-[freeswitch-ip-tcp]
+[freeswitch-ip]
 enabled  = false
-port     = 5060,5061,5080,5081
+port     = 5060:5091
 protocol = all
 filter   = freeswitch-ip
 logpath  = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=freeswitch-ip-tcp, port="5060,5061,5080,5081", protocol=tcp]
+#logpath  = /usr/local/freeswitch/log/freeswitch.log
+action   = iptables-allports[name=freeswitch-ip, protocol=all]
 maxretry = 1
-findtime = 30
+findtime = 60
 bantime  = 86400
 
-[freeswitch-ip-udp]
+[auth-challenge-ip]
 enabled  = false
-port     = 5060,5061,5080,5081
+port     = 5060:5091
 protocol = all
-filter   = freeswitch-ip
+filter   = auth-challenge-ip
 logpath  = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=freeswitch-ip-udp, port="5060,5061,5080,5081", protocol=udp]
+#logpath  = /usr/local/freeswitch/log/freeswitch.log
+action   = iptables-allports[name=auth-challenge-ip, protocol=all]
 maxretry = 1
-findtime = 30
+findtime = 60
 bantime  = 86400
 
-[freeswitch-dos-udp]
-enabled  = true
-port     = 5060,5061,5080,5081
-protocol = all
-filter   = freeswitch-dos
-logpath  = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=freeswitch-dos-udp, port="5060,5061,5080,5081", protocol=udp]
-maxretry = 50
-findtime = 30
-bantime  = 6000
-
-[freeswitch-dos-tcp]
-enabled  = true
-port     = 5060,5061,5080,5081
-protocol = all
-filter   = freeswitch-dos
-logpath  = /var/log/freeswitch/freeswitch.log
-action   = iptables-multiport[name=freeswitch-dos-tcp, port="5060,5061,5080,5081", protocol=tcp]
-maxretry = 50
-findtime = 30
-bantime  = 6000
-
-[freeswitch-404]
+[sip-auth-challenge]
 enabled  = false
-port     = 5060,5061,5080,5081
+port     = 5060:5091
 protocol = all
-filter   = freeswitch-404
+filter   = sip-auth-challenge
 logpath  = /var/log/freeswitch/freeswitch.log
-action   = iptables-allports[name=freeswitch-404, protocol=all]
-maxretry = 3
-findtime = 300
+#logpath  = /usr/local/freeswitch/log/freeswitch.log
+action   = iptables-allports[name=sip-auth-challenge, protocol=all]
+maxretry = 100
+findtime = 60
+bantime  = 7200
+
+[sip-auth-failure]
+enabled  = true
+port     = 5060:5091
+protocol = all
+filter   = sip-auth-failure
+logpath  = /var/log/freeswitch/freeswitch.log
+#logpath  = /usr/local/freeswitch/log/freeswitch.log
+action   = iptables-allports[name=sip-auth-failure, protocol=all]
+maxretry = 6
+findtime = 60
+bantime  = 7200
+
+[fusionpbx-404]
+enabled  = false
+port     = 5060:5091
+protocol = all
+filter   = fusionpbx-404
+logpath  = /var/log/freeswitch/freeswitch.log
+#logpath  = /usr/local/freeswitch/log/freeswitch.log
+action   = iptables-allports[name=fusionpbx-404, protocol=all]
+maxretry = 6
+findtime = 60
 bantime  = 86400
 
 [fusionpbx]
@@ -83,11 +100,23 @@ port     = 80,443
 protocol = tcp
 filter   = fusionpbx
 logpath  = /var/log/auth.log
-action   = iptables-multiport[name=fusionpbx, port="http,https", protocol=tcp]
+action   = iptables-allports[name=fusionpbx, protocol=all]
 #          sendmail-whois[name=fusionpbx, dest=root, sender=fail2ban@example.org] #no smtp server installed
+maxretry = 20
+findtime = 60
+bantime  = 3600
+
+[fusionpbx-mac]
+enabled  = true
+port     = 80,443
+protocol = tcp
+filter   = fusionpbx-mac
+logpath  = /var/log/syslog
+action   = iptables-allports[name=fusionpbx-mac, protocol=all]
+#          sendmail-whois[name=fusionpbx-mac, dest=root, sender=fail2ban@example.org] #no smtp server installed
 maxretry = 10
-findtime = 600
-bantime  = 600
+findtime = 60
+bantime  = 86400
 
 [nginx-404]
 enabled  = true
@@ -95,19 +124,20 @@ port     = 80,443
 protocol = tcp
 filter   = nginx-404
 logpath  = /var/log/nginx/access*.log
+action   = iptables-allports[name=nginx-404, protocol=all]
 bantime  = 3600
 findtime = 60
-maxretry = 120
+maxretry = 300
 
 [nginx-dos]
 # Based on apache-badbots but a simple IP check (any IP requesting more than
 # 300 pages in 60 seconds, or 5p/s average, is suspicious)
-# Block for two full days.
 enabled  = true
 port     = 80,443
 protocol = tcp
 filter   = nginx-dos
 logpath  = /var/log/nginx/access*.log
+action   = iptables-allports[name=nginx-dos, protocol=all]
 findtime = 60
 bantime  = 86400
-maxretry = 300
+maxretry = 800
