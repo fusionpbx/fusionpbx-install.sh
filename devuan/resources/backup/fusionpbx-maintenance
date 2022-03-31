@@ -1,0 +1,119 @@
+#!/bin/sh
+
+#settings
+export PGPASSWORD="zzz"
+db_host=127.0.0.1
+db_port=5432
+switch_package=true # true or false
+
+purge_voicemail=false
+purge_call_recordings=false
+purge_cdrs=false
+purge_fax=false
+purge_switch_logs=true
+purge_php_sessions=true
+purge_database_transactions=true
+
+days_keep_voicemail=90
+days_keep_call_recordings=90
+days_keep_cdrs=90
+days_keep_fax=90
+days_keep_switch_logs=7
+days_keep_php_sessions=8
+days_keep_database_transactions=30
+
+#set the date
+now=$(date +%Y-%m-%d)
+
+#make sure the directory exists
+if [ -e /var/backups/fusionpbx/postgresql ]; then
+	echo "postgres backup directory exists"
+else
+	mkdir -p /var/backups/fusionpbx/postgresql
+fi
+
+#show message to the console
+echo "Maintenance Started"
+
+if [ .$purge_switch_logs = .true ]; then
+	#delete freeswitch logs older 7 days
+	if [ .$switch_package = .true ]; then
+		find /var/log/freeswitch/freeswitch.log.* -mtime +$days_keep_switch_logs -exec rm {} \;
+	else
+		find /usr/local/freeswitch/log/freeswitch.log.* -mtime +$days_keep_switch_logs -exec rm {} \;
+	fi
+else
+	echo "not purging Freeswitch logs"
+fi
+
+if [ .$purge_fax = .true ]; then
+	#delete fax older than 90 days
+	if [ .$switch_package = .true ]; then
+		echo ".";
+		find /var/lib/freeswitch/storage/fax/*  -name '*.tif' -mtime +$days_keep_fax -exec rm {} \;
+		find /var/lib/freeswitch/storage/fax/*  -name '*.pdf' -mtime +$days_keep_fax -exec rm {} \;
+	else
+		echo ".";
+		find /usr/local/freeswitch/storage/fax/*  -name '*.tif' -mtime +$days_keep_fax -exec rm {} \;
+		find /usr/local/freeswitch/storage/fax/*  -name '*.pdf' -mtime +$days_keep_fax -exec rm {} \;
+	fi
+	#delete from the database
+	psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_fax_files WHERE fax_date < NOW() - INTERVAL '$days_keep_fax days'"
+	psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_fax_logs WHERE fax_date < NOW() - INTERVAL '$days_keep_fax days'"
+else
+	echo "not purging Faxes"
+fi
+
+if [ .$purge_call_recordings = .true ]; then
+	#delete call recordings older than 90 days
+	if [ .$switch_package = .true ]; then
+		find /var/lib/freeswitch/recordings/*/archive/*  -name '*.wav' -mtime +$days_keep_call_recordings -exec rm {} \;
+		find /var/lib/freeswitch/recordings/*/archive/*  -name '*.mp3' -mtime +$days_keep_call_recordings -exec rm {} \;
+	else
+		find /usr/local/freeswitch/recordings/*/archive/*  -name '*.wav' -mtime +$days_keep_call_recordings -exec rm {} \;
+		find /usr/local/freeswitch/recordings/*/archive/*  -name '*.mp3' -mtime +$days_keep_call_recordings -exec rm {} \;
+	fi
+	psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_call_recordings WHERE call_recording_date < NOW() - INTERVAL '90 days'"
+else
+	echo "not purging Recordings."
+fi
+
+if [ .$purge_voicemail = .true ]; then
+	#delete voicemail older than 90 days
+	if [ .$switch_package = .true ]; then
+		echo ".";
+		find /var/lib/freeswitch/storage/voicemail/default/*  -name 'msg_*.wav' -mtime +$days_keep_voicemail -exec rm {} \;
+		find /var/lib/freeswitch/storage/voicemail/default/*  -name 'msg_*.mp3' -mtime +$days_keep_voicemail -exec rm {} \;
+	else
+		echo ".";
+		find /usr/local/freeswitch/storage/voicemail/*  -name 'msg_*.wav' -mtime +$days_keep_voicemail -exec rm {} \;
+		find /usr/local/freeswitch/storage/voicemail/*  -name 'msg_*.mp3' -mtime +$days_keep_voicemail -exec rm {} \;
+	fi
+	psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_voicemail_messages WHERE to_timestamp(created_epoch) < NOW() - INTERVAL '$days_keep_voicemail days'"
+else
+	echo "not purging voicemails."
+fi
+
+if [ .$purge_cdrs = .true ]; then
+	#delete call detail records older 90 days
+	psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_xml_cdr WHERE start_stamp < NOW() - INTERVAL '$days_keep_cdrs days'"
+else
+        echo "not purging CDRs."
+fi
+
+#delete php sessions
+if [ .$purge_php_sessions = .true ]; then
+	find /var/lib/php/sessions/*  -name 'sess_*' -mtime +$days_keep_php_sessions -exec rm {} \;
+else
+        echo "not purging PHP Sessions."
+fi
+
+#delete database_transactions older 90 days
+if [ .$purge_database_transactions = .true ]; then
+	psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_database_transactions where transaction_date < NOW() - INTERVAL '$days_keep_database_transactions days'"
+else
+        echo "not purging database_transactions."
+fi
+
+#completed message
+echo "Maintenance Completed";
