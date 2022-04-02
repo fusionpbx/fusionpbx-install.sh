@@ -1,7 +1,7 @@
 #!/bin/sh
 echo "Installing the FreeSWITCH source"
 DEBIAN_FRONTEND=none APT_LISTCHANGES_FRONTEND=none apt-get install -y ntpdate libapache2-mod-log-sql-ssl libfreetype6-dev git-buildpackage doxygen yasm nasm gdb git build-essential automake autoconf 'libtool-bin|libtool' python uuid-dev zlib1g-dev 'libjpeg8-dev|libjpeg62-turbo-dev' libncurses5-dev libssl-dev libpcre3-dev libcurl4-openssl-dev libldns-dev libedit-dev libspeexdsp-dev libspeexdsp-dev libsqlite3-dev perl libgdbm-dev libdb-dev bison libvlc-dev libvlccore-dev vlc-nox pkg-config ccache libpng-dev libvpx-dev libyuv-dev libopenal-dev libbroadvoice-dev libcodec2-dev libflite-dev libg7221-dev libilbc-dev libmongoc-dev libsilk-dev libsoundtouch-dev libmagickcore-dev liblua5.2-dev libopus-dev libsndfile-dev libopencv-dev libavformat-dev libx264-dev erlang-dev libldap2-dev libmemcached-dev libperl-dev portaudio19-dev python-dev libsnmp-dev libyaml-dev libmp4v2-dev
-apt-get install -y unzip libpq-dev memcached libshout3-dev libvpx-dev libmpg123-dev libmp3lame-dev
+apt-get install -y unzip libpq-dev libvlc-dev memcached libshout3-dev libvpx-dev libmpg123-dev libmp3lame-dev
 
 apt-get update && apt-get install -y ntp curl haveged
 curl https://files.freeswitch.org/repo/deb/debian/freeswitch_archive_g0.pub | apt-key add -
