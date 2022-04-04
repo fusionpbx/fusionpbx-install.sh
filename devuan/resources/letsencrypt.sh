@@ -1,80 +1,127 @@
 #!/bin/sh
 
+# FusionPBX - Install
+# Mark J Crane <markjcrane@fusionpbx.com>
+# Copyright (C) 2018
+# All Rights Reserved.
+      
 #move to script directory so all relative paths work
 cd "$(dirname "$0")"
 
 #includes
 . ./config.sh
-. ./colors.sh
-. ./environment.sh
 
-#request the domain and email
+#remove dehyrdated letsencrypt script
+rm /usr/local/sbin/dehydrated
+rm -R /usr/src/dehydrated
+#rm -R /etc/dehydrated/
+#rm -R /usr/src/dns-01-manual
+#rm -R /var/www/dehydrated
+
+#request the domain name, email address and wild card domain
 read -p 'Domain Name: ' domain_name
 read -p 'Email Address: ' email_address
-#domain_name=subdomain.domain.com
-#email=username@domain.com
 
-#remove previous install
-rm -R /opt/letsencrypt
-rm -R /etc/letsencrypt
+#get and install dehydrated
+cd /usr/src && git clone https://github.com/lukas2511/dehydrated.git
+cd /usr/src/dehydrated
+cp dehydrated /usr/local/sbin
+mkdir -p /var/www/dehydrated
+mkdir -p /etc/dehydrated/certs
 
-#use php version 5 for arm
-if [ .$cpu_architecture = .'arm' ]; then
-        php_version=5
+#wildcard detection
+wildcard_domain=$(echo $domain_name | cut -c1-1)
+if [ "$wildcard_domain" = "*" ]; then
+	wildcard_domain="true"
+else
+	wildcard_domain="false"
 fi
 
-#enable fusionpbx nginx config
-cp nginx/fusionpbx /etc/nginx/sites-available/fusionpbx
-
-#prepare socket name
-if [ ."$php_version" = ."5" ]; then
-        sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php5-fpm.sock;#g'
+#remove the wildcard and period
+if [ .$wildcard_domain = ."true" ]; then
+      domain_name=$(echo "$domain_name" | cut -c3-255)
 fi
-if [ ."$php_version" = ."7" ]; then
-        sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php7.0-fpm.sock;#g'
+
+#manual dns hook
+if [ .$wildcard_domain = ."true" ]; then
+    cd /usr/src
+    git clone https://github.com/gheja/dns-01-manual.git
+    cd /usr/src/dns-01-manual/
+    cp hook.sh /etc/dehydrated/hook.sh
+    chmod 755 /etc/dehydrated/hook.sh
 fi
-ln -s /etc/nginx/sites-available/fusionpbx /etc/nginx/sites-enabled/fusionpbx
 
-#read the config
-/usr/sbin/nginx -t && /usr/sbin/nginx -s reload
+#copy config and hook.sh into /etc/dehydrated
+cd /usr/src/dehydrated
+cp docs/examples/config /etc/dehydrated
+#cp docs/examples/hook.sh /etc/dehydrated
 
-#install letsencrypt
-git clone https://github.com/letsencrypt/letsencrypt /opt/letsencrypt
-chmod 755 /opt/letsencrypt/certbot-auto
-/opt/letsencrypt/./certbot-auto
-mkdir -p /etc/letsencrypt/configs
-mkdir -p /var/www/letsencrypt/
+#update the dehydrated config
+#sed "s#CONTACT_EMAIL=#CONTACT_EMAIL=$email_address" -i /etc/dehydrated/config
+sed -i 's/#CONTACT_EMAIL=/CONTACT_EMAIL="'"$email_address"'"/g' /etc/dehydrated/config
+sed -i 's/#WELLKNOWN=/WELLKNOWN=/g' /etc/dehydrated/config
 
-#cd $pwd
-#cd "$(dirname "$0")"
+#accept the terms
+./dehydrated --register --accept-terms --config /etc/dehydrated/config
 
-#copy the domain conf
-cp letsencrypt/domain_name.conf /etc/letsencrypt/configs/$domain_name.conf
+#set the domain alias
+domain_alias=$(echo "$domain_name" | head -n1 | cut -d " " -f1)
 
-#update the domain_name and email_address
-sed "s#{domain_name}#$domain_name#g" -i /etc/letsencrypt/configs/$domain_name.conf
-sed "s#{email_address}#$email_address#g" -i /etc/letsencrypt/configs/$domain_name.conf
+#create an alias when using wildcard dns
+if [ .$wildcard_domain = ."true" ]; then
+	echo "*.$domain_name > $domain_name" > /etc/dehydrated/domains.txt
+fi
 
-#letsencrypt
-#sed "s@#letsencrypt@location /.well-known/acme-challenge { root /var/www/letsencrypt; }@g" -i /etc/nginx/sites-available/fusionpbx
+#add the domain name to domains.txt
+if [ .$wildcard_domain = ."false" ]; then
+	echo "$domain_name" > /etc/dehydrated/domains.txt
+fi
 
-#get the certs from letsencrypt
-cd /opt/letsencrypt && ./letsencrypt-auto --config /etc/letsencrypt/configs/$domain_name.conf certonly
+#request the certificates
+if [ .$wildcard_domain = ."true" ]; then
+	./dehydrated --cron --domain *.$domain_name --preferred-chain "ISRG Root X1" --algo rsa --alias $domain_alias --config /etc/dehydrated/config --out /etc/dehydrated/certs --challenge dns-01 --hook /etc/dehydrated/hook.sh
+fi
+if [ .$wildcard_domain = ."false" ]; then
+	./dehydrated --cron --alias $domain_alias --preferred-chain "ISRG Root X1" --algo rsa --config /etc/dehydrated/config --config /etc/dehydrated/config --out /etc/dehydrated/certs --challenge http-01
+fi
+
+#make sure the nginx ssl directory exists
+mkdir -p /etc/nginx/ssl
 
 #update nginx config
-sed "s@ssl_certificate         /etc/ssl/certs/nginx.crt;@ssl_certificate /etc/letsencrypt/live/$domain_name/fullchain.pem;@g" -i /etc/nginx/sites-available/fusionpbx
-sed "s@ssl_certificate_key     /etc/ssl/private/nginx.key;@ssl_certificate_key /etc/letsencrypt/live/$domain_name/privkey.pem;@g" -i /etc/nginx/sites-available/fusionpbx
+sed "s@ssl_certificate         /etc/ssl/certs/nginx.crt;@ssl_certificate /etc/dehydrated/certs/$domain_alias/fullchain.pem;@g" -i /etc/nginx/sites-available/fusionpbx
+sed "s@ssl_certificate_key     /etc/ssl/private/nginx.key;@ssl_certificate_key /etc/dehydrated/certs/$domain_alias/privkey.pem;@g" -i /etc/nginx/sites-available/fusionpbx
 
 #read the config
 /usr/sbin/nginx -t && /usr/sbin/nginx -s reload
 
-#combine the certs into all.pem
-cat /etc/letsencrypt/live/$domain_name/cert.pem > /etc/letsencrypt/live/$domain_name/all.pem
-cat /etc/letsencrypt/live/$domain_name/privkey.pem >> /etc/letsencrypt/live/$domain_name/all.pem
-cat /etc/letsencrypt/live/$domain_name/chain.pem >> /etc/letsencrypt/live/$domain_name/all.pem
+#setup freeswitch tls
+if [ .$switch_tls = ."true" ]; then
 
-#copy the certs to the switch tls directory
-mkdir -p /etc/freeswitch/tls
-cp /etc/letsencrypt/live/$domain_name/*.pem /etc/freeswitch/tls
-cp /etc/freeswitch/tls/all.pem /etc/freeswitch/tls/wss.pem
-chown -R www-data:www-data /etc/freeswitch
+	#make sure the freeswitch directory exists
+	mkdir -p /etc/freeswitch/tls
+
+	#make sure the freeswitch certificate directory is empty
+	rm /etc/freeswitch/tls/*
+
+	#combine the certs into all.pem
+	cat /etc/dehydrated/certs/$domain_alias/fullchain.pem > /etc/freeswitch/tls/all.pem
+	cat /etc/dehydrated/certs/$domain_alias/privkey.pem >> /etc/freeswitch/tls/all.pem
+	#cat /etc/dehydrated/certs/$domain_alias/chain.pem >> /etc/freeswitch/tls/all.pem
+
+	#copy the certificates
+	cp /etc/dehydrated/certs/$domain_alias/cert.pem /etc/freeswitch/tls
+	cp /etc/dehydrated/certs/$domain_alias/chain.pem /etc/freeswitch/tls
+	cp /etc/dehydrated/certs/$domain_alias/fullchain.pem /etc/freeswitch/tls
+	cp /etc/dehydrated/certs/$domain_alias/privkey.pem /etc/freeswitch/tls
+
+	#add symbolic links
+	ln -s /etc/freeswitch/tls/all.pem /etc/freeswitch/tls/agent.pem
+	ln -s /etc/freeswitch/tls/all.pem /etc/freeswitch/tls/tls.pem
+	ln -s /etc/freeswitch/tls/all.pem /etc/freeswitch/tls/wss.pem
+	ln -s /etc/freeswitch/tls/all.pem /etc/freeswitch/tls/dtls-srtp.pem
+
+	#set the permissions
+	chown -R www-data:www-data /etc/freeswitch/tls
+
+fi  
