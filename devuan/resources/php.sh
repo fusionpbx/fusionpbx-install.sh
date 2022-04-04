@@ -12,12 +12,12 @@ cd "$(dirname "$0")"
 verbose "Configuring PHP"
 
 #set php version
-#chimera - bullseye
+#chimaera - bullseye
 #beowolf - buster
 if [ ."$os_codename" = ."beowolf" ]; then
       php_version=7.3
 fi
-if [ ."$os_codename" = ."chimera" ]; then
+if [ ."$os_codename" = ."chimaera" ]; then
       php_version=7.4
 fi
 
