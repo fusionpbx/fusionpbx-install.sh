@@ -42,11 +42,12 @@ resources/sngrep.sh
 resources/postgresql.sh
 
 #restart services
-if [ ."$php_version" = ."5" ]; then
-        service php5-fpm restart
+#php-fpm
+if [ ."$php_version" = ."7.3" ]; then
+    /usr/sbin/service php7.3-fpm restart
 fi
-if [ ."$php_version" = ."7" ]; then
-        service php7.0-fpm restart
+if [ ."$php_version" = ."7.4" ]; then
+    /usr/sbin/service php7.4-fpm restart
 fi
 
 service nginx restart
