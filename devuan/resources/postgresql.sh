@@ -49,7 +49,7 @@ if [ ."$database_repo" = ."2ndquadrant" ]; then
 fi
 
 #init.d
-if [ ."$database_host" = ."127.0.0.1" ] || [ ."$database_host" = ."::1" ] ;
+if [ ."$database_host" = ."127.0.0.1" ] || [ ."$database_host" = ."::1" ] ; then
     /usr/sbin/service postgresql restart
 fi
 
