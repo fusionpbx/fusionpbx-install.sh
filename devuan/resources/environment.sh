@@ -13,6 +13,15 @@ cpu_mode='unknown'
 #set the environment path
 export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
+#debian release name
+if [ .$os_codename = .'chimaera' ]; then
+    os_codename_debian='bullseye'
+elif [ .$os_codename = .'beowulf' ]; then
+    os_codename_debian='buster'
+else
+    warning "couldn't set a matching debian codename, are you using an old devuan release?"
+fi
+
 #check what the CPU and OS are
 if [ .$cpu_name = .'armv6l' ]; then
 	# RaspberryPi Zero
