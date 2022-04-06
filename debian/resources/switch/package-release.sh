@@ -36,7 +36,7 @@ apt-get install -y freeswitch-mod-sndfile freeswitch-mod-native-file freeswitch-
 apt-get install -y freeswitch-mod-xml-cdr freeswitch-mod-verto freeswitch-mod-callcenter freeswitch-mod-rtc freeswitch-mod-png freeswitch-mod-json-cdr freeswitch-mod-shout
 apt-get install -y freeswitch-mod-sms freeswitch-mod-sms-dbg freeswitch-mod-cidlookup freeswitch-mod-memcache
 apt-get install -y freeswitch-mod-imagick freeswitch-mod-tts-commandline freeswitch-mod-directory
-apt-get install -y freeswitch-mod-flite freeswitch-mod-distributor freeswitch-meta-codecs
+apt-get install -y freeswitch-mod-av freeswitch-mod-flite freeswitch-mod-distributor freeswitch-meta-codecs
 apt-get install -y freeswitch-mod-pgsql
 apt-get install -y freeswitch-music-default
 apt-get install -y libyuv-dev
