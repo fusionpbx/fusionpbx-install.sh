@@ -22,6 +22,3 @@ if [ ."$cpu_architecture" = ."arm" ]; then
 	echo "deb-src http://files.freeswitch.org/repo/deb/rpi/debian-release/ ${os_codename_debian} main" >> /etc/apt/sources.list.d/freeswitch.list
 fi
 apt-get update && apt-get install -y freeswitch-meta-all freeswitch-all-dbg gdb
-
-#make sure that postgresql is started before starting freeswitch
-sed -i /lib/systemd/system/freeswitch.service -e s:'local-fs.target:local-fs.target postgresql.service:'

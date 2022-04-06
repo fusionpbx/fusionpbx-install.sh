@@ -19,9 +19,6 @@ apt-get install -y freeswitch-mod-imagick freeswitch-mod-tts-commandline freeswi
 apt-get install -y freeswitch-mod-pgsql
 apt-get install -y freeswitch-music-default
 
-#make sure that postgresql is started before starting freeswitch
-sed -i /lib/systemd/system/freeswitch.service -e s:'local-fs.target:local-fs.target postgresql.service:'
-
 #remove the music package to protect music on hold from package updates
 mkdir -p /usr/share/freeswitch/sounds/temp
 mv /usr/share/freeswitch/sounds/music/*000 /usr/share/freeswitch/sounds/temp
