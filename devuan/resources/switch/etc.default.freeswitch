@@ -1,2 +1,2 @@
 # /etc/default/freeswitch
-DAEMON_OPTS="-nonat -scripts /var/www/fusionpbx/app/scripts/resources/scripts/"
+DAEMON_OPTS="-nonat"
