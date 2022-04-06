@@ -1,6 +1,5 @@
-update-rc.d freeswitch enable
-#
-# If freeswitch is not restarted with the new config before finish.sh is run,
-# upgrade_domains.php will not set the paths correctly on the default domain
-#
-service freeswitch restart
+cp "$(dirname $0)/freeswitch.init" /etc/init.d/freeswitch
+cp "$(dirname $0)/etc.default.freeswitch" /etc/default/freeswitch
+
+/usr/sbin/update-rc.d freeswitch enable
+/usr/sbin/service freeswitch restart

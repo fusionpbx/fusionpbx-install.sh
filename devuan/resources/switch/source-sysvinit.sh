@@ -1,6 +1,5 @@
-cp "$(dirname $0)/source/freeswitch.init" /etc/init.d/freeswitch
-cp "$(dirname $0)/source/etc.default.freeswitch" /etc/default/freeswitch
-update-rc.d freeswitch enable
-service freeswitch restart
+cp "$(dirname $0)/freeswitch.init" /etc/init.d/freeswitch
+cp "$(dirname $0)/etc.default.freeswitch" /etc/default/freeswitch
 
-echo "Please configure the sysvinit start up script from the source dir, test, and contribute code. Thank you."
+/usr/sbin/update-rc.d freeswitch enable
+/usr/sbin/service freeswitch restart
