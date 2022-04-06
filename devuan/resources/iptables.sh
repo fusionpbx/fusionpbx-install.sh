@@ -24,8 +24,8 @@ if [ ."$os_codename" = ."chimaera" ]; then
 fi
 
 #remove ufw
-ufw reset
-ufw disable
+[ -x /usr/sbin/ufw ] && ufw reset
+[ -x /usr/sbin/ufw ] && ufw disable
 apt-get remove -y ufw
 #apt-get purge ufw
 
