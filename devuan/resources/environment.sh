@@ -1,8 +1,5 @@
 #!/bin/sh
 
-#make sure lsb release is installed
-apt-get install lsb-release
-
 #operating system details
 os_name=$(lsb_release -is)
 os_codename=$(lsb_release -cs)
