@@ -39,7 +39,6 @@ apt-get install -y freeswitch-mod-imagick freeswitch-mod-tts-commandline freeswi
 apt-get install -y freeswitch-mod-flite freeswitch-mod-distributor freeswitch-meta-codecs
 apt-get install -y freeswitch-mod-pgsql
 apt-get install -y freeswitch-music-default
-apt-get install -y libyuv-dev
 
 #remove the music package to protect music on hold from package updates
 mkdir -p /usr/share/freeswitch/sounds/temp
