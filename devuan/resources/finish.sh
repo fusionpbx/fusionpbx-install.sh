@@ -98,8 +98,7 @@ sed -i /etc/freeswitch/autoload_configs/xml_cdr.conf.xml -e s:"{v_pass}:$xml_cdr
 cd /var/www/fusionpbx && php /var/www/fusionpbx/core/upgrade/upgrade.php
 
 #restart freeswitch
-/bin/systemctl daemon-reload
-/bin/systemctl restart freeswitch
+/usr/sbin/service freeswitch restart
 
 #welcome message
 echo ""
