@@ -16,7 +16,7 @@ apt install -y pkg-config flac  libgdbm-dev libdb-dev gettext sudo equivs mlocat
 apt install -y liblua5.2-dev libtiff5-dev libperl-dev libcurl4-openssl-dev libsqlite3-dev libpcre3-dev
 apt install -y devscripts libspeexdsp-dev libspeex-dev libldns-dev libedit-dev libopus-dev libmemcached-dev
 apt install -y libshout3-dev libmpg123-dev libmp3lame-dev yasm nasm libsndfile1-dev libuv1-dev libvpx-dev
-apt install -y libavformat-dev libswscale-dev
+apt install -y libavformat-dev libswscale-dev libvlc-dev
 
 #install dependencies that depend on the operating system version
 if [ ."$os_codename" = ."stretch" ]; then
@@ -106,6 +106,7 @@ patch -u /usr/src/freeswitch/src/mod/databases/mod_pgsql/mod_pgsql.c -i /usr/src
 
 # enable required modules
 #sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_avmd:applications/mod_avmd:'
+sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_av:formats/mod_av:'
 sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_callcenter:applications/mod_callcenter:'
 sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_cidlookup:applications/mod_cidlookup:'
 sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_memcache:applications/mod_memcache:'
