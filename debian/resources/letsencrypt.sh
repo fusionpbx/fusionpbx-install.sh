@@ -11,6 +11,9 @@ cd "$(dirname "$0")"
 #includes
 . ./config.sh
 
+#Add dependencies
+apt-get install -y curl
+
 #remove dehyrdated letsencrypt script
 rm /usr/local/sbin/dehydrated
 rm -R /usr/src/dehydrated
