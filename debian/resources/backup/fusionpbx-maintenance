@@ -13,6 +13,8 @@ purge_fax=false
 purge_switch_logs=true
 purge_php_sessions=true
 purge_database_transactions=true
+purge_email_queue=false
+purge_fax_queue=true
 
 days_keep_voicemail=90
 days_keep_call_recordings=90
@@ -21,6 +23,8 @@ days_keep_fax=90
 days_keep_switch_logs=7
 days_keep_php_sessions=8
 days_keep_database_transactions=30
+days_keep_email_queue=30
+days_keep_fax_queue=30
 
 #set the date
 now=$(date +%Y-%m-%d)
@@ -113,6 +117,20 @@ if [ .$purge_database_transactions = .true ]; then
 	psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_database_transactions where transaction_date < NOW() - INTERVAL '$days_keep_database_transactions days'"
 else
         echo "not purging database_transactions."
+fi
+
+#delete email_queue older 30 days
+if [ .$purge_email_queue = .true ]; then
+	psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_email_queue where email_status = 'sent' and email_date < NOW() - INTERVAL '$days_keep_email_queue days'"
+else
+        echo "not purging email_queue."
+fi
+
+#delete fax_queue older 30 days
+if [ .$purge_fax_queue = .true ]; then
+	psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_fax_queue where fax_status = 'sent' and fax_date < NOW() - INTERVAL '$days_keep_fax_queue days'"
+else
+        echo "not purging fax_queue."
 fi
 
 #completed message
