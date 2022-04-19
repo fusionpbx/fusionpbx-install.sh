@@ -1,8 +1,15 @@
-#default permissions
-# Devaun packages set this up correctly
-#chown -R freeswitch:freeswitch /var/lib/freeswitch
+#move to script directory so all relative paths work
+cd "$(dirname "$0")"
 
-# I'm not sure this is the best place to put non-packaged files - leaving it as is for now
-chown -R freeswitch:freeswitch /usr/share/freeswitch
-touch /var/log/freeswitch/freeswitch.log
-chown -R freeswitch:freeswitch /var/log/freeswitch
+#includes
+. ../config.sh
+
+#default permissions
+chown -R www-data:www-data /etc/freeswitch
+chown -R www-data:www-data /var/lib/freeswitch/recordings
+chown -R www-data:www-data /var/lib/freeswitch/storage
+chown -R www-data:www-data /var/lib/freeswitch/db
+chown -R www-data:www-data /usr/share/freeswitch
+chown -R www-data:www-data /var/log/freeswitch
+chown -R www-data:www-data /var/run/freeswitch
+chown -R www-data:www-data /var/cache/fusionpbx

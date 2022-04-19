@@ -5,10 +5,13 @@ cd "$(dirname "$0")"
 
 #includes
 . ./config.sh
+. ./colors.sh
+. ./environment.sh
 
-verbose "Installing FreeSWITCH"
-
+#TODO fix or remove source installation
 if [ .$switch_source = .true ]; then
+    echo 'Building from source on devuan will most liley fail, aborting.'
+    exit 1
 	if [ ."$switch_branch" = "master" ]; then
 		switch/source-master.sh
 	else

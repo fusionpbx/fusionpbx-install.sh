@@ -6,7 +6,6 @@ cd "$(dirname "$0")"
 #includes
 . ./config.sh
 . ./colors.sh
-. ./environment.sh
 
 #count the users
 admin_users=$(sudo -u postgres psql fusionpbx -Atc "select count(*) from v_users JOIN v_user_groups USING (domain_uuid) where username='$system_username' and group_name = 'superadmin'")
@@ -20,7 +19,7 @@ else
 	for admin_uuid in $admin_uuids; do
 		user_salt=$(/usr/bin/php /var/www/fusionpbx/resources/uuid.php);
 		if [ .$system_password = .'random' ]; then
-			user_password="$(tr -dc A-Za-z0-9 < /dev/urandom | head -c 12 | xargs)"
+			user_password=$(dd if=/dev/urandom bs=1 count=12 2>/dev/null | base64 | sed 's/[=\+//]//g')
 		else
 			user_password=$system_password
 		fi

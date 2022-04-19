@@ -15,19 +15,35 @@ verbose "Update installed packages"
 apt-get -q update && apt-get -q --assume-yes upgrade
 
 #Add dependencies
-apt-get install -q -y lsb-release sudo
+apt-get install -y wget
+apt-get install -y lsb-release
+apt-get install -y ca-certificates
+apt-get install -y dialog
+apt-get install -y nano
+apt-get install -y net-tools
+
+#SNMP
+apt-get install -y snmpd
+echo "rocommunity public" > /etc/snmp/snmpd.conf
+service snmpd restart
 
 #IPTables
 resources/iptables.sh
 
+#Optional CLI SIP monitoring tool
+resources/sngrep.sh
+
 #FusionPBX
 resources/fusionpbx.sh
+
+#PHP
+resources/php.sh
 
 #NGINX web server
 resources/nginx.sh
 
-#PHP
-resources/php.sh
+#Postgres
+resources/postgresql.sh
 
 #FreeSWITCH
 resources/switch.sh
@@ -35,22 +51,8 @@ resources/switch.sh
 #Fail2ban
 resources/fail2ban.sh
 
-#Optional CLI SIP monitoring tool
-resources/sngrep.sh
-
-#Postgres
-resources/postgresql.sh
-
-#restart services
-if [ ."$php_version" = ."5" ]; then
-        service php5-fpm restart
-fi
-if [ ."$php_version" = ."7" ]; then
-        service php7.0-fpm restart
-fi
-
-service nginx restart
-service fail2ban restart
+#set the ip address
+server_address=$(hostname -I)
 
 #add the database schema, user and groups
 resources/finish.sh

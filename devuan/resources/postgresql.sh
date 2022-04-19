@@ -9,21 +9,25 @@ cd "$(dirname "$0")"
 . ./environment.sh
 
 #send a message
-verbose "Installing PostgreSQL"
+echo "Install PostgreSQL"
 
-#use the system database repo for arm
-if [ .$cpu_architecture = .'arm' ]; then
-    database_repo="sip247"
-fi
+#generate a random password
+password=$(dd if=/dev/urandom bs=1 count=20 2>/dev/null | base64)
 
-apt-get install -q -y sudo
+#install message
+echo "Install PostgreSQL and create the database and users\n"
 
 #included in the distribution
 if [ ."$database_repo" = ."system" ]; then
-	apt-get install -q -y postgresql
+	if [ ."$database_host" = ."127.0.0.1" ] || [ ."$database_host" = ."::1" ] ; then
+		apt-get install -q -y sudo postgresql
+	else
+		apt-get install -q -y sudo postgresql-client
+	fi
 fi
 
 #postgres official repository
+##TODO would newer versions work without systemd?
 if [ ."$database_repo" = ."official" ]; then
     verbose "Using official repos"
 	echo 'deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main' > /etc/apt/sources.list.d/pgdg.list
@@ -33,6 +37,7 @@ if [ ."$database_repo" = ."official" ]; then
 fi
 
 #Add PostgreSQL and BDR REPO
+##TODO would newer versions work without systemd?
 if [ ."$database_repo" = ."2ndquadrant" ]; then
     verbose "Using 2ndquadrant.com repos"
 	echo 'deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main'  >> /etc/apt/sources.list.d/postgresql.list
@@ -43,12 +48,36 @@ if [ ."$database_repo" = ."2ndquadrant" ]; then
 	apt-get install -y postgresql-bdr-9.4 postgresql-bdr-9.4-bdr-plugin postgresql-bdr-contrib-9.4
 fi
 
-#sip247 arm repository
-if [ ."$database_repo" = ."sip247" ]; then
-        echo 'deb http://repo.sip247.com/debian/postgresql-armhf jessie main' > /etc/apt/sources.list.d/pgsql-sip247.list
-        wget --quiet -O - http://repo.sip247.com/debian/sip247.com.gpg.key | apt-key add -
-        apt-get -q update && apt-get upgrade -y
-        apt-get install -y postgresql
+#init.d
+if [ ."$database_host" = ."127.0.0.1" ] || [ ."$database_host" = ."::1" ] ; then
+    /usr/sbin/service postgresql restart
 fi
 
-service postgresql restart
+#install the database backup
+#cp backup/fusionpbx-backup /etc/cron.daily
+#cp backup/fusionpbx-maintenance /etc/cron.daily
+#chmod 755 /etc/cron.daily/fusionpbx-backup
+#chmod 755 /etc/cron.daily/fusionpbx-maintenance
+#sed -i "s/zzz/$password/g" /etc/cron.daily/fusionpbx-backup
+#sed -i "s/zzz/$password/g" /etc/cron.daily/fusionpbx-maintenance
+
+#move to /tmp to prevent a red herring error when running sudo with psql
+cwd=$(pwd)
+cd /tmp
+
+if [ ."$database_host" = ."127.0.0.1" ] || [ ."$database_host" = ."::1" ] ; then
+	# add the databases, users and grant permissions to them
+	sudo -u postgres psql -c "CREATE DATABASE fusionpbx;";
+	sudo -u postgres psql -c "CREATE DATABASE freeswitch;";
+	sudo -u postgres psql -c "CREATE ROLE fusionpbx WITH SUPERUSER LOGIN PASSWORD '$password';"
+	sudo -u postgres psql -c "CREATE ROLE freeswitch WITH SUPERUSER LOGIN PASSWORD '$password';"
+	sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE fusionpbx to fusionpbx;"
+	sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE freeswitch to fusionpbx;"
+	sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE freeswitch to freeswitch;"
+	# ALTER USER fusionpbx WITH PASSWORD 'newpassword';
+fi
+
+cd $cwd
+
+#set the ip address
+#server_address=$(hostname -I)

@@ -14,7 +14,7 @@ server {
 	}
 
 	location ~ \.php$ {
-		fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+		fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
 		#fastcgi_pass 127.0.0.1:9000;
 		fastcgi_index index.php;
 		include fastcgi_params;
@@ -23,7 +23,7 @@ server {
 
 	# Allow the upgrade routines to run longer than normal
 	location = /core/upgrade/index.php {
-		fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+		fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
 		#fastcgi_pass 127.0.0.1:9000;
 		fastcgi_index index.php;
 		include fastcgi_params;
@@ -31,22 +31,40 @@ server {
 		fastcgi_read_timeout 15m;
 	}
 
-	# Disable viewing .htaccess & .htpassword & .db
+	# Disable viewing .htaccess & .htpassword & .db & .git
 	location ~ .htaccess {
-			deny all;
+		deny all;
 	}
 	location ~ .htpassword {
-			deny all;
+		deny all;
 	}
 	location ~^.+.(db)$ {
-			deny all;
+		deny all;
+	}
+	location ~ /\.git {
+		deny all;
+	}
+	location ~ /\.lua {
+		deny all;
+	}
+	location ~ /\. {
+		deny all;
 	}
 }
 
 server {
 	listen 80;
 	server_name fusionpbx;
-	if ($uri !~* ^.*(provision|xml_cdr).*$) {
+
+	#redirect letsencrypt to dehydrated
+	location ^~ /.well-known/acme-challenge {
+		default_type "text/plain";
+		auth_basic "off";
+		alias /var/www/dehydrated;
+	}
+
+	#rewrite rule - send to https with an exception for provisioning
+	if ($uri !~* ^.*(provision|xml_cdr|firmware).*$) {
 		rewrite ^(.*) https://$host$1 permanent;
 		break;
 	}
@@ -57,8 +75,8 @@ server {
 		break;
 	}
 
-        #algo
-        rewrite "^.*/provision/algom([A-Fa-f0-9]{12})\.conf" /app/provision/?mac=$1&file=algom%7b%24mac%7d.conf last;
+	#algo
+	rewrite "^.*/provision/algom([A-Fa-f0-9]{12})\.conf" /app/provision/?mac=$1&file=algom%7b%24mac%7d.conf last;
 
 	#mitel
 	rewrite "^.*/provision/MN_([A-Fa-f0-9]{12})\.cfg" /app/provision/index.php?mac=$1&file=MN_%7b%24mac%7d.cfg last;
@@ -66,7 +84,8 @@ server {
 
 	#grandstream
 	rewrite "^.*/provision/cfg([A-Fa-f0-9]{12})(\.(xml|cfg))?$" /app/provision/?mac=$1;
-	rewrite "^.*/provision/pb([A-Fa-f0-9-]{12,17})/phonebook\.xml$" /app/provision/?mac=$1&file=phonebook.xml;
+	rewrite "^.*/provision/([A-Fa-f0-9]{12})/phonebook\.xml$" /app/provision/?mac=$1&file=phonebook.xml;
+	rewrite "^.*/provision/(phonebook\.xml)?$" /app/provision/index.php?file=$1 last;
 	#grandstream-wave softphone by ext because Android doesn't pass MAC.
 	rewrite "^.*/provision/([0-9]{5})/cfg([A-Fa-f0-9]{12}).xml$" /app/provision/?ext=$1;
 
@@ -74,10 +93,9 @@ server {
 	rewrite "^.*/provision/aastra.cfg$" /app/provision/?mac=$1&file=aastra.cfg;
 	#rewrite "^.*/provision/([A-Fa-f0-9]{12})(\.(cfg))?$" /app/provision/?mac=$1 last;
 
-	#yealink common
+	#yealink
+	#rewrite "^.*/provision/(y[0-9]{12})(\.cfg|\.boot)?$" /app/provision/index.php?file=$1$2;
 	rewrite "^.*/provision/(y[0-9]{12})(\.cfg)?$" /app/provision/index.php?file=$1.cfg;
-
-	#yealink mac
 	rewrite "^.*/provision/([A-Fa-f0-9]{12})(\.(xml|cfg))?$" /app/provision/index.php?mac=$1 last;
 
 	#polycom
@@ -104,6 +122,9 @@ server {
 	rewrite "^.*/provision/([A-Fa-f0-9]{12})-contacts\.cfg$" "/app/provision/?mac=$1&file={%24mac}-contacts.cfg";
 	rewrite "^.*/provision/([A-Fa-f0-9]{12})-smartblf\.cfg$" "/app/provision/?mac=$1&file={%24mac}-smartblf.cfg";
 
+	#Snom
+	rewrite "^.*/provision/-([A-Fa-f0-9]{12})?$" /app/provision/index.php?mac=$1;
+
 	access_log /var/log/nginx/access.log;
 	error_log /var/log/nginx/error.log;
 
@@ -116,7 +137,7 @@ server {
 	}
 
 	location ~ \.php$ {
-		fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+		fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
 		#fastcgi_pass 127.0.0.1:9000;
 		fastcgi_index index.php;
 		include fastcgi_params;
@@ -125,7 +146,7 @@ server {
 
 	# Allow the upgrade routines to run longer than normal
 	location = /core/upgrade/index.php {
-		fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+		fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
 		#fastcgi_pass 127.0.0.1:9000;
 		fastcgi_index index.php;
 		include fastcgi_params;
@@ -133,7 +154,7 @@ server {
 		fastcgi_read_timeout 15m;
 	}
 
-	# Disable viewing .htaccess & .htpassword & .db
+	# Disable viewing .htaccess & .htpassword & .db & .git
 	location ~ .htaccess {
 		deny all;
 	}
@@ -143,21 +164,37 @@ server {
 	location ~^.+.(db)$ {
 		deny all;
 	}
+	location ~ /\.git {
+		deny all;
+	}
+	location ~ /\.lua {
+		deny all;
+	}
+	location ~ /\. {
+		deny all;
+	}
 }
 
 server {
-	listen 443;
+	listen 443 ssl;
+	#listen 443 ssl http2;
 	server_name fusionpbx;
-	ssl                     on;
-	ssl_certificate         /etc/ssl/certs/nginx.crt;
-	ssl_certificate_key     /etc/ssl/private/nginx.key;
-	ssl_protocols           TLSv1 TLSv1.1 TLSv1.2;
-	ssl_ciphers             HIGH:!ADH:!MD5:!aNULL;
 
-	#letsencrypt
-	location /.well-known/acme-challenge {
-        	root /var/www/letsencrypt;
-    	}
+	ssl_certificate		/etc/ssl/certs/nginx.crt;
+	ssl_certificate_key	/etc/ssl/private/nginx.key;
+	ssl_protocols		TLSv1.2 TLSv1.3;
+	#ssl_protocols		TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
+	ssl_ciphers		ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384;
+	ssl_session_cache	shared:SSL:40m;
+	ssl_session_timeout	2h;
+	ssl_session_tickets	off;
+
+	#redirect letsencrypt to dehydrated
+	location ^~ /.well-known/acme-challenge {
+		default_type "text/plain";
+		auth_basic "off";
+		alias /var/www/dehydrated;
+	}
 
 	#REST api
 	if ($uri ~* ^.*/api/.*$) {
@@ -165,8 +202,11 @@ server {
 		break;
 	}
 
-        #algo
-        rewrite "^.*/provision/algom([A-Fa-f0-9]{12})\.conf" /app/provision/?mac=$1&file=algom%7b%24mac%7d.conf last;
+	#message media
+	rewrite "^/app/messages/media/(.*)/(.*)" /app/messages/message_media.php?id=$1&action=download last;
+
+	#algo
+	rewrite "^.*/provision/algom([A-Fa-f0-9]{12})\.conf" /app/provision/?mac=$1&file=algom%7b%24mac%7d.conf last;
 
 	#mitel
 	rewrite "^.*/provision/MN_([A-Fa-f0-9]{12})\.cfg" /app/provision/index.php?mac=$1&file=MN_%7b%24mac%7d.cfg last;
@@ -174,7 +214,8 @@ server {
 
 	#grandstream
 	rewrite "^.*/provision/cfg([A-Fa-f0-9]{12})(\.(xml|cfg))?$" /app/provision/?mac=$1;
-	rewrite "^.*/provision/pb([A-Fa-f0-9-]{12,17})/phonebook\.xml$" /app/provision/?mac=$1&file=phonebook.xml;
+	rewrite "^.*/provision/([A-Fa-f0-9]{12})/phonebook\.xml$" /app/provision/?mac=$1&file=phonebook.xml;
+	rewrite "^.*/provision/(phonebook\.xml)?$" /app/provision/index.php?file=$1 last;
 	#grandstream-wave softphone by ext because Android doesn't pass MAC.
 	rewrite "^.*/provision/([0-9]{5})/cfg([A-Fa-f0-9]{12}).xml$" /app/provision/?ext=$1;
 
@@ -182,10 +223,9 @@ server {
 	rewrite "^.*/provision/aastra.cfg$" /app/provision/?mac=$1&file=aastra.cfg;
 	#rewrite "^.*/provision/([A-Fa-f0-9]{12})(\.(cfg))?$" /app/provision/?mac=$1 last;
 
-	#yealink common
+	#yealink
+	#rewrite "^.*/provision/(y[0-9]{12})(\.cfg|\.boot)?$" /app/provision/index.php?file=$1$2;
 	rewrite "^.*/provision/(y[0-9]{12})(\.cfg)?$" /app/provision/index.php?file=$1.cfg;
-
-	#yealink mac
 	rewrite "^.*/provision/([A-Fa-f0-9]{12})(\.(xml|cfg))?$" /app/provision/index.php?mac=$1 last;
 
 	#polycom
@@ -223,9 +263,17 @@ server {
 		index index.php;
 	}
 
+	location ~ \.php$ {
+		fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+		#fastcgi_pass 127.0.0.1:9000;
+		fastcgi_index index.php;
+		include fastcgi_params;
+		fastcgi_param   SCRIPT_FILENAME /var/www/fusionpbx$fastcgi_script_name;
+	}
+
 	# Allow the upgrade routines to run longer than normal
 	location = /core/upgrade/index.php {
-		fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
+		fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
 		#fastcgi_pass 127.0.0.1:9000;
 		fastcgi_index index.php;
 		include fastcgi_params;
@@ -233,15 +281,7 @@ server {
 		fastcgi_read_timeout 15m;
 	}
 
-	location ~ \.php$ {
-		fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
-		#fastcgi_pass 127.0.0.1:9000;
-		fastcgi_index index.php;
-		include fastcgi_params;
-		fastcgi_param   SCRIPT_FILENAME /var/www/fusionpbx$fastcgi_script_name;
-	}
-
-	# Disable viewing .htaccess & .htpassword & .db
+	# Disable viewing .htaccess & .htpassword & .db & .git
 	location ~ .htaccess {
 		deny all;
 	}
@@ -249,6 +289,15 @@ server {
 		deny all;
 	}
 	location ~^.+.(db)$ {
+		deny all;
+	}
+	location ~ /\.git {
+		deny all;
+	}
+	location ~ /\.lua {
+		deny all;
+	}
+	location ~ /\. {
 		deny all;
 	}
 }
