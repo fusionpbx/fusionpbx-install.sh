@@ -43,3 +43,4 @@
 	//error_reporting (E_ALL); // Report everything
 	//error_reporting (E_ALL ^ E_NOTICE); // hide notices
 	error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ); //hide notices and warnings
+?>
