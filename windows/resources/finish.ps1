@@ -55,17 +55,12 @@ $password_hash = ."C:\Program Files\PHP\v7.1\php.exe" "-r echo md5('$user_salt$u
 #add the user to the group
 [string]$user_group_uuid = [System.Guid]::NewGuid()
 $group_name="superadmin"
-if ($system_branch -eq 'master') {
-	"$psql insert into v_user_groups (user_group_uuid, domain_uuid, group_name, group_uuid, user_uuid) values('$user_group_uuid', '$domain_uuid', '$group_name', '$group_uuid', '$user_uuid');"
-}
-else {
-	"$psql insert into v_group_users (group_user_uuid, domain_uuid, group_name, group_uuid, user_uuid) values('$user_group_uuid', '$domain_uuid', '$group_name', '$group_uuid', '$user_uuid');"
-}
+"$psql insert into v_user_groups (user_group_uuid, domain_uuid, group_name, group_uuid, user_uuid) values('$user_group_uuid', '$domain_uuid', '$group_name', '$group_uuid', '$user_uuid');"
+
 #app defaults
 Start-Process "C:\Program Files\PHP\v7.1\php.exe" "C:/inetpub/FusionPBX/core/upgrade/upgrade_domains.php"
 
 #Permissions back to readonly
-
 $Acl = Get-Acl "C:/inetpub/FusionPBX"
 
 $Ar = New-Object System.Security.AccessControl.FileSystemAccessRule("EVERYONE", "Read", "ContainerInherit,ObjectInherit", "None", "Allow")
