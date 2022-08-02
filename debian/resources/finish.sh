@@ -98,6 +98,18 @@ cd /var/www/fusionpbx && php /var/www/fusionpbx/core/upgrade/upgrade.php
 /bin/systemctl daemon-reload
 /bin/systemctl restart freeswitch
 
+#install the email_queue service
+cp /var/www/fusionpbx/app/email_queue/resources/service/debian.service /etc/systemd/system/email_queue.service
+systemctl enable email_queue
+systemctl start email_queue
+systemctl daemon-reload
+
+#install the event_guard service
+cp /var/www/fusionpbx/app/event_guard/resources/service/debian.service /etc/systemd/system/event_guard.service
+/bin/systemctl enable event_guard
+/bin/systemctl start event_guard
+/bin/systemctl daemon-reload
+
 #welcome message
 echo ""
 echo ""
