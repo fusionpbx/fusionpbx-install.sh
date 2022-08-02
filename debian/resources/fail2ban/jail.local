@@ -10,7 +10,7 @@ findtime = 60
 bantime  = 86400
 
 [freeswitch]
-enabled  = true
+enabled  = false
 port     = 5060:5091
 protocol = all
 filter   = freeswitch
@@ -23,7 +23,7 @@ bantime  = 3600
 #          sendmail-whois[name=FreeSwitch, dest=root, sender=fail2ban@example.org] #no smtp server installed
 
 [freeswitch-acl]
-enabled  = true
+enabled  = false
 port     = 5060:5091
 protocol = all
 filter   = freeswitch-acl
@@ -71,7 +71,7 @@ findtime = 60
 bantime  = 7200
 
 [sip-auth-failure]
-enabled  = true
+enabled  = false
 port     = 5060:5091
 protocol = all
 filter   = sip-auth-failure
