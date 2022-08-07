@@ -106,17 +106,14 @@ systemctl daemon-reload
 
 #install the event_guard service
 cp /var/www/fusionpbx/app/event_guard/resources/service/debian.service /etc/systemd/system/event_guard.service
-cat <<EOF | sudo tee /etc/systemd/system/event_gaurd.timer
-[Unit]
-Description=Timer for the event_gaurd service
-
-[Timer]
-OnBootSec=20sec
-
-[Install]
-WantedBy=timers.target
-EOF
+/bin/systemctl enable event_guard
+/bin/systemctl start event_guard
 /bin/systemctl daemon-reload
+
+#install the event_gaurd timer
+cp /var/www/fusionpbx/app/event_guard/resources/service/debian.timer /etc/systemd/system/event_guard.timer
+/bin/systemctl daemon-reload
+/bin/systemctl disable event_gaurd
 /bin/systemctl enable event_gaurd.timer
 
 #welcome message
