@@ -110,7 +110,7 @@ cp /var/www/fusionpbx/app/event_guard/resources/service/debian.service /etc/syst
 /bin/systemctl start event_guard
 /bin/systemctl daemon-reload
 
-#install the event_gaurd timer
+#install the event_guard timer
 cp /var/www/fusionpbx/app/event_guard/resources/service/debian.timer /etc/systemd/system/event_guard.timer
 /bin/systemctl disable event_guard
 /bin/systemctl enable event_guard.timer
