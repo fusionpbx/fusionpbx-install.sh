@@ -109,7 +109,7 @@ server {
 
 	#cisco
 	rewrite "^.*/provision/file/(.*\.(xml|cfg))" /app/provision/?file=$1 last;
-	rewrite "^.*/provision/([A-Fa-f0-9]{12})/phonebook\.xml$" /app/provision/?mac=$1&file=phonebook.xml;
+	rewrite "^.*/provision/directory\.xml$" /app/provision/?file=directory.xml;
 
 	#Escene
 	rewrite "^.*/provision/([0-9]{1,11})_Extern.xml$"       "/app/provision/?ext=$1&file={%24mac}_extern.xml" last;
@@ -240,7 +240,7 @@ server {
 
 	#cisco
 	rewrite "^.*/provision/file/(.*\.(xml|cfg))" /app/provision/?file=$1 last;
-	rewrite "^.*/provision/([A-Fa-f0-9]{12})/phonebook\.xml$" /app/provision/?mac=$1&file=phonebook.xml;
+	rewrite "^.*/provision/directory\.xml$" /app/provision/?file=directory.xml;
 
 	#Escene
 	rewrite "^.*/provision/([0-9]{1,11})_Extern.xml$"       "/app/provision/?ext=$1&file={%24mac}_extern.xml" last;
