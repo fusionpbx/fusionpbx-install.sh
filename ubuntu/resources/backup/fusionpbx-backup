@@ -10,10 +10,10 @@ mkdir -p /var/backups/fusionpbx/postgresql
 echo "Backup Started"
 
 #delete postgres backups
-find /var/backups/fusionpbx/postgresql/fusionpbx_pgsql* -mtime +4 -exec rm {} \;
+find /var/backups/fusionpbx/postgresql/fusionpbx_pgsql* -mtime +4 -exec rm -f {} \;
 
 #delete the main backup
-find /var/backups/fusionpbx/*.tgz -mtime +2 -exec rm {} \;
+find /var/backups/fusionpbx/*.tgz -mtime +2 -exec rm -f {} \;
 
 #backup the database
 pg_dump --verbose -Fc --host=$db_host --port=$db_port -U fusionpbx fusionpbx --schema=public -f /var/backups/fusionpbx/postgresql/fusionpbx_pgsql_$now.sql
