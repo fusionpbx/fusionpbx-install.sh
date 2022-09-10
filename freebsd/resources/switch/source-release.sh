@@ -14,19 +14,20 @@ echo "Installing the FreeSWITCH source"
 
 #install minimum dependencies
 pkg install --yes autoconf automake curl git gmake ldns libedit libtool openssl pcre pkgconf speex sqlite3
-pkg install --yes gcc49 wget sudo libsndfile lua52 opus libmemcached libvorbis libogg tiff memcached
+pkg install --yes gcc10 wget sudo libsndfile lua52 opus libmemcached libvorbis libogg tiff memcached
+pkg install --yes spandsp sofia-sip postgresql${database_version}-client
 
 #additional dependencies
-#pkg install --yes libshout mpg123 lame
+#pkg install --yes libshout mpg123 lame opencore-amr vo-amrwbenc gtar gumbo libyaml flite h2o python3 pocketsphinx erlang ffmpeg
 
 #get the source from git and run boostrap
-#git clone -b v1.6 https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
+#git clone -b v1.10 https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
 #cd /usr/src/freeswitch && /bin/sh /usr/src/freeswitch/bootstrap.sh -j
 
 #get the release from https
-cd /usr/src && fetch https://files.freeswitch.org/freeswitch-releases/freeswitch-1.6.20.zip
-cd /usr/src && unzip /usr/src/freeswitch-1.6.20.zip
-mv /usr/src/freeswitch-1.6.20 /usr/src/freeswitch
+cd /usr/src && fetch https://files.freeswitch.org/freeswitch-releases/freeswitch-1.10.7.-release.tar.xz
+cd /usr/src && bsdtar xf freeswitch-1.10.7.-release.tar.xz
+mv /usr/src/freeswitch-1.10.7.-release /usr/src/freeswitch
 
 #enable the modules
 sed -i' ' -e s:'#applications/mod_avmd:applications/mod_avmd:' /usr/src/freeswitch/modules.conf
@@ -41,11 +42,15 @@ sed -i' ' -e s:'#applications/mod_curl:applications/mod_curl:' /usr/src/freeswit
 #sed -i '' -e s:'applications/mod_fsv:#applications/mod_fsv:' /usr/src/freeswitch/modules.conf
 
 #set the variables
-export CC=gcc49
-export CFLAGS="-Wno-error -std=gnu99 -Wno-c11-extensions -Wno-deprecated-declarations -Wno-zero-length-array -Wno-incompatible-pointer-types"
+export CC=gcc10
+export CXX=g++10
+export CFLAGS="-Wno-error -Wno-deprecated-declarations -Wno-zero-length-array -Wno-incompatible-pointer-types"
+export CXXFLAGS="-Wno-error -Wno-deprecated-declarations -Wno-zero-length-array -Wno-incompatible-pointer-types"
+export LDFLAGS="-Wl,-rpath=/usr/local/lib/gcc10"
 
 #configure the source (additional option --enable-system-lua)
-/usr/src/freeswitch/./configure --prefix=/usr/local/freeswitch --enable-core-pgsql-support --disable-fhs
+cd /usr/src/freeswitch
+./configure --prefix=/usr/local/freeswitch --enable-core-pgsql-support --disable-fhs
 
 #gmake
 rm -rf /usr/local/freeswitch/{lib,mod,bin}/*
@@ -54,6 +59,7 @@ gmake sounds-install moh-install
 gmake hd-sounds-install hd-moh-install
 #gmake cd-sounds-install cd-moh-install
 #gmake uhd-sounds-install uhd-sounds-install
+cd $cwd
 
 #move the music into music/default directory
 mkdir -p /usr/local/freeswitch/sounds/music/default
