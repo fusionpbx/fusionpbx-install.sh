@@ -76,33 +76,41 @@ if [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
 	ldconfig
 fi
 
-echo "Using version $switch_version"
 cd /usr/src
-#git clone -b v1.8 https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
 
-#1.8 and older
-if [ $(echo "$switch_version" | tr -d '.') -lt 1100 ]; then
-	wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.zip
-	rm -R freeswitch
-	unzip freeswitch-$switch_version.zip
-	mv freeswitch-$switch_version freeswitch
+#check for master
+if [ $switch_branch = "master" ]; then
+	#master branch
+	echo "Using version master"
+	rm -r /usr/src/freeswitch
+	git clone https://github.com/signalwire/freeswitch.git
 	cd /usr/src/freeswitch
+	./bootstrap.sh -j
 fi
 
-#1.10.0 and newer
-if [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
-	wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.-release.zip
-	unzip freeswitch-$switch_version.-release.zip
-	rm -R freeswitch
-	mv freeswitch-$switch_version.-release freeswitch
-	cd /usr/src/freeswitch
+#check for stable release
+if [ $switch_branch = "stable" ]; then
+	echo "Using version $switch_version"
+	#1.8 and older
+	if [ $(echo "$switch_version" | tr -d '.') -lt 1100 ]; then
+		wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.zip
+		rm -R freeswitch
+		unzip freeswitch-$switch_version.zip
+		mv freeswitch-$switch_version freeswitch
+		cd /usr/src/freeswitch
+	fi
+
+	#1.10.0 and newer
+	if [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
+		wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.-release.zip
+		unzip freeswitch-$switch_version.-release.zip
+		rm -R freeswitch
+		mv freeswitch-$switch_version.-release freeswitch
+		cd /usr/src/freeswitch
+		#apply patch
+		patch -u /usr/src/freeswitch/src/mod/databases/mod_pgsql/mod_pgsql.c -i /usr/src/fusionpbx-install.sh/debian/resources/switch/source/mod_pgsql.patch
+	fi
 fi
-
-# bootstrap is needed if using git
-#./bootstrap.sh -j
-
-#apply patch
-patch -u /usr/src/freeswitch/src/mod/databases/mod_pgsql/mod_pgsql.c -i /usr/src/fusionpbx-install.sh/debian/resources/switch/source/mod_pgsql.patch
 
 # enable required modules
 #sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_avmd:applications/mod_avmd:'
