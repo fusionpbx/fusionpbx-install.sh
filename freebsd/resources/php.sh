@@ -24,7 +24,7 @@ if [ ."$php_version" = ."7.4" ]; then
 fi
 if [ ."$php_version" = ."8.0" ]; then
 	pkg install --yes php80 php80-phar php80-pdo php80-pdo_odbc php80-pdo_sqlite php80-gd php80-imap
-	pkg install --yes php80-ldap php80-openssl php80-sockets php80-simplexml php80-xml php80-session php80-iconv
+	pkg install --yes php80-ldap php80-sockets php80-simplexml php80-xml php80-session php80-iconv
 	pkg install --yes php80-zlib php80-filter php80-pdo_pgsql php80-pgsql php80-curl php80-mbstring
 fi
 #send a message
