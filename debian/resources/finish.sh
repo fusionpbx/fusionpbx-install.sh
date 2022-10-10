@@ -38,6 +38,14 @@ sed -i /etc/fusionpbx/config.php -e s:"{database_host}:$database_host:"
 sed -i /etc/fusionpbx/config.php -e s:'{database_username}:fusionpbx:'
 sed -i /etc/fusionpbx/config.php -e s:"{database_password}:$database_password:"
 
+#add the config.conf
+mkdir -p /etc/fusionpbx
+chown -R www-data:www-data /etc/fusionpbx
+cp fusionpbx/config.conf /etc/fusionpbx
+sed -i /etc/fusionpbx/config.conf -e s:"{database_host}:$database_host:"
+sed -i /etc/fusionpbx/config.conf -e s:'{database_username}:fusionpbx:'
+sed -i /etc/fusionpbx/config.conf -e s:"{database_password}:$database_password:"
+
 #add the database schema
 cd /var/www/fusionpbx && php /var/www/fusionpbx/core/upgrade/upgrade_schema.php > /dev/null 2>&1
 
