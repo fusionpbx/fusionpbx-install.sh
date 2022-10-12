@@ -16,6 +16,8 @@ switch_tls=true                 # true or false
 sofia_version=1.13.6            # release-version for sofia-sip to use
 
 # Database Settings
+database_name=fusionpbx         # Database name (safe characters A-Z, a-z, 0-9)
+database_username=fusionpbx     # Database username (safe characters A-Z, a-z, 0-9)
 database_password=random        # random or a custom value (safe characters A-Z, a-z, 0-9)
 database_repo=system            # PostgreSQL official, system, 2ndquadrant
 database_version=13             # requires repo official
