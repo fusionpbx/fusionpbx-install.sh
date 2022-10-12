@@ -34,6 +34,7 @@ sed -i "s/zzz/$database_password/g" /etc/cron.daily/fusionpbx-maintenance
 mkdir -p /etc/fusionpbx
 cp fusionpbx/config.conf /etc/fusionpbx
 sed -i /etc/fusionpbx/config.conf -e s:"{database_host}:$database_host:"
+sed -i /etc/fusionpbx/config.conf -e s:"{database_name}:$database_name:"
 sed -i /etc/fusionpbx/config.conf -e s:"{database_username}:$database_username:"
 sed -i /etc/fusionpbx/config.conf -e s:"{database_password}:$database_password:"
 
