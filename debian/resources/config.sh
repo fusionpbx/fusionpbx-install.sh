@@ -17,6 +17,7 @@ switch_token=                               # Get the auth token from https://si
 sofia_version=1.13.8                        # release-version for sofia-sip to use
 
 # Database Settings
+database_name=fusionpbx                     # Database name (safe characters A-Z, a-z, 0-9)
 database_username=fusionpbx                 # Database username (safe characters A-Z, a-z, 0-9)
 database_password=random                    # random or a custom value (safe characters A-Z, a-z, 0-9)
 database_repo=official                      # PostgreSQL official, system, 2ndquadrant
