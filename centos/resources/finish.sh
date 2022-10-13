@@ -22,18 +22,11 @@ export PGPASSWORD=$database_password
 sudo -u postgres /usr/bin/psql -c "ALTER USER fusionpbx WITH PASSWORD '$database_password';"
 sudo -u postgres /usr/bin/psql -c "ALTER USER freeswitch WITH PASSWORD '$database_password';"
 
-#add the config.php
-mkdir -p /etc/fusionpbx
-chown -R freeswitch:daemon /etc/fusionpbx
-cp fusionpbx/config.php /etc/fusionpbx
-sed -i /etc/fusionpbx/config.php -e s:"{database_host}:$database_host:"
-sed -i /etc/fusionpbx/config.php -e s:'{database_username}:fusionpbx:'
-sed -i /etc/fusionpbx/config.php -e s:"{database_password}:$database_password:"
-
 #add the config.conf
 cp fusionpbx/config.conf /etc/fusionpbx
 sed -i /etc/fusionpbx/config.conf -e s:"{database_host}:$database_host:"
-sed -i /etc/fusionpbx/config.conf -e s:'{database_username}:fusionpbx:'
+sed -i /etc/fusionpbx/config.conf -e s:"{database_name}:$database_name:"
+sed -i /etc/fusionpbx/config.conf -e s:"{database_username}:$database_username:"
 sed -i /etc/fusionpbx/config.conf -e s:"{database_password}:$database_password:"
 
 #add the database schema
