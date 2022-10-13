@@ -25,13 +25,13 @@ sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/
 apt-get update
 
 #install php
-apt-get install -y php7.1 php7.1-cli php7.1-fpm php7.1-pgsql php7.1-sqlite3 php7.1-odbc php7.1-curl php7.1-imap php7.1-xml php7.1-gd php7.1-ldap
+apt-get install -y php7.4 php7.4-cli php7.4-fpm php7.4-pgsql php7.4-sqlite3 php7.4-odbc php7.4-curl php7.4-imap php7.4-xml php7.4-gd php7.4-ldap
 
 #update the unix socket name
-sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php7.1-fpm.sock;#g'
+sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php7.4-fpm.sock;#g'
 
 #set the PHP ini file path
-php_ini_file='/etc/php/7.1/fpm/php.ini'
+php_ini_file='/etc/php/7.4/fpm/php.ini'
 
 #update config if source is being used
 sed 's#post_max_size = .*#post_max_size = 80M#g' -i $php_ini_file
