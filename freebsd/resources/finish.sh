@@ -28,17 +28,10 @@ if [ .$nginx_enabled = .'true' ]; then
 	sudo -u postgres psql -c "ALTER USER fusionpbx WITH PASSWORD '$database_password';"
 	sudo -u postgres psql -c "ALTER USER freeswitch WITH PASSWORD '$database_password';"
 
-	#add the config.php
-	mkdir -p /usr/local/etc/fusionpbx
-	chown -R www:www /usr/local/etc/fusionpbx
-	cp fusionpbx/config.php /usr/local/etc/fusionpbx
-	sed -i' ' -e s:"{database_host}:$database_host:" /usr/local/etc/fusionpbx/config.php
-	sed -i' ' -e s:'{database_username}:fusionpbx:' /usr/local/etc/fusionpbx/config.php
-	sed -i' ' -e s:"{database_password}:$database_password:" /usr/local/etc/fusionpbx/config.php
-
 	#add the config.conf
 	cp fusionpbx/config.conf /usr/local/etc/fusionpbx
 	sed -i' ' -e s:"{database_host}:$database_host:" /usr/local/etc/fusionpbx/config.conf
+	sed -i' ' -e s:"{database_name}:$database_name:" /usr/local/etc/fusionpbx/config.conf
 	sed -i' ' -e s:'{database_username}:fusionpbx:' /usr/local/etc/fusionpbx/config.conf
 	sed -i' ' -e s:"{database_password}:$database_password:" /usr/local/etc/fusionpbx/config.conf
 
