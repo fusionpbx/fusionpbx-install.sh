@@ -108,7 +108,7 @@ if [ $switch_branch = "stable" ]; then
 		mv freeswitch-$switch_version.-release freeswitch
 		cd /usr/src/freeswitch
 		#apply patch
-		patch -u /usr/src/freeswitch/src/mod/databases/mod_pgsql/mod_pgsql.c -i /usr/src/fusionpbx-install.sh/debian/resources/switch/source/mod_pgsql.patch
+		#patch -u /usr/src/freeswitch/src/mod/databases/mod_pgsql/mod_pgsql.c -i /usr/src/fusionpbx-install.sh/debian/resources/switch/source/mod_pgsql.patch
 	fi
 fi
 
