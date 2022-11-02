@@ -54,6 +54,7 @@ server {
 
 server {
 	listen [::]:80;
+	listen 80;
 	server_name fusionpbx;
 
 	#redirect letsencrypt to dehydrated
@@ -179,6 +180,7 @@ server {
 
 server {
 	listen [::]:443 ssl;
+	listen 443 ssl;
 	#listen 443 ssl http2;
 	server_name fusionpbx;
 
