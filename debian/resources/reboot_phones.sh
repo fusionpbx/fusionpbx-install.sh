@@ -26,6 +26,7 @@ INPUT=$FILE
 do
 	#option reboot all phones
 	if [ ."$domain" = ."all" ]; then
+		echo "reboot: $reg_user@$realm $vendor\n"
                 eval 'fs_cli -x "luarun app.lua event_notify internal reboot $reg_user@$realm $vendor"'
                 if [ "$pausetime" > 0 ]; then
                 	sleep $pausetime
@@ -33,7 +34,9 @@ do
 	fi
 	#option reboot phones on a specific domain
         if [ ."$realm" = ."$domain" ]; then
+		echo "reboot: $reg_user@$realm $vendor\n"
                 eval 'fs_cli -x "luarun app.lua event_notify internal reboot $reg_user@$realm $vendor"'
+		echo ""
 		if [ "$pausetime" > 0 ]; then
 			sleep $pausetime
         	fi
