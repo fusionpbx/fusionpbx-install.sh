@@ -13,7 +13,7 @@ wget -O - https://raw.githubusercontent.com/fusionpbx/fusionpbx-install.sh/maste
 cd /usr/src/fusionpbx-install.sh/debian && ./install.sh
 ```
 
-### Ubuntu/Raspbian
+### Ubuntu and Raspiberry OS
 ```sh
 wget -O - https://raw.githubusercontent.com/fusionpbx/fusionpbx-install.sh/master/ubuntu/pre-install.sh | sh;
 cd /usr/src/fusionpbx-install.sh/ubuntu && ./install.sh
