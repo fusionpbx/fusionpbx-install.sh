@@ -30,6 +30,9 @@ apt-get install -y snmpd
 echo "rocommunity public" > /etc/snmp/snmpd.conf
 service snmpd restart
 
+#disable vi visual mode
+echo "set mouse-=a" >> ~/.vimrc
+
 #IPTables
 resources/iptables.sh
 
