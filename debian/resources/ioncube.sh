@@ -48,7 +48,7 @@ if [ ."$os_codename" = ."bullseye" ]; then
 	php_version=7.4
 fi
 if [ ."$os_codename" = ."buster" ]; then
-	php_version=7.3
+	php_version=7.4
 fi
 if [ ."$os_codename" = ."stretch" ]; then
 	php_version=7.1
