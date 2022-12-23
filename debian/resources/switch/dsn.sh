@@ -26,6 +26,9 @@ sed -i /etc/freeswitch/autoload_configs/db.conf.xml -e s:'<!--<param name="odbc-
 sed -i /etc/freeswitch/autoload_configs/fifo.conf.xml -e s:'<!--<param name="odbc-dsn" value="$${dsn}"/>-->:<param name="odbc-dsn" value="$${dsn}"/>:'
 sed -i /etc/freeswitch/autoload_configs/switch.conf.xml -e s:'<!-- <param name="core-db-dsn" value="$${dsn}" /> -->:<param name="core-db-dsn" value="$${dsn}" />:'
 
+#update the switch database directory
+sed -i /etc/fusionpbx/config.conf -e s:'/var/lib/freeswitch/db:/dev/shm:'
+
 #enable odbc-dsn in the sip profiles
 sudo -u postgres psql -h $database_host -p $database_port -U fusionpbx -d fusionpbx -c "update v_sip_profile_settings set sip_profile_setting_enabled = 'true' where sip_profile_setting_name = 'odbc-dsn';";
 
