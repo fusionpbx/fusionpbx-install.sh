@@ -10,12 +10,12 @@ cd "$(dirname "$0")"
 now=$(date +%Y-%m-%d)
 
 #get the database password
-if [ .$database_password = .'random' ]; then
-        read -p "Enter the database password: " database_password
-fi
+#if [ .$database_password = .'random' ]; then
+#       read -p "Enter the database password: " database_password
+#fi
 
 #set PGPASSWORD
-export PGPASSWORD=$database_password
+#export PGPASSWORD=$database_password
 
 #enable auto create schemas
 sed -i /etc/freeswitch/autoload_configs/switch.conf.xml -e s:'<!-- <param name="auto-create-schemas" value="true"/> -->:<param name="auto-create-schemas" value="true"/>:'
@@ -30,15 +30,15 @@ sed -i /etc/freeswitch/autoload_configs/switch.conf.xml -e s:'<!-- <param name="
 sed -i /etc/fusionpbx/config.conf -e s:'/var/lib/freeswitch/db:/dev/shm:'
 
 #enable odbc-dsn in the sip profiles
-sudo -u postgres psql -h $database_host -p $database_port -U fusionpbx -d fusionpbx -c "update v_sip_profile_settings set sip_profile_setting_enabled = 'true' where sip_profile_setting_name = 'odbc-dsn';";
+sudo -u postgres psql -c "update v_sip_profile_settings set sip_profile_setting_enabled = 'true' where sip_profile_setting_name = 'odbc-dsn';";
 
 #update the switch db directory in default settings
-sudo -u postgres psql -h $database_host -p $database_port -U fusionpbx -d fusionpbx -c "update v_default_settings set default_setting_value = '/dev/shm' where default_setting_category = 'switch' and default_setting_subcategory = 'db';";
+sudo -u postgres psql -c "update v_default_settings set default_setting_value = '/dev/shm' where default_setting_category = 'switch' and default_setting_subcategory = 'db';";
 
 #add the dsn variables
-sudo -u postgres psql -h $database_host -p $database_port -U fusionpbx -d fusionpbx -c "insert into v_vars (var_uuid, var_name, var_value, var_category, var_enabled, var_order, var_description, var_hostname) values ('785d7013-1152-4a44-aa15-28336d9b36f9', 'dsn_system', 'pgsql://hostaddr=$database_host port=$database_port dbname=fusionpbx user=fusionpbx password=$database_password options=', 'DSN', 'true', '0', null, null);";
-sudo -u postgres psql -h $database_host -p $database_port -U fusionpbx -d fusionpbx -c "insert into v_vars (var_uuid, var_name, var_value, var_category, var_enabled, var_order, var_description, var_hostname) values ('0170e737-b453-40ea-99f2-f1375474e5ce', 'dsn', 'sqlite:///dev/shm/core.db', 'DSN', 'true', '0', null, null);";
-sudo -u postgres psql -h $database_host -p $database_port -U fusionpbx -d fusionpbx -c "insert into v_vars (var_uuid, var_name, var_value, var_category, var_enabled, var_order, var_description, var_hostname) values ('32e3e364-a8ef-4fe0-9d02-c652d5122bbf', 'dsn_callcenter', 'sqlite:///dev/shm/callcenter.db', 'DSN', 'true', '0', null, null);";
+sudo -u postgres psql -c "insert into v_vars (var_uuid, var_name, var_value, var_category, var_enabled, var_order, var_description, var_hostname) values ('785d7013-1152-4a44-aa15-28336d9b36f9', 'dsn_system', 'pgsql://hostaddr=$database_host port=$database_port dbname=fusionpbx user=fusionpbx password=$database_password options=', 'DSN', 'true', '0', null, null);";
+sudo -u postgres psql -c "insert into v_vars (var_uuid, var_name, var_value, var_category, var_enabled, var_order, var_description, var_hostname) values ('0170e737-b453-40ea-99f2-f1375474e5ce', 'dsn', 'sqlite:///dev/shm/core.db', 'DSN', 'true', '0', null, null);";
+sudo -u postgres psql -c "insert into v_vars (var_uuid, var_name, var_value, var_category, var_enabled, var_order, var_description, var_hostname) values ('32e3e364-a8ef-4fe0-9d02-c652d5122bbf', 'dsn_callcenter', 'sqlite:///dev/shm/callcenter.db', 'DSN', 'true', '0', null, null);";
 
 #update the vars.xml file
 echo "<!-- DSN -->" >> /etc/freeswitch/vars.xml
