@@ -29,6 +29,9 @@ sed -i /etc/freeswitch/autoload_configs/switch.conf.xml -e s:'<!-- <param name="
 #enable odbc-dsn in the sip profiles
 sudo -u postgres psql -h $database_host -p $database_port -U fusionpbx -d fusionpbx -c "update v_sip_profile_settings set sip_profile_setting_enabled = 'true' where sip_profile_setting_name = 'odbc-dsn';";
 
+#update the switch db directory in default settings
+sudo -u postgres psql -h $database_host -p $database_port -U fusionpbx -d fusionpbx -c "update v_default_settings set default_setting_value = '/dev/shm' where default_setting_category = 'switch' and default_setting_subcategory = 'db';";
+
 #add the dsn variables
 sudo -u postgres psql -h $database_host -p $database_port -U fusionpbx -d fusionpbx -c "insert into v_vars (var_uuid, var_name, var_value, var_category, var_enabled, var_order, var_description, var_hostname) values ('785d7013-1152-4a44-aa15-28336d9b36f9', 'dsn_system', 'pgsql://hostaddr=$database_host port=$database_port dbname=fusionpbx user=fusionpbx password=$database_password options=', 'DSN', 'true', '0', null, null);";
 sudo -u postgres psql -h $database_host -p $database_port -U fusionpbx -d fusionpbx -c "insert into v_vars (var_uuid, var_name, var_value, var_category, var_enabled, var_order, var_description, var_hostname) values ('0170e737-b453-40ea-99f2-f1375474e5ce', 'dsn', 'sqlite:///dev/shm/core.db', 'DSN', 'true', '0', null, null);";
