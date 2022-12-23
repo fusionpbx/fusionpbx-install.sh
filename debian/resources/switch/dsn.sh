@@ -50,8 +50,8 @@ do
   fi
 done
 
-#flush memcache
-/usr/bin/fs_cli -x 'memcache flush'
+#flush the cache
+rm -R /var/cache/fusionpbx/*
 
 #restart freeswitch
-service freeswitch restart
+/usr/sbin/service freeswitch restart
