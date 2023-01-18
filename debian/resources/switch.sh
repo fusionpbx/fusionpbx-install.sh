@@ -14,6 +14,9 @@ if [ .$switch_source = .true ]; then
 		switch/source-release.sh
 	fi
 
+	#add sounds and music files
+	switch/source-sounds.sh
+
 	#copy the switch conf files to /etc/freeswitch
 	switch/conf-copy.sh
 
