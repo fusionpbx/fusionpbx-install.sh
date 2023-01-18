@@ -1,3 +1,15 @@
+#!/bin/sh
+
+#move to script directory so all relative paths work
+cd "$(dirname "$0")"
+
+#includes
+. ../config.sh
+. ../environment.sh
+
+# change the working directory
+cd /usr/src/freeswitch
+
 # compile and install the sounds
 make sounds-install moh-install
 make hd-sounds-install hd-moh-install
