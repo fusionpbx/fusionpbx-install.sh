@@ -103,17 +103,7 @@ sed -i /usr/src/freeswitch/modules.conf -e s:'applications/mod_signalwire:#appli
 
 # compile and install
 make
-
-rm -rf /usr/share/freeswitch/sounds/music/default
-
 make install
-make sounds-install moh-install
-make hd-sounds-install hd-moh-install
-make cd-sounds-install cd-moh-install
-
-#move the music into music/default directory
-mkdir -p /usr/share/freeswitch/sounds/music/default
-mv /usr/share/freeswitch/sounds/music/*000 /usr/share/freeswitch/sounds/music/default
 
 #return to the executing directory
 cd $CWD
