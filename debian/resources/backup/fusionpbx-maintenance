@@ -18,7 +18,7 @@ purge_fax_queue=true
 
 days_keep_voicemail=90
 days_keep_call_recordings=90
-days_keep_cdrs=90
+days_keep_cdrs=730
 days_keep_fax=90
 days_keep_switch_logs=7
 days_keep_php_sessions=8
