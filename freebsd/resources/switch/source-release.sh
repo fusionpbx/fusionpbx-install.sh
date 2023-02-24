@@ -15,7 +15,7 @@ echo "Installing the FreeSWITCH source"
 #install minimum dependencies
 pkg install --yes autoconf automake curl git gmake ldns libedit libtool openssl pcre pkgconf speex sqlite3
 pkg install --yes gcc10 wget sudo libsndfile lua52 opus libmemcached libvorbis libogg tiff memcached
-pkg install --yes spandsp sofia-sip postgresql${database_version}-client
+pkg install --yes spandsp sofia-sip postgresql${database_version}-client sox
 
 #additional dependencies
 #pkg install --yes libshout mpg123 lame opencore-amr vo-amrwbenc gtar gumbo libyaml flite h2o python3 pocketsphinx erlang ffmpeg
