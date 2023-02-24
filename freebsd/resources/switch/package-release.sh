@@ -7,7 +7,7 @@ cd "$(dirname "$0")"
 . ../config.sh
 
 #install dependencies
-pkg install --yes tiff ghostscript9-base memcached
+pkg install --yes tiff ghostscript9-base memcached sox
 
 #set the current working directory
 cwd=$(pwd)
