@@ -10,7 +10,7 @@ cd "$(dirname "$0")"
 
 apt-get update && apt-get install -y curl memcached haveged apt-transport-https
 apt-get update && apt-get install -y gnupg gnupg2
-apt-get update && apt-get install -y wget lsb-release
+apt-get update && apt-get install -y wget lsb-release sox
 
 if [ ."$cpu_architecture" = ."x86" ]; then
 	wget --http-user=signalwire --http-password=$switch_token -O /usr/share/keyrings/signalwire-freeswitch-repo.gpg https://freeswitch.signalwire.com/repo/deb/debian-release/signalwire-freeswitch-repo.gpg
