@@ -9,11 +9,11 @@ system_branch=master            # master, stable
 switch_branch=stable            # master, stable
 switch_source=true              # true or false
 switch_package=false            # true or false
-switch_version=1.10.8           # only for source
+switch_version=1.10.9           # only for source
 switch_tls=true                 # true or false
 
 # Sofia-Sip Settings
-sofia_version=1.13.8            # release-version for sofia-sip to use
+sofia_version=1.13.13            # release-version for sofia-sip to use
 
 # Database Settings
 database_name=fusionpbx         # Database name (safe characters A-Z, a-z, 0-9)
