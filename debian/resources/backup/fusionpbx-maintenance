@@ -77,7 +77,8 @@ if [ .$purge_call_recordings = .true ]; then
 		find /usr/local/freeswitch/recordings/*/archive/*  -name '*.wav' -mtime +$days_keep_call_recordings -exec rm {} \;
 		find /usr/local/freeswitch/recordings/*/archive/*  -name '*.mp3' -mtime +$days_keep_call_recordings -exec rm {} \;
 	fi
-	psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_call_recordings WHERE call_recording_date < NOW() - INTERVAL '90 days'"
+	#table v_call_recordings became a view instead (called view_call_recordings) in FusionPBX 5.0.7+, so the following line is no longer necessary
+	#psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_call_recordings WHERE call_recording_date < NOW() - INTERVAL '90 days'"
 else
 	echo "not purging Recordings."
 fi
