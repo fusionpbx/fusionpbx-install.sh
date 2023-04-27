@@ -44,18 +44,18 @@ elif [ .$cpu_architecture = ."arm" ]; then
 fi
 
 #set the version of php
-if [ ."$os_codename" = ."bullseye" ]; then
-	php_version=7.4
-fi
-if [ ."$os_codename" = ."buster" ]; then
-	php_version=7.4
-fi
-if [ ."$os_codename" = ."stretch" ]; then
-	php_version=7.1
-fi
-if [ ."$os_codename" = ."jessie" ]; then
-	php_version=7.1
-fi
+#if [ ."$os_codename" = ."bullseye" ]; then
+#	php_version=8.0
+#fi
+#if [ ."$os_codename" = ."buster" ]; then
+#	php_version=7.4
+#fi
+#if [ ."$os_codename" = ."stretch" ]; then
+#	php_version=7.1
+#fi
+#if [ ."$os_codename" = ."jessie" ]; then
+#	php_version=7.1
+#fi
 
 #copy the loader to the correct directory
 if [ ."$php_version" = ."5.6" ]; then
