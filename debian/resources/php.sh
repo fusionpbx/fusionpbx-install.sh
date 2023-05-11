@@ -49,9 +49,8 @@ else
 		php_version=7.3
 	fi
 	if [ ."$os_codename" = ."bullseye" ]; then
-		wget -qO- https://packages.sury.org/php/apt.gpg | gpg --dearmor > /etc/apt/trusted.gpg.d/sury-php-8.x.gpg
+		wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
 		sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
-		php_version=8.1
 	fi
 fi
 apt-get update -y
