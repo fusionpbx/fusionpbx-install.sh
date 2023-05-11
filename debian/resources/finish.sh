@@ -38,8 +38,6 @@ sed -i /etc/fusionpbx/config.conf -e s:"{database_name}:$database_name:"
 sed -i /etc/fusionpbx/config.conf -e s:"{database_username}:$database_username:"
 sed -i /etc/fusionpbx/config.conf -e s:"{database_password}:$database_password:"
 
-sleep 1
-
 #add the database schema
 cd /var/www/fusionpbx && php /var/www/fusionpbx/core/upgrade/upgrade_schema.php
 
