@@ -27,6 +27,11 @@ if [ ."$php_version" = ."8.0" ]; then
 	pkg install --yes php80-ldap php80-sockets php80-simplexml php80-xml php80-session php80-iconv
 	pkg install --yes php80-zlib php80-filter php80-pdo_pgsql php80-pgsql php80-curl php80-mbstring
 fi
+if [ ."$php_version" = ."8.1" ]; then
+	pkg install --yes php81 php81-phar php81-pdo php81-pdo_odbc php81-pdo_sqlite php81-gd php81-imap
+	pkg install --yes php81-ldap php81-sockets php81-simplexml php81-xml php81-session php81-iconv
+	pkg install --yes php81-zlib php81-filter php81-pdo_pgsql php81-pgsql php81-curl php81-mbstring
+fi
 #send a message
 verbose "Configuring PHP"
 
