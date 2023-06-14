@@ -4,6 +4,7 @@
 export PGPASSWORD="zzz"
 db_host=127.0.0.1
 db_port=5432
+db_username=fusionpbx
 switch_package=true # true or false
 
 purge_voicemail=false
@@ -62,8 +63,8 @@ if [ .$purge_fax = .true ]; then
 		find /usr/local/freeswitch/storage/fax/*  -name '*.pdf' -mtime +$days_keep_fax -exec rm {} \;
 	fi
 	#delete from the database
-	psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_fax_files WHERE fax_date < NOW() - INTERVAL '$days_keep_fax days'"
-	psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_fax_logs WHERE fax_date < NOW() - INTERVAL '$days_keep_fax days'"
+	psql --port $db_port --host=$db_host --username=$db_username -c "delete from v_fax_files WHERE fax_date < NOW() - INTERVAL '$days_keep_fax days'"
+	psql --port $db_port --host=$db_host --username=$db_username -c "delete from v_fax_logs WHERE fax_date < NOW() - INTERVAL '$days_keep_fax days'"
 else
 	echo "not purging Faxes"
 fi
@@ -78,7 +79,7 @@ if [ .$purge_call_recordings = .true ]; then
 		find /usr/local/freeswitch/recordings/*/archive/*  -name '*.mp3' -mtime +$days_keep_call_recordings -exec rm {} \;
 	fi
 	#Call recordings table uses a view. The data is from v_xml_cdr table. Changed in FusionPBX 5.0.7 and higher. The following line is useful to older versions.
-	#psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_call_recordings WHERE call_recording_date < NOW() - INTERVAL '90 days'"
+	#psql --port $db_port --host=$db_host --username=$db_username -c "delete from v_call_recordings WHERE call_recording_date < NOW() - INTERVAL '90 days'"
 else
 	echo "not purging Recordings."
 fi
@@ -94,14 +95,14 @@ if [ .$purge_voicemail = .true ]; then
 		find /usr/local/freeswitch/storage/voicemail/*  -name 'msg_*.wav' -mtime +$days_keep_voicemail -exec rm {} \;
 		find /usr/local/freeswitch/storage/voicemail/*  -name 'msg_*.mp3' -mtime +$days_keep_voicemail -exec rm {} \;
 	fi
-	psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_voicemail_messages WHERE to_timestamp(created_epoch) < NOW() - INTERVAL '$days_keep_voicemail days'"
+	psql --port $db_port --host=$db_host --username=$db_username -c "delete from v_voicemail_messages WHERE to_timestamp(created_epoch) < NOW() - INTERVAL '$days_keep_voicemail days'"
 else
 	echo "not purging voicemails."
 fi
 
 if [ .$purge_cdrs = .true ]; then
 	#delete call detail records older 90 days
-	psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_xml_cdr WHERE start_stamp < NOW() - INTERVAL '$days_keep_cdrs days'"
+	psql --port $db_port --host=$db_host --username=$db_username -c "delete from v_xml_cdr WHERE start_stamp < NOW() - INTERVAL '$days_keep_cdrs days'"
 else
         echo "not purging CDRs."
 fi
@@ -115,21 +116,21 @@ fi
 
 #delete database_transactions older 90 days
 if [ .$purge_database_transactions = .true ]; then
-	psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_database_transactions where transaction_date < NOW() - INTERVAL '$days_keep_database_transactions days'"
+	psql --port $db_port --host=$db_host --username=$db_username -c "delete from v_database_transactions where transaction_date < NOW() - INTERVAL '$days_keep_database_transactions days'"
 else
         echo "not purging database_transactions."
 fi
 
 #delete email_queue older 30 days
 if [ .$purge_email_queue = .true ]; then
-	psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_email_queue where email_status = 'sent' and email_date < NOW() - INTERVAL '$days_keep_email_queue days'"
+	psql --port $db_port --host=$db_host --username=$db_username -c "delete from v_email_queue where email_status = 'sent' and email_date < NOW() - INTERVAL '$days_keep_email_queue days'"
 else
         echo "not purging email_queue."
 fi
 
 #delete fax_queue older 30 days
 if [ .$purge_fax_queue = .true ]; then
-	psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_fax_queue where fax_status = 'sent' and fax_date < NOW() - INTERVAL '$days_keep_fax_queue days'"
+	psql --port $db_port --host=$db_host --username=$db_username -c "delete from v_fax_queue where fax_status = 'sent' and fax_date < NOW() - INTERVAL '$days_keep_fax_queue days'"
 else
         echo "not purging fax_queue."
 fi
