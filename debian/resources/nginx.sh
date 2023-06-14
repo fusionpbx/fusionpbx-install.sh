@@ -23,9 +23,9 @@ if [ ."$cpu_architecture" = ."arm" ]; then
 fi
 
 #set the version of php
-if [ ."$os_codename" = ."bullseye" ]; then
-	php_version=7.4
-fi
+#if [ ."$os_codename" = ."bullseye" ]; then
+#	php_version=7.4
+#fi
 if [ ."$os_codename" = ."buster" ]; then
 	php_version=7.3
 fi
