@@ -27,5 +27,5 @@ database_port=5432                          # port number
 database_backup=false                       # true or false
 
 # General Settings
-php_version=7.4                             # PHP version 7.1, 7.3, 7.4, 8.1
+php_version=8.1                             # PHP version 7.1, 7.3, 7.4, 8.1
 letsencrypt_folder=true                     # true or false
