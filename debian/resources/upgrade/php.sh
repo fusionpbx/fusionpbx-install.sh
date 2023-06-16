@@ -4,7 +4,7 @@
 cd "$(dirname "$0")"
 
 #includes
-. ./config.sh
+. ../config.sh
 
 #remove php5
 /usr/bin/apt remove -y php5 php5-cli php5-fpm php5-pgsql php5-sqlite php5-odbc php5-curl php5-imap php5-gd
