@@ -69,7 +69,7 @@ if [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
 	cd /usr/src
 	git clone https://github.com/freeswitch/spandsp.git spandsp
 	cd spandsp
- 	sed -i 's/AC_PREREQ(\[2\.71\])/AC_PREREQ([2.69])/g' configure.ac
+ 	/usr/sbin/sed -i 's/AC_PREREQ(\[2\.71\])/AC_PREREQ([2.69])/g' /usr/src/spandsp/configure.ac
 	sh autogen.sh
 	./configure
 	make
