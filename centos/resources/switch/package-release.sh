@@ -20,6 +20,7 @@ echo 'please get your token from this site: https://developer.signalwire.com/fre
 echo "please enter your token:" 
 read token
 echo $token > /etc/yum/vars/signalwiretoken
+yum install -y https://$(< /etc/yum/vars/signalwireusername):$(< /etc/yum/vars/signalwiretoken)@freeswitch.signalwire.com/repo/yum/centos-release/freeswitch-release-repo-0-1.noarch.rpm epel-release
 yum install -y freeswitch-config-vanilla freeswitch-lang-* freeswitch-sounds-* freeswitch-lua freeswitch-xml-cdr
 
 #remove the music package to protect music on hold from package updates
