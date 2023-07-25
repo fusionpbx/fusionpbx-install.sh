@@ -13,12 +13,9 @@ verbose "Installing the web server"
 
 #change the version of php for arm
 if [ ."$cpu_architecture" = ."arm" ]; then
-	#Pi2 and Pi3 Raspbian
-	#Odroid
-	if [ ."$os_codename" = ."stretch" ]; then
-	      php_version=7.2
-	else
-	      php_version=5.6
+ 	#set the version of php
+	if [ ."$os_codename" = ."bullseye" ]; then
+		php_version=7.4
 	fi
 fi
 
