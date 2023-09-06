@@ -90,8 +90,6 @@ if [ ."$database_host" = ."127.0.0.1" ] || [ ."$database_host" = ."::1" ] ; then
 	systemctl restart postgresql
 fi
 
-sed -i /etc/postgresql/15/main/pg_hba.conf -e '/^#/!s/scram-sha-256/md5/g'
-
 #init.d
 #/usr/sbin/service postgresql restart
 
