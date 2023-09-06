@@ -109,6 +109,9 @@ cwd=$(pwd)
 cd /tmp
 
 if [ ."$database_host" = ."127.0.0.1" ] || [ ."$database_host" = ."::1" ] ; then
+	#reload the config
+  	sudo -u postgres psql -c "SELECT pg_reload_conf();"
+
 	# add the databases, users and grant permissions to them
 	sudo -u postgres psql -c "CREATE DATABASE fusionpbx;";
 	sudo -u postgres psql -c "CREATE DATABASE freeswitch;";
