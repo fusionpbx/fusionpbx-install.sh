@@ -90,6 +90,8 @@ if [ ."$database_host" = ."127.0.0.1" ] || [ ."$database_host" = ."::1" ] ; then
 	systemctl restart postgresql
 fi
 
+sed -i /etc/postgresql/15/main/pg_hba.conf -e '/^#/!s/scram-sha-256/md5/g'
+
 #init.d
 #/usr/sbin/service postgresql restart
 
@@ -100,6 +102,9 @@ fi
 #chmod 755 /etc/cron.daily/fusionpbx-maintenance
 #sed -i "s/zzz/$password/g" /etc/cron.daily/fusionpbx-backup
 #sed -i "s/zzz/$password/g" /etc/cron.daily/fusionpbx-maintenance
+
+#replace scram-sha-256 with md5
+sed -i /etc/postgresql/$database_version/main/pg_hba.conf -e '/^#/!s/scram-sha-256/md5/g'
 
 #move to /tmp to prevent a red herring error when running sudo with psql
 cwd=$(pwd)
