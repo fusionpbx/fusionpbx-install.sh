@@ -105,6 +105,21 @@ cd /var/www/fusionpbx && php /var/www/fusionpbx/core/upgrade/upgrade.php
 #restart freeswitch
 /usr/sbin/service freeswitch restart
 
+#install the email_queue service
+cp /var/www/fusionpbx/app/email_queue/resources/service/debian.service /etc/systemd/system/email_queue.service
+systemctl enable email_queue
+systemctl start email_queue
+systemctl daemon-reload
+
+#install the event_guard service
+cp /var/www/fusionpbx/app/event_guard/resources/service/debian.service /etc/systemd/system/event_guard.service
+/bin/systemctl enable event_guard
+/bin/systemctl start event_guard
+/bin/systemctl daemon-reload
+
+#add xml cdr import to crontab
+cat <(crontab -l) <(echo "* * * * * $(which php) /var/www/fusionpbx/app/xml_cdr/xml_cdr_import.php 300") | crontab -
+
 #welcome message
 echo ""
 echo ""
