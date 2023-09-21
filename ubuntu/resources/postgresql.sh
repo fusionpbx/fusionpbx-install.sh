@@ -24,19 +24,15 @@ fi
 
 #postgres official repository
 if [ ."$database_repo" = ."official" ]; then
-	echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list
-	wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+	sh -c 'echo "deb [signed-by=/etc/apt/trusted.gpg.d/pgdg.gpg] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+	wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /etc/apt/trusted.gpg.d/pgdg.gpg
 	apt-get update && apt-get upgrade -y
 	if [ ."$database_host" = ."127.0.0.1" ] || [ ."$database_host" = ."::1" ] ; then
 		if [ ."$database_version" = ."latest" ]; then
 			apt-get install -y sudo postgresql
-		fi
-		if [ ."$database_version" = ."14" ]; then
-			apt-get install -y sudo postgresql-$database_version
-		fi
-		if [ ."$database_version" = ."13" ]; then
-			apt-get install -y sudo postgresql-$database_version
-		fi
+                else
+                        apt-get install -y sudo postgresql-$database_version
+                fi
 	fi
 fi
 
