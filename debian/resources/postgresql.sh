@@ -58,15 +58,6 @@ if [ ."$database_repo" = ."2ndquadrant" ]; then
 	fi
 fi
 
-#systemd
-if [ ."$database_host" = ."127.0.0.1" ] || [ ."$database_host" = ."::1" ] ; then
-	systemctl daemon-reload
-	systemctl restart postgresql
-fi
-
-#init.d
-#/usr/sbin/service postgresql restart
-
 #install the database backup
 #cp backup/fusionpbx-backup /etc/cron.daily
 #cp backup/fusionpbx-maintenance /etc/cron.daily
@@ -75,8 +66,20 @@ fi
 #sed -i "s/zzz/$password/g" /etc/cron.daily/fusionpbx-backup
 #sed -i "s/zzz/$password/g" /etc/cron.daily/fusionpbx-maintenance
 
+#initialize the database
+pg_createcluster $database_version main
+
 #replace scram-sha-256 with md5
 sed -i /etc/postgresql/$database_version/main/pg_hba.conf -e '/^#/!s/scram-sha-256/md5/g'
+
+#systemd
+if [ ."$database_host" = ."127.0.0.1" ] || [ ."$database_host" = ."::1" ] ; then
+	systemctl daemon-reload
+	systemctl restart postgresql
+fi
+
+#init.d
+#/usr/sbin/service postgresql restart
 
 #move to /tmp to prevent a red herring error when running sudo with psql
 cwd=$(pwd)
