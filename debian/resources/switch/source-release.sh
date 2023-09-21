@@ -69,8 +69,8 @@ if [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
 	cd /usr/src
 	git clone https://github.com/freeswitch/spandsp.git spandsp
 	cd spandsp
- 	git reset --hard 0d2e6ac65e0e8f53d652665a743015a88bf048d4
- 	/usr/bin/sed -i 's/AC_PREREQ(\[2\.71\])/AC_PREREQ([2.69])/g' /usr/src/spandsp/configure.ac
+ 	git reset --hard a60119408c465ad0eb24b0fb83da1b476cb5b169
+ 	#/usr/bin/sed -i 's/AC_PREREQ(\[2\.71\])/AC_PREREQ([2.69])/g' /usr/src/spandsp/configure.ac
 	sh autogen.sh
 	./configure
 	make
