@@ -111,7 +111,7 @@ cp /var/www/fusionpbx/app/event_guard/resources/service/debian.service /etc/syst
 /bin/systemctl daemon-reload
 
 #add xml cdr import to crontab
-cat <(crontab -l) <(echo "* * * * * $(which php) /var/www/fusionpbx/app/xml_cdr/xml_cdr_import.php 300") | crontab -
+cat <(crontab -l) <(echo "* * * * * $(which php) /var/www/fusionpbx/app/xml_cdr/xml_cdr_import.php 300") | crontab
 
 #welcome message
 echo ""
