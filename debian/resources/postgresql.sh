@@ -56,13 +56,9 @@ if [ ."$database_repo" = ."official" ]; then
 	if [ ."$database_host" = ."127.0.0.1" ] || [ ."$database_host" = ."::1" ] ; then
 		if [ ."$database_version" = ."latest" ]; then
 			apt-get install -y sudo postgresql
-		fi
-		if [ ."$database_version" = ."9.6" ]; then
-			apt-get install -y sudo postgresql-$database_version
-		fi
-		if [ ."$database_version" = ."9.4" ]; then
-			apt-get install -y sudo postgresql-$database_version
-		fi
+                else
+                        apt-get install -y sudo postgresql-$database_version
+                fi
 	else
 		apt-get install -y sudo postgresql-client
 	fi
