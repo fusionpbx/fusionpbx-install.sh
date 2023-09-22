@@ -29,6 +29,12 @@ ufw disable
 apt-get remove -y ufw
 #apt-get purge ufw
 
+#flush iptables
+iptables -P INPUT ACCEPT
+iptables -P FORWARD ACCEPT
+iptables -P OUTPUT ACCEPT
+iptables -F
+
 #run iptables commands
 iptables -A INPUT -i lo -j ACCEPT
 iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
@@ -62,7 +68,5 @@ iptables -P INPUT DROP
 iptables -P FORWARD DROP
 iptables -P OUTPUT ACCEPT
 
-#answer the questions for iptables persistent
-echo iptables-persistent iptables-persistent/autosave_v4 boolean true | debconf-set-selections
-echo iptables-persistent iptables-persistent/autosave_v6 boolean true | debconf-set-selections
-apt-get install -y iptables-persistent
+#save iptables to make it persistent
+iptables-save > /etc/iptables/rules.v4
