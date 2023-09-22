@@ -28,6 +28,24 @@ ufw reset
 ufw disable
 apt-get remove -y ufw
 #apt-get purge ufw
+iptables --delete-chain ufw-after-forward
+iptables --delete-chain ufw-after-input
+iptables --delete-chain ufw-after-logging-forward
+iptables --delete-chain ufw-after-logging-input
+iptables --delete-chain ufw-after-logging-output
+iptables --delete-chain ufw-after-output
+iptables --delete-chain ufw-before-forward
+iptables --delete-chain ufw-before-input
+iptables --delete-chain ufw-before-logging-forward
+iptables --delete-chain ufw-before-logging-input
+iptables --delete-chain ufw-before-logging-output
+iptables --delete-chain ufw-before-output
+iptables --delete-chain ufw-reject-forward
+iptables --delete-chain ufw-reject-input
+iptables --delete-chain ufw-reject-output
+iptables --delete-chain ufw-track-forward
+iptables --delete-chain ufw-track-input
+iptables --delete-chain ufw-track-output
 
 #flush iptables
 iptables -P INPUT ACCEPT
