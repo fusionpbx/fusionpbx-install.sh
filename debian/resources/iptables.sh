@@ -87,4 +87,5 @@ iptables -P FORWARD DROP
 iptables -P OUTPUT ACCEPT
 
 #save iptables to make it persistent
+mkdir /etc/iptables
 iptables-save > /etc/iptables/rules.v4
