@@ -87,5 +87,10 @@ iptables -P FORWARD DROP
 iptables -P OUTPUT ACCEPT
 
 #save iptables to make it persistent
-mkdir /etc/iptables
-iptables-save > /etc/iptables/rules.v4
+#mkdir /etc/iptables
+#iptables-save > /etc/iptables/rules.v4
+
+#answer the questions for iptables persistent and save the iptable rules
+echo iptables-persistent iptables-persistent/autosave_v4 boolean true | debconf-set-selections
+echo iptables-persistent iptables-persistent/autosave_v6 boolean true | debconf-set-selections
+apt-get install -y iptables-persistent
