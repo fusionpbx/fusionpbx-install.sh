@@ -37,7 +37,7 @@ if [ .$nginx_enabled = .'true' ]; then
 	sed -i' ' -e s:"{database_password}:$database_password:" /usr/local/etc/fusionpbx/config.conf
 
 	#add the database schema
-	cd /usr/local/www/fusionpbx && /usr/local/bin/php /usr/local/www/fusionpbx/core/upgrade/upgrade_schema.php > /dev/null 2>&1
+	cd /var/www/fusionpbx && /usr/local/bin/php /var/www/fusionpbx/core/upgrade/upgrade_schema.php > /dev/null 2>&1
 
 	#get the primary interface name
 	if [ .$interface_name = .'auto' ]; then
@@ -67,11 +67,11 @@ if [ .$nginx_enabled = .'true' ]; then
 	psql --host=$database_host --port=$database_port --username=$database_username -c "insert into v_domains (domain_uuid, domain_name, domain_enabled) values('$domain_uuid', '$domain_name', 'true');"
 
 	#app defaults
-	cd /usr/local/www/fusionpbx && /usr/local/bin/php /usr/local/www/fusionpbx/core/upgrade/upgrade_domains.php
+	cd /var/www/fusionpbx && /usr/local/bin/php /var/www/fusionpbx/core/upgrade/upgrade_domains.php
 
 	#add the user
-	user_uuid=$(/usr/local/bin/php /usr/local/www/fusionpbx/resources/uuid.php);
-	user_salt=$(/usr/local/bin/php /usr/local/www/fusionpbx/resources/uuid.php);
+	user_uuid=$(/usr/local/bin/php /var/www/fusionpbx/resources/uuid.php);
+	user_salt=$(/usr/local/bin/php /var/www/fusionpbx/resources/uuid.php);
 	user_name=$system_username
 	if [ .$system_password = .'random' ]; then
 		user_password=$(cat /dev/random | env LC_CTYPE=C tr -dc a-zA-Z0-9 | head -c 20)
@@ -86,7 +86,7 @@ if [ .$nginx_enabled = .'true' ]; then
 	group_uuid=$(echo $group_uuid | sed 's/^[[:blank:]]*//;s/[[:blank:]]*$//')
 
 	#add the user to the group
-	user_group_uuid=$(/usr/local/bin/php /usr/local/www/fusionpbx/resources/uuid.php);
+	user_group_uuid=$(/usr/local/bin/php /var/www/fusionpbx/resources/uuid.php);
 	group_name=superadmin
 	psql --host=$database_host --port=$database_port --username=$database_username -c "insert into v_user_groups (user_group_uuid, domain_uuid, group_name, group_uuid, user_uuid) values('$user_group_uuid', '$domain_uuid', '$group_name', '$group_uuid', '$user_uuid');"
 
@@ -95,7 +95,7 @@ if [ .$nginx_enabled = .'true' ]; then
 
 	#app defaults
 	if [ .$nginx_enabled = .'true' ]; then
-		cd /usr/local/www/fusionpbx && php /usr/local/www/fusionpbx/core/upgrade/upgrade_domains.php
+		cd /var/www/fusionpbx && php /var/www/fusionpbx/core/upgrade/upgrade_domains.php
 	fi
 
 	#reset the current working directory

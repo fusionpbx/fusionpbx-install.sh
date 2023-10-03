@@ -24,6 +24,14 @@ password=$(cat /dev/random | env LC_CTYPE=C tr -dc a-zA-Z0-9 | head -c 20)
 echo "Install PostgreSQL and create the database and users\n"
 
 #postgres install
+if [ ."$database_version" = ."15" ]; then
+	pkg install --yes postgresql15-server
+	#cd /usr/ports/databases/postgresql15-server/ && make install clean BATCH=yes
+fi
+if [ ."$database_version" = ."14" ]; then
+	pkg install --yes postgresql14-server
+	#cd /usr/ports/databases/postgresql14-server/ && make install clean BATCH=yes
+fi
 if [ ."$database_version" = ."13" ]; then
 	pkg install --yes postgresql13-server
 	#cd /usr/ports/databases/postgresql13-server/ && make install clean BATCH=yes
@@ -36,26 +44,6 @@ if [ ."$database_version" = ."11" ]; then
 	pkg install --yes postgresql11-server
 	#cd /usr/ports/databases/postgresql11-server/ && make install clean BATCH=yes
 fi
-if [ ."$database_version" = ."10" ]; then
-	pkg install --yes postgresql10-server
-	#cd /usr/ports/databases/postgresql10-server/ && make install clean BATCH=yes
-fi
-if [ ."$database_version" = ."9.6" ]; then
-	pkg install --yes postgresql96-server
-	#cd /usr/ports/databases/postgresql96-server/ && make install clean BATCH=yes
-fi
-if [ ."$database_version" = ."9.5" ]; then
-        pkg install --yes postgresql95-server
-	#cd /usr/ports/databases/postgresql95-server/ && make install clean BATCH=yes
-fi
-if [ ."$database_version" = ."9.4" ]; then
-        pkg install --yes postgresql94-server
-	#cd /usr/ports/databases/postgresql94-server/ && make install clean BATCH=yes
-fi
-if [ ."$database_version" = ."9.3" ]; then
-        pkg install --yes postgresql93-server
-	#cd /usr/ports/databases/postgresql93-server/ && make install clean BATCH=yes
-fi
 
 #enable postgres
 echo 'postgresql_enable=true' >> /etc/rc.conf
@@ -64,6 +52,12 @@ echo 'postgresql_enable=true' >> /etc/rc.conf
 /usr/local/etc/rc.d/postgresql initdb
 
 #start postgresql
+if [ ."$database_version" = ."15" ]; then
+	sudo -u postgres /usr/local/bin/pg_ctl -D /var/db/postgres/data15 start
+fi
+if [ ."$database_version" = ."14" ]; then
+	sudo -u postgres /usr/local/bin/pg_ctl -D /var/db/postgres/data14 start
+fi
 if [ ."$database_version" = ."13" ]; then
 	sudo -u postgres /usr/local/bin/pg_ctl -D /var/db/postgres/data13 start
 fi
@@ -72,21 +66,6 @@ if [ ."$database_version" = ."12" ]; then
 fi
 if [ ."$database_version" = ."11" ]; then
 	sudo -u postgres /usr/local/bin/pg_ctl -D /var/db/postgres/data11 start
-fi
-if [ ."$database_version" = ."10" ]; then
-	sudo -u postgres /usr/local/bin/pg_ctl -D /var/db/postgres/data10 start
-fi
-if [ ."$database_version" = ."9.6" ]; then
-	sudo -u postgres /usr/local/bin/pg_ctl -D /var/db/postgres/data96 start
-fi
-if [ ."$database_version" = ."9.5" ]; then
-	sudo -u postgres /usr/local/bin/pg_ctl -D /var/db/postgres/data95 start
-fi
-if [ ."$database_version" = ."9.4" ]; then
-	sudo -u postgres /usr/local/bin/pg_ctl -D /var/db/postgres/data94 start
-fi
-if [ ."$database_version" = ."9.3" ]; then
-	sudo -u pgsql /usr/local/bin/pg_ctl -D /usr/local/pgsql/data start
 fi
 
 #restart the service

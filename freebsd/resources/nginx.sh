@@ -48,7 +48,7 @@ common_name=$local_ip_v4
     -keyout /usr/local/etc/nginx/server.key -out /usr/local/etc/nginx/server.crt
 
 #add the letsencrypt directory
-mkdir -p /var/www/letsencrypt/
+mkdir -p /usr/local/www/letsencrypt/
 
 #restart php fpm and nginx
 service php-fpm restart

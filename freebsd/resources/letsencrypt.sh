@@ -18,7 +18,7 @@ cd "$(dirname "$0")"
 #rm /usr/local/sbin/dehydrated
 #rm -R /usr/src/dehydrated
 #rm -R /usr/src/dns-01-manual
-#rm -R /usr/local/www/dehydrated
+#rm -R /var/www/dehydrated
 
 #request the domain name, email address and wild card domain
 read -p 'Domain Name: ' domain_name
@@ -29,7 +29,7 @@ pkg install dehydrated
 #cd /usr/src && git clone https://github.com/lukas2511/dehydrated.git
 #cd /usr/src/dehydrated
 #cp dehydrated /usr/local/sbin
-#mkdir -p /usr/local/www/dehydrated
+#mkdir -p /var/www/dehydrated
 #mkdir -p /usr/local/etc/dehydrated/certs
 
 #wildcard detection

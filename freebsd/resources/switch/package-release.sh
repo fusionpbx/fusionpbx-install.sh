@@ -7,7 +7,7 @@ cd "$(dirname "$0")"
 . ../config.sh
 
 #install dependencies
-pkg install --yes tiff ghostscript9-base memcached sox
+pkg install --yes tiff ghostscript10 memcached sox
 
 #set the current working directory
 cwd=$(pwd)
@@ -35,8 +35,8 @@ cd $cwd
 echo 'memcached_enable="YES"' >> /etc/rc.conf
 echo 'freeswitch_enable="YES"' >> /etc/rc.conf
 echo 'freeswitch_flags="-nonat"' >> /etc/rc.conf
-echo 'freeswitch_user="www"' >> /etc/rc.conf
-echo 'freeswitch_group="www"' >> /etc/rc.conf
+echo 'freeswitch_username="www"' >> /etc/rc.conf
+echo 'freeswitch_groupname="www"' >> /etc/rc.conf
 
 #start the service
 service memcached start
