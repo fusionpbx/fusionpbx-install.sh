@@ -15,6 +15,7 @@ purge_fax=false
 purge_switch_logs=true
 purge_php_sessions=true
 purge_database_transactions=true
+purge_device_logs=false
 purge_email_queue=false
 purge_fax_queue=true
 
@@ -25,6 +26,7 @@ days_keep_fax=90
 days_keep_switch_logs=7
 days_keep_php_sessions=8
 days_keep_database_transactions=30
+days_keep_device_logs=180
 days_keep_email_queue=30
 days_keep_fax_queue=30
 
@@ -120,6 +122,13 @@ if [ .$purge_database_transactions = .true ]; then
 	psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_database_transactions where transaction_date < NOW() - INTERVAL '$days_keep_database_transactions days'"
 else
         echo "not purging database_transactions."
+fi
+
+#delete device_logs older n days
+if [ .$purge_device_logs = .true ]; then
+        psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_device_logs where timestamp < NOW() - INTERVAL '$days_keep_device_logs days'"
+else
+        echo "not purging device_logs."
 fi
 
 #delete email_queue older 30 days
