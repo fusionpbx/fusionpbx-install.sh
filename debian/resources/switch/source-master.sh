@@ -25,7 +25,7 @@ sed -i /usr/src/freeswitch/modules.conf -e s:'#formats/mod_pgsql:formats/mod_pgs
 ./configure --prefix=/usr/local/freeswitch --enable-core-pgsql-support --disable-fhs
 
 #make mod_shout-install
-make
+make -j $(getconf _NPROCESSORS_ONLN)
 rm -rf /usr/local/freeswitch/{lib,mod,bin}/*
 make install
 make sounds-install moh-install
