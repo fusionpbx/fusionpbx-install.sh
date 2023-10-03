@@ -46,7 +46,7 @@ if [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
 	git clone https://github.com/signalwire/libks.git libks
 	cd libks
 	cmake .
-	make
+	make -j $(getconf _NPROCESSORS_ONLN)
 	make install
 
 	# libks C includes
@@ -62,7 +62,7 @@ if [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
 	cd sofia-sip
 	sh autogen.sh
 	./configure
-	make
+	make -j $(getconf _NPROCESSORS_ONLN)
 	make install
 
 	# spandsp
@@ -73,7 +73,7 @@ if [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
  	#/usr/bin/sed -i 's/AC_PREREQ(\[2\.71\])/AC_PREREQ([2.69])/g' /usr/src/spandsp/configure.ac
 	sh autogen.sh
 	./configure
-	make
+	make -j $(getconf _NPROCESSORS_ONLN)
 	make install
 	ldconfig
 fi
@@ -140,7 +140,7 @@ sed -i /usr/src/freeswitch/modules.conf -e s:'endpoints/mod_verto:#endpoints/mod
 --with-openssl --enable-core-pgsql-support
 
 # compile and install
-make
+make -j $(getconf _NPROCESSORS_ONLN)
 make install
 
 #return to the executing directory
