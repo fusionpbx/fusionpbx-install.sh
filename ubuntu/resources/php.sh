@@ -16,7 +16,8 @@ if [ ."$os_name" = ."Ubuntu" ]; then
 	#20.04.x - /*bionic/
         if [ ."$os_codename" = ."focal" ]; then
                 echo "Ubuntu 20.04 LTS\n"
-		php_version=7.4
+                which add-apt-repository || apt-get install -y software-properties-common
+                LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
         fi
 	#18.04.x - /*bionic/
         if [ ."$os_codename" = ."bionic" ]; then
