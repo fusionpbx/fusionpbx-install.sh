@@ -57,9 +57,7 @@ if [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
 	#git clone https://github.com/freeswitch/sofia-sip.git sofia-sip
 	wget https://github.com/freeswitch/sofia-sip/archive/refs/tags/v$sofia_version.zip
 	unzip v$sofia_version.zip
-	rm -R sofia-sip
-	mv sofia-sip-$sofia_version sofia-sip
-	cd sofia-sip
+	cd sofia-sip-$sofia_version
 	sh autogen.sh
 	./configure
 	make -j $(getconf _NPROCESSORS_ONLN)
