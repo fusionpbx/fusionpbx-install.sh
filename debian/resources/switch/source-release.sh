@@ -94,19 +94,16 @@ if [ $switch_branch = "stable" ]; then
 	#1.8 and older
 	if [ $(echo "$switch_version" | tr -d '.') -lt 1100 ]; then
 		wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.zip
-		rm -R freeswitch
 		unzip freeswitch-$switch_version.zip
-		mv freeswitch-$switch_version freeswitch
-		cd /usr/src/freeswitch
+		cd /usr/src/freeswitch-$switch_version
 	fi
 
 	#1.10.0 and newer
 	if [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
 		wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.-release.zip
 		unzip freeswitch-$switch_version.-release.zip
-		rm -R freeswitch
-		mv freeswitch-$switch_version.-release freeswitch
-		cd /usr/src/freeswitch
+		mv freeswitch-$switch_version.-release freeswitch-$switch_version
+		cd /usr/src/freeswitch-$switch_version
 		#apply patch
 		#patch -u /usr/src/freeswitch/src/mod/databases/mod_pgsql/mod_pgsql.c -i /usr/src/fusionpbx-install.sh/debian/resources/switch/source/mod_pgsql.patch
 	fi
@@ -114,22 +111,22 @@ fi
 
 # enable required modules
 #sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_avmd:applications/mod_avmd:'
-sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_av:formats/mod_av:'
-sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_callcenter:applications/mod_callcenter:'
-sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_cidlookup:applications/mod_cidlookup:'
-sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_memcache:applications/mod_memcache:'
-sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_nibblebill:applications/mod_nibblebill:'
-sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_curl:applications/mod_curl:'
-sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_translate:applications/mod_translate:'
-sed -i /usr/src/freeswitch/modules.conf -e s:'#formats/mod_shout:formats/mod_shout:'
-sed -i /usr/src/freeswitch/modules.conf -e s:'#formats/mod_pgsql:formats/mod_pgsql:'
-sed -i /usr/src/freeswitch/modules.conf -e s:'#say/mod_say_es:say/mod_say_es:'
-sed -i /usr/src/freeswitch/modules.conf -e s:'#say/mod_say_fr:say/mod_say_fr:'
+sed -i /usr/src/freeswitch-$switch_version/modules.conf -e s:'#applications/mod_av:formats/mod_av:'
+sed -i /usr/src/freeswitch-$switch_version/modules.conf -e s:'#applications/mod_callcenter:applications/mod_callcenter:'
+sed -i /usr/src/freeswitch-$switch_version/modules.conf -e s:'#applications/mod_cidlookup:applications/mod_cidlookup:'
+sed -i /usr/src/freeswitch-$switch_version/modules.conf -e s:'#applications/mod_memcache:applications/mod_memcache:'
+sed -i /usr/src/freeswitch-$switch_version/modules.conf -e s:'#applications/mod_nibblebill:applications/mod_nibblebill:'
+sed -i /usr/src/freeswitch-$switch_version/modules.conf -e s:'#applications/mod_curl:applications/mod_curl:'
+sed -i /usr/src/freeswitch-$switch_version/modules.conf -e s:'#applications/mod_translate:applications/mod_translate:'
+sed -i /usr/src/freeswitch-$switch_version/modules.conf -e s:'#formats/mod_shout:formats/mod_shout:'
+sed -i /usr/src/freeswitch-$switch_version/modules.conf -e s:'#formats/mod_pgsql:formats/mod_pgsql:'
+sed -i /usr/src/freeswitch-$switch_version/modules.conf -e s:'#say/mod_say_es:say/mod_say_es:'
+sed -i /usr/src/freeswitch-$switch_version/modules.conf -e s:'#say/mod_say_fr:say/mod_say_fr:'
 
 #disable module or install dependency libks to compile signalwire
-sed -i /usr/src/freeswitch/modules.conf -e s:'applications/mod_signalwire:#applications/mod_signalwire:'
-sed -i /usr/src/freeswitch/modules.conf -e s:'endpoints/mod_skinny:#endpoints/mod_skinny:'
-sed -i /usr/src/freeswitch/modules.conf -e s:'endpoints/mod_verto:#endpoints/mod_verto:'
+sed -i /usr/src/freeswitch-$switch_version/modules.conf -e s:'applications/mod_signalwire:#applications/mod_signalwire:'
+sed -i /usr/src/freeswitch-$switch_version/modules.conf -e s:'endpoints/mod_skinny:#endpoints/mod_skinny:'
+sed -i /usr/src/freeswitch-$switch_version/modules.conf -e s:'endpoints/mod_verto:#endpoints/mod_verto:'
 
 # prepare the build
 #./configure --prefix=/usr/local/freeswitch --enable-core-pgsql-support --disable-fhs
