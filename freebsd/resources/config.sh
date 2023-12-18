@@ -1,6 +1,6 @@
 
 # FusionPBX Settings
-domain_name=ip_address          # hostname, ip_address or a custom value
+domain_name=hostname            # hostname, ip_address or a custom value
 system_username=admin           # default username admin
 system_password=random          # random or as a pre-set value
 system_branch=master            # master, stable
@@ -16,7 +16,7 @@ database_name=fusionpbx         # Database name (safe characters A-Z, a-z, 0-9)
 database_username=fusionpbx     # Database username (safe characters A-Z, a-z, 0-9)
 database_password=random        # random or a custom value (safe characters A-Z, a-z, 0-9)
 database_enabled=true           # true or false
-database_version=13             # Postgres 14, 13, 12, 11, 10, 9.6
+database_version=15             # Postgres 15, 14, 13, 12, 11, 10, 9.6
 database_host=127.0.0.1         # hostname or IP address
 database_port=5432              # port number
 database_backup=false           # true or false
