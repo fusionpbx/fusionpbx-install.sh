@@ -39,15 +39,15 @@ else
 	apt-get -y install apt-transport-https lsb-release ca-certificates
 
 	if [ ."$os_codename" = ."jessie" ]; then
-		wget -O /etc/apt/keyrings/php.gpg https://packages.sury.org/php/apt.gpg
+		wget -O - https://packages.sury.org/php/apt.gpg | gpg --dearmor -o /etc/apt/keyrings/php.gpg
 		sh -c 'echo "deb [signed-by=/etc/apt/keyrings/php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
 	fi
 	if [ ."$os_codename" = ."stretch" ]; then
-		wget -O /etc/apt/keyrings/php.gpg https://packages.sury.org/php/apt.gpg
+		wget -O - https://packages.sury.org/php/apt.gpg | gpg --dearmor -o /etc/apt/keyrings/php.gpg
 		sh -c 'echo "deb [signed-by=/etc/apt/keyrings/php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
 	fi
 	if [ ."$os_codename" = ."buster" ]; then
-		wget -O /etc/apt/keyrings/php.gpg https://packages.sury.org/php/apt.gpg
+		wget -O - https://packages.sury.org/php/apt.gpg | gpg --dearmor -o /etc/apt/keyrings/php.gpg
 		sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
 	fi
 	if [ ."$os_codename" = ."bullseye" ]; then
@@ -67,13 +67,13 @@ else
 			/usr/bin/apt -y install apt-transport-https lsb-release ca-certificates curl wget gnupg2
 			/usr/bin/wget -qO- https://packages.sury.org/php/apt.gpg | gpg --dearmor > /etc/apt/keyrings/sury-php-8.x.gpg
    			/usr/bin/chmod 644 /etc/apt/keyrings/sury-php-8.x.gpg
-			/usr/bin/sh -c 'echo "deb [signed-by=/etc/apt/keyrings/php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+			/usr/bin/sh -c 'echo "deb [signed-by=/etc/apt/keyrings/sury-php-8.x.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
 		fi
 		if [ ."$php_version" = ."8.2" ]; then
 			/usr/bin/apt -y install apt-transport-https lsb-release ca-certificates curl wget gnupg2
 			/usr/bin/wget -qO- https://packages.sury.org/php/apt.gpg | gpg --dearmor > /etc/apt/keyrings/sury-php-8.x.gpg
    			/usr/bin/chmod 644 /etc/apt/keyrings/sury-php-8.x.gpg
-			/usr/bin/sh -c 'echo "deb [signed-by=/etc/apt/keyrings/php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+			/usr/bin/sh -c 'echo "deb [signed-by=/etc/apt/keyrings/sury-php-8.x.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
 		fi
 	fi
 fi
