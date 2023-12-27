@@ -19,7 +19,7 @@ if [ ."$cpu_architecture" = ."x86" ]; then
 	echo "deb-src [signed-by=/usr/share/keyrings/signalwire-freeswitch-repo.gpg] https://freeswitch.signalwire.com/repo/deb/debian-release/ `lsb_release -sc` main" >> /etc/apt/sources.list.d/freeswitch.list
 fi
 if [ ."$cpu_architecture" = ."arm" ]; then
-	wget -O - https://files.freeswitch.org/repo/deb/rpi/debian-release/freeswitch_archive_g0.pub | apt-key add -
-	echo "deb http://files.freeswitch.org/repo/deb/rpi/debian-release/ `lsb_release -sc` main" > /etc/apt/sources.list.d/freeswitch.list
-	echo "deb-src http://files.freeswitch.org/repo/deb/rpi/debian-release/ `lsb_release -sc` main" >> /etc/apt/sources.list.d/freeswitch.list
+	wget --http-user=signalwire --http-password=$switch_token -O /usr/share/keyrings/signalwire-freeswitch-repo.gpg https://files.freeswitch.org/repo/deb/rpi/debian-release/freeswitch_archive_g0.pub
+	echo "deb [signed-by=/usr/share/keyrings/signalwire-freeswitch-repo.gpg] http://files.freeswitch.org/repo/deb/rpi/debian-release/ `lsb_release -sc` main" > /etc/apt/sources.list.d/freeswitch.list
+	echo "deb-src [signed-by=/usr/share/keyrings/signalwire-freeswitch-repo.gpg] http://files.freeswitch.org/repo/deb/rpi/debian-release/ `lsb_release -sc` main" >> /etc/apt/sources.list.d/freeswitch.list
 fi

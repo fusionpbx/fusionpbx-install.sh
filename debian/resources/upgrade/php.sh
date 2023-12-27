@@ -34,8 +34,8 @@ cd "$(dirname "$0")"
 if [ ."$php_version" = ."8.2" ]; then
 	#add a repo for php 8.x
 	/usr/bin/apt -y install apt-transport-https lsb-release ca-certificates curl wget gnupg2
-	/usr/bin/wget -qO- https://packages.sury.org/php/apt.gpg | gpg --dearmor > /etc/apt/trusted.gpg.d/sury-php-8.x.gpg
-	/usr/bin/sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+	/usr/bin/wget -qO- https://packages.sury.org/php/apt.gpg | gpg --dearmor > /etc/apt/keyrings/sury-php-8.x.gpg
+	/usr/bin/sh -c 'echo "deb [signed-by=/etc/apt/keyrings/php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
 	/usr/bin/apt-get update
 
 	#install php 8.2
@@ -50,8 +50,8 @@ fi
 if [ ."$php_version" = ."8.1" ]; then
 	#add a repo for php 7.x
 	/usr/bin/apt -y install apt-transport-https lsb-release ca-certificates curl wget gnupg2
-	/usr/bin/wget -qO- https://packages.sury.org/php/apt.gpg | gpg --dearmor > /etc/apt/trusted.gpg.d/sury-php-8.x.gpg
-	/usr/bin/sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+	/usr/bin/wget -qO- https://packages.sury.org/php/apt.gpg | gpg --dearmor > /etc/apt/keyrings/sury-php-8.x.gpg
+	/usr/bin/sh -c 'echo "deb [signed-by=/etc/apt/keyrings/php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
 	/usr/bin/apt-get update
 
 	#install php 8.1
