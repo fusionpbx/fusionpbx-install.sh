@@ -10,8 +10,11 @@ cd "$(dirname "$0")"
 now=$(date +%Y-%m-%d)
 
 #show this server's addresses
-server_address=$(hostname -I);
-echo "This Server Address: $server_address"
+server_address=$(hostname -I | awk '{print $1}')
+server_address_v6=$(hostname -I | awk '{print $2}')
+echo "\nThis Server's IP Addresses"
+echo "IPv4: $server_address"
+echo "IPv6: $server_address_v6"
 
 #nodes addresses
 read -p "Enter all Node IP Addresses: " nodes
@@ -21,21 +24,21 @@ read -p "Enter the replication method. (logical,bdr): " replication_method
 
 #request group_create, node_1 and node_2
 if [ .$replication_method = ."bdr" ]; then
-	read -p 'Create Group (y,n): ' group_create
-	if [ .$group_create = ."y" ]; then
-		read -p 'Enter this Nodes Address: ' node_1;
-	else
-		read -p 'Join using node already in group: ' node_1;
-		read -p 'Enter this Nodes Address: ' node_2;
-	fi
+        read -p 'Create Group (y,n): ' group_create
+        if [ .$group_create = ."y" ]; then
+                read -p 'Enter this Nodes Address: ' node_1;
+        else
+                read -p 'Join using node already in group: ' node_1;
+                read -p 'Enter this Nodes Address: ' node_2;
+        fi
 fi
 
 if [ .$replication_method = ."bdr" ]; then
-	#determine which database to replicate
-	read -p 'Replicate the FusionPBX Database (y,n): ' system_replicate
-	
-	#determine which database to replicate
-	read -p 'Replicate the FreeSWITCH Database (y,n): ' switch_replicate
+        #determine which database to replicate
+        read -p 'Replicate the FusionPBX Database (y,n): ' system_replicate
+
+        #determine which database to replicate
+        read -p 'Replicate the FreeSWITCH Database (y,n): ' switch_replicate
 fi
 
 #determine whether to add iptable rules
@@ -47,37 +50,37 @@ echo " Summary";
 echo "-----------------------------";
 echo "All Node IP Addresses: $nodes";
 if [ .$replication_method = ."bdr" ]; then
-	echo "Create Group: $group_create";
-	if [ .$group_create = ."y" ]; then
-		echo "This Nodes Address: $node_1";
-	else
-		echo "Join using node in group: $node_1";
-		echo "This Node Address: $node_2";
-	fi
-	echo "Replicate the FusionPBX Database: $system_replicate";
-	echo "Replicate the FreeSWITCH Database: $switch_replicate";
+        echo "Create Group: $group_create";
+        if [ .$group_create = ."y" ]; then
+                echo "This Nodes Address: $node_1";
+        else
+                echo "Join using node in group: $node_1";
+                echo "This Node Address: $node_2";
+        fi
+        echo "Replicate the FusionPBX Database: $system_replicate";
+        echo "Replicate the FreeSWITCH Database: $switch_replicate";
 fi
 echo "Add iptable rules: $iptables_add";
 echo "";
 
 #verify
-read -p 'Is the information correct (y,n): ' verified 
+read -p 'Is the information correct (y,n): ' verified
 if [ .$verified != ."y" ]; then
-	echo "Goodbye";
-	exit 0;
+        echo "Goodbye";
+        exit 0;
 fi
 
 #iptables rules
 if [ .$iptables_add = ."y" ]; then
-	for node in $nodes; do
-		/usr/sbin/iptables -A INPUT -j ACCEPT -p tcp --dport 5432 -s ${node}/32
-		/usr/sbin/iptables -A INPUT -j ACCEPT -p tcp --dport 22000 -s ${node}/32
-	done
-	apt-get remove iptables-persistent -y
-	echo iptables-persistent iptables-persistent/autosave_v4 boolean true | debconf-set-selections
-	echo iptables-persistent iptables-persistent/autosave_v6 boolean true | debconf-set-selections
-	apt-get install -y iptables-persistent
-	systemctl restart fail2ban
+        for node in $nodes; do
+                /usr/sbin/iptables -A INPUT -j ACCEPT -p tcp --dport 5432 -s ${node}/32
+                /usr/sbin/iptables -A INPUT -j ACCEPT -p tcp --dport 22000 -s ${node}/32
+        done
+        apt-get remove iptables-persistent -y
+        echo iptables-persistent iptables-persistent/autosave_v4 boolean true | debconf-set-selections
+        echo iptables-persistent iptables-persistent/autosave_v6 boolean true | debconf-set-selections
+        apt-get install -y iptables-persistent
+        systemctl restart fail2ban
 fi
 
 #setup ssl
@@ -98,7 +101,7 @@ echo "max_wal_senders = 10" >> /etc/postgresql/$database_version/main/postgresql
 echo "max_replication_slots = 48" >> /etc/postgresql/$database_version/main/postgresql.conf
 echo "max_worker_processes = 48" >> /etc/postgresql/$database_version/main/postgresql.conf
 if [ .$replication_method = ."bdr" ]; then
-	echo "shared_preload_libraries = 'bdr'" >> /etc/postgresql/$database_version/main/postgresql.conf
+        echo "shared_preload_libraries = 'bdr'" >> /etc/postgresql/$database_version/main/postgresql.conf
 fi
 
 #pg_hba.conf - append settings
@@ -130,58 +133,58 @@ cd /tmp
 
 #add the bdr repo
 if [ .$replication_method = ."bdr" ]; then
-	if [ .$database_version = ."9.6" ]; then
-		echo 'deb http://packages.2ndquadrant.com/bdr/apt/ jessie-2ndquadrant main' > /etc/apt/sources.list.d/2ndquadrant.list
-		/usr/bin/wget --quiet -O - http://packages.2ndquadrant.com/bdr/apt/AA7A6805.asc | apt-key add -
-		apt-get update && apt-get upgrade -y
-		apt-get install -y sudo postgresql-9.6-bdr-plugin
-	fi
+        if [ .$database_version = ."9.6" ]; then
+                echo 'deb http://packages.2ndquadrant.com/bdr/apt/ jessie-2ndquadrant main' > /etc/apt/sources.list.d/2ndquadrant.list
+                /usr/bin/wget --quiet -O - http://packages.2ndquadrant.com/bdr/apt/AA7A6805.asc | apt-key add -
+                apt-get update && apt-get upgrade -y
+                apt-get install -y sudo postgresql-9.6-bdr-plugin
+        fi
 fi
 
 #add the postgres extensions
 if [ .$replication_method = ."bdr" ]; then
-	sudo -u postgres psql -d fusionpbx -c "CREATE EXTENSION btree_gist;";
-	sudo -u postgres psql -d fusionpbx -c "CREATE EXTENSION bdr;";
-	sudo -u postgres psql -d freeswitch -c "CREATE EXTENSION btree_gist;";
-	sudo -u postgres psql -d freeswitch -c "CREATE EXTENSION bdr;";
+        sudo -u postgres psql -d fusionpbx -c "CREATE EXTENSION btree_gist;";
+        sudo -u postgres psql -d fusionpbx -c "CREATE EXTENSION bdr;";
+        sudo -u postgres psql -d freeswitch -c "CREATE EXTENSION btree_gist;";
+        sudo -u postgres psql -d freeswitch -c "CREATE EXTENSION bdr;";
 fi
 
 #add master nodes
 if [ .$replication_method = ."bdr" ]; then
-	if [ .$group_create = ."y" ]; then
-		#add first node
-		if [ .$system_replicate = ."y" ]; then
-			sudo -u postgres psql -d fusionpbx -c "SELECT bdr.bdr_group_create(local_node_name := '$node_1', node_external_dsn := 'host=$node_1 port=5432 dbname=fusionpbx connect_timeout=10 keepalives_idle=5 keepalives_interval=1 sslmode=require');";
-		fi
-		if [ .$switch_replicate = ."y" ]; then
-			sudo -u postgres psql -d freeswitch -c "SELECT bdr.bdr_group_create(local_node_name := '$node_1', node_external_dsn := 'host=$node_1 port=5432 dbname=freeswitch connect_timeout=10 keepalives_idle=5 keepalives_interval=1 sslmode=require');";
-		fi
-	else
-		#add additional master nodes
-		if [ .$system_replicate = ."y" ]; then
-			sudo -u postgres psql -d fusionpbx -c "SELECT bdr.bdr_group_join(local_node_name := '$node_2', node_external_dsn := 'host=$node_2 port=5432 dbname=fusionpbx connect_timeout=10 keepalives_idle=5 keepalives_interval=1', join_using_dsn := 'host=$node_1 port=5432 dbname=fusionpbx connect_timeout=10 keepalives_idle=5 keepalives_interval=1 sslmode=require');";
-		fi
-		if [ .$switch_replicate = ."y" ]; then
-			sudo -u postgres psql -d freeswitch -c "SELECT bdr.bdr_group_join(local_node_name := '$node_2', node_external_dsn := 'host=$node_2 port=5432 dbname=freeswitch connect_timeout=10 keepalives_idle=5 keepalives_interval=1', join_using_dsn := 'host=$node_1 port=5432 dbname=freeswitch connect_timeout=10 keepalives_idle=5 keepalives_interval=1 sslmode=require');";
-		fi
-	fi
+        if [ .$group_create = ."y" ]; then
+                #add first node
+                if [ .$system_replicate = ."y" ]; then
+                        sudo -u postgres psql -d fusionpbx -c "SELECT bdr.bdr_group_create(local_node_name := '$node_1', node_external_dsn := 'host=$node_1 port=5432 dbname=fusionpbx connect_timeout=10 keepalives_idle=5 keepalives_interval=1 sslmode=require');";
+                fi
+                if [ .$switch_replicate = ."y" ]; then
+                        sudo -u postgres psql -d freeswitch -c "SELECT bdr.bdr_group_create(local_node_name := '$node_1', node_external_dsn := 'host=$node_1 port=5432 dbname=freeswitch connect_timeout=10 keepalives_idle=5 keepalives_interval=1 sslmode=require');";
+                fi
+        else
+                #add additional master nodes
+                if [ .$system_replicate = ."y" ]; then
+                        sudo -u postgres psql -d fusionpbx -c "SELECT bdr.bdr_group_join(local_node_name := '$node_2', node_external_dsn := 'host=$node_2 port=5432 dbname=fusionpbx connect_timeout=10 keepalives_idle=5 keepalives_interval=1', join_using_dsn := 'host=$node_1 port=5432 dbname=fusionpbx connect_timeout=10 keepalives_idle=5 keepalives_interval=1 sslmode=require');";
+                fi
+                if [ .$switch_replicate = ."y" ]; then
+                        sudo -u postgres psql -d freeswitch -c "SELECT bdr.bdr_group_join(local_node_name := '$node_2', node_external_dsn := 'host=$node_2 port=5432 dbname=freeswitch connect_timeout=10 keepalives_idle=5 keepalives_interval=1', join_using_dsn := 'host=$node_1 port=5432 dbname=freeswitch connect_timeout=10 keepalives_idle=5 keepalives_interval=1 sslmode=require');";
+                fi
+        fi
 
-	#load the freeswitch database
-	#sudo -u postgres psql -d freeswitch -f /var/www/fusionpbx/resources/install/sql/switch.sql -L /tmp/switch-sql.log
+        #load the freeswitch database
+        #sudo -u postgres psql -d freeswitch -f /var/www/fusionpbx/resources/install/sql/switch.sql -L /tmp/switch-sql.log
 
-	#sleeping
-	if [ .$group_create = ."n" ]; then
-		echo "Sleeping for 15 seconds";
-		for i in `seq 1 15`; do
-			echo $i
-			sleep 1
-		done
-	fi
+        #sleeping
+        if [ .$group_create = ."n" ]; then
+                echo "Sleeping for 15 seconds";
+                for i in `seq 1 15`; do
+                        echo $i
+                        sleep 1
+                done
+        fi
 fi
 
 #add extension pgcrypto
 if [ .$group_create = ."n" ]; then
-	sudo -u postgres psql -d freeswitch -c "CREATE EXTENSION pgcrypto;";
+        sudo -u postgres psql -d freeswitch -c "CREATE EXTENSION pgcrypto;";
 fi
 
 #message to user
