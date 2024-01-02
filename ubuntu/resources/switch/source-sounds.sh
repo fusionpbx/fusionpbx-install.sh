@@ -8,7 +8,7 @@ cd "$(dirname "$0")"
 . ../environment.sh
 
 # change the working directory
-cd /usr/src/freeswitch
+cd /usr/src/freeswitch-$switch_version
 
 # compile and install the sounds
 make sounds-install moh-install
