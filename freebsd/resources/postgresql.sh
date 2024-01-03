@@ -24,6 +24,14 @@ password=$(cat /dev/random | env LC_CTYPE=C tr -dc a-zA-Z0-9 | head -c 20)
 echo "Install PostgreSQL and create the database and users\n"
 
 #postgres install
+if [ ."$database_version" = ."15" ]; then
+	pkg install --yes postgresql15-server
+	#cd /usr/ports/databases/postgresql15-server/ && make install clean BATCH=yes
+fi
+if [ ."$database_version" = ."14" ]; then
+	pkg install --yes postgresql14-server
+	#cd /usr/ports/databases/postgresql14-server/ && make install clean BATCH=yes
+fi
 if [ ."$database_version" = ."13" ]; then
 	pkg install --yes postgresql13-server
 	#cd /usr/ports/databases/postgresql13-server/ && make install clean BATCH=yes
@@ -64,6 +72,12 @@ echo 'postgresql_enable=true' >> /etc/rc.conf
 /usr/local/etc/rc.d/postgresql initdb
 
 #start postgresql
+if [ ."$database_version" = ."15" ]; then
+	sudo -u postgres /usr/local/bin/pg_ctl -D /var/db/postgres/data15 start
+fi
+if [ ."$database_version" = ."14" ]; then
+	sudo -u postgres /usr/local/bin/pg_ctl -D /var/db/postgres/data14 start
+fi
 if [ ."$database_version" = ."13" ]; then
 	sudo -u postgres /usr/local/bin/pg_ctl -D /var/db/postgres/data13 start
 fi
