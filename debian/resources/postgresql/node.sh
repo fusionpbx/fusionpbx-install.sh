@@ -11,7 +11,12 @@ now=$(date +%Y-%m-%d)
 
 #show this server's addresses
 server_address=$(hostname -I);
+server_address=$(hostname -I | awk '{print $1}')
 echo "This Server Address: $server_address"
+server_address_v6=$(hostname -I | awk '{print $2}')
+echo "\nThis Server's IP Addresses"
+echo "IPv4: $server_address"
+echo "IPv6: $server_address_v6"
 
 #nodes addresses
 read -p "Enter all Node IP Addresses: " nodes
@@ -33,7 +38,7 @@ fi
 if [ .$replication_method = ."bdr" ]; then
 	#determine which database to replicate
 	read -p 'Replicate the FusionPBX Database (y,n): ' system_replicate
-	
+
 	#determine which database to replicate
 	read -p 'Replicate the FreeSWITCH Database (y,n): ' switch_replicate
 fi
