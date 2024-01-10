@@ -8,6 +8,9 @@ cd "$(dirname "$0")"
 . ./colors.sh
 . ./environment.sh
 
+#make sure keyrings directory exits
+mkdir /etc/apt/keyrings
+
 #add sngrep
 if [ ."$cpu_architecture" = ."arm" ]; then
 	#source install
@@ -18,7 +21,7 @@ if [ ."$cpu_architecture" = ."arm" ]; then
 	cd /usr/src/sngrep && make install
 else
 	#package install
-	echo "deb [signed-by=/etc/apt/keyrings/irontec.gpg] http://packages.irontec.com/debian $os_codename main" > /etc/apt/sources.list.d/sngrep.list
+	echo "deb [signed-by=/etc/apt/keyrings/irontec.gpg] http://packages.irontec.com/debian $(lsb_release -cs) main" > /etc/apt/sources.list.d/sngrep.list
 	wget http://packages.irontec.com/public.key -q -O - | gpg --dearmor -o /etc/apt/keyrings/irontec.gpg
 	apt-get update
 	apt-get install -y sngrep

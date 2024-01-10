@@ -26,6 +26,9 @@ if [ ."$database_repo" = ."system" ]; then
 	fi
 fi
 
+#make sure keyrings directory exits
+mkdir /etc/apt/keyrings
+
 #postgres official repository
 if [ ."$database_repo" = ."official" ]; then
 	sh -c 'echo "deb [signed-by=/etc/apt/keyrings/pgdg.gpg] http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
