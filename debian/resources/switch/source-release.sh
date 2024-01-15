@@ -59,7 +59,7 @@ if [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
 	unzip v$sofia_version.zip
 	cd sofia-sip-$sofia_version
 	sh autogen.sh
-	./configure
+	./configure --enable-debug
 	make -j $(getconf _NPROCESSORS_ONLN)
 	make install
 
@@ -70,7 +70,7 @@ if [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
  	git reset --hard 0d2e6ac65e0e8f53d652665a743015a88bf048d4
  	#/usr/bin/sed -i 's/AC_PREREQ(\[2\.71\])/AC_PREREQ([2.69])/g' /usr/src/spandsp/configure.ac
 	sh autogen.sh
-	./configure
+	./configure --enable-debug
 	make -j $(getconf _NPROCESSORS_ONLN)
 	make install
 	ldconfig
@@ -130,7 +130,7 @@ sed -i /usr/src/freeswitch-$switch_version/modules.conf -e s:'endpoints/mod_vert
 
 # prepare the build
 #./configure --prefix=/usr/local/freeswitch --enable-core-pgsql-support --disable-fhs
-./configure -C --enable-portable-binary --disable-dependency-tracking \
+./configure -C --enable-portable-binary --disable-dependency-tracking --enable-debug \
 --prefix=/usr --localstatedir=/var --sysconfdir=/etc \
 --with-openssl --enable-core-pgsql-support
 
