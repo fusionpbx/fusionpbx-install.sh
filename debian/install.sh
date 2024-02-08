@@ -24,6 +24,7 @@ apt-get install -y ca-certificates
 apt-get install -y dialog
 apt-get install -y nano
 apt-get install -y net-tools
+apt-get install -y gpg
 
 #SNMP
 apt-get install -y snmpd
