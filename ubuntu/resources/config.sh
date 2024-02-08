@@ -9,7 +9,7 @@ system_branch=5.2               # master, 5.2
 switch_branch=stable            # master, stable
 switch_source=true              # true or false
 switch_package=false            # true or false
-switch_version=1.10.10           # only for source
+switch_version=1.10.11           # only for source
 switch_tls=true                 # true or false
 
 # Sofia-Sip Settings
