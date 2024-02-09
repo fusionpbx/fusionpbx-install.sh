@@ -15,7 +15,9 @@ verbose "Installing the web server"
 if [ ."$cpu_architecture" = ."arm" ]; then
 	#Pi2 and Pi3 Raspbian
 	#Odroid
-	if [ ."$os_codename" = ."focal" ]; then
+	if [ ."$os_codename" = ."jammy" ]; then
+	      php_version=8.1
+	elif [ ."$os_codename" = ."focal" ]; then
 	      php_version=7.4
 	else
 	      php_version=5.6
@@ -40,6 +42,9 @@ if [ ."$php_version" = ."7.2" ]; then
 fi
 if [ ."$php_version" = ."7.4" ]; then
         sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php7.4-fpm.sock;#g'
+fi
+if [ ."$php_version" = ."8.1" ]; then
+        sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php8.1-fpm.sock;#g'
 fi
 ln -s /etc/nginx/sites-available/fusionpbx /etc/nginx/sites-enabled/fusionpbx
 
