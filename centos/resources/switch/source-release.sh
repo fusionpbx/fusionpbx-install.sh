@@ -8,7 +8,7 @@ cd "$(dirname "$0")"
 . ../colors.sh
 
 #upgrade packages
-apt update && apt upgrade -y
+yum update && yum upgrade -y
 
 yum -y install memcached curl gdb
 
