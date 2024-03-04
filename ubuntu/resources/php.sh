@@ -13,6 +13,11 @@ verbose "Configuring PHP"
 
 #add the repository
 if [ ."$os_name" = ."Ubuntu" ]; then
+	#22.04.x - /*jammy/
+        if [ ."$os_codename" = ."jammy" ]; then
+                echo "Ubuntu 22.04 LTS\n"
+                php_version=8.1
+        fi
 	#20.04.x - /*bionic/
         if [ ."$os_codename" = ."focal" ]; then
                 echo "Ubuntu 20.04 LTS\n"
@@ -53,6 +58,9 @@ fi
 if [ ."$php_version" = ."7.4" ]; then
         apt-get install -y php7.4 php7.4-cli php7.4-fpm php7.4-pgsql php7.4-sqlite3 php7.4-odbc php7.4-curl php7.4-imap php7.4-xml php7.4-gd php7.4-mbstring
 fi
+if [ ."$php_version" = ."8.1" ]; then
+        apt-get install -y php8.1 php8.1-cli php8.1-fpm php8.1-pgsql php8.1-sqlite3 php8.1-odbc php8.1-curl php8.1-imap php8.1-xml php8.1-gd php8.1-mbstring
+fi
 
 #update config if source is being used
 if [ ."$php_version" = ."5" ]; then
@@ -74,6 +82,10 @@ fi
 if [ ."$php_version" = ."7.4" ]; then
         verbose "version 7.4"
         php_ini_file='/etc/php/7.4/fpm/php.ini'
+fi
+if [ ."$php_version" = ."8.1" ]; then
+        verbose "version 8.1"
+        php_ini_file='/etc/php/8.1/fpm/php.ini'
 fi
 sed 's#post_max_size = .*#post_max_size = 80M#g' -i $php_ini_file
 sed 's#upload_max_filesize = .*#upload_max_filesize = 80M#g' -i $php_ini_file
@@ -101,6 +113,9 @@ if [ ."$php_version" = ."7.2" ]; then
 fi
 if [ ."$php_version" = ."7.4" ]; then
         systemctl restart php7.4-fpm
+fi
+if [ ."$php_version" = ."8.1" ]; then
+        systemctl restart php8.1-fpm
 fi
 #init.d
 #/usr/sbin/service php5-fpm restart
