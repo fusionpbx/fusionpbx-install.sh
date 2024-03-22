@@ -92,3 +92,14 @@ if [ ."$php_version" = ."7.4" ]; then
         #restart the service
         service php7.4-fpm restart
 fi
+if [ ."$php_version" = ."8.1" ]; then
+        #copy the php extension .so into the php lib directory
+        cp ioncube/ioncube_loader_lin_8.1.so /usr/lib/php/20210902
+
+        #add the 00-ioncube.ini file
+	echo "zend_extension = /usr/lib/php/20210902/ioncube_loader_lin_8.1.so" > /etc/php/8.1/fpm/conf.d/00-ioncube.ini
+	echo "zend_extension = /usr/lib/php/20210902/ioncube_loader_lin_8.1.so" > /etc/php/8.1/cli/conf.d/00-ioncube.ini
+
+        #restart the service
+        service php8.1-fpm restart
+fi
