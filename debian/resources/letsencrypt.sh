@@ -4,7 +4,7 @@
 # Mark J Crane <markjcrane@fusionpbx.com>
 # Copyright (C) 2018
 # All Rights Reserved.
-      
+
 #move to script directory so all relative paths work
 cd "$(dirname "$0")"
 
@@ -85,7 +85,7 @@ if [ .$wildcard_domain = ."true" ]; then
 	./dehydrated --cron --domain *.$domain_name --preferred-chain "ISRG Root X1" --algo rsa --alias $domain_alias --config /etc/dehydrated/config --out /etc/dehydrated/certs --challenge dns-01 --hook /etc/dehydrated/hook.sh
 fi
 if [ .$wildcard_domain = ."false" ]; then
-	./dehydrated --cron --alias $domain_alias --preferred-chain "ISRG Root X1" --algo rsa --config /etc/dehydrated/config --config /etc/dehydrated/config --out /etc/dehydrated/certs --challenge http-01
+	./dehydrated --cron --alias $domain_alias --preferred-chain "ISRG Root X1" --algo rsa --config /etc/dehydrated/config --out /etc/dehydrated/certs --challenge http-01
 fi
 
 #make sure the nginx ssl directory exists
