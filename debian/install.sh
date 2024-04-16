@@ -40,14 +40,17 @@ resources/iptables.sh
 #sngrep
 resources/sngrep.sh
 
-#FusionPBX
-resources/fusionpbx.sh
-
 #PHP
 resources/php.sh
 
 #NGINX web server
 resources/nginx.sh
+
+#FusionPBX
+resources/fusionpbx.sh
+
+#Optional Applications
+resources/applications.sh
 
 #FreeSWITCH
 resources/switch.sh
