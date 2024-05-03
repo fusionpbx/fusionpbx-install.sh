@@ -81,9 +81,13 @@ if [ .$purge_call_recordings = .true ]; then
 	if [ .$switch_package = .true ]; then
 		find /var/lib/freeswitch/recordings/*/archive/*  -name '*.wav' -mtime +$days_keep_call_recordings -exec rm {} \;
 		find /var/lib/freeswitch/recordings/*/archive/*  -name '*.mp3' -mtime +$days_keep_call_recordings -exec rm {} \;
+		#remove empty folders
+		find /var/lib/freeswitch/recordings/*/archive/* -empty -type d -delete
 	else
 		find /usr/local/freeswitch/recordings/*/archive/*  -name '*.wav' -mtime +$days_keep_call_recordings -exec rm {} \;
 		find /usr/local/freeswitch/recordings/*/archive/*  -name '*.mp3' -mtime +$days_keep_call_recordings -exec rm {} \;
+		#remove empty folders
+		find /usr/local/freeswitch/recordings/*/archive/* -empty -type d -delete
 	fi
 	#Call recordings table uses a view. The data is from v_xml_cdr table. Changed in FusionPBX 5.0.7 and higher. The following line is useful to older versions.
 	#psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_call_recordings WHERE call_recording_date < NOW() - INTERVAL '90 days'"
