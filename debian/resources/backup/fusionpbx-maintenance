@@ -115,11 +115,11 @@ if [ .$purge_cdrs = .true ]; then
 	#delete call detail records older n days
 	psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_xml_cdr WHERE start_stamp < NOW() - INTERVAL '$days_keep_cdrs days'"
 	#call detail record - call flow
-	psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_xml_cdr_flow WHERE insert_date < NOW() - INTERVAL 'days_keep_cdrs days'"
+	psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_xml_cdr_flow WHERE insert_date < NOW() - INTERVAL '$days_keep_cdrs days'"
 	#call detail record - json
-	psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_xml_cdr_json WHERE start_stamp < NOW() - INTERVAL 'days_keep_cdrs days'"
+	psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_xml_cdr_json WHERE start_stamp < NOW() - INTERVAL '$days_keep_cdrs days'"
 	#call detail record - call logs
-	psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_xml_cdr_logs WHERE log_date < NOW() - INTERVAL 'days_keep_cdrs days'"
+	psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_xml_cdr_logs WHERE log_date < NOW() - INTERVAL '$days_keep_cdrs days'"
 else
         echo "not purging CDRs."
 fi
@@ -140,21 +140,21 @@ fi
 
 #delete device_logs older n days
 if [ .$purge_device_logs = .true ]; then
-        psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_device_logs where timestamp < NOW() - INTERVAL '$days_keep_device_logs days'"
+        psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_device_logs where timestamp < NOW() - INTERVAL '$days_keep_device_logs days'"
 else
         echo "not purging device_logs."
 fi
 
 #delete event_guard_logs older n days
 if [ .$purge_event_guard_logs = .true ]; then
-        psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_event_guard_logs where timestamp < NOW() - INTERVAL '$days_keep_event_guard_logs days'"
+        psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_event_guard_logs where timestamp < NOW() - INTERVAL '$days_keep_event_guard_logs days'"
 else
         echo "not purging event_guard_logs."
 fi
 
 #delete user_logs older n days
 if [ .$days_keep_event_guard_logs = .true ]; then
-        psql --host=127.0.0.1 --username=fusionpbx -c "delete from v_user_logs where timestamp < NOW() - INTERVAL '$days_keep_user_logs days'"
+        psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_user_logs where timestamp < NOW() - INTERVAL '$days_keep_user_logs days'"
 else
         echo "not purging user_logs."
 fi
