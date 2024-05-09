@@ -11,7 +11,7 @@ cd "$(dirname "$0")"
 verbose "Installing Fail2ban"
 
 #add the dependencies
-apt-get install -y fail2ban
+apt-get install -y fail2ban rsyslog
 
 #move the filters
 cp fail2ban/sip-auth-failure.conf /etc/fail2ban/filter.d/sip-auth-failure.conf
