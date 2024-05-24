@@ -117,6 +117,11 @@ server {
 	rewrite "^.*/provision/VCS754_([A-Fa-f0-9]{12})\.cfg$" /app/provision/?mac=$1;
 	rewrite "^.*/provision/pb([A-Fa-f0-9-]{12,17})/directory\.xml$" /app/provision/?mac=$1&file=directory.xml;
 
+	#Snom
+	rewrite "^.*/provision/-([A-Fa-f0-9]{12})?$" /app/provision/index.php?mac=$1;
+	rewrite "^.*/provision/C520-WiMi_([A-Fa-f0-9]{12})\.cfg$" /app/provision/index.php?mac=$1;
+    rewrite "^.*/provision/([A-Fa-f0-9]{12})/directory\.xml$" /app/provision/?mac=$1&file=directory.xml;
+
 	access_log /var/log/nginx/access.log;
 	error_log /var/log/nginx/error.log;
 
@@ -228,6 +233,11 @@ server {
 	#Vtech
 	rewrite "^.*/provision/VCS754_([A-Fa-f0-9]{12})\.cfg$" /app/provision/?mac=$1;
 	rewrite "^.*/provision/pb([A-Fa-f0-9-]{12,17})/directory\.xml$" /app/provision/?mac=$1&file=directory.xml;
+
+	#Snom
+	rewrite "^.*/provision/-([A-Fa-f0-9]{12})?$" /app/provision/index.php?mac=$1;
+	rewrite "^.*/provision/C520-WiMi_([A-Fa-f0-9]{12})\.cfg$" /app/provision/index.php?mac=$1;
+    rewrite "^.*/provision/([A-Fa-f0-9]{12})/directory\.xml$" /app/provision/?mac=$1&file=directory.xml;
 
 	access_log /var/log/nginx/access.log;
 	error_log /var/log/nginx/error.log;
