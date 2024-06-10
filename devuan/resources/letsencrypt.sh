@@ -23,7 +23,7 @@ read -p 'Domain Name: ' domain_name
 read -p 'Email Address: ' email_address
 
 #get and install dehydrated
-cd /usr/src && git clone https://github.com/lukas2511/dehydrated.git
+cd /usr/src && git clone https://github.com/dehydrated-io/dehydrated.git
 cd /usr/src/dehydrated
 cp dehydrated /usr/local/sbin
 mkdir -p /var/www/dehydrated
