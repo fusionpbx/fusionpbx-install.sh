@@ -104,8 +104,12 @@ if [ $switch_branch = "stable" ]; then
 		unzip freeswitch-$switch_version.-release.zip
 		mv freeswitch-$switch_version.-release freeswitch-$switch_version
 		cd /usr/src/freeswitch-$switch_version
-		#apply patch
-		#patch -u /usr/src/freeswitch/src/mod/databases/mod_pgsql/mod_pgsql.c -i /usr/src/fusionpbx-install.sh/debian/resources/switch/source/mod_pgsql.patch
+
+  		#apply rtp timestamp patch - Fix RTP audio issues use the following for additional information. https://github.com/briteback/freeswitch/commit/9f8968ccabb8a4e0353016d4ea0ff99561b005f1
+		patch -u /usr/src/freeswitch-$switch_version/src/switch_rtp.c -i /usr/src/fusionpbx-install.sh/debian/resources/switch/source/rtp_timestamp.patch
+  
+		#apply mod_pgsql patch
+		#patch -u /usr/src/freeswitch-$switch_version/src/mod/databases/mod_pgsql/mod_pgsql.c -i /usr/src/fusionpbx-install.sh/debian/resources/switch/source/mod_pgsql.patch
 	fi
 fi
 
