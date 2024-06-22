@@ -1,0 +1,10 @@
+--- switch_rtp.c    2024-06-22 15:48:16.879125840 +0000
++++ switch_rtp.c    2024-06-22 15:50:05.055559774 +0000
+@@ -8904,6 +8904,7 @@
+                data = frame->data;
+                len = frame->datalen;
+                ts = rtp_session->flags[SWITCH_RTP_FLAG_RAW_WRITE] ? (uint32_t) frame->timestamp : 0;
++               if (!ts) ts = rtp_session->last_write_ts + rtp_session->samples_per_interval;
+        }
+ 
+        /*
