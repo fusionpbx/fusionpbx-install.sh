@@ -118,7 +118,7 @@ server {
 	rewrite "^.*/provision/pb([A-Fa-f0-9-]{12,17})/directory\.xml$" /app/provision/?mac=$1&file=directory.xml;
 
 	#Snom
-	rewrite "^.*/provision/-([A-Fa-f0-9]{12})?$" /app/provision/index.php?mac=$1;
+	rewrite "^.*/provision/.*-([A-Fa-f0-9]{12})\.?(cfg|htm)?$" /app/provision/index.php?mac=$1;
 	rewrite "^.*/provision/C520-WiMi_([A-Fa-f0-9]{12})\.cfg$" /app/provision/index.php?mac=$1;
     rewrite "^.*/provision/([A-Fa-f0-9]{12})/directory\.xml$" /app/provision/?mac=$1&file=directory.xml;
 
@@ -235,7 +235,7 @@ server {
 	rewrite "^.*/provision/pb([A-Fa-f0-9-]{12,17})/directory\.xml$" /app/provision/?mac=$1&file=directory.xml;
 
 	#Snom
-	rewrite "^.*/provision/-([A-Fa-f0-9]{12})?$" /app/provision/index.php?mac=$1;
+	rewrite "^.*/provision/.*-([A-Fa-f0-9]{12})\.?(cfg|htm)?$" /app/provision/index.php?mac=$1;
 	rewrite "^.*/provision/C520-WiMi_([A-Fa-f0-9]{12})\.cfg$" /app/provision/index.php?mac=$1;
     rewrite "^.*/provision/([A-Fa-f0-9]{12})/directory\.xml$" /app/provision/?mac=$1&file=directory.xml;
 
