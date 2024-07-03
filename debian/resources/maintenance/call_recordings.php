@@ -14,7 +14,7 @@ In my case I put the file in /usr/src and then run manually like this.
 
 Debian
 crontab -e
-0 * * * * /usr/bin/php /usr/src/fusionpbx-install.sh/debian/resources/maintenance/call_recordings.php
+0 * * * * /usr/bin/php /usr/src/fusionpbx-install.sh/debian/resources/maintenance/call_recordings.php > /dev/null 2>&1
 
 */
 
