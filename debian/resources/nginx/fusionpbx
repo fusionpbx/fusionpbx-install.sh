@@ -80,7 +80,7 @@ server {
 	rewrite "^.*/provision/algom([A-Fa-f0-9]{12})\.conf" /app/provision/?mac=$1&file=algom%7b%24mac%7d.conf last;
 
 	#avaya
-	rewrite "^.*/provision/J100Supgrade.txt" /resources/templates/provision/avaya/J179/J100Supgrade.txt last;
+	rewrite "^.*/provision/J100Supgrade.txt" /resources/templates/provision/avaya/J100Supgrade.txt last;
 	rewrite "^.*/provision/([A-Fa-f0-9]{12}).txt?$" /app/provision/index.php?mac=$1 last;
 
 	#mitel
@@ -220,7 +220,7 @@ server {
 	rewrite "^.*/provision/algom([A-Fa-f0-9]{12})\.conf" /app/provision/?mac=$1&file=algom%7b%24mac%7d.conf last;
 
 	#avaya
-	rewrite "^.*/provision/J100Supgrade.txt" /resources/templates/provision/avaya/J179/J100Supgrade.txt last;
+	rewrite "^.*/provision/J100Supgrade.txt" /resources/templates/provision/avaya/J100Supgrade.txt last;
 	rewrite "^.*/provision/([A-Fa-f0-9]{12}).txt?$" /app/provision/index.php?mac=$1 last;
 
 	#mitel

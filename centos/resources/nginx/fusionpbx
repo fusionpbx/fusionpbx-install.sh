@@ -61,6 +61,10 @@ server {
 	#algo
 	rewrite "^.*/provision/algom([A-Fa-f0-9]{12})(\.(conf))?$" /app/provision/?mac=$1;
 
+	#avaya
+	rewrite "^.*/provision/J100Supgrade.txt" /resources/templates/provision/avaya/J100Supgrade.txt last;
+	rewrite "^.*/provision/([A-Fa-f0-9]{12}).txt?$" /app/provision/index.php?mac=$1 last;
+
 	#mitel
 	rewrite "^.*/provision/MN_([A-Fa-f0-9]{12})\.cfg" /app/provision/index.php?mac=$1&file=MN_%7b%24mac%7d.cfg last;
 	rewrite "^.*/provision/MN_Generic.cfg" /app/provision/index.php?mac=08000f000000&file=MN_Generic.cfg last;
@@ -171,6 +175,10 @@ server {
 
 	#algo
 	rewrite "^.*/provision/algom([A-Fa-f0-9]{12})(\.(conf))?$" /app/provision/?mac=$1;
+
+	#avaya
+	rewrite "^.*/provision/J100Supgrade.txt" /resources/templates/provision/avaya/J100Supgrade.txt last;
+	rewrite "^.*/provision/([A-Fa-f0-9]{12}).txt?$" /app/provision/index.php?mac=$1 last;
 
 	#mitel
 	rewrite "^.*/provision/MN_([A-Fa-f0-9]{12})\.cfg" /app/provision/index.php?mac=$1&file=MN_%7b%24mac%7d.cfg last;
