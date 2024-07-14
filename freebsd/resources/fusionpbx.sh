@@ -18,7 +18,6 @@ if [ .$system_branch = .'master' ]; then
 	verbose "Using master"
 	branch=""
 else
-	system_version=5.2
 	verbose "Using version $system_version"
 	branch="-b $system_version"
 fi
