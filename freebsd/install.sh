@@ -42,14 +42,14 @@ if [ .$nginx_enabled = .'true' ]; then
 	resources/fusionpbx.sh
 fi
 
-#NGINX web server
-if [ .$nginx_enabled = .'true' ]; then
-	resources/nginx.sh
-fi
-
 #Postgres
 if [ .$database_enabled = .'true' ]; then
 	resources/postgresql.sh
+fi
+
+#NGINX web server
+if [ .$nginx_enabled = .'true' ]; then
+	resources/nginx.sh
 fi
 
 #FreeSWITCH

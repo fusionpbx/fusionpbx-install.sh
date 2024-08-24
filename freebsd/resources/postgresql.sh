@@ -25,6 +25,7 @@ echo "Install PostgreSQL and create the database and users\n"
 
 #postgres install
 if [ ."$database_version" = ."16" ]; then
+	echo "IGNORE_DEPENDS=postgresql15-client" >> /usr/local/etc/pkg.conf
 	pkg install --yes postgresql16-server
 	#cd /usr/ports/databases/postgresql16-server/ && make install clean BATCH=yes
 fi
