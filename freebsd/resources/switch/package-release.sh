@@ -17,6 +17,7 @@ echo "Installing the FreeSWITCH package"
 
 #install the package
 if [ .$switch_source = ."package" ]; then
+	echo "IGNORE_DEPENDS=postgresql15-client" >> /usr/local/etc/pkg.conf
 	pkg install --yes freeswitch
 fi
 if [ .$switch_source = ."port" ]; then

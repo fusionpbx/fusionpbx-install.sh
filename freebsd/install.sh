@@ -47,14 +47,14 @@ if [ .$nginx_enabled = .'true' ]; then
 	resources/nginx.sh
 fi
 
-#FreeSWITCH
-if [ .$switch_enabled = .'true' ]; then
-	resources/switch.sh
-fi
-
 #Postgres
 if [ .$database_enabled = .'true' ]; then
 	resources/postgresql.sh
+fi
+
+#FreeSWITCH
+if [ .$switch_enabled = .'true' ]; then
+	resources/switch.sh
 fi
 
 #restart services

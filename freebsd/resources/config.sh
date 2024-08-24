@@ -8,7 +8,7 @@ system_branch=5.2               # master, 5.2
 # FreeSWITCH Settings
 switch_enabled=true             # true or false
 switch_branch=stable            # master, stable (master requires source)
-switch_source=port              # package, port, source
+switch_source=package           # package, port, source
 switch_tls=true                 # true or false
 
 # Database Settings
@@ -27,7 +27,7 @@ firewall_enabled=true           # true or false
 # General Settings
 interface_name=auto             # auto, em0, igb0, vtnet0, or other valid names
 php_version=8.1                 # PHP version 8.1, 7.4
-portsnap_enabled=true           # true or false
+portsnap_enabled=false          # true or false
 sngrep_enabled=true             # true or false
 fail2ban_enabled=false          # true or false
 nginx_enabled=true              # true or false
