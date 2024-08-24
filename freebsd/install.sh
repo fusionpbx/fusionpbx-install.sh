@@ -15,10 +15,13 @@ pkg upgrade --yes
 #Update the ports
 if [ .$portsnap_enabled = .'true' ]; then
 	if [ -f /usr/ports/UPDATING ]; then
-		portsnap fetch && portsnap update
+		portsnap fetch update
 		echo "/usr/ports updated"
 	else
  		pkg install --yes portsnap
+		mkdir -p /var/db/portsnap
+		chmod 755 /var/db/portsnap
+		chown root:wheel /var/db/portsnap
 		portsnap fetch extract
 		echo "/usr/ports added"
 	fi
