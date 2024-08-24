@@ -18,7 +18,7 @@ if [ .$portsnap_enabled = .'true' ]; then
 		portsnap fetch && portsnap update
 		echo "/usr/ports updated"
 	else
- 		pkg install portsnap
+ 		pkg install --yes portsnap
 		portsnap fetch extract
 		echo "/usr/ports added"
 	fi
