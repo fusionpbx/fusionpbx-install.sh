@@ -20,7 +20,7 @@ pkg install --yes wget sudo libsndfile lua52 opus libmemcached libvorbis libogg 
 #pkg install --yes libshout mpg123 lame
 
 #get the source
-git clone https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
+git clone https://github.com/signalwire/freeswitch.git /usr/src/freeswitch
 
 #prepare the source
 cd /usr/src/freeswitch && /bin/sh /usr/src/freeswitch/bootstrap.sh -j

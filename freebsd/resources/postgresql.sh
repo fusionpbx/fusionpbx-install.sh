@@ -26,7 +26,7 @@ echo "Install PostgreSQL and create the database and users\n"
 #postgres install
 if [ ."$database_version" = ."16" ]; then
 	pkg install --yes postgresql16-server
-	#cd /usr/ports/databases/postgresql15-server/ && make install clean BATCH=yes
+	#cd /usr/ports/databases/postgresql16-server/ && make install clean BATCH=yes
 fi
 if [ ."$database_version" = ."15" ]; then
 	pkg install --yes postgresql15-server

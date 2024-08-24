@@ -51,7 +51,10 @@ do
 done
 
 #flush memcache
-/usr/bin/fs_cli -x 'memcache flush'
+#/usr/bin/fs_cli -x 'memcache flush'
+
+#flush the cache
+rm /var/cache/fusionpbx/*
 
 #restart freeswitch
 service freeswitch restart

@@ -25,15 +25,14 @@ pkg install --yes spandsp sofia-sip postgresql${database_version}-client sox
 #cd /usr/src/freeswitch && /bin/sh /usr/src/freeswitch/bootstrap.sh -j
 
 #get the release from https
-cd /usr/src && fetch https://files.freeswitch.org/freeswitch-releases/freeswitch-1.10.7.-release.tar.xz
-cd /usr/src && bsdtar xf freeswitch-1.10.7.-release.tar.xz
-mv /usr/src/freeswitch-1.10.7.-release /usr/src/freeswitch
+cd /usr/src && fetch https://files.freeswitch.org/freeswitch-releases/freeswitch-1.10.12.-release.tar.xz
+cd /usr/src && bsdtar xf freeswitch-1.10.12.-release.tar.xz
+mv /usr/src/freeswitch-1.10.12.-release /usr/src/freeswitch
 
 #enable the modules
 sed -i' ' -e s:'#applications/mod_avmd:applications/mod_avmd:' /usr/src/freeswitch/modules.conf
 sed -i' ' -e s:'#applications/mod_callcenter:applications/mod_callcenter:' /usr/src/freeswitch/modules.conf
 sed -i' ' -e s:'#applications/mod_cidlookup:applications/mod_cidlookup:' /usr/src/freeswitch/modules.conf
-sed -i' ' -e s:'#applications/mod_memcache:applications/mod_memcache:' /usr/src/freeswitch/modules.conf
 sed -i' ' -e s:'#applications/mod_curl:applications/mod_curl:' /usr/src/freeswitch/modules.conf
 #sed -i' ' -e s:'#formats/mod_shout:formats/mod_shout:' /usr/src/freeswitch/modules.conf
 #sed -i' ' -e s:'#formats/mod_nibblebill:formats/mod_nibblebill:' /usr/src/freeswitch/modules.conf
@@ -71,9 +70,6 @@ cp "$cwd/rc.d.freeswitch" /usr/local/etc/rc.d/freeswitch
 chmod 0555 /usr/local/etc/rc.d/freeswitch
 
 #enable the services
-echo 'memcached_enable="YES"' >> /etc/rc.conf
 echo 'freeswitch_enable="YES"' >> /etc/rc.conf
 echo 'freeswitch_flags="-nc -nonat -u www -g www"' >> /etc/rc.conf
 
-#start the services
-service memcached start
