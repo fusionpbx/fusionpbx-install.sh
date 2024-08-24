@@ -18,8 +18,8 @@ if [ .$system_branch = .'master' ]; then
 	verbose "Using master"
 	branch=""
 else
-	verbose "Using version $system_version"
-	branch="-b $system_version"
+	verbose "Using version $system_branch"
+	branch="-b $system_branch"
 fi
 
 #add the cache directory
