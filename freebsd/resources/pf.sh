@@ -5,7 +5,7 @@ cd "$(dirname "$0")"
 
 . ./config.sh
 . ./colors.sh
-
+   
 #send a message
 verbose "Configuring PF"
 
@@ -19,3 +19,7 @@ echo 'pflog_logfile="/var/log/pflog"' >> /etc/rc.conf
 
 #copy the pf config file
 cp pf/pf.conf /etc/pf.conf
+
+#add the pf table files
+touch /etc/pf-block.conf
+touch /etc/pf-pass.conf
