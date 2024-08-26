@@ -15,20 +15,17 @@ name="freeswitch"
 rcvar=${name}_enable
 load_rc_config $name
 : ${freeswitch_enable="NO"}
-: ${freeswitch_pidfile="/usr/local/freeswitch/run/freeswitch.pid"}
+: ${freeswitch_username:=www}
+: ${freeswitch_groupname:=www}
+: ${freeswitch_pidfile="/var/run/freeswitch/freeswitch.pid"}
 start_cmd=${name}_start
 stop_cmd=${name}_stop
-reload_cmd=${name}_reload
 status_cmd=${name}_status
 pidfile=${freeswitch_pidfile}
 freeswitch_start() {
-        /usr/local/freeswitch/bin/freeswitch ${freeswitch_flags}
+        /usr/local/bin/freeswitch -nc -u ${freeswitch_username} -g ${freeswitch_groupname} ${freeswitch_flags}
 }
 freeswitch_stop() {
-        /usr/local/freeswitch/bin/freeswitch -stop 
-}
-freeswitch_reload() {
-        /usr/local/freeswitch/bin/freeswitch -stop
-        /usr/local/freeswitch/bin/freeswitch ${freeswitch_flags}
+        /usr/local/bin/freeswitch -stop
 }
 run_rc_command "$1"
