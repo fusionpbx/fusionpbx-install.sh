@@ -10,12 +10,7 @@ cd "$(dirname "$0")"
 apt update && apt upgrade -y
 
 # install dependencies
-apt install -y autoconf automake devscripts g++ git-core libncurses5-dev libtool make libjpeg-dev \
-  pkg-config flac  libgdbm-dev libdb-dev gettext sudo equivs mlocate git dpkg-dev libpq-dev \
-  liblua5.2-dev libtiff5-dev libperl-dev libcurl4-openssl-dev libsqlite3-dev libpcre3-dev \
-  devscripts libspeexdsp-dev libspeex-dev libldns-dev libedit-dev libopus-dev libmemcached-dev \
-  libshout3-dev libmpg123-dev libmp3lame-dev yasm nasm libsndfile1-dev libuv1-dev libvpx-dev \
-  libavformat-dev libswscale-dev libspandsp-dev pip libpq-dev libvlc-dev uuid-dev sox libsox-fmt-all
+apt install -y autoconf automake devscripts g++ git-core libncurses5-dev libtool make libjpeg-dev pkg-config flac  libgdbm-dev libdb-dev gettext sudo equivs plocate git dpkg-dev libpq-dev liblua5.2-dev libtiff5-dev libperl-dev libcurl4-openssl-dev libsqlite3-dev libpcre3-dev devscripts libspeexdsp-dev libspeex-dev libldns-dev libedit-dev libopus-dev libmemcached-dev libshout3-dev libmpg123-dev libmp3lame-dev yasm nasm libsndfile1-dev libuv1-dev libvpx-dev libavformat-dev libswscale-dev libspandsp-dev pip libpq-dev libvlc-dev uuid-dev sox libsox-fmt-all
 
 # additional dependencies
 apt install -y swig3.0 unzip sox wget
@@ -79,12 +74,12 @@ mv freeswitch-$switch_version.-release freeswitch-$switch_version
 cd /usr/src/freeswitch-$switch_version
 
 # bootstrap is needed if using git
-#./bootstrap.sh -j
+./bootstrap.sh -j
 
 # enable required modules
 sed -i /usr/src/freeswitch-$switch_version/modules.conf -e s:'#applications/mod_callcenter:applications/mod_callcenter:'
 sed -i /usr/src/freeswitch-$switch_version/modules.conf -e s:'#applications/mod_cidlookup:applications/mod_cidlookup:'
-sed -i /usr/src/freeswitch-$switch_version-$switch_version/modules.conf -e s:'#applications/mod_memcache:applications/mod_memcache:'
+sed -i /usr/src/freeswitch-$switch_version/modules.conf -e s:'#applications/mod_memcache:applications/mod_memcache:'
 sed -i /usr/src/freeswitch-$switch_version/modules.conf -e s:'#applications/mod_curl:applications/mod_curl:'
 sed -i /usr/src/freeswitch-$switch_version/modules.conf -e s:'#formats/mod_shout:formats/mod_shout:'
 sed -i /usr/src/freeswitch-$switch_version/modules.conf -e s:'#formats/mod_pgsql:formats/mod_pgsql:'
@@ -93,6 +88,7 @@ sed -i /usr/src/freeswitch-$switch_version/modules.conf -e s:'endpoints/mod_vert
 
 #disable module or install dependency libks to compile signalwire
 sed -i /usr/src/freeswitch-$switch_version/modules.conf -e s:'applications/mod_signalwire:#applications/mod_signalwire:'
+sed -i /usr/src/freeswitch-$switch_version/modules.conf -e s:'applications/mod_av:#applications/mod_av:'
 
 # prepare the build
 #./configure --prefix=/usr/local/freeswitch --enable-core-pgsql-support --disable-fhs

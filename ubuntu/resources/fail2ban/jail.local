@@ -10,7 +10,7 @@ findtime = 7200
 bantime  = 86400
 
 [freeswitch]
-enabled  = false
+enabled  = true
 port     = 5060:5091
 protocol = all
 filter   = freeswitch
@@ -22,32 +22,44 @@ findtime = 600
 bantime  = 3600
 #          sendmail-whois[name=FreeSwitch, dest=root, sender=fail2ban@example.org] #no smtp server installed
 
+[freeswitch-acl]
+enabled  = true
+port     = 5060:5091
+protocol = all
+filter   = freeswitch-acl
+logpath  = /var/log/freeswitch/freeswitch.log
+#logpath  = /usr/local/freeswitch/log/freeswitch.log
+action   = iptables-allports[name=freeswitch-acl, protocol=all]
+maxretry = 900
+findtime = 60
+bantime  = 86400
+
 [freeswitch-ip]
-enabled  = false
+enabled  = true
 port     = 5060:5091
 protocol = all
 filter   = freeswitch-ip
 logpath  = /var/log/freeswitch/freeswitch.log
 #logpath  = /usr/local/freeswitch/log/freeswitch.log
 action   = iptables-allports[name=freeswitch-ip, protocol=all]
-maxretry = 1
+maxretry = 3
 findtime = 30
 bantime  = 86400
 
 [auth-challenge-ip]
-enabled  = false
+enabled  = true
 port     = 5060:5091
 protocol = all
 filter   = auth-challenge-ip
 logpath  = /var/log/freeswitch/freeswitch.log
 #logpath  = /usr/local/freeswitch/log/freeswitch.log
 action   = iptables-allports[name=auth-challenge-ip, protocol=all]
-maxretry = 1
+maxretry = 3
 findtime = 30
 bantime  = 86400
 
 [sip-auth-challenge]
-enabled  = false
+enabled  = true
 port     = 5060:5091
 protocol = all
 filter   = sip-auth-challenge
@@ -59,7 +71,7 @@ findtime = 30
 bantime  = 7200
 
 [sip-auth-failure]
-enabled  = false
+enabled  = true
 port     = 5060:5091
 protocol = all
 filter   = sip-auth-failure

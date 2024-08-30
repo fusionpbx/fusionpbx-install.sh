@@ -13,6 +13,9 @@ cpu_name=$(uname -m)
 cpu_architecture='unknown'
 cpu_mode='unknown'
 
+#set the environment path
+export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
 #check what the CPU and OS are
 if [ .$cpu_name = .'armv7l' ]; then
 	# RaspberryPi 3 is actually armv8l but current Raspbian reports the cpu as armv7l and no Raspbian 64Bit has been released at this time
