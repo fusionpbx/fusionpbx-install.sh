@@ -25,6 +25,7 @@ apt-get install -y dialog
 apt-get install -y nano
 apt-get install -y nginx
 apt-get install -y build-essential
+
 #SNMP
 apt-get install -y snmpd
 echo "rocommunity public" > /etc/snmp/snmpd.conf
