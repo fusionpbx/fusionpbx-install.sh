@@ -5,6 +5,7 @@ cd "$(dirname "$0")"
 
 #includes
 . ./config.sh
+. ./environment.sh
 
 if [ .$switch_source = .true ]; then
 	if [ ."$switch_branch" = "master" ]; then

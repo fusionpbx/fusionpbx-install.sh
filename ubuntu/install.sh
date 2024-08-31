@@ -23,6 +23,8 @@ apt-get install -y systemd-sysv
 apt-get install -y ca-certificates
 apt-get install -y dialog
 apt-get install -y nano
+apt-get install -y nginx
+apt-get install -y build-essential
 
 #SNMP
 apt-get install -y snmpd
@@ -46,6 +48,9 @@ resources/nginx.sh
 
 #Postgres
 resources/postgresql.sh
+
+#Optional Applications
+resources/applications.sh
 
 #FreeSWITCH
 resources/switch.sh

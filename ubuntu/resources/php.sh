@@ -13,6 +13,18 @@ verbose "Configuring PHP"
 
 #add the repository
 if [ ."$os_name" = ."Ubuntu" ]; then
+	#24.04.x - /*noble/
+        if [ ."$os_codename" = ."noble" ]; then
+                echo "Ubuntu 24.04 LTS\n"
+                which add-apt-repository || apt-get install -y software-properties-common
+                LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
+        fi
+	#22.04.x - /*jammy/
+        if [ ."$os_codename" = ."jammy" ]; then
+                echo "Ubuntu 22.04 LTS\n"
+                which add-apt-repository || apt-get install -y software-properties-common
+                LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
+        fi
 	#20.04.x - /*bionic/
         if [ ."$os_codename" = ."focal" ]; then
                 echo "Ubuntu 20.04 LTS\n"
@@ -53,6 +65,15 @@ fi
 if [ ."$php_version" = ."7.4" ]; then
         apt-get install -y php7.4 php7.4-cli php7.4-fpm php7.4-pgsql php7.4-sqlite3 php7.4-odbc php7.4-curl php7.4-imap php7.4-xml php7.4-gd php7.4-mbstring
 fi
+if [ ."$php_version" = ."8.1" ]; then
+        apt-get install -y php8.1 php8.1-cli php8.1-fpm php8.1-pgsql php8.1-sqlite3 php8.1-odbc php8.1-curl php8.1-imap php8.1-xml php8.1-gd php8.1-mbstring
+fi
+if [ ."$php_version" = ."8.2" ]; then
+        apt-get install -y php8.2 php8.2-cli php8.2-fpm php8.2-pgsql php8.2-sqlite3 php8.2-odbc php8.2-curl php8.2-imap php8.2-xml php8.2-gd php8.2-mbstring
+fi
+if [ ."$php_version" = ."8.3" ]; then
+        apt-get install -y php8.3 php8.3-cli php8.3-fpm php8.3-pgsql php8.3-sqlite3 php8.3-odbc php8.3-curl php8.3-imap php8.3-xml php8.3-gd php8.3-mbstring
+fi
 
 #update config if source is being used
 if [ ."$php_version" = ."5" ]; then
@@ -74,6 +95,18 @@ fi
 if [ ."$php_version" = ."7.4" ]; then
         verbose "version 7.4"
         php_ini_file='/etc/php/7.4/fpm/php.ini'
+fi
+if [ ."$php_version" = ."8.1" ]; then
+        verbose "version 8.1"
+        php_ini_file='/etc/php/8.1/fpm/php.ini'
+fi
+if [ ."$php_version" = ."8.2" ]; then
+        verbose "version 8.2"
+        php_ini_file='/etc/php/8.2/fpm/php.ini'
+fi
+if [ ."$php_version" = ."8.3" ]; then
+        verbose "version 8.3"
+        php_ini_file='/etc/php/8.3/fpm/php.ini'
 fi
 sed 's#post_max_size = .*#post_max_size = 80M#g' -i $php_ini_file
 sed 's#upload_max_filesize = .*#upload_max_filesize = 80M#g' -i $php_ini_file
@@ -101,6 +134,15 @@ if [ ."$php_version" = ."7.2" ]; then
 fi
 if [ ."$php_version" = ."7.4" ]; then
         systemctl restart php7.4-fpm
+fi
+if [ ."$php_version" = ."8.1" ]; then
+        systemctl restart php8.1-fpm
+fi
+if [ ."$php_version" = ."8.2" ]; then
+        systemctl restart php8.2-fpm
+fi
+if [ ."$php_version" = ."8.3" ]; then
+        systemctl restart php8.3-fpm
 fi
 #init.d
 #/usr/sbin/service php5-fpm restart
