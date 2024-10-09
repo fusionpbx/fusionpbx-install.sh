@@ -76,6 +76,18 @@ cd /usr/src/freeswitch-$switch_version
 # bootstrap is needed if using git
 ./bootstrap.sh -j
 
+#1.10.0 and newer
+if [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
+	#apply rtp timestamp patch - Fix RTP audio issues use the following for additional information. https://github.com/briteback/freeswitch/commit/9f8968ccabb8a4e0353016d4ea0ff99561b005f1
+	#patch -u /usr/src/freeswitch-$switch_version/src/switch_rtp.c -i /usr/src/fusionpbx-install.sh/debian/resources/switch/source/switch_rtp.diff
+
+	#apply pull request 2300 to Fix session deadlock that results in stale or stuck calls. https://github.com/signalwire/freeswitch/pull/2300
+	#patch -d /usr/src/freeswitch-$switch_version/src -i /usr/src/fusionpbx-install.sh/debian/resources/switch/source/pull_2300.diff
+
+	#apply mod_pgsql patch
+	patch -u /usr/src/freeswitch-$switch_version/src/mod/databases/mod_pgsql/mod_pgsql.c -i /usr/src/fusionpbx-install.sh/ubuntu/resources/switch/source/mod_pgsql.patch
+fi
+
 # enable required modules
 sed -i /usr/src/freeswitch-$switch_version/modules.conf -e s:'#applications/mod_callcenter:applications/mod_callcenter:'
 sed -i /usr/src/freeswitch-$switch_version/modules.conf -e s:'#applications/mod_cidlookup:applications/mod_cidlookup:'
