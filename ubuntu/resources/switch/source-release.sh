@@ -85,7 +85,7 @@ if [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
 	#patch -d /usr/src/freeswitch-$switch_version/src -i /usr/src/fusionpbx-install.sh/debian/resources/switch/source/pull_2300.diff
 
 	#apply mod_pgsql patch
-	patch -u /usr/src/freeswitch-$switch_version/src/mod/databases/mod_pgsql/mod_pgsql.c -i /usr/src/fusionpbx-install.sh/ubuntu/resources/switch/source/mod_pgsql.patch
+	#patch -u /usr/src/freeswitch-$switch_version/src/mod/databases/mod_pgsql/mod_pgsql.c -i /usr/src/fusionpbx-install.sh/ubuntu/resources/switch/source/mod_pgsql.patch
 fi
 
 # enable required modules
