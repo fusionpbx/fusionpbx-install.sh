@@ -68,9 +68,10 @@ cd /usr/src
 #mv freeswitch-$switch_version freeswitch
 #cd /usr/src/freeswitch
 #1.10.0 and newer
-wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.-release.zip -O freeswitch-$switch_version.-release.zip
-unzip freeswitch-$switch_version.-release.zip
-mv freeswitch-$switch_version.-release freeswitch-$switch_version
+git clone -b $switch_version --single-branch https://github.com/fusionpbx/freeswitch freeswitch-$switch_version
+#wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.-release.zip -O freeswitch-$switch_version.-release.zip
+#unzip freeswitch-$switch_version.-release.zip
+#mv freeswitch-$switch_version.-release freeswitch-$switch_version
 cd /usr/src/freeswitch-$switch_version
 
 # bootstrap is needed if using git
