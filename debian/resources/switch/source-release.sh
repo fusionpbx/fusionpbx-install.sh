@@ -105,6 +105,9 @@ if [ $switch_branch = "stable" ]; then
 		#unzip freeswitch-$switch_version.-release.zip
 		#mv freeswitch-$switch_version.-release freeswitch-$switch_version
 		cd /usr/src/freeswitch-$switch_version
+		
+		# bootstrap is needed if using git
+		./bootstrap.sh -j
 
 		#apply rtp timestamp patch - Fix RTP audio issues use the following for additional information. https://github.com/briteback/freeswitch/commit/9f8968ccabb8a4e0353016d4ea0ff99561b005f1
 		#patch -u /usr/src/freeswitch-$switch_version/src/switch_rtp.c -i /usr/src/fusionpbx-install.sh/debian/resources/switch/source/switch_rtp.diff
