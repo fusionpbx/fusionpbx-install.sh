@@ -117,7 +117,7 @@ if [ .$purge_cdrs = .true ]; then
 	#call detail record - call flow
 	psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_xml_cdr_flow WHERE insert_date < NOW() - INTERVAL '$days_keep_cdrs days'"
 	#call detail record - json
-	psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_xml_cdr_json WHERE start_stamp < NOW() - INTERVAL '$days_keep_cdrs days'"
+	psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_xml_cdr_json WHERE insert_date < NOW() - INTERVAL '$days_keep_cdrs days'"
 	#call detail record - call logs
 	psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_xml_cdr_logs WHERE insert_date < NOW() - INTERVAL '$days_keep_cdrs days'"
 else
