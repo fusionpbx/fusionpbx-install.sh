@@ -75,7 +75,7 @@ git clone -b $switch_version --single-branch https://github.com/fusionpbx/freesw
 cd /usr/src/freeswitch-$switch_version
 
 # bootstrap is needed if using git
-./bootstrap.sh -j
+#./bootstrap.sh -j
 
 #1.10.0 and newer
 if [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
@@ -110,8 +110,7 @@ sed -i /usr/src/freeswitch-$switch_version/modules.conf -e s:'applications/mod_a
 --with-openssl --enable-core-pgsql-support
 
 # compile and install
-make
-make install
+make -j $(getconf _NPROCESSORS_ONLN) CFLAGS+=-Wno-error && make install
 
 #return to the executing directory
 cd $CWD
