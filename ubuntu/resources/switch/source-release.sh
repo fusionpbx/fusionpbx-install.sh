@@ -20,18 +20,18 @@ CWD=$(pwd)
 
 if [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
 	# libks build-requirements
-	#apt install -y cmake uuid-dev
+	apt install -y cmake uuid-dev
 
 	# libks
-	#cd /usr/src
-	#git clone https://github.com/signalwire/libks.git libks
-	#cd libks
-	#cmake .
-	#make -j $(getconf _NPROCESSORS_ONLN)
-	#make install
+	cd /usr/src
+	git clone https://github.com/signalwire/libks.git libks
+	cd libks
+	cmake .
+	make -j $(getconf _NPROCESSORS_ONLN)
+	make install
 
 	# libks C includes
-	#export C_INCLUDE_PATH=/usr/include/libks
+	export C_INCLUDE_PATH=/usr/include/libks
  
 	# sofia-sip
 	cd /usr/src
