@@ -62,24 +62,27 @@ echo "Using version $switch_version"
 cd /usr/src
 #git clone -b v1.8 https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
 #1.8 and older
-#wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.zip
-#unzip freeswitch-$switch_version.zip
-#rm -R freeswitch
-#mv freeswitch-$switch_version freeswitch
-#cd /usr/src/freeswitch
-#1.10.0 and newer
-git clone -b $switch_version --single-branch https://github.com/fusionpbx/freeswitch freeswitch-$switch_version
-git checkout $switch_version
-#wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.-release.zip -O freeswitch-$switch_version.-release.zip
-#unzip freeswitch-$switch_version.-release.zip
-#mv freeswitch-$switch_version.-release freeswitch-$switch_version
-cd /usr/src/freeswitch-$switch_version
-
-# bootstrap is needed if using git
-./bootstrap.sh -j
+if [ $(echo "$switch_version" | tr -d '.') -lt 1100 ]; then
+	wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.zip
+	unzip freeswitch-$switch_version.zip
+	cd /usr/src/freeswitch-$switch_version
+fi
 
 #1.10.0 and newer
 if [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
+	#use git to get the source code and checkout the current branch
+	git clone -b $switch_version --single-branch https://github.com/fusionpbx/freeswitch freeswitch-$switch_version
+	git checkout $switch_version
+
+	#wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.-release.zip
+	#unzip freeswitch-$switch_version.-release.zip
+	#mv freeswitch-$switch_version.-release freeswitch-$switch_version
+ 
+	cd /usr/src/freeswitch-$switch_version
+
+	# bootstrap is needed if using git
+	./bootstrap.sh -j
+  
 	#apply rtp timestamp patch - Fix RTP audio issues use the following for additional information. https://github.com/briteback/freeswitch/commit/9f8968ccabb8a4e0353016d4ea0ff99561b005f1
 	#patch -u /usr/src/freeswitch-$switch_version/src/switch_rtp.c -i /usr/src/fusionpbx-install.sh/debian/resources/switch/source/switch_rtp.diff
 
