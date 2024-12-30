@@ -94,15 +94,18 @@ if [ ."$database_host" = ."127.0.0.1" ] || [ ."$database_host" = ."::1" ] ; then
 	#reload the config
   	sudo -u postgres psql -c "SELECT pg_reload_conf();"
 
-	# add the databases, users and grant permissions to them
+	#set client encoding
+	sudo -u postgres psql -c "SET client_encoding = 'UTF8';";
+
+	#add the database users and databases
 	sudo -u postgres psql -c "CREATE DATABASE fusionpbx;";
-	sudo -u postgres psql -c "CREATE DATABASE freeswitch;";
+
+ 	#add the users and grant permissions
 	sudo -u postgres psql -c "CREATE ROLE fusionpbx WITH SUPERUSER LOGIN PASSWORD '$password';"
-	sudo -u postgres psql -c "CREATE ROLE freeswitch WITH SUPERUSER LOGIN PASSWORD '$password';"
 	sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE fusionpbx to fusionpbx;"
-	sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE freeswitch to fusionpbx;"
-	sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE freeswitch to freeswitch;"
-	# ALTER USER fusionpbx WITH PASSWORD 'newpassword';
+
+ 	#update the fusionpbx user password
+	#ALTER USER fusionpbx WITH PASSWORD 'newpassword';
 fi
 
 cd $cwd
