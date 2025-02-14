@@ -8,7 +8,7 @@ cd "$(dirname "$0")"
 . ../colors.sh
 . ../environment.sh
 
-apt-get update && apt-get install -y curl memcached haveged apt-transport-https sox
+apt-get update && apt-get install -y curl memcached haveged apt-transport-https sox libsox-fmt-all
 
 if [ ."$os_codename" = ."xenial" ]; then
 	wget -O - https://files.freeswitch.org/repo/ubuntu-1604/freeswitch-1.6/freeswitch_archive_g0.pub | apt-key add -
