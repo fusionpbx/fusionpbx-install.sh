@@ -1,0 +1,6 @@
+[DEFAULT]
+# Option: allowipv6
+# Notes.: Allows IPv6 interface:
+#       Default: auto
+# Values: [ auto yes (on, true, 1) no (off, false, 0) ] Default: auto
+allowipv6 = auto
