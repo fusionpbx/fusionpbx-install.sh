@@ -21,7 +21,7 @@ if [ .$application_dialplan_tools = .'true' ]; then
 	git clone https://github.com/fusionpbx/fusionpbx-app-dialplan_tools.git dialplan_tools
 fi
 if [ .$application_edit = .'true' ]; then
-	git clone https://github.com/fusionpbx/fusionpbx-app-dialplan_tools.git edit
+	git clone https://github.com/fusionpbx/fusionpbx-app-edit.git edit
 fi
 if [ .$application_sip_trunks = .'true' ]; then
 	git clone https://github.com/fusionpbx/fusionpbx-app-sip_trunks.git sip_trunks
