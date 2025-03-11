@@ -137,7 +137,7 @@ if [ ."$php_version" = ."8.1" ]; then
 fi
 if [ ."$php_version" = ."8.2" ]; then
         #copy the php extension .so into the php lib directory
-        cp ioncube/ioncube_loader_lin_8.2.so /usr/lib/php/20210902
+        cp ioncube/ioncube_loader_lin_8.2.so /usr/lib/php/20220829
 
         #add the 00-ioncube.ini file
 	echo "zend_extension = /usr/lib/php/20220829/ioncube_loader_lin_8.2.so" > /etc/php/8.2/fpm/conf.d/00-ioncube.ini
