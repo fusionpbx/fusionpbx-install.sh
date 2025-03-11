@@ -33,7 +33,26 @@ cd "$(dirname "$0")"
 #remove php 8.3
 /usr/bin/apt remove -y php8.3 php8.3-cli php8.3-dev php8.3-fpm php8.3-pgsql php8.3-sqlite3 php8.3-odbc php8.3-curl php8.3-imap php8.3-xml php8.3-gd php8.3-mbstring php8.3-ldap
 
+#remove php 8.4
+/usr/bin/apt remove -y php8.4 php8.4-cli php8.4-dev php8.4-fpm php8.4-pgsql php8.4-sqlite3 php8.4-odbc php8.4-curl php8.4-imap php8.4-xml php8.4-gd php8.4-mbstring php8.4-ldap
+
 #install php update and set the unix socket
+if [ ."$php_version" = ."8.4" ]; then
+	#add a repo for php 8.x
+	/usr/bin/apt -y install apt-transport-https lsb-release ca-certificates curl wget gnupg2
+	/usr/bin/wget -qO- https://packages.sury.org/php/apt.gpg | gpg --dearmor > /etc/apt/keyrings/sury-php-8.x.gpg
+	/usr/bin/sh -c 'echo "deb [signed-by=/etc/apt/keyrings/php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+	/usr/bin/apt-get update
+
+	#install php 8.4
+	apt-get install -y php8.4 php8.4-cli php8.4-dev php8.4-fpm php8.4-pgsql php8.4-sqlite3 php8.4-odbc php8.4-curl php8.4-imap php8.4-xml php8.4-gd php8.4-mbstring php8.4-ldap
+
+ 	#update the unix socket name
+	/usr/bin/sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php8.2-fpm.sock;#g'
+
+	#set the PHP ini file path
+	php_ini_file='/etc/php/8.4/fpm/php.ini'
+fi
 if [ ."$php_version" = ."8.3" ]; then
 	#add a repo for php 8.x
 	/usr/bin/apt -y install apt-transport-https lsb-release ca-certificates curl wget gnupg2
@@ -48,7 +67,7 @@ if [ ."$php_version" = ."8.3" ]; then
 	/usr/bin/sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php8.2-fpm.sock;#g'
 
 	#set the PHP ini file path
-	php_ini_file='/etc/php/8.2/fpm/php.ini'
+	php_ini_file='/etc/php/8.3/fpm/php.ini'
 fi
 if [ ."$php_version" = ."8.2" ]; then
 	#add a repo for php 8.x
