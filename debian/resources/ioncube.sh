@@ -151,9 +151,20 @@ if [ ."$php_version" = ."8.3" ]; then
         cp ioncube/ioncube_loader_lin_8.3.so /usr/lib/php/20230831
 
         #add the 00-ioncube.ini file
-	echo "zend_extension = /usr/lib/php/20230831/ioncube_loader_lin_8.3.so" > /etc/php/8.2/fpm/conf.d/00-ioncube.ini
-	echo "zend_extension = /usr/lib/php/20230831/ioncube_loader_lin_8.3.so" > /etc/php/8.2/cli/conf.d/00-ioncube.ini
+	echo "zend_extension = /usr/lib/php/20230831/ioncube_loader_lin_8.3.so" > /etc/php/8.3/fpm/conf.d/00-ioncube.ini
+	echo "zend_extension = /usr/lib/php/20230831/ioncube_loader_lin_8.3.so" > /etc/php/8.3/cli/conf.d/00-ioncube.ini
 
         #restart the service
         service php8.3-fpm restart
+fi
+if [ ."$php_version" = ."8.4" ]; then
+        #copy the php extension .so into the php lib directory
+        cp ioncube/ioncube_loader_lin_8.4.so /usr/lib/php/20240924
+
+        #add the 00-ioncube.ini file
+	echo "zend_extension = /usr/lib/php/20240924/ioncube_loader_lin_8.4.so" > /etc/php/8.4/fpm/conf.d/00-ioncube.ini
+	echo "zend_extension = /usr/lib/php/20240924/ioncube_loader_lin_8.4.so" > /etc/php/8.4/cli/conf.d/00-ioncube.ini
+
+        #restart the service
+        service php8.4-fpm restart
 fi
