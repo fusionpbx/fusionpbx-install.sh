@@ -6,10 +6,9 @@ Call Recordings Maintenance
   - Reduce the file size
 - Move recordings
   - Move the recording from the source to a destination directory.
+  - To move files, you will need to add the destination_path as a setting under category: call_recordings
 
-At the top of the file need to define or set the destination_directory...
-
-In my case I put the file in /usr/src and then run manually like this.
+In my case, I put the file in /usr/src and then run manually like this.
 /usr/bin/php /usr/src/fusionpbx-install.sh/debian/resources/maintenance/call_recordings.php
 
 Debian
