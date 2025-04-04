@@ -29,7 +29,8 @@ crontab -e
 
 //set pre-defined variables
 	$debug = true;
-	$action = 'convert'; //convert, move or both
+	$action_name = 'convert'; //convert, move or both
+	$action_delay = ''; //number of days before running the action, default empty which means no delay
 	$audio_format = 'wav';
 	$preferred_command = 'lame'; //mpg123, lame, sox
 
@@ -46,28 +47,32 @@ crontab -e
 	$source_path = $settings->get('switch','recordings', '');
 
 //set the destination_path
-	if ($action == 'move' || $action == 'both') {
+	if ($action_name == 'move' || $action_name == 'both') {
 		$destination_path = $settings->get('call_recordings','destination_path', null);
 	}
 
 //make sure the directory exists
-	if ($action == 'move' || $action == 'both') {
+	if ($action_name == 'move' || $action_name == 'both') {
 		system('mkdir -p '.$destination_path);
 	}
 
-//get the xml cdr call recordings.
+//get the XML CDR call recordings.
 	$sql = "select xml_cdr_uuid, domain_uuid, domain_name, ";
 	$sql .= "record_path, record_name, direction, start_stamp, ";
 	$sql .= "caller_id_name, caller_id_number from v_xml_cdr ";
 	//$sql .= "where start_stamp > NOW() - INTERVAL '7 days' ";
 	$sql .= "where true ";
-	if ($action == 'convert' || $action == 'both') {
+	if ($action_name == 'convert' || $action_name == 'both') {
 		$sql .= "and record_name like '%.wav' ";
 	}
-	if ($action == 'move' || $action == 'both') {
+	if ($action_name == 'move' || $action_name == 'both') {
 		$sql .= "and length(record_path) > 0 ";
 		$sql .= "and substr(record_path, 1, length(:source_path)) = :source_path ";
+		
 		$parameters['source_path'] = $source_path;
+	}
+	if (!empty($action_delay) && is_numeric($action_delay)) {
+		$sql .= "and start_stamp < NOW() - INTERVAL '".$action_delay." days' ";
 	}
 	$sql .= "order by start_stamp desc ";
 	if ($debug) { echo $sql."\n"; }
@@ -86,8 +91,8 @@ crontab -e
 		//get the file name without the file extension
 		$path_parts = pathinfo($source_path.'/'.$record_name);
 
-		//convert the audio file from wav to mp3
-		if ($action == 'convert' || $action == 'both') {
+		//convert the audio file from WAV to MP3
+		if ($action_name == 'convert' || $action_name == 'both') {
 
 			if ($debug) {
 				if (!file_exists($source_path."/".$record_name)) {
@@ -98,24 +103,28 @@ crontab -e
 				}
 			}
 			if (file_exists($source_path."/".$record_name)) {
-				//build the run the sox command
+				//build the sox command
 				if ($preferred_command == 'sox' && !file_exists($source_path."/".$path_parts['filename'].".mp3")) {
 					$command = "sox ".$source_path."/".$record_name." -C 128 ".$source_path."/".$path_parts['filename'].".mp3 \n";
-					if ($debug) { echo $command."\n"; }
-					system($command);
 				}
 
-				//build the run the mpg123 command
+				//build and run the mpg123 command
 				if ($preferred_command == 'mpg123' && !file_exists($source_path."/".$path_parts['filename'].".mp3")) {
 					$command = "mpg123 -w ".$source_path."/".$record_name." ".$source_path."/".$path_parts['filename'].".mp3\n";
-					if ($debug) { echo $command."\n"; }
-					system($command);
 				}
 
-				//build the run the mpg123 command
+				//build and run the mpg123 command
 				if ($preferred_command == 'lame' && !file_exists($source_path."/".$path_parts['filename'].".mp3")) {
 					$command = "lame -b 128 ".$source_path."/".$record_name." ".$source_path."/".$path_parts['filename'].".mp3\n";
-					if ($debug) { echo $command."\n"; }
+				}
+
+				//show debug information
+				if ($debug) { 
+					echo $command."\n";
+				}
+
+				//run the command
+				if (!emtpy($command)) {
 					system($command);
 				}
 
@@ -131,8 +140,8 @@ crontab -e
 		}
 
 		//move the files
-		if ($action == 'move' || $action == 'both') {
-			//get break down the date to year, month and day
+		if ($action_name == 'move' || $action_name == 'both') {
+			//get breakdown of the date to year, month, and day
 			$start_time = strtotime($row['start_stamp']);
 			$start_year = date("Y", $start_time);
 			$start_month = date("M", $start_time);
@@ -149,10 +158,10 @@ crontab -e
 
 		//update the database to the new directory
 		$sql = "update v_xml_cdr set \n";
-		if ($action == 'move' || $action == 'both') {
+		if ($action_name == 'move' || $action_name == 'both') {
 			$sql .= "record_path = '".$new_path."' \n";
 		}
-		if ($action == 'convert' || $action == 'both') {
+		if ($action_name == 'convert' || $action_name == 'both') {
 			$sql .= "record_name = '".$path_parts['filename'].".mp3'\n";
 		}
 		$sql .= "where xml_cdr_uuid = '".$row['xml_cdr_uuid']."';\n";
