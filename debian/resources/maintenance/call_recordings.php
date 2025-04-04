@@ -124,7 +124,7 @@ crontab -e
 				}
 
 				//run the command
-				if (!emtpy($command)) {
+				if (!empty($command)) {
 					system($command);
 				}
 
