@@ -32,7 +32,7 @@ crontab -e
 	$debug = true;
 	$action = 'convert'; //convert, move or both
 	$audio_format = 'wav';
-	$preferred_command = 'lame'; //mpg123, lame
+	$preferred_command = 'lame'; //mpg123, lame, sox
 
 //includes files
 	require_once "resources/require.php";
@@ -99,6 +99,13 @@ crontab -e
 				}
 			}
 			if (file_exists($source_path."/".$record_name)) {
+				//build the run the sox command
+				if ($preferred_command == 'sox' && !file_exists($source_path."/".$path_parts['filename'].".mp3")) {
+					$command = "sox ".$source_path."/".$record_name." -C 128 ".$source_path."/".$path_parts['filename'].".mp3 \n";
+					if ($debug) { echo $command."\n"; }
+					system($command);
+				}
+
 				//build the run the mpg123 command
 				if ($preferred_command == 'mpg123' && !file_exists($source_path."/".$path_parts['filename'].".mp3")) {
 					$command = "mpg123 -w ".$source_path."/".$record_name." ".$source_path."/".$path_parts['filename'].".mp3\n";
