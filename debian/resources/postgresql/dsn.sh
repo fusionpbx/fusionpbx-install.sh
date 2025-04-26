@@ -68,3 +68,6 @@ done
 
 #restart freeswitch
 service freeswitch restart
+
+# pgpassword security and conflict avoidance
+unset PGPASSWORD
