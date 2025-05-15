@@ -9,6 +9,9 @@ Call Recordings Maintenance
   - To move files, you will need to add the destination_path as a setting under category: call_recordings
 
 In my case, I put the file in /usr/src and then run manually like this.
+cd /usr/src/fusionpbx-install.sh
+git stash
+git pull
 /usr/bin/php /usr/src/fusionpbx-install.sh/debian/resources/maintenance/call_recordings.php
 
 Debian
