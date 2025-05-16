@@ -175,3 +175,6 @@ fi
 
 #completed message
 echo "Maintenance Completed";
+
+# pgpassword security and conflict avoidance
+unset PGPASSWORD

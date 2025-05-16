@@ -25,3 +25,6 @@ pg_dump --verbose -Fc --host=$db_host --port=$db_port -U fusionpbx fusionpbx --s
 #empty the fusionpbx database
 sudo -u postgres psql -d fusionpbx -c "drop schema public cascade;";
 sudo -u postgres psql -d fusionpbx -c "create schema public;";
+
+# pgpassword security and conflict avoidance
+unset PGPASSWORD
