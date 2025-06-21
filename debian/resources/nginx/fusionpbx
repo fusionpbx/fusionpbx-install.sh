@@ -91,8 +91,7 @@ server {
 	rewrite "^.*/provision/cfg([A-Fa-f0-9]{12})(\.(xml|cfg))?$" /app/provision/?mac=$1;
 	rewrite "^.*/provision/([A-Fa-f0-9]{12})/phonebook\.xml$" /app/provision/?mac=$1&file=phonebook.xml;
 	rewrite "^.*/provision/(phonebook\.xml)?$" /app/provision/index.php?file=$1 last;
-	#grandstream-wave softphone by ext because Android doesn't pass MAC.
-	rewrite "^.*/provision/([0-9]{5})/cfg([A-Fa-f0-9]{12}).xml$" /app/provision/?ext=$1;
+	rewrite "^.*/provision/phonebook.xml$" /app/provision/?mac=$1&file=phonebook.xml;
 
 	#aastra
 	rewrite "^.*/provision/aastra.cfg$" /app/provision/?mac=$1&file=aastra.cfg;
@@ -231,8 +230,7 @@ server {
 	rewrite "^.*/provision/cfg([A-Fa-f0-9]{12})(\.(xml|cfg))?$" /app/provision/?mac=$1;
 	rewrite "^.*/provision/([A-Fa-f0-9]{12})/phonebook\.xml$" /app/provision/?mac=$1&file=phonebook.xml;
 	rewrite "^.*/provision/(phonebook\.xml)?$" /app/provision/index.php?file=$1 last;
-	#grandstream-wave softphone by ext because Android doesn't pass MAC.
-	rewrite "^.*/provision/([0-9]{5})/cfg([A-Fa-f0-9]{12}).xml$" /app/provision/?ext=$1;
+	rewrite "^.*/provision/phonebook.xml$" /app/provision/?mac=$1&file=phonebook.xml;
 
 	#aastra
 	rewrite "^.*/provision/aastra.cfg$" /app/provision/?mac=$1&file=aastra.cfg;
