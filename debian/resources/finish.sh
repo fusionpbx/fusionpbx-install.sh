@@ -110,6 +110,16 @@ cp /var/www/fusionpbx/app/event_guard/resources/service/debian.service /etc/syst
 /bin/systemctl start event_guard
 /bin/systemctl daemon-reload
 
+#install the websockets service
+cp /var/www/fusionpbx/core/websockets/resources/service/debian-websockets.service /etc/systemd/system/websockets.service
+systemctl daemon-reload
+systemctl enable --now websockets
+
+#install the active_calls service
+cp /var/www/fusionpbx/app/active_calls/resources/service/debian-active_calls.service /etc/systemd/system/active_calls.service
+systemctl daemon-reload
+systemctl enable --now active_calls
+
 #add xml cdr import to crontab
 apt install cron
 (crontab -l; echo "* * * * * $(which php) /var/www/fusionpbx/app/xml_cdr/xml_cdr_import.php 300") | crontab
