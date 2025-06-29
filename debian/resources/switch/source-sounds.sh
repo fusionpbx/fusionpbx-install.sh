@@ -5,6 +5,7 @@ cd "$(dirname "$0")"
 
 #includes
 . ../config.sh
+. ../colors.sh
 . ../environment.sh
 
 # change the working directory
