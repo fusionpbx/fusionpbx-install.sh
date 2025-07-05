@@ -25,3 +25,6 @@ pg_dump --verbose -Fc --host=$db_host --port=$db_port -U fusionpbx fusionpbx --s
 #tar -zvcf /var/backups/fusionpbx/backup_$now.tgz /var/backups/fusionpbx/postgresql/fusionpbx_pgsql_$now.sql /var/www/fusionpbx /usr/local/freeswitch/scripts /usr/local/freeswitch/storage /usr/local/freeswitch/recordings /etc/fusionpbx /usr/local/freeswitch/conf /usr/local/freeswitch/sounds/music/
 
 echo "Backup Completed"
+
+# pgpassword security and conflict avoidance
+unset PGPASSWORD
