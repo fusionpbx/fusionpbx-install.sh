@@ -98,6 +98,10 @@ cd /var/www/fusionpbx && /usr/bin/php /var/www/fusionpbx/core/upgrade/upgrade.ph
 /bin/systemctl daemon-reload
 /bin/systemctl restart freeswitch
 
+#make the /var/run directory and set the ownership
+mkdir /var/run/fusionpbx
+chown -R www-data:www-data /var/run/fusionpbx
+
 #install the email_queue service
 cp /var/www/fusionpbx/app/email_queue/resources/service/debian.service /etc/systemd/system/email_queue.service
 systemctl enable email_queue
