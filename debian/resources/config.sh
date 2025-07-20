@@ -1,4 +1,3 @@
-
 # FusionPBX Settings
 domain_name=ip_address                      # hostname, ip_address or a custom value
 system_username=admin                       # default username admin
@@ -7,8 +6,8 @@ system_branch=5.4                           # master, 5.4
 
 # FreeSWITCH Settings
 switch_branch=stable                        # master, stable
-switch_source=true                          # true (source compile) or false (binary package)
-switch_package=false                        # true (binary package) or false (source compile)
+switch_source=false                          # true (source compile) or false (binary package)
+switch_package=true                        # true (binary package) or false (source compile)
 switch_version=1.10.12                      # which source code to download, only for source
 switch_tls=true                             # true or false
 switch_token=                               # Get the auth token from https://signalwire.com
@@ -34,6 +33,6 @@ letsencrypt_folder=true                     # true or false
 application_transcribe=true                # Speech to Text
 application_speech=true                    # Text to Speech
 application_device_logs=true               # Log device provision requests
-application_dialplan_tools=false           # Add additional dialplan applications
+application_dialplan_tools=true           # Add additional dialplan applications
 application_edit=false                     # Editor for XML, Provision, Scripts, and PHP
 application_sip_trunks=false               # Registration-based SIP trunks
