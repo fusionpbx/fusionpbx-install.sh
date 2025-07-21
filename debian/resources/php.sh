@@ -34,75 +34,74 @@ elif [ ."$cpu_architecture" = ."arm" ]; then
 	if [ ."$os_codename" = ."bookworm" ]; then
 	      php_version=8.2
 	fi
-else
-	#11.x - bullseye
-	#10.x - buster
-	#9.x  - stretch
-	#8.x  - jessie
-	apt-get -y install apt-transport-https lsb-release ca-certificates
+fi
+#11.x - bullseye
+#10.x - buster
+#9.x  - stretch
+#8.x  - jessie
+apt-get -y install apt-transport-https lsb-release ca-certificates
 
-	#make sure keyrings directory exits
-	mkdir /etc/apt/keyrings
+#make sure keyrings directory exits
+mkdir /etc/apt/keyrings
 
-	if [ ."$os_codename" = ."jessie" ]; then
-		wget -O - https://packages.sury.org/php/apt.gpg | gpg --dearmor -o /etc/apt/keyrings/php.gpg
-		sh -c 'echo "deb [signed-by=/etc/apt/keyrings/php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+if [ ."$os_codename" = ."jessie" ]; then
+	wget -O - https://packages.sury.org/php/apt.gpg | gpg --dearmor -o /etc/apt/keyrings/php.gpg
+	sh -c 'echo "deb [signed-by=/etc/apt/keyrings/php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+fi
+if [ ."$os_codename" = ."stretch" ]; then
+	wget -O - https://packages.sury.org/php/apt.gpg | gpg --dearmor -o /etc/apt/keyrings/php.gpg
+	sh -c 'echo "deb [signed-by=/etc/apt/keyrings/php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+fi
+if [ ."$os_codename" = ."buster" ]; then
+	wget -O - https://packages.sury.org/php/apt.gpg | gpg --dearmor -o /etc/apt/keyrings/php.gpg
+	sh -c 'echo "deb [signed-by=/etc/apt/keyrings/php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+fi
+if [ ."$os_codename" = ."bullseye" ]; then
+	if [ ."$php_version" = ."8.1" ]; then
+		/usr/bin/apt -y install apt-transport-https lsb-release ca-certificates curl wget gnupg2
+		/usr/bin/wget -qO- https://packages.sury.org/php/apt.gpg | gpg --dearmor > /etc/apt/keyrings/sury-php-8.x.gpg
+		/usr/bin/sh -c 'echo "deb [signed-by=/etc/apt/keyrings/sury-php-8.x.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
 	fi
-	if [ ."$os_codename" = ."stretch" ]; then
-		wget -O - https://packages.sury.org/php/apt.gpg | gpg --dearmor -o /etc/apt/keyrings/php.gpg
-		sh -c 'echo "deb [signed-by=/etc/apt/keyrings/php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+	if [ ."$php_version" = ."8.2" ]; then
+		/usr/bin/apt -y install apt-transport-https lsb-release ca-certificates curl wget gnupg2
+		/usr/bin/wget -qO- https://packages.sury.org/php/apt.gpg | gpg --dearmor > /etc/apt/keyrings/sury-php-8.x.gpg
+		/usr/bin/sh -c 'echo "deb [signed-by=/etc/apt/keyrings/sury-php-8.x.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
 	fi
-	if [ ."$os_codename" = ."buster" ]; then
-		wget -O - https://packages.sury.org/php/apt.gpg | gpg --dearmor -o /etc/apt/keyrings/php.gpg
-		sh -c 'echo "deb [signed-by=/etc/apt/keyrings/php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+	if [ ."$php_version" = ."8.3" ]; then
+		/usr/bin/apt -y install apt-transport-https lsb-release ca-certificates curl wget gnupg2
+		/usr/bin/wget -qO- https://packages.sury.org/php/apt.gpg | gpg --dearmor > /etc/apt/keyrings/sury-php-8.x.gpg
+		/usr/bin/sh -c 'echo "deb [signed-by=/etc/apt/keyrings/sury-php-8.x.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
 	fi
-	if [ ."$os_codename" = ."bullseye" ]; then
-		if [ ."$php_version" = ."8.1" ]; then
-			/usr/bin/apt -y install apt-transport-https lsb-release ca-certificates curl wget gnupg2
-			/usr/bin/wget -qO- https://packages.sury.org/php/apt.gpg | gpg --dearmor > /etc/apt/keyrings/sury-php-8.x.gpg
-			/usr/bin/sh -c 'echo "deb [signed-by=/etc/apt/keyrings/sury-php-8.x.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
-		fi
-		if [ ."$php_version" = ."8.2" ]; then
-			/usr/bin/apt -y install apt-transport-https lsb-release ca-certificates curl wget gnupg2
-			/usr/bin/wget -qO- https://packages.sury.org/php/apt.gpg | gpg --dearmor > /etc/apt/keyrings/sury-php-8.x.gpg
-			/usr/bin/sh -c 'echo "deb [signed-by=/etc/apt/keyrings/sury-php-8.x.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
-		fi
-		if [ ."$php_version" = ."8.3" ]; then
-			/usr/bin/apt -y install apt-transport-https lsb-release ca-certificates curl wget gnupg2
-			/usr/bin/wget -qO- https://packages.sury.org/php/apt.gpg | gpg --dearmor > /etc/apt/keyrings/sury-php-8.x.gpg
-			/usr/bin/sh -c 'echo "deb [signed-by=/etc/apt/keyrings/sury-php-8.x.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
-		fi
-		if [ ."$php_version" = ."8.4" ]; then
-			/usr/bin/apt -y install apt-transport-https lsb-release ca-certificates curl wget gnupg2
-			/usr/bin/wget -qO- https://packages.sury.org/php/apt.gpg | gpg --dearmor > /etc/apt/keyrings/sury-php-8.x.gpg
-			/usr/bin/sh -c 'echo "deb [signed-by=/etc/apt/keyrings/sury-php-8.x.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
-		fi
+	if [ ."$php_version" = ."8.4" ]; then
+		/usr/bin/apt -y install apt-transport-https lsb-release ca-certificates curl wget gnupg2
+		/usr/bin/wget -qO- https://packages.sury.org/php/apt.gpg | gpg --dearmor > /etc/apt/keyrings/sury-php-8.x.gpg
+		/usr/bin/sh -c 'echo "deb [signed-by=/etc/apt/keyrings/sury-php-8.x.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
 	fi
- 	if [ ."$os_codename" = ."bookworm" ]; then
-		if [ ."$php_version" = ."8.1" ]; then
-			/usr/bin/apt -y install apt-transport-https lsb-release ca-certificates curl wget gnupg2
-			/usr/bin/wget -qO- https://packages.sury.org/php/apt.gpg | gpg --dearmor > /etc/apt/keyrings/sury-php-8.x.gpg
-   			/usr/bin/chmod 644 /etc/apt/keyrings/sury-php-8.x.gpg
-			/usr/bin/sh -c 'echo "deb [signed-by=/etc/apt/keyrings/sury-php-8.x.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
-		fi
-		if [ ."$php_version" = ."8.2" ]; then
-			/usr/bin/apt -y install apt-transport-https lsb-release ca-certificates curl wget gnupg2
-			/usr/bin/wget -qO- https://packages.sury.org/php/apt.gpg | gpg --dearmor > /etc/apt/keyrings/sury-php-8.x.gpg
-   			/usr/bin/chmod 644 /etc/apt/keyrings/sury-php-8.x.gpg
-			/usr/bin/sh -c 'echo "deb [signed-by=/etc/apt/keyrings/sury-php-8.x.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
-		fi
-		if [ ."$php_version" = ."8.3" ]; then
-			/usr/bin/apt -y install apt-transport-https lsb-release ca-certificates curl wget gnupg2
-			/usr/bin/wget -qO- https://packages.sury.org/php/apt.gpg | gpg --dearmor > /etc/apt/keyrings/sury-php-8.x.gpg
-   			/usr/bin/chmod 644 /etc/apt/keyrings/sury-php-8.x.gpg
-			/usr/bin/sh -c 'echo "deb [signed-by=/etc/apt/keyrings/sury-php-8.x.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
-		fi
-		if [ ."$php_version" = ."8.4" ]; then
-			/usr/bin/apt -y install apt-transport-https lsb-release ca-certificates curl wget gnupg2
-			/usr/bin/wget -qO- https://packages.sury.org/php/apt.gpg | gpg --dearmor > /etc/apt/keyrings/sury-php-8.x.gpg
-   			/usr/bin/chmod 644 /etc/apt/keyrings/sury-php-8.x.gpg
-			/usr/bin/sh -c 'echo "deb [signed-by=/etc/apt/keyrings/sury-php-8.x.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
-		fi
+fi
+if [ ."$os_codename" = ."bookworm" ]; then
+	if [ ."$php_version" = ."8.1" ]; then
+		/usr/bin/apt -y install apt-transport-https lsb-release ca-certificates curl wget gnupg2
+		/usr/bin/wget -qO- https://packages.sury.org/php/apt.gpg | gpg --dearmor > /etc/apt/keyrings/sury-php-8.x.gpg
+		/usr/bin/chmod 644 /etc/apt/keyrings/sury-php-8.x.gpg
+		/usr/bin/sh -c 'echo "deb [signed-by=/etc/apt/keyrings/sury-php-8.x.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+	fi
+	if [ ."$php_version" = ."8.2" ]; then
+		/usr/bin/apt -y install apt-transport-https lsb-release ca-certificates curl wget gnupg2
+		/usr/bin/wget -qO- https://packages.sury.org/php/apt.gpg | gpg --dearmor > /etc/apt/keyrings/sury-php-8.x.gpg
+		/usr/bin/chmod 644 /etc/apt/keyrings/sury-php-8.x.gpg
+		/usr/bin/sh -c 'echo "deb [signed-by=/etc/apt/keyrings/sury-php-8.x.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+	fi
+	if [ ."$php_version" = ."8.3" ]; then
+		/usr/bin/apt -y install apt-transport-https lsb-release ca-certificates curl wget gnupg2
+		/usr/bin/wget -qO- https://packages.sury.org/php/apt.gpg | gpg --dearmor > /etc/apt/keyrings/sury-php-8.x.gpg
+		/usr/bin/chmod 644 /etc/apt/keyrings/sury-php-8.x.gpg
+		/usr/bin/sh -c 'echo "deb [signed-by=/etc/apt/keyrings/sury-php-8.x.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+	fi
+	if [ ."$php_version" = ."8.4" ]; then
+		/usr/bin/apt -y install apt-transport-https lsb-release ca-certificates curl wget gnupg2
+		/usr/bin/wget -qO- https://packages.sury.org/php/apt.gpg | gpg --dearmor > /etc/apt/keyrings/sury-php-8.x.gpg
+		/usr/bin/chmod 644 /etc/apt/keyrings/sury-php-8.x.gpg
+		/usr/bin/sh -c 'echo "deb [signed-by=/etc/apt/keyrings/sury-php-8.x.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
 	fi
 fi
 apt-get update -y
