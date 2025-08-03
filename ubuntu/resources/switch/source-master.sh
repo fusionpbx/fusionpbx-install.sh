@@ -7,7 +7,7 @@ apt-get update && apt-get install -y ntp curl haveged
 curl https://files.freeswitch.org/repo/deb/debian/freeswitch_archive_g0.pub | apt-key add -
 echo "deb http://files.freeswitch.org/repo/deb/freeswitch-1.6/ jessie main" > /etc/apt/sources.list.d/freeswitch.list
 echo "deb http://files.freeswitch.org/repo/deb/debian-unstable/ jessie main" > /etc/apt/sources.list.d/freeswitch.list
-apt-get update && apt-get upgrade
+apt-get update && apt-get upgrade -y
 apt-get install -y freeswitch-video-deps-most
 
 git clone https://freeswitch.org/stash/scm/fs/freeswitch.git /usr/src/freeswitch
