@@ -47,7 +47,7 @@ sed -i /etc/fusionpbx/config.conf -e s:'{database_username}:fusionpbx:'
 sed -i /etc/fusionpbx/config.conf -e s:"{database_password}:$database_password:"
 
 #add the database schema
-cd /var/www/fusionpbx && php /var/www/fusionpbx/core/upgrade/upgrade_schema.php > /dev/null 2>&1
+cd /var/www/fusionpbx && /usr/bin/php /var/www/fusionpbx/core/upgrade/upgrade.php --schema
 
 #get the server hostname
 if [ .$domain_name = .'hostname' ]; then
@@ -65,8 +65,8 @@ domain_uuid=$(/usr/bin/php /var/www/fusionpbx/resources/uuid.php);
 #add the domain name
 psql --host=$database_host --port=$database_port --username=$database_username -c "insert into v_domains (domain_uuid, domain_name, domain_enabled) values('$domain_uuid', '$domain_name', 'true');"
 
-#app defaults
-cd /var/www/fusionpbx && php /var/www/fusionpbx/core/upgrade/upgrade_domains.php
+#run app defaults
+cd /var/www/fusionpbx && /usr/bin/php /var/www/fusionpbx/core/upgrade/upgrade.php --defaults
 
 #add the user
 user_uuid=$(/usr/bin/php /var/www/fusionpbx/resources/uuid.php);
@@ -99,27 +99,18 @@ sed -i /etc/freeswitch/autoload_configs/xml_cdr.conf.xml -e s:"{v_project_path}:
 sed -i /etc/freeswitch/autoload_configs/xml_cdr.conf.xml -e s:"{v_user}:$xml_cdr_username:"
 sed -i /etc/freeswitch/autoload_configs/xml_cdr.conf.xml -e s:"{v_pass}:$xml_cdr_password:"
 
-#app defaults
-cd /var/www/fusionpbx && php /var/www/fusionpbx/core/upgrade/upgrade.php
+#run app defaults
+cd /var/www/fusionpbx && /usr/bin/php /var/www/fusionpbx/core/upgrade/upgrade.php --defaults
 
 #restart freeswitch
 /usr/sbin/service freeswitch restart
 
-#install the email_queue service
-cp /var/www/fusionpbx/app/email_queue/resources/service/debian.service /etc/systemd/system/email_queue.service
-systemctl enable email_queue
-systemctl start email_queue
-systemctl daemon-reload
-
-#install the event_guard service
-cp /var/www/fusionpbx/app/event_guard/resources/service/debian.service /etc/systemd/system/event_guard.service
-/bin/systemctl enable event_guard
-/bin/systemctl start event_guard
-/bin/systemctl daemon-reload
+#install the services
+cd /var/www/fusionpbx && /usr/bin/php /var/www/fusionpbx/core/upgrade/upgrade.php --services
 
 #add xml cdr import to crontab
-apt install cron
-cat <(crontab -l) <(echo "* * * * * $(which php) /var/www/fusionpbx/app/xml_cdr/xml_cdr_import.php 300") | crontab -
+#apt install cron
+#cat <(crontab -l) <(echo "* * * * * $(which php) /var/www/fusionpbx/app/xml_cdr/xml_cdr_import.php 300") | crontab -
 
 #welcome message
 echo ""
