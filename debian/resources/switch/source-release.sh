@@ -11,7 +11,7 @@ cd "$(dirname "$0")"
 apt update && apt upgrade -y
 
 # install dependencies
-apt install -y autoconf automake devscripts g++ git-core libncurses5-dev libtool make libjpeg-dev
+apt install -y autoconf automake devscripts g++ git-core libncurses5-dev libtool libtool-bin make libjpeg-dev
 apt install -y pkg-config flac  libgdbm-dev libdb-dev gettext sudo equivs mlocate git dpkg-dev libpq-dev
 apt install -y liblua5.2-dev libtiff5-dev libperl-dev libcurl4-openssl-dev libsqlite3-dev libpcre3-dev
 apt install -y devscripts libspeexdsp-dev libspeex-dev libldns-dev libedit-dev libopus-dev libmemcached-dev
