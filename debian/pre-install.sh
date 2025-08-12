@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Set non-interactive mode for apt-get
+export DEBIAN_FRONTEND=noninteractive
+
 #upgrade the packages
 apt-get update && apt-get upgrade -y
 
