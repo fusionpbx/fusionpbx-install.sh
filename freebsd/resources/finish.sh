@@ -66,8 +66,10 @@ if [ .$nginx_enabled = .'true' ]; then
 	#add the domain name
 	psql --host=$database_host --port=$database_port --username=$database_username -c "insert into v_domains (domain_uuid, domain_name, domain_enabled) values('$domain_uuid', '$domain_name', 'true');"
 
-	#app defaults
-	cd /usr/local/www/fusionpbx && /usr/local/bin/php /usr/local/www/fusionpbx/core/upgrade/upgrade_domains.php
+    #update application defaults
+	if [ .$nginx_enabled = .'true' ]; then
+		cd /usr/local/www/fusionpbx && /usr/bin/php /var/www/fusionpbx/core/upgrade/upgrade.php --defaults
+	fi
 
 	#add the user
 	user_uuid=$(/usr/local/bin/php /usr/local/www/fusionpbx/resources/uuid.php);
@@ -93,10 +95,13 @@ if [ .$nginx_enabled = .'true' ]; then
 	#add the local_ip_v4 address
 	psql --host=$database_host --port=$database_port --username=$database_username -t -c "insert into v_vars (var_uuid, var_name, var_value, var_category, var_order, var_enabled) values ('4507f7a9-2cbb-40a6-8799-f8f168082585', 'local_ip_v4', '$local_ip_v4', 'Defaults', '0', 'true');";
 
-	#app defaults
+    #update application defaults
 	if [ .$nginx_enabled = .'true' ]; then
-		cd /usr/local/www/fusionpbx && php /usr/local/www/fusionpbx/core/upgrade/upgrade_domains.php
+		cd /usr/local/www/fusionpbx && /usr/bin/php /var/www/fusionpbx/core/upgrade/upgrade.php --defaults
 	fi
+
+	#update permissions
+	#cd /var/www/fusionpbx && /usr/bin/php /var/www/fusionpbx/core/upgrade/upgrade.php --permissions
 
 	#reset the current working directory
 	cd $cwd
