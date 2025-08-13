@@ -109,7 +109,7 @@ cd /var/www/fusionpbx && /usr/bin/php /var/www/fusionpbx/core/upgrade/upgrade.ph
 cd /var/www/fusionpbx && /usr/bin/php /var/www/fusionpbx/core/upgrade/upgrade.php --services
 
 #add xml cdr import to crontab
-#apt install cron
+#apt install -y cron
 #cat <(crontab -l) <(echo "* * * * * $(which php) /var/www/fusionpbx/app/xml_cdr/xml_cdr_import.php 300") | crontab -
 
 #welcome message
