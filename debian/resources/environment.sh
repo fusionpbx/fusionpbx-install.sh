@@ -69,8 +69,7 @@ if [ .$cpu_architecture = .'arm' ]; then
 	if [ .$os_mode = .'32' ]; then
 		verbose "Correct CPU and Operating System detected, using the ARM repo"
 	elif [ .$os_mode = .'64' ]; then
-		switch_source=true
-		switch_package=false
+		verbose "Correct CPU and Operating System detected"
 	else
 		error "Unknown OS mode $os_mode this is unsupported"
 		switch_source=true
