@@ -33,6 +33,22 @@ if [ ."$os_codename" = ."jessie" ]; then
 	php_version=7.1
 fi
 
+if [ ."$cpu_architecture" = ."arm" ]; then
+	#Pi2 and Pi3 Raspbian, #Odroid
+	#if [ ."$os_codename" = ."stretch" ]; then
+	#      php_version=7.0
+	#fi
+	if [ ."$os_codename" = ."buster" ]; then
+	      php_version=7.3
+	fi
+	if [ ."$os_codename" = ."bullseye" ]; then
+	      php_version=7.4
+	fi
+	if [ ."$os_codename" = ."bookworm" ]; then
+	      php_version=8.2
+	fi
+fi
+
 #enable fusionpbx nginx config
 cp nginx/fusionpbx /etc/nginx/sites-available/fusionpbx
 
@@ -57,6 +73,9 @@ if [ ."$php_version" = ."7.4" ]; then
 fi
 if [ ."$php_version" = ."8.1" ]; then
         sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php8.1-fpm.sock;#g'
+fi
+if [ ."$php_version" = ."8.2" ]; then
+        sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php8.2-fpm.sock;#g'
 fi
 ln -s /etc/nginx/sites-available/fusionpbx /etc/nginx/sites-enabled/fusionpbx
 
