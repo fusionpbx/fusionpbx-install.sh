@@ -111,6 +111,10 @@ cd /var/www/fusionpbx && /usr/bin/php /var/www/fusionpbx/core/upgrade/upgrade.ph
 #install crontab
 apt install cron
 
+chmod 664 /etc/fusionpbx/config.conf
+
+systemctl restart nginx freeswitch
+
 #welcome message
 echo ""
 echo ""

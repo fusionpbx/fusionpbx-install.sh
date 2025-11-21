@@ -58,6 +58,15 @@ fi
 if [ ."$php_version" = ."8.1" ]; then
         sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php8.1-fpm.sock;#g'
 fi
+if [ ."$php_version" = ."8.2" ]; then
+        sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php8.2-fpm.sock;#g'
+fi
+if [ ."$php_version" = ."8.3" ]; then
+        sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php8.3-fpm.sock;#g'
+fi
+if [ ."$php_version" = ."8.4" ]; then
+        sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php8.4-fpm.sock;#g'
+fi
 ln -s /etc/nginx/sites-available/fusionpbx /etc/nginx/sites-enabled/fusionpbx
 
 #self signed certificate
@@ -81,4 +90,7 @@ fi
 systemctl daemon-reload
 
 #restart nginx
-service nginx restart
+#service nginx restart
+
+#restart again
+systemctl restart nginx
