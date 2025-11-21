@@ -34,6 +34,6 @@ letsencrypt_folder=true                     # true or false
 application_transcribe=true                # Speech to Text
 application_speech=true                    # Text to Speech
 application_device_logs=true               # Log device provision requests
-application_dialplan_tools=false            # Add additional dialplan applications
+application_dialplan_tools=false           # Add additional dialplan applications
 application_edit=false                     # Editor for XML, Provision, Scripts, and PHP
 application_sip_trunks=false               # Registration-based SIP trunks
