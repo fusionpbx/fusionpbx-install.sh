@@ -16,16 +16,15 @@ verbose "Update installed packages"
 apt-get update && apt-get upgrade -y
 
 #Add dependencies
-apt-get install -y wget lsb-release \
-  systemd \
-  systemd-sysv \
-  ca-certificates \
-  dialog \
-  nano \
-  net-tools \
-  gpg \
-  libpq-dev \
-  verbose
+apt-get install -y wget
+apt-get install -y lsb-release
+apt-get install -y systemd
+apt-get install -y systemd-sysv
+apt-get install -y ca-certificates
+apt-get install -y dialog
+apt-get install -y nano
+apt-get install -y net-tools
+apt-get install -y gpg
 
 #SNMP
 apt-get install -y snmpd
