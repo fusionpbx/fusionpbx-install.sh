@@ -52,14 +52,14 @@ resources/fusionpbx.sh
 #Optional Applications
 resources/applications.sh
 
-#FreeSWITCH
-resources/switch.sh
-
 #Fail2ban
 resources/fail2ban.sh
 
 #Postgres
 resources/postgresql.sh
+
+#FreeSWITCH
+resources/switch.sh
 
 #set the ip address
 server_address=$(hostname -I)

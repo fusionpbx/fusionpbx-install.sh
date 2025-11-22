@@ -9,8 +9,10 @@ cd "$(dirname "$0")"
 
 if [ .$switch_source = .true ]; then
 	if [ ."$switch_branch" = "master" ]; then
+		echo "MASTER"
 		switch/source-master.sh
 	else
+		echo "RELEASE"
 		switch/source-release.sh
 	fi
 
