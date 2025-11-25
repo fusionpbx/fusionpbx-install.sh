@@ -91,7 +91,7 @@ fi
 cd /usr/src
 
 #check for master
-if [ ."$os_codename" != ."trixie" ] || [ ."$switch_branch" = ."master" ]; then
+if [ ."$os_codename" = ."trixie" ] || [ ."$switch_branch" = ."master" ]; then
 	#master branch
 	echo "Using version master"
 	rm -r /usr/src/freeswitch
