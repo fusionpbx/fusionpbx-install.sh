@@ -74,6 +74,9 @@ fi
 if [ ."$php_version" = ."8.3" ]; then
         apt-get install -y php8.3 php8.3-cli php8.3-fpm php8.3-pgsql php8.3-sqlite3 php8.3-odbc php8.3-curl php8.3-imap php8.3-xml php8.3-gd php8.3-mbstring
 fi
+if [ ."$php_version" = ."8.4" ]; then
+        apt-get install -y php8.4 php8.4-cli php8.4-fpm php8.4-pgsql php8.4-sqlite3 php8.4-odbc php8.4-curl php8.4-imap php8.4-xml php8.4-gd php8.4-mbstring
+fi
 
 #update config if source is being used
 if [ ."$php_version" = ."5" ]; then
@@ -107,6 +110,10 @@ fi
 if [ ."$php_version" = ."8.3" ]; then
         verbose "version 8.3"
         php_ini_file='/etc/php/8.3/fpm/php.ini'
+fi
+if [ ."$php_version" = ."8.4" ]; then
+        verbose "version 8.4"
+        php_ini_file='/etc/php/8.4/fpm/php.ini'
 fi
 sed 's#post_max_size = .*#post_max_size = 80M#g' -i $php_ini_file
 sed 's#upload_max_filesize = .*#upload_max_filesize = 80M#g' -i $php_ini_file
@@ -143,6 +150,9 @@ if [ ."$php_version" = ."8.2" ]; then
 fi
 if [ ."$php_version" = ."8.3" ]; then
         systemctl restart php8.3-fpm
+fi
+if [ ."$php_version" = ."8.4" ]; then
+        systemctl restart php8.4-fpm
 fi
 #init.d
 #/usr/sbin/service php5-fpm restart
