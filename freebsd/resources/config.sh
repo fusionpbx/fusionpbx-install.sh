@@ -3,7 +3,7 @@
 domain_name=hostname            # hostname, ip_address or a custom value
 system_username=admin           # default username admin
 system_password=random          # random or as a pre-set value
-system_branch=5.3               # master, 5.3
+system_branch=5.4               # master, 5.3
 
 # FreeSWITCH Settings
 switch_enabled=true             # true or false
@@ -16,13 +16,13 @@ database_name=fusionpbx         # Database name (safe characters A-Z, a-z, 0-9)
 database_username=fusionpbx     # Database username (safe characters A-Z, a-z, 0-9)
 database_password=random        # random or a custom value (safe characters A-Z, a-z, 0-9)
 database_enabled=true           # true or false
-database_version=15             # Postgres 16, 15, 14, 13, 12
+database_version=17             # Postgres 16, 15, 14, 13, 12
 database_host=127.0.0.1         # hostname or IP address
 database_port=5432              # port number
 database_backup=false           # true or false
 
 # Firewall Settings
-firewall_enabled=true           # true or false
+firewall_enabled=ipfw           # ipfw, pf, or false
 
 # General Settings
 interface_name=auto             # auto, em0, igb0, vtnet0, or other valid names

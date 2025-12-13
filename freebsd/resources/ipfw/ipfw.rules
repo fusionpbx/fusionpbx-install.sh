@@ -1,0 +1,29 @@
+ipfw -f flush
+
+# reassemble traffice
+ipfw add 001 reass all from any to any
+
+# allow traffic on loopback
+ipfw add 010 allow ip from any to any via lo0
+
+# fail2ban
+ipfw add 020 deny ip from table\(1\) to any
+
+ipfw add 100 check-state
+
+# allow outbound
+ipfw add 110 allow ip from me to any keep-state
+
+# allow icmp
+ipfw add 120 allow icmp from any to any keep-state
+ipfw add 121 allow ipv6-icmp from any to any keep-state
+
+# allow ports
+ipfw add 150 allow tcp from any to me 80 keep-state
+ipfw add 151 allow tcp from any to me 443 keep-state
+ipfw add 152 allow tcp from any to me 7443 keep-state
+ipfw add 153 allow tcp from any to me 5060-5091 keep-state
+ipfw add 154 allow udp from any to me 5060-5091 keep-state
+ipfw add 154 allow udp from any to me 16384-32768 keep-state
+
+ipfw add 500 deny all from any to any
