@@ -68,7 +68,7 @@ if [ .$nginx_enabled = .'true' ]; then
 
     #update application defaults
 	if [ .$nginx_enabled = .'true' ]; then
-		cd /usr/local/www/fusionpbx && /usr/bin/php /var/www/fusionpbx/core/upgrade/upgrade.php --defaults
+		cd /usr/local/www/fusionpbx && /usr/local/bin/php /usr/local/www/fusionpbx/core/upgrade/upgrade.php --defaults
 	fi
 
 	#add the user
@@ -97,11 +97,11 @@ if [ .$nginx_enabled = .'true' ]; then
 
     #update application defaults
 	if [ .$nginx_enabled = .'true' ]; then
-		cd /usr/local/www/fusionpbx && /usr/bin/php /var/www/fusionpbx/core/upgrade/upgrade.php --defaults
+		cd /usr/local/www/fusionpbx && /usr/local/bin/php /usr/local/www/fusionpbx/core/upgrade/upgrade.php --defaults
 	fi
 
 	#update permissions
-	#cd /var/www/fusionpbx && /usr/bin/php /var/www/fusionpbx/core/upgrade/upgrade.php --permissions
+	#cd /usr/local/www/fusionpbx && /usr/local/bin/php /usr/local/www/fusionpbx/core/upgrade/upgrade.php --permissions
 
 	#reset the current working directory
 	cd $cwd

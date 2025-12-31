@@ -28,8 +28,12 @@ if [ .$portsnap_enabled = .'true' ]; then
 fi
 
 #PF - Packet Filter
-if [ .$firewall_enabled = .'true' ]; then
+if [ .$firewall_enabled = .'pf' ]; then
 	resources/pf.sh
+fi
+#IPFW - Kernel Firewall
+if [ .$firewall_enabled = .'ipfw' ]; then
+	resources/ipfw.sh
 fi
 
 #sngrep

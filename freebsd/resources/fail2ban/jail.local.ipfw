@@ -1,0 +1,97 @@
+[freeswitch]
+enabled  = true
+port     = 5060:5091
+protocol = all
+filter   = freeswitch
+logpath  = /var/log/freeswitch/freeswitch.log
+#logpath  = /usr/local/freeswitch/log/freeswitch.log
+maxretry = 5
+findtime = 600
+action = bsd-ipfw[table=1]
+bantime  = 3600
+#          sendmail-whois[name=FreeSwitch, dest=root, sender=fail2ban@example.org] #no smtp server installed
+
+[freeswitch-ip]
+enabled  = false
+port     = 5060:5091
+protocol = all
+filter   = freeswitch-ip
+logpath  = /var/log/freeswitch/freeswitch.log
+#logpath  = /usr/local/freeswitch/log/freeswitch.log
+maxretry = 1
+findtime = 30
+action = bsd-ipfw[table=1]
+bantime  = 86400
+
+[sip-auth-challenge-ip]
+enabled  = false
+port     = 5060:5091
+protocol = all
+filter   = sip-auth-challenge-ip
+logpath  = /var/log/freeswitch/freeswitch.log
+#logpath  = /usr/local/freeswitch/log/freeswitch.log
+maxretry = 1
+findtime = 30
+action = bsd-ipfw[table=1]
+bantime  = 86400
+
+[sip-auth-challenge]
+enabled  = true
+port     = 5060:5091
+protocol = all
+filter   = sip-auth-challenge
+logpath  = /var/log/freeswitch/freeswitch.log
+#logpath  = /usr/local/freeswitch/log/freeswitch.log
+maxretry = 50
+findtime = 30
+action = bsd-ipfw[table=1]
+bantime  = 7200
+
+[freeswitch-404]
+enabled  = false
+port     = 5060:5091
+protocol = all
+filter   = freeswitch-404
+logpath  = /var/log/freeswitch/freeswitch.log
+#logpath  = /usr/local/freeswitch/log/freeswitch.log
+maxretry = 3
+findtime = 300
+action = bsd-ipfw[table=1]
+bantime  = 86400
+
+[fusionpbx]
+enabled  = true
+port     = 80,443
+protocol = tcp
+filter   = fusionpbx
+logpath  = /var/log/auth.log
+#          sendmail-whois[name=fusionpbx, dest=root, sender=fail2ban@example.org] #no smtp server installed
+maxretry = 10
+findtime = 600
+action = bsd-ipfw[table=1]
+bantime  = 3600
+
+[nginx-404]
+enabled  = true
+port     = 80,443
+protocol = tcp
+filter   = nginx-404
+logpath  = /var/log/nginx/access*.log
+findtime = 60
+maxretry = 120
+action = bsd-ipfw[table=1]
+bantime  = 3600
+
+[nginx-dos]
+# Based on apache-badbots but a simple IP check (any IP requesting more than
+# 300 pages in 60 seconds, or 5p/s average, is suspicious)
+# Block for two full days.
+enabled  = false
+port     = 80,443
+protocol = tcp
+filter   = nginx-dos
+logpath  = /var/log/nginx/access*.log
+findtime = 60
+maxretry = 300
+action = bsd-ipfw[table=1]
+bantime  = 86400
