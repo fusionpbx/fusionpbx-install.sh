@@ -34,8 +34,8 @@ service snmpd restart
 #disable vi visual mode
 echo "set mouse-=a" >> ~/.vimrc
 
-#IPTables
-resources/iptables.sh
+#NFTables
+resources/nftables.sh
 
 #sngrep
 resources/sngrep.sh
