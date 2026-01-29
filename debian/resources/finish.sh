@@ -114,7 +114,7 @@ apt install cron
 apt update
 
 #install ffmpeg for transcription
-apt install ffmpeg
+apt install -y ffmpeg
 
 #update file permissions
 chmod 664 /etc/fusionpbx/config.conf
