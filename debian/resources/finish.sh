@@ -114,6 +114,12 @@ apt install cron
 #update file permissions
 chmod 664 /etc/fusionpbx/config.conf
 
+# Update Repositories
+apt update
+
+#install ffmpeg for transcription
+apt install -y ffmpeg
+
 #restart nginx
 systemctl restart nginx freeswitch
 
