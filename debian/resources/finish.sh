@@ -110,6 +110,11 @@ cd /var/www/fusionpbx && /usr/bin/php /var/www/fusionpbx/core/upgrade/upgrade.ph
 
 #install crontab
 apt install cron
+# Update repositories
+apt update
+
+#install ffmpeg for transcription
+apt install ffmpeg
 
 #update file permissions
 chmod 664 /etc/fusionpbx/config.conf
