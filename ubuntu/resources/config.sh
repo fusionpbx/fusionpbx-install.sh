@@ -33,6 +33,7 @@ letsencrypt_folder=true                     # true or false
 # Optional Applications
 application_transcribe=true                # Speech to Text
 application_speech=true                    # Text to Speech
+application_language_model=true            # Language model
 application_device_logs=true               # Log device provision requests
 application_dialplan_tools=false           # Add additional dialplan applications
 application_edit=false                     # Editor for XML, Provision, Scripts, and PHP

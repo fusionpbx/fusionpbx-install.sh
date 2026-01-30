@@ -14,6 +14,9 @@ fi
 if [ .$application_speech = .'true' ]; then
 	git clone https://github.com/fusionpbx/fusionpbx-app-speech.git speech
 fi
+if [ .$application_language_model = .'true' ]; then
+	git clone https://github.com/fusionpbx/fusionpbx-app-language_model.git language_model
+fi
 if [ .$application_device_logs = .'true' ]; then
 	git clone https://github.com/fusionpbx/fusionpbx-app-device_logs.git device_logs
 fi
