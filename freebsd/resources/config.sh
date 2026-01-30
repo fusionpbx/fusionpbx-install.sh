@@ -3,7 +3,7 @@
 domain_name=hostname            # hostname, ip_address or a custom value
 system_username=admin           # default username admin
 system_password=random          # random or as a pre-set value
-system_branch=5.3               # master, 5.3
+system_branch=5.5               # master, 5.5
 
 # FreeSWITCH Settings
 switch_enabled=true             # true or false
