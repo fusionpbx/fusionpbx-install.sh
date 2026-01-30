@@ -24,6 +24,10 @@ password=$(cat /dev/random | env LC_CTYPE=C tr -dc a-zA-Z0-9 | head -c 20)
 echo "Install PostgreSQL and create the database and users\n"
 
 #postgres install
+if [ ."$database_version" = ."17" ]; then
+	pkg install --yes postgresql17-server
+	#cd /usr/ports/databases/postgresql17-server/ && make install clean BATCH=yes
+fi
 if [ ."$database_version" = ."16" ]; then
 	echo "IGNORE_DEPENDS=postgresql15-client" >> /usr/local/etc/pkg.conf
 	pkg install --yes postgresql16-server
@@ -53,6 +57,9 @@ echo 'postgresql_enable=true' >> /etc/rc.conf
 /usr/local/etc/rc.d/postgresql initdb
 
 #start postgresql
+if [ ."$database_version" = ."17" ]; then
+	sudo -u postgres /usr/local/bin/pg_ctl -D /var/db/postgres/data17 start
+fi
 if [ ."$database_version" = ."16" ]; then
 	sudo -u postgres /usr/local/bin/pg_ctl -D /var/db/postgres/data16 start
 fi
