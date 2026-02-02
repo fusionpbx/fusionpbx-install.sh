@@ -62,9 +62,6 @@ table inet filter {
 
         # Allow OpenVPN port
         udp dport 1194 counter accept
-
-        # Allow ICMP accept
-        icmp type echo-request counter accept
     }
 
     chain forward {
