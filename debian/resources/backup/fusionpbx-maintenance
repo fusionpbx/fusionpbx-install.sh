@@ -1,0 +1,180 @@
+#!/bin/sh
+
+#settings
+export PGPASSWORD="zzz"
+db_host=127.0.0.1
+db_port=5432
+db_name=fusionpbx
+db_username=fusionpbx
+switch_package=true # true or false
+
+purge_voicemail=false
+purge_call_recordings=false
+purge_cdrs=false
+purge_fax=false
+purge_switch_logs=true
+purge_php_sessions=true
+purge_database_transactions=true
+purge_device_logs=false
+purge_event_guard_logs=false
+purge_user_logs=false
+purge_email_queue=false
+purge_fax_queue=true
+
+days_keep_voicemail=90
+days_keep_call_recordings=90
+days_keep_cdrs=730
+days_keep_fax=90
+days_keep_switch_logs=7
+days_keep_php_sessions=8
+days_keep_database_transactions=30
+days_keep_device_logs=180
+days_keep_event_guard_logs=180
+days_keep_user_logs=180
+days_keep_email_queue=30
+days_keep_fax_queue=30
+
+#set the date
+now=$(date +%Y-%m-%d)
+
+#make sure the directory exists
+if [ -e /var/backups/fusionpbx/postgresql ]; then
+	echo "postgres backup directory exists"
+else
+	mkdir -p /var/backups/fusionpbx/postgresql
+fi
+
+#show message to the console
+echo "Maintenance Started"
+
+if [ .$purge_switch_logs = .true ]; then
+	echo "delete freeswitch logs older $days_keep_switch_logs days"
+	if [ .$switch_package = .true ]; then
+		find /var/log/freeswitch/freeswitch.log.* -mtime +$days_keep_switch_logs -exec rm {} \;
+	else
+		find /usr/local/freeswitch/log/freeswitch.log.* -mtime +$days_keep_switch_logs -exec rm {} \;
+	fi
+else
+	echo "not purging Freeswitch logs"
+fi
+
+if [ .$purge_fax = .true ]; then
+	echo "delete fax file storage older than $days_keep_fax days"
+	if [ .$switch_package = .true ]; then
+		echo ".";
+		find /var/lib/freeswitch/storage/fax/*  -name '*.tif' -mtime +$days_keep_fax -exec rm {} \;
+		find /var/lib/freeswitch/storage/fax/*  -name '*.pdf' -mtime +$days_keep_fax -exec rm {} \;
+	else
+		echo ".";
+		find /usr/local/freeswitch/storage/fax/*  -name '*.tif' -mtime +$days_keep_fax -exec rm {} \;
+		find /usr/local/freeswitch/storage/fax/*  -name '*.pdf' -mtime +$days_keep_fax -exec rm {} \;
+	fi
+	#delete from the database
+	psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_fax_files WHERE fax_date < NOW() - INTERVAL '$days_keep_fax days'"
+	psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_fax_logs WHERE fax_date < NOW() - INTERVAL '$days_keep_fax days'"
+else
+	echo "not purging Faxes"
+fi
+
+if [ .$purge_call_recordings = .true ]; then
+	echo "delete call recordings older than $days_keep_call_recordings days"
+	if [ .$switch_package = .true ]; then
+		find /var/lib/freeswitch/recordings/*/archive/*  -name '*.wav' -mtime +$days_keep_call_recordings -exec rm {} \;
+		find /var/lib/freeswitch/recordings/*/archive/*  -name '*.mp3' -mtime +$days_keep_call_recordings -exec rm {} \;
+		#remove empty folders
+		find /var/lib/freeswitch/recordings/*/archive/* -empty -type d -delete
+	else
+		find /usr/local/freeswitch/recordings/*/archive/*  -name '*.wav' -mtime +$days_keep_call_recordings -exec rm {} \;
+		find /usr/local/freeswitch/recordings/*/archive/*  -name '*.mp3' -mtime +$days_keep_call_recordings -exec rm {} \;
+		#remove empty folders
+		find /usr/local/freeswitch/recordings/*/archive/* -empty -type d -delete
+	fi
+	#Call recordings table uses a view. The data is from v_xml_cdr table. Changed in FusionPBX 5.0.7 and higher. The following line is useful to older versions.
+	#psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_call_recordings WHERE call_recording_date < NOW() - INTERVAL '90 days'"
+else
+	echo "not purging Recordings."
+fi
+
+if [ .$purge_voicemail = .true ]; then
+	echo "delete voicemail older than $days_keep_voicemail days"
+	if [ .$switch_package = .true ]; then
+		echo ".";
+		find /var/lib/freeswitch/storage/voicemail/default/*  -name 'msg_*.wav' -mtime +$days_keep_voicemail -exec rm {} \;
+		find /var/lib/freeswitch/storage/voicemail/default/*  -name 'msg_*.mp3' -mtime +$days_keep_voicemail -exec rm {} \;
+	else
+		echo ".";
+		find /usr/local/freeswitch/storage/voicemail/*  -name 'msg_*.wav' -mtime +$days_keep_voicemail -exec rm {} \;
+		find /usr/local/freeswitch/storage/voicemail/*  -name 'msg_*.mp3' -mtime +$days_keep_voicemail -exec rm {} \;
+	fi
+	psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_voicemail_messages WHERE to_timestamp(created_epoch) < NOW() - INTERVAL '$days_keep_voicemail days'"
+else
+	echo "not purging voicemails."
+fi
+
+if [ .$purge_cdrs = .true ]; then
+	echo "delete call detail records older $days_keep_cdrs days"
+	psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_xml_cdr WHERE start_stamp < NOW() - INTERVAL '$days_keep_cdrs days'"
+	#call detail record - call flow
+	psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_xml_cdr_flow WHERE insert_date < NOW() - INTERVAL '$days_keep_cdrs days'"
+	#call detail record - json
+	psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_xml_cdr_json WHERE insert_date < NOW() - INTERVAL '$days_keep_cdrs days'"
+	#call detail record - call logs
+	psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_xml_cdr_logs WHERE insert_date < NOW() - INTERVAL '$days_keep_cdrs days'"
+else
+        echo "not purging CDRs."
+fi
+
+echo "delete php sessions older than $days_keep_php_sessions days"
+if [ .$purge_php_sessions = .true ]; then
+	find /var/lib/php/sessions/*  -name 'sess_*' -mtime +$days_keep_php_sessions -exec rm {} \;
+else
+        echo "not purging PHP Sessions."
+fi
+
+echo "delete database_transactions older $days_keep_database_transactions days"
+if [ .$purge_database_transactions = .true ]; then
+	psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_database_transactions where transaction_date < NOW() - INTERVAL '$days_keep_database_transactions days'"
+else
+        echo "not purging database_transactions."
+fi
+
+echo "delete device_logs older $days_keep_device_logs days"
+if [ .$purge_device_logs = .true ]; then
+        psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_device_logs where timestamp < NOW() - INTERVAL '$days_keep_device_logs days'"
+else
+        echo "not purging device_logs."
+fi
+
+echo "delete event_guard_logs older $days_keep_event_guard_logs days"
+if [ .$purge_event_guard_logs = .true ]; then
+        psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_event_guard_logs where log_date < NOW() - INTERVAL '$days_keep_event_guard_logs days'"
+else
+        echo "not purging event_guard_logs."
+fi
+
+echo "delete user_logs older $days_keep_user_logs days"
+if [ .$purge_user_logs = .true ]; then
+        psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_user_logs where timestamp < NOW() - INTERVAL '$days_keep_user_logs days'"
+else
+        echo "not purging user_logs."
+fi
+
+echo "delete email_queue older $days_keep_email_queue days"
+if [ .$purge_email_queue = .true ]; then
+	psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_email_queue where email_status = 'sent' and email_date < NOW() - INTERVAL '$days_keep_email_queue days'"
+else
+        echo "not purging email_queue."
+fi
+
+echo "delete fax_queue older $days_keep_fax_queue days"
+if [ .$purge_fax_queue = .true ]; then
+	psql $db_name --port $db_port --host=$db_host --username=$db_username -c "delete from v_fax_queue where fax_status = 'sent' and fax_date < NOW() - INTERVAL '$days_keep_fax_queue days'"
+else
+        echo "not purging fax_queue."
+fi
+
+#completed message
+echo "Maintenance Completed";
+
+# pgpassword security and conflict avoidance
+unset PGPASSWORD
