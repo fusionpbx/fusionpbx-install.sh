@@ -105,7 +105,7 @@ else
 		fi
 	fi
  	if [ ."$os_codename" = ."trixie" ]; then
-		if [ ."$php_version" = ."8.2" ]; then
+		if [ ."$php_version" = ."8.4" ]; then
 			/usr/bin/apt -y install apt-transport-https lsb-release ca-certificates curl wget gnupg2
 			/usr/bin/wget -qO- https://packages.sury.org/php/apt.gpg | gpg --dearmor > /etc/apt/keyrings/sury-php-8.x.gpg
    			/usr/bin/chmod 644 /etc/apt/keyrings/sury-php-8.x.gpg
