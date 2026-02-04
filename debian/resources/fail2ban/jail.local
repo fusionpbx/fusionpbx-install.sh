@@ -1,3 +1,11 @@
+[DEFAULT]
+# time is in seconds. 3600 = 1 hour, 86400 = 24 hours (1 day)
+#findtime = 10m           #Default Value on jail.conf. If you wish to change it, uncomment this and use another value.
+#bantime  = 10m           #Default Value on jail.conf. If you wish to change it, uncomment this and use another value. 
+#maxretry = 5             #Default Value on jail.conf. If you wish to change it, uncomment this and use another value.
+#ignoreip = IP/Subnet     #Uncomment and add IPs and subnets you don't wish to ban, space separate multiple addresses.
+# Save your modified copy of this for future use as a drop-in replacement.
+
 [ssh]
 enabled  = true
 port     = 22
