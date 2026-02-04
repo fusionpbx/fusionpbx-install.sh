@@ -1,3 +1,0 @@
-check process freeswitch with pidfile /run/freeswitch/freeswitch.pid
-start program = "/usr/src/fusionpbx-install.sh/debian/resources/monit/./shell.sh"
-stop program  = "/usr/bin/freeswitch -stop"
