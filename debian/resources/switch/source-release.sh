@@ -95,8 +95,8 @@ if [ ."$os_codename" = ."trixie" ] || [ ."$switch_branch" = ."master" ]; then
 	#master branch
 	echo "Using version master"
 	rm -r /usr/src/freeswitch
-	git clone https://github.com/signalwire/freeswitch.git
-	cd /usr/src/freeswitch
+	git clone https://github.com/signalwire/freeswitch.git freeswitch-$switch_version
+	cd /usr/src/freeswitch-$switch_version
 
 	git remote add fusionpbx https://github.com/fusionpbx/freeswitch.git
 	git fetch fusionpbx

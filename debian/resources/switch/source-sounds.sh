@@ -8,11 +8,7 @@ cd "$(dirname "$0")"
 . ../environment.sh
 
 # change the working directory
-if [ ."$switch_branch" = ."master" ]; then
-    cd /usr/src/freeswitch
-else
-    cd /usr/src/freeswitch-$switch_version
-fi
+cd /usr/src/freeswitch-$switch_version
 
 # compile and install the sounds
 make sounds-install moh-install
