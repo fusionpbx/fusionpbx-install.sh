@@ -12,7 +12,7 @@ verbose "Installing FusionPBX"
 
 #install dependencies
 apt-get install -y vim git dbus haveged ssl-cert qrencode
-apt-get install -y ghostscript libtiff5-dev libtiff-tools at
+apt-get install -y ffmpeg ghostscript libtiff5-dev libtiff-tools at
 
 #get the branch
 if [ .$system_branch = .'master' ]; then
