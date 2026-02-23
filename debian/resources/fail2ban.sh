@@ -26,7 +26,7 @@ cp fail2ban/fusionpbx-mac.conf /etc/fail2ban/filter.d/fusionpbx-mac.conf
 cp fail2ban/fusionpbx-404.conf /etc/fail2ban/filter.d/fusionpbx-404.conf
 cp fail2ban/nginx-404.conf /etc/fail2ban/filter.d/nginx-404.conf
 cp fail2ban/nginx-dos.conf /etc/fail2ban/filter.d/nginx-dos.conf
-cp fail2ban/jail.local /etc/fail2ban/jail.local
+cp fail2ban/jail.local.nfs /etc/fail2ban/jail.local
 
 #use sed to change iptables to nftables
 sed -i 's/iptables/nftables/g' /etc/fail2ban/jail.conf
