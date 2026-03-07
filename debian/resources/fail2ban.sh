@@ -29,7 +29,7 @@ cp fail2ban/fusionpbx-404.conf /etc/fail2ban/filter.d/fusionpbx-404.conf
 cp fail2ban/nginx-404.conf /etc/fail2ban/filter.d/nginx-404.conf
 cp fail2ban/nginx-dos.conf /etc/fail2ban/filter.d/nginx-dos.conf
 if [ -f "$FILE_PATH" ]; then
-    echo "Found nftables to be chosen."
+    echo "Found nftables to be chosen, configuring system for nftables."
     cp fail2ban/jail.local.nft /etc/fail2ban/jail.local
     sed -i 's/iptables/nftables/g' /etc/fail2ban/jail.conf
     else
