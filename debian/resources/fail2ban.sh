@@ -7,6 +7,7 @@ cd "$(dirname "$0")"
 . ./config.sh
 . ./colors.sh
 . ./environment.sh
+
 FILE_PATH="/etc/nftables.conf"
 
 #send a message
