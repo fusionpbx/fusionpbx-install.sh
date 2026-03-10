@@ -12,24 +12,25 @@ cd "$(dirname "$0")"
 #send a message
 verbose "Configuring IPTables"
 
-apt-get purge -y nftables
-
 #defaults to nftables by default this enables iptables
 if [ ."$os_codename" = ."buster" ]; then
 	update-alternatives --set iptables /usr/sbin/iptables-legacy
 	update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
 fi
 if [ ."$os_codename" = ."bullseye" ]; then
+	apt-get purge -y nftables
 	apt-get install -y iptables
 	update-alternatives --set iptables /usr/sbin/iptables-legacy
 	update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
 fi
 if [ ."$os_codename" = ."bookworm" ]; then
+	apt-get purge -y nftables
 	apt-get install -y iptables
 	update-alternatives --set iptables /usr/sbin/iptables-legacy
 	update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
 fi
 if [ ."$os_codename" = ."trixie" ]; then
+	apt-get purge -y nftables
 	apt-get install -y iptables
 	update-alternatives --set iptables /usr/sbin/iptables-legacy
 	update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
