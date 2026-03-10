@@ -33,9 +33,6 @@ if [ ."$os_codename" = ."trixie" ]; then
 	update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
 fi
 
-#remove nftables
-apt-get purge nftables
-
 #remove ufw
 ufw reset
 ufw disable
