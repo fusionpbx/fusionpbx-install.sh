@@ -27,6 +27,12 @@ if [ ."$os_codename" = ."bookworm" ]; then
 	update-alternatives --set iptables /usr/sbin/iptables-legacy
 	update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
 fi
+if [ ."$os_codename" = ."trixie" ]; then
+	apt-get -y purge nftables
+	apt-get install -y iptables
+	update-alternatives --set iptables /usr/sbin/iptables-legacy
+	update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
+fi
 
 #remove ufw
 ufw reset
