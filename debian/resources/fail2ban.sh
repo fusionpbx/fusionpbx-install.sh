@@ -8,7 +8,7 @@ cd "$(dirname "$0")"
 . ./colors.sh
 . ./environment.sh
 
-FILE_PATH="/etc/nftables.conf"
+FILE_PATH="/etc/iptables/rules.v4"
 
 #send a message
 verbose "Installing Fail2ban"
@@ -28,7 +28,7 @@ cp fail2ban/fusionpbx-mac.conf /etc/fail2ban/filter.d/fusionpbx-mac.conf
 cp fail2ban/fusionpbx-404.conf /etc/fail2ban/filter.d/fusionpbx-404.conf
 cp fail2ban/nginx-404.conf /etc/fail2ban/filter.d/nginx-404.conf
 cp fail2ban/nginx-dos.conf /etc/fail2ban/filter.d/nginx-dos.conf
-if [ -f "$FILE_PATH" ]; then
+if [ ! -f "$FILE_PATH" ]; then
     echo "Found nftables to be chosen, configuring system for nftables."
     cp fail2ban/jail.local.nft /etc/fail2ban/jail.local
     sed -i 's/iptables/nftables/g' /etc/fail2ban/jail.conf
