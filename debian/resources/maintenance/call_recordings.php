@@ -160,13 +160,14 @@ crontab -e
 		}
 
 		//update the database to the new directory
-		$sql = "update v_xml_cdr set \n";
+		$set_clauses = [];
 		if ($action_name == 'move' || $action_name == 'both') {
-			$sql .= "record_path = '".$new_path."' \n";
+			$set_clauses[] = "record_path = '".$new_path."'";
 		}
 		if ($action_name == 'convert' || $action_name == 'both') {
-			$sql .= "record_name = '".$path_parts['filename'].".mp3'\n";
+			$set_clauses[] = "record_name = '".$path_parts['filename'].".mp3'";
 		}
+		$sql = "update v_xml_cdr set " . implode(", ", $set_clauses) . " \n";
 		$sql .= "where xml_cdr_uuid = '".$row['xml_cdr_uuid']."';\n";
 		if ($debug) { echo $sql."\n"; }
 		$database->execute($sql);
