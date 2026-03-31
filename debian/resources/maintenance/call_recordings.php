@@ -156,7 +156,13 @@ crontab -e
 			if (!file_exists($new_path)) { system('mkdir -p '.$new_path); }
 			$command = "mv ".$old_path."/".$record_name." ".$new_path."/".$record_name;
 			if ($debug) { echo $command."\n"; }
-			system($command);
+			system($command, $move_result_code);
+
+			//skip the database update if the move failed
+			if ($move_result_code !== 0) {
+				if ($debug) { echo "mv failed with exit code ".$move_result_code.", skipping database update.\n"; }
+				continue;
+			}
 		}
 
 		//update the database to the new directory
