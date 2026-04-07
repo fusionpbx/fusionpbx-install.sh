@@ -11,8 +11,8 @@ cd "$(dirname "$0")"
 # removes the cd img from the /etc/apt/sources.list file (not needed after base install)
 sed -i '/cdrom:/d' /etc/apt/sources.list
 
-#Update to latest packages
-verbose "Update installed packages"
+#Update to the latest packages
+verbose "Update installed packages."
 apt-get update && apt-get upgrade -y
 
 #Add dependencies
@@ -25,6 +25,7 @@ apt-get install -y dialog
 apt-get install -y nano
 apt-get install -y nginx
 apt-get install -y build-essential
+apt-get install -y unzip
 
 #SNMP
 apt-get install -y snmpd
