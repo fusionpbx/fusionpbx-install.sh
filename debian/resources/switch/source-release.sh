@@ -48,7 +48,7 @@ apt install -y sqlite3 unzip
 CWD=$(pwd)
 
 #install the following dependencies if the switch version is greater than 1.10.0
-if [ ."$switch_branch = ."master" ] || [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
+if [ ."$switch_branch" = ."master" ] || [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
 
 	# libks build-requirements
 	apt install -y cmake uuid-dev
