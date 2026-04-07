@@ -37,8 +37,8 @@ fi
 
 #use master branch for Debian 13 for now
 if [ ."$os_codename" = ."trixie" ]; then
-        switch_version=1.10.13
-        switch_branch=master
+	switch_branch=master
+	switch_version=1.10.13
 fi
 
 # additional dependencies
@@ -48,7 +48,7 @@ apt install -y sqlite3 unzip
 CWD=$(pwd)
 
 #install the following dependencies if the switch version is greater than 1.10.0
-if [ ."$switch_version" = ."master" ] || [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
+if [ ."$switch_branch = ."master" ] || [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
 
 	# libks build-requirements
 	apt install -y cmake uuid-dev
@@ -106,7 +106,7 @@ if [ ."$switch_branch" = ."master" ]; then
 
 	git remote add fusionpbx https://github.com/fusionpbx/freeswitch.git
 	git fetch fusionpbx
-	git checkout -b $switch_version
+	git checkout 1.10.12
 
 	git rebase fusionpbx/master
 	./bootstrap.sh -j
@@ -122,18 +122,22 @@ if [ ."$switch_branch" != ."master" ] && [ ."$switch_branch" = ."stable" ]; then
 		cd /usr/src/freeswitch-$switch_version
 
 		# Reset repo just-in-case we are rebuilding
-		git reset --hard HEAD && git clean -fdx
+		#git reset --hard HEAD && git clean -fdx
 	fi
 
 	#1.10.0 and newer
 	if [ $(echo "$switch_version" | tr -d '.') -gt 1100 ]; then
-
+		# Get the source code using git
 		git clone https://github.com/fusionpbx/freeswitch freeswitch-$switch_version
 
+		# Change the working directory
 		cd /usr/src/freeswitch-$switch_version
 
+		# Get the stable branch
+		git checkout $switch_version
+
 		# Reset repo just-in-case we are rebuilding
-		git reset --hard origin/master && git clean -fdx
+		#git reset --hard origin/master && git clean -fdx
 
 		#wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.-release.zip
 		#unzip freeswitch-$switch_version.-release.zip
