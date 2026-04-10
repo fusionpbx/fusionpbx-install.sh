@@ -1,20 +1,44 @@
 #!/bin/sh
 
-#move to script directory so all relative paths work
+# Move to script directory so all relative paths work
 cd "$(dirname "$0")"
 
-#includes
+# Includes
 . ../config.sh
 . ../environment.sh
 
-# change the working directory
-cd /usr/src/freeswitch-$switch_version
+# Change the working directory
+cd /usr/share/freeswitch/sounds
 
-# compile and install the sounds
-make sounds-install moh-install
-make hd-sounds-install hd-moh-install
-make cd-sounds-install cd-moh-install
+# Make sure wget is installed
+apt-get install -y wget
 
-#move the music into music/default directory
-mkdir -p /usr/share/freeswitch/sounds/music/default
-mv /usr/share/freeswitch/sounds/music/*000 /usr/share/freeswitch/sounds/music/default
+# Array of sample rates
+sample_rates="48000 32000 16000 8000"
+
+# Loop through each sample rate
+for sample_rate in $sample_rates; do
+    # Download the file
+    /usr/bin/wget "https://files.freeswitch.org/releases/sounds/freeswitch-sounds-en-us-callie-${sample_rate}-1.0.53.tar.gz"
+
+    # Extract the file
+    /usr/bin/tar xvzf "freeswitch-sounds-en-us-callie-${sample_rate}-1.0.53.tar.gz"
+done
+
+# Change to directory to the music directory
+cd /usr/share/freeswitch/sounds/music
+
+# Loop through each sample rate
+for sample_rate in $sample_rates; do
+    # Download the file
+    /usr/bin/wget "https://files.freeswitch.org/releases/sounds/freeswitch-sounds-music-${sample_rate}-1.0.52.tar.gz"
+
+    # Extract the file
+    /usr/bin/tar xvzf "freeswitch-sounds-music-${sample_rate}-1.0.52.tar.gz"
+done
+
+# Move the music to the default directory
+/usr/bin/mv music default
+
+# Remove the tar.gz files
+/usr/bin/rm /usr/share/freeswitch/sounds/music/*.tar.gz
