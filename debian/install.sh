@@ -11,12 +11,8 @@ cd "$(dirname "$0")"
 # removes the cd img from the /etc/apt/sources.list file (not needed after base install)
 sed -i '/cdrom:/d' /etc/apt/sources.list
 
-#Update to the latest packages
-verbose "Update installed packages."
-apt update && apt upgrade -y
-
 #Add dependencies
-apt install -y wget lsb-release systemd systemd-sysv ca-certificates dialog nano net-tools gpg unzip snmpd
+apt install -y wget systemd systemd-sysv ca-certificates dialog nano net-tools gpg unzip snmpd
 
 #SNMP
 echo "rocommunity public" > /etc/snmp/snmpd.conf
