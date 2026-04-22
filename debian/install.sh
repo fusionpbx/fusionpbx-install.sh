@@ -13,22 +13,12 @@ sed -i '/cdrom:/d' /etc/apt/sources.list
 
 #Update to the latest packages
 verbose "Update installed packages."
-apt-get update && apt-get upgrade -y
+apt update && apt upgrade -y
 
 #Add dependencies
-apt-get install -y wget
-apt-get install -y lsb-release
-apt-get install -y systemd
-apt-get install -y systemd-sysv
-apt-get install -y ca-certificates
-apt-get install -y dialog
-apt-get install -y nano
-apt-get install -y net-tools
-apt-get install -y gpg
-apt-get install -y unzip
+apt install -y wget lsb-release systemd systemd-sysv ca-certificates dialog nano net-tools gpg unzip snmpd
 
 #SNMP
-apt-get install -y snmpd
 echo "rocommunity public" > /etc/snmp/snmpd.conf
 service snmpd restart
 
