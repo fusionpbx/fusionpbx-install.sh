@@ -7,6 +7,9 @@ cd "$(dirname "$0")"
 . ../config.sh
 . ../environment.sh
 
+# Make the sounds directory
+mkdir -p /usr/share/freeswitch/sounds
+
 # Change the working directory
 cd /usr/share/freeswitch/sounds
 
@@ -25,7 +28,10 @@ for sample_rate in $sample_rates; do
     /usr/bin/tar xvzf "freeswitch-sounds-en-us-callie-${sample_rate}-1.0.53.tar.gz"
 done
 
-# Change to directory to the music directory
+# Make the music directory
+mkdir -p /usr/share/freeswitch/sounds/music
+
+# Change the current directory to the music directory
 cd /usr/share/freeswitch/sounds/music
 
 # Loop through each sample rate
