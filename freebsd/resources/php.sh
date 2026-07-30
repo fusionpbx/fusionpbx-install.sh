@@ -48,10 +48,11 @@ if [ ."$php_version" = ."8.3" ]; then
  	pkg install --yes php83-pdo_pgsql php83-pgsql
 fi
 if [ ."$php_version" = ."8.4" ]; then
-	pkg install --yes php84 php84-phar php84-pdo php84-pdo_odbc php84-pdo_sqlite php84-gd php84-imap
+	pkg install --yes php84 php84-phar php84-pdo php84-pdo_odbc php84-pdo_sqlite php84-gd
 	pkg install --yes php84-ldap php84-sockets php84-simplexml php84-xml php84-session php84-iconv
 	pkg install --yes php84-posix php84-pcntl php84-zlib php84-filter php84-curl php84-mbstring
  	pkg install --yes php84-pdo_pgsql php84-pgsql
+ 	pkg install --yes php84-imap
 fi
 if [ ."$php_version" = ."8.5" ]; then
 	pkg install --yes php85 php85-phar php85-pdo php85-pdo_odbc php85-pdo_sqlite php85-gd php85-imap

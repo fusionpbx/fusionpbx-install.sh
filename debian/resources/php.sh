@@ -160,7 +160,8 @@ if [ ."$php_version" = ."8.3" ]; then
 	apt-get install -y --no-install-recommends php8.3 php8.3-common php8.3-cli php8.3-dev php8.3-fpm php8.3-pgsql php8.3-sqlite3 php8.3-odbc php8.3-curl php8.3-imap php8.3-xml php8.3-gd php8.3-mbstring php8.3-ldap php8.3-inotify php8.3-snmp
 fi
 if [ ."$php_version" = ."8.4" ]; then
-	apt-get install -y --no-install-recommends php8.4 php8.4-common php8.4-cli php8.4-dev php8.4-fpm php8.4-pgsql php8.4-sqlite3 php8.4-odbc php8.4-curl php8.4-imap php8.4-xml php8.4-gd php8.4-mbstring php8.4-ldap php8.4-inotify php8.4-snmp
+	apt-get install -y --no-install-recommends php8.4 php8.4-common php8.4-cli php8.4-dev php8.4-fpm php8.4-pgsql php8.4-sqlite3 php8.4-odbc php8.4-curl php8.4-xml php8.4-gd php8.4-mbstring php8.4-ldap php8.4-inotify php8.4-snmp
+	apt-get install -y --no-install-recommends php8.4-imap
 fi
 
 #update config if source is being used
