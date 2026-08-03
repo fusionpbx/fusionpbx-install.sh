@@ -11,7 +11,8 @@ cd "$(dirname "$0")"
 #add sngrep
 if [ ."$cpu_architecture" = ."arm" ]; then
 	#source install
-	apt-get install -y git autoconf automake gcc make libncurses5-dev libpcap-dev libssl-dev libpcre3-dev
+	apt-get install -y git autoconf automake gcc make libncurses5-dev libpcap-dev libssl-dev
+	apt-get install -y libpcre3-dev
 	cd /usr/src && git clone https://github.com/irontec/sngrep
 	cd /usr/src/sngrep && ./bootstrap.sh
 	cd /usr/src/sngrep && ./configure
