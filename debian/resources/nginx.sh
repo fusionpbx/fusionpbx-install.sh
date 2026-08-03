@@ -95,6 +95,15 @@ if [ .$letsencrypt_folder = .true ]; then
         mkdir -p /var/www/letsencrypt/
 fi
 
+# Ensure apache2 is stopped and cannot start
+if systemctl is-active --quiet apache2; then
+    verbose "Stopping Apache to clear port 80/443..."
+    systemctl stop apache2
+fi
+
+# Prevent apache from starting at boot
+systemctl disable apache2
+
 #flush systemd cache
 systemctl daemon-reload
 
