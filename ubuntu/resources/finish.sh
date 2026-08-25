@@ -108,7 +108,7 @@ chown -R www-data:www-data /var/run/fusionpbx
 cd /var/www/fusionpbx && /usr/bin/php /var/www/fusionpbx/core/upgrade/upgrade.php --services
 
 #install crontab
-apt install cron
+apt install -y cron
 
 #welcome message
 echo ""
