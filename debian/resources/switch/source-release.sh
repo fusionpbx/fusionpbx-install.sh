@@ -56,6 +56,7 @@ if [ ! -d /usr/src/libks ]; then
 	cmake .
 	make -j $(getconf _NPROCESSORS_ONLN)
 	make install
+	ldconfig
 
 	# libks C includes
 	export C_INCLUDE_PATH=/usr/include/libks
@@ -80,6 +81,7 @@ if [ ! -d /usr/src/sofia-sip ]; then
 	./configure --enable-debug
 	make -j $(getconf _NPROCESSORS_ONLN)
 	make install
+	ldconfig
 fi
 
 # spandsp - dependency for switch versions greater than 1.10.0
