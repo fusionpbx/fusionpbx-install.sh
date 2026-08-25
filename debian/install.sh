@@ -12,7 +12,7 @@ cd "$(dirname "$0")"
 sed -i '/cdrom:/d' /etc/apt/sources.list
 
 #Add dependencies
-apt install -y wget systemd systemd-sysv ca-certificates dialog nano net-tools gpg unzip snmpd
+apt install --ignore-missing -y wget systemd systemd-sysv ca-certificates dialog nano net-tools gpg unzip snmpd
 
 #SNMP
 echo "rocommunity public" > /etc/snmp/snmpd.conf
