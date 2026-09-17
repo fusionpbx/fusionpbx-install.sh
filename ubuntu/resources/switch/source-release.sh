@@ -5,12 +5,13 @@ cd "$(dirname "$0")"
 
 #includes
 . ../config.sh
+. ../environment.sh
 
 #upgrade packages
 apt update && apt upgrade -y
 
 # install dependencies
-apt install -y autoconf automake devscripts g++ git-core libncurses5-dev libtool make libjpeg-dev pkg-config flac  libgdbm-dev libdb-dev gettext sudo equivs plocate git dpkg-dev libpq-dev liblua5.2-dev libtiff5-dev libperl-dev libcurl4-openssl-dev libsqlite3-dev libpcre3-dev devscripts libspeexdsp-dev libspeex-dev libldns-dev libedit-dev libopus-dev libmemcached-dev libshout3-dev libmpg123-dev libmp3lame-dev yasm nasm libsndfile1-dev libuv1-dev libvpx-dev libavformat-dev libswscale-dev libspandsp-dev pip libpq-dev libvlc-dev uuid-dev sox libsox-fmt-all
+apt install -y autoconf automake devscripts g++ libtool make pkg-config dpkg-dev equivs gettext sudo plocate git yasm nasm libncurses-dev libjpeg-dev libgdbm-dev libdb-dev libperl-dev libpq-dev libsqlite3-dev liblua5.2-dev libpcre3-dev libpcre2-dev libcurl4-openssl-dev libedit-dev libmemcached-dev libspeexdsp-dev libspeex-dev libldns-dev libopus-dev libshout3-dev libmpg123-dev libmp3lame-dev libsndfile1-dev libtiff5-dev libspandsp-dev libuv1-dev libvpx-dev libavformat-dev libswscale-dev libvlc-dev uuid-dev flac sox libsox-fmt-all python3-pip
 
 # additional dependencies
 apt install -y swig3.0 unzip sox wget
