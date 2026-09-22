@@ -43,6 +43,9 @@ apt install -y sqlite3 unzip
 # Preserve the executing directory, so we need to return after we are done
 CWD=$(pwd)
 
+# Remove libks if it is older than 24 hours
+find /usr/src/libks -maxdepth 0 -mtime +1 -exec rm -rf {} \; 2>/dev/null
+
 # Install libks - dependency for switch versions greater than 1.10.0
 if [ ! -d /usr/src/libks ]; then
 
@@ -61,6 +64,9 @@ if [ ! -d /usr/src/libks ]; then
 	# libks C includes
 	export C_INCLUDE_PATH=/usr/include/libks
 fi
+
+# Remove sofia-sip if it is older than 24 hours
+find /usr/src/sofia-sip -maxdepth 0 -mtime +1 -exec rm -rf {} \; 2>/dev/null
 
 # sofia-sip - dependency for switch versions greater than 1.10.0
 if [ ! -d /usr/src/sofia-sip ]; then
@@ -83,6 +89,9 @@ if [ ! -d /usr/src/sofia-sip ]; then
 	make install
 	ldconfig
 fi
+
+# Remove spandsp if it is older than 24 hours
+find /usr/src/spandsp -maxdepth 0 -mtime +1 -exec rm -rf {} \; 2>/dev/null
 
 # spandsp - dependency for switch versions greater than 1.10.0
 if [ ! -d /usr/src/spandsp ]; then
