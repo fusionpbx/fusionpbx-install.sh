@@ -78,9 +78,9 @@ server {
 
 	#single point of entry
 	location / {
-	        root /var/www/fusionpbx/public;
-	        index index.php;
-	        try_files $uri $uri/ /public/index.php?$query_string;
+		root /var/www/fusionpbx/public;
+		index index.php;
+		try_files $uri $uri/ /public/index.php?$query_string;
 	}
 
 	access_log /var/log/nginx/access.log;
