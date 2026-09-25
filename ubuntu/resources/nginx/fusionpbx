@@ -82,16 +82,17 @@ server {
 		try_files $uri $uri/ /public/index.php?$query_string;
 	}
 
+	#multiple points of entry
+	#location / {
+	#	root /var/www/fusionpbx;
+	#	index index.php;
+	#}
+
 	access_log /var/log/nginx/access.log;
 	error_log /var/log/nginx/error.log;
 
 	client_max_body_size 80M;
 	client_body_buffer_size 128k;
-
-	location / {
-		root /var/www/fusionpbx;
-		index index.php;
-	}
 
 	location ~ \.php$ {
 		fastcgi_pass unix:/var/run/php/php7.1-fpm.sock;
@@ -165,16 +166,17 @@ server {
 		try_files $uri $uri/ /public/index.php?$query_string;
 	}
 
+	#multiple points of entry
+	#location / {
+	#	root /var/www/fusionpbx;
+	#	index index.php;
+	#}
+
 	access_log /var/log/nginx/access.log;
 	error_log /var/log/nginx/error.log;
 
 	client_max_body_size 80M;
 	client_body_buffer_size 128k;
-
-	location / {
-		root /var/www/fusionpbx;
-		index index.php;
-	}
 
 	location ~ \.php$ {
 		fastcgi_pass unix:/var/run/php/php7.1-fpm.sock;
