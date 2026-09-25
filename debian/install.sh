@@ -38,6 +38,9 @@ echo "set mouse-=a" >> ~/.vimrc
 #IPTables
 resources/iptables.sh
 
+#NFTables
+#resources/nftables.sh
+
 #sngrep
 resources/sngrep.sh
 
