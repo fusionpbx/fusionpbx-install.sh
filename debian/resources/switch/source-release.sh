@@ -1,16 +1,16 @@
 #!/bin/sh
 
-#move to script directory so all relative paths work
+# Move to script directory so all relative paths work
 cd "$(dirname "$0")"
 
-#includes
+# Includes
 . ../config.sh
 . ../environment.sh
 
-#upgrade packages
+# Upgrade packages
 apt update && apt upgrade -y
 
-# install dependencies
+# Install dependencies
 apt install -y autoconf automake devscripts g++ git-core libncurses5-dev libtool libtool-bin make libjpeg-dev
 apt install -y pkg-config flac  libgdbm-dev libdb-dev gettext sudo equivs git dpkg-dev libpq-dev
 apt install -y liblua5.2-dev libtiff5-dev libperl-dev libcurl4-openssl-dev libsqlite3-dev
@@ -20,7 +20,7 @@ apt install -y libavformat-dev libswscale-dev libvlc-dev sox libsox-fmt-all
 apt install -y libtiff5-dev
 apt install -y libpcre3-dev
 
-#install dependencies that depend on the operating system version
+# Install dependencies that depend on the operating system version
 if [ ."$os_codename" = ."noble" ]; then
 	apt install -y python3-distutils mlocate libvpx9 swig3.0
 fi
@@ -37,13 +37,16 @@ if [ ."$os_codename" = ."trixie" ]; then
 	apt install -y python3-distutils-extra plocate libtiff-dev libpcre2-dev swig
 fi
 
-# additional dependencies
+# Additional dependencies
 apt install -y sqlite3 unzip
 
-# preserve the executing directory, so we need to return after we are done
+# Preserve the executing directory, so we need to return after we are done
 CWD=$(pwd)
 
-# install libks - dependency for switch versions greater than 1.10.0
+# Remove libks if it is older than 24 hours
+find /usr/src/libks -maxdepth 0 -mtime +1 -exec rm -rf {} \; 2>/dev/null
+
+# Install libks - dependency for switch versions greater than 1.10.0
 if [ ! -d /usr/src/libks ]; then
 
 	# libks build-requirements
@@ -61,6 +64,9 @@ if [ ! -d /usr/src/libks ]; then
 	# libks C includes
 	export C_INCLUDE_PATH=/usr/include/libks
 fi
+
+# Remove sofia-sip if it is older than 24 hours
+find /usr/src/sofia-sip -maxdepth 0 -mtime +1 -exec rm -rf {} \; 2>/dev/null
 
 # sofia-sip - dependency for switch versions greater than 1.10.0
 if [ ! -d /usr/src/sofia-sip ]; then
@@ -84,6 +90,9 @@ if [ ! -d /usr/src/sofia-sip ]; then
 	ldconfig
 fi
 
+# Remove spandsp if it is older than 24 hours
+find /usr/src/spandsp -maxdepth 0 -mtime +1 -exec rm -rf {} \; 2>/dev/null
+
 # spandsp - dependency for switch versions greater than 1.10.0
 if [ ! -d /usr/src/spandsp ]; then
 	cd /usr/src
@@ -106,11 +115,11 @@ fi
 
 cd /usr/src
 
-#check for master
+# Check for master
 if [ ."$switch_branch" = ."master" ]; then
 	#master branch
 	echo "Using version master"
-	rm -r /usr/src/freeswitch
+	rm -r /usr/src/freeswitch-$switch_version
 	git clone https://github.com/signalwire/freeswitch.git freeswitch-$switch_version
 	cd /usr/src/freeswitch-$switch_version
 
@@ -122,9 +131,10 @@ if [ ."$switch_branch" = ."master" ]; then
 	./bootstrap.sh -j
 fi
 
-#check for stable release
+# Check for stable release
 if [ ."$switch_branch" != ."master" ] && [ ."$switch_branch" = ."stable" ]; then
 	echo "Using version $switch_version"
+	rm -rf /usr/src/freeswitch-$switch_version
 
 	# Get the source code using git
 	if [ ."$switch_version" = ."1.11" ]; then
@@ -151,24 +161,24 @@ if [ ."$switch_branch" != ."master" ] && [ ."$switch_branch" = ."stable" ]; then
 	# Reset repo just-in-case we are rebuilding
 	#git reset --hard origin/master && git clean -fdx
 
-	#wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.-release.zip
-	#unzip freeswitch-$switch_version.-release.zip
-	#mv freeswitch-$switch_version.-release freeswitch-$switch_version
+	# wget http://files.freeswitch.org/freeswitch-releases/freeswitch-$switch_version.-release.zip
+	# unzip freeswitch-$switch_version.-release.zip
+	# mv freeswitch-$switch_version.-release freeswitch-$switch_version
 
-	# bootstrap is needed if using git
+	# Bootstrap is needed if using git
 	./bootstrap.sh -j
 
-	#apply rtp timestamp patch - Fix RTP audio issues use the following for additional information. https://github.com/briteback/freeswitch/commit/9f8968ccabb8a4e0353016d4ea0ff99561b005f1
+	# Apply RTP timestamp patch - Fix RTP audio issues use the following for additional information. https://github.com/briteback/freeswitch/commit/9f8968ccabb8a4e0353016d4ea0ff99561b005f1
 	#patch -u /usr/src/freeswitch-$switch_version/src/switch_rtp.c -i /usr/src/fusionpbx-install.sh/debian/resources/switch/source/switch_rtp.diff
 
-	#apply pull request 2300 to Fix session deadlock that results in stale or stuck calls. https://github.com/signalwire/freeswitch/pull/2300
+	# Apply pull request 2300 to fix session deadlock that results in stale or stuck calls. https://github.com/signalwire/freeswitch/pull/2300
 	#patch -d /usr/src/freeswitch-$switch_version/src -i /usr/src/fusionpbx-install.sh/debian/resources/switch/source/pull_2300.diff
 
 	#apply mod_pgsql patch
 	#patch -u /usr/src/freeswitch-$switch_version/src/mod/databases/mod_pgsql/mod_pgsql.c -i /usr/src/fusionpbx-install.sh/debian/resources/switch/source/mod_pgsql.patch
 fi
 
-# enable required modules
+# Enable required modules
 #sed -i /usr/src/freeswitch/modules.conf -e s:'#applications/mod_avmd:applications/mod_avmd:'
 sed -i modules.conf -e s:'#applications/mod_av:formats/mod_av:'
 sed -i modules.conf -e s:'#applications/mod_callcenter:applications/mod_callcenter:'
@@ -182,23 +192,26 @@ sed -i modules.conf -e s:'#formats/mod_pgsql:formats/mod_pgsql:'
 sed -i modules.conf -e s:'#say/mod_say_es:say/mod_say_es:'
 sed -i modules.conf -e s:'#say/mod_say_fr:say/mod_say_fr:'
 
-#disable module or install dependency libks to compile signalwire
+# Disable module or install dependency libks to compile signalwire
 sed -i modules.conf -e s:'applications/mod_signalwire:#applications/mod_signalwire:'
 sed -i modules.conf -e s:'endpoints/mod_skinny:#endpoints/mod_skinny:'
 sed -i modules.conf -e s:'endpoints/mod_verto:#endpoints/mod_verto:'
 
-# prepare the build
+# Enable TLS certificate reload support (fs_cli: reloadcert)
+export CPPFLAGS="${CPPFLAGS} -DHAVE_NUA_RELOAD_TLS"
+
+# Prepare the build
 #./configure --prefix=/usr/local/freeswitch --enable-core-pgsql-support --disable-fhs
 ./configure -C --enable-portable-binary --disable-dependency-tracking --enable-debug \
 --prefix=/usr --localstatedir=/var --sysconfdir=/etc \
 --with-openssl --enable-core-pgsql-support
 
-# compile and install
+# Compile and install
 make -j $(getconf _NPROCESSORS_ONLN)
 make install
 
-# create voicemail directory for installer
+# Create voicemail directory for installer
 mkdir -p /var/lib/freeswitch/storage/voicemail
 
-#return to the executing directory
+# Return to the executing directory
 cd $CWD
