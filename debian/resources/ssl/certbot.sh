@@ -83,32 +83,28 @@ fi
 #set the domain alias (lower case, used for the certificate folder name)
 domain_alias=$(echo "$domain_name" | head -n1 | cut -d " " -f1 | tr "A-Z" "a-z")
 
-#set the certificate name, wildcard certificates are stored under *.domain.com
+#set the certificate name, used for display and the live directory
+#wildcard certs are displayed as *.domain.com but certbot stores them in a
+#directory named after the base domain (without the *)
 if [ "$wildcard_domain" = "true" ]; then
 	cert_name="*.$domain_alias"
 else
 	cert_name="$domain_alias"
 fi
-cert_dir="$certbot_live/$cert_name"
+#certbot stores certificates under the base domain name (no wildcard prefix)
+cert_dir="$certbot_live/$domain_alias"
 
 #clean up any orphaned or partial lineage from previous runs
 #this prevents certbot from failing with "archive directory exists" when the user
 #manually removed files or a previous attempt left incomplete state
+#certbot always uses the base domain name (without *) for its directories
 certbot_archive=/etc/letsencrypt/archive
 certbot_renewal=/etc/letsencrypt/renewal
-cleanup_lineage() {
-	name="$1"
-	if [ -d "$certbot_live/$name" ] || [ -d "$certbot_archive/$name" ] || [ -f "$certbot_renewal/$name.conf" ]; then
-		rm -rf "$certbot_live/$name"
-		rm -rf "$certbot_archive/$name"
-		rm -f "$certbot_renewal/$name.conf"
-		verbose "Removed existing certificate lineage for $name"
-	fi
-}
-cleanup_lineage "$cert_name"
-#wildcard certs also conflict with a non-wildcard cert for the same base domain
-if [ "$wildcard_domain" = "true" ]; then
-	cleanup_lineage "$domain_alias"
+if [ -d "$certbot_live/$domain_alias" ] || [ -d "$certbot_archive/$domain_alias" ] || [ -f "$certbot_renewal/$domain_alias.conf" ]; then
+	rm -rf "$certbot_live/$domain_alias"
+	rm -rf "$certbot_archive/$domain_alias"
+	rm -f "$certbot_renewal/$domain_alias.conf"
+	verbose "Removed existing certificate lineage for $domain_alias"
 fi
 
 #prepare the webroot, the nginx config serves the challenge folder from /var/www/dehydrated
