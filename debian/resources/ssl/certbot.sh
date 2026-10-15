@@ -91,6 +91,26 @@ else
 fi
 cert_dir="$certbot_live/$cert_name"
 
+#clean up any orphaned or partial lineage from previous runs
+#this prevents certbot from failing with "archive directory exists" when the user
+#manually removed files or a previous attempt left incomplete state
+certbot_archive=/etc/letsencrypt/archive
+certbot_renewal=/etc/letsencrypt/renewal
+cleanup_lineage() {
+	name="$1"
+	if [ -d "$certbot_live/$name" ] || [ -d "$certbot_archive/$name" ] || [ -f "$certbot_renewal/$name.conf" ]; then
+		rm -rf "$certbot_live/$name"
+		rm -rf "$certbot_archive/$name"
+		rm -f "$certbot_renewal/$name.conf"
+		verbose "Removed existing certificate lineage for $name"
+	fi
+}
+cleanup_lineage "$cert_name"
+#wildcard certs also conflict with a non-wildcard cert for the same base domain
+if [ "$wildcard_domain" = "true" ]; then
+	cleanup_lineage "$domain_alias"
+fi
+
 #prepare the webroot, the nginx config serves the challenge folder from /var/www/dehydrated
 mkdir -p /var/www/dehydrated
 mkdir -p "$certbot_webroot/.well-known"
