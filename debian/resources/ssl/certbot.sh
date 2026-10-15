@@ -143,7 +143,7 @@ if [ "$wildcard_domain" = "true" ]; then
 	warning "certbot will show the record to add, create it in your DNS, then press enter."
 	warning "Wildcard certificates cannot be renewed automatically."
 	warning "Renew them by running this script again before the certificate expires."
-	"$certbot_bin" certonly --dns-manual --dns-manual-propagation-seconds 120 -d "*.$domain_alias" -m "$email_address" --agree-tos
+	"$certbot_bin" certonly --manual --preferred-challenges dns-01 -d "*.$domain_alias" -m "$email_address" --agree-tos
 else
 	"$certbot_bin" certonly --webroot -w "$certbot_webroot" -d "$domain_alias" -m "$email_address" --agree-tos --non-interactive
 fi
