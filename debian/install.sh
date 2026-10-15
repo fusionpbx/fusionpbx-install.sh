@@ -26,6 +26,7 @@ apt-get install -y nano
 apt-get install -y net-tools
 apt-get install -y gpg
 apt-get install -y unzip
+apt-get install -y zip
 
 #SNMP
 apt-get install -y snmpd
