@@ -137,6 +137,33 @@ if [ "$wildcard_domain" = "false" ] && ! curl -s -o /dev/null http://127.0.0.1/;
 	warning "nginx does not appear to be listening on port 80, the http-01 challenge may fail."
 fi
 
+#fix any stale renewal configs that reference the nginx plugin
+#this script uses the built-in webroot/manual plugins and manages nginx directly
+renewal_dir=/etc/letsencrypt/renewal
+if [ -d "$renewal_dir" ]; then
+	for conf in "$renewal_dir"/*.conf; do
+		[ -f "$conf" ] || continue
+		if grep -q '^[[:space:]]*authenticator[[:space:]]*=[[:space:]]*nginx' "$conf"; then
+			conf_name=$(basename "$conf" .conf)
+			case "$conf_name" in
+				\*.* )
+					sed -i 's/^[[:space:]]*authenticator[[:space:]]*=[[:space:]]*nginx/authenticator = manual/' "$conf"
+					;;
+				* )
+					sed -i 's/^[[:space:]]*authenticator[[:space:]]*=[[:space:]]*nginx/authenticator = webroot/' "$conf"
+					#add webroot_path if it is missing
+					if ! grep -q '^[[:space:]]*webroot_path' "$conf"; then
+						sed -i "/^[[:space:]]*authenticator[[:space:]]*=[[:space:]]*webroot/a webroot_path = $certbot_webroot" "$conf"
+					fi
+					;;
+			esac
+			#remove the nginx installer reference
+			sed -i '/^[[:space:]]*installer[[:space:]]*=[[:space:]]*nginx/d' "$conf"
+			verbose "Fixed stale nginx plugin reference in $conf"
+		fi
+	done
+fi
+
 #request the certificate
 if [ "$wildcard_domain" = "true" ]; then
 	warning "A wildcard certificate requires a DNS TXT record."
