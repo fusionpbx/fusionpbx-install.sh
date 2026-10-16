@@ -83,13 +83,29 @@ fi
 #set the domain alias (lower case, used for the certificate folder name)
 domain_alias=$(echo "$domain_name" | head -n1 | cut -d " " -f1 | tr "A-Z" "a-z")
 
-#set the certificate name, wildcard certificates are stored under *.domain.com
+#set the certificate name, used for display and the live directory
+#wildcard certs are displayed as *.domain.com but certbot stores them in a
+#directory named after the base domain (without the *)
 if [ "$wildcard_domain" = "true" ]; then
 	cert_name="*.$domain_alias"
 else
 	cert_name="$domain_alias"
 fi
-cert_dir="$certbot_live/$cert_name"
+#certbot stores certificates under the base domain name (no wildcard prefix)
+cert_dir="$certbot_live/$domain_alias"
+
+#clean up any orphaned or partial lineage from previous runs
+#this prevents certbot from failing with "archive directory exists" when the user
+#manually removed files or a previous attempt left incomplete state
+#certbot always uses the base domain name (without *) for its directories
+certbot_archive=/etc/letsencrypt/archive
+certbot_renewal=/etc/letsencrypt/renewal
+if [ -d "$certbot_live/$domain_alias" ] || [ -d "$certbot_archive/$domain_alias" ] || [ -f "$certbot_renewal/$domain_alias.conf" ]; then
+	rm -rf "$certbot_live/$domain_alias"
+	rm -rf "$certbot_archive/$domain_alias"
+	rm -f "$certbot_renewal/$domain_alias.conf"
+	verbose "Removed existing certificate lineage for $domain_alias"
+fi
 
 #prepare the webroot, the nginx config serves the challenge folder from /var/www/dehydrated
 mkdir -p /var/www/dehydrated
@@ -137,13 +153,40 @@ if [ "$wildcard_domain" = "false" ] && ! curl -s -o /dev/null http://127.0.0.1/;
 	warning "nginx does not appear to be listening on port 80, the http-01 challenge may fail."
 fi
 
+#fix any stale renewal configs that reference the nginx plugin
+#this script uses the built-in webroot/manual plugins and manages nginx directly
+renewal_dir=/etc/letsencrypt/renewal
+if [ -d "$renewal_dir" ]; then
+	for conf in "$renewal_dir"/*.conf; do
+		[ -f "$conf" ] || continue
+		if grep -q '^[[:space:]]*authenticator[[:space:]]*=[[:space:]]*nginx' "$conf"; then
+			conf_name=$(basename "$conf" .conf)
+			case "$conf_name" in
+				\*.* )
+					sed -i 's/^[[:space:]]*authenticator[[:space:]]*=[[:space:]]*nginx/authenticator = manual/' "$conf"
+					;;
+				* )
+					sed -i 's/^[[:space:]]*authenticator[[:space:]]*=[[:space:]]*nginx/authenticator = webroot/' "$conf"
+					#add webroot_path if it is missing
+					if ! grep -q '^[[:space:]]*webroot_path' "$conf"; then
+						sed -i "/^[[:space:]]*authenticator[[:space:]]*=[[:space:]]*webroot/a webroot_path = $certbot_webroot" "$conf"
+					fi
+					;;
+			esac
+			#remove the nginx installer reference
+			sed -i '/^[[:space:]]*installer[[:space:]]*=[[:space:]]*nginx/d' "$conf"
+			verbose "Fixed stale nginx plugin reference in $conf"
+		fi
+	done
+fi
+
 #request the certificate
 if [ "$wildcard_domain" = "true" ]; then
 	warning "A wildcard certificate requires a DNS TXT record."
 	warning "certbot will show the record to add, create it in your DNS, then press enter."
 	warning "Wildcard certificates cannot be renewed automatically."
 	warning "Renew them by running this script again before the certificate expires."
-	"$certbot_bin" certonly --dns-manual --dns-manual-propagation-seconds 120 -d "*.$domain_alias" -m "$email_address" --agree-tos
+	"$certbot_bin" certonly --manual --preferred-challenges dns-01 -d "*.$domain_alias" -m "$email_address" --agree-tos
 else
 	"$certbot_bin" certonly --webroot -w "$certbot_webroot" -d "$domain_alias" -m "$email_address" --agree-tos --non-interactive
 fi
