@@ -105,11 +105,11 @@ crontab -e
 	foreach ($call_recordings as $row) {
 		
 		//optional: stop if the destination_path mount was lost during the run
-		//checked before anything is changed for this recording, so it is left untouched
-		if (($action_name == 'move' || $action_name == 'both') && $destination_mount_check && file_exists($row['record_path'].'/'.$row['record_name']) && !is_mounted($destination_path)) {
-			echo "ERROR: ".$destination_path." is no longer mounted, stopping before ".$row['record_name']."\n";
-			exit(1);
-		}
+        //checked at the start of each recording, before it is converted, moved or updated
+        if (($action_name == 'move' || $action_name == 'both') && $destination_mount_check && !is_mounted($destination_path)) {
+                echo "ERROR: ".$destination_path." is no longer mounted, stopping before ".$row['record_name']."\n";
+                exit(1);
+        }
 
 		//set the record_name
 		$record_name = $row['record_name'];
