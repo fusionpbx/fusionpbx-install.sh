@@ -52,6 +52,12 @@ crontab -e
 //set the destination_path
 	if ($action_name == 'move' || $action_name == 'both') {
 		$destination_path = $settings->get('call_recordings','destination_path', null);
+
+		//stop if the destination_path is not set, otherwise files would be moved relative to the current directory
+		if (empty($destination_path)) {
+			echo "ERROR: call_recordings > destination_path is not set. Add it in Default Settings before using move or both.\n";
+			exit(1);
+		}
 	}
 
 //make sure the directory exists
