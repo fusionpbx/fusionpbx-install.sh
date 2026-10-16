@@ -49,6 +49,12 @@ crontab -e
 //set the source and destination paths
 	$source_path = $settings->get('switch','recordings', '');
 
+//check if a path is an active mount point, returns true when mounted
+	function is_mounted($path) {
+		exec('mountpoint -q '.escapeshellarg($path), $output, $result_code);
+		return ($result_code === 0);
+	}
+
 //set the destination_path
 	if ($action_name == 'move' || $action_name == 'both') {
 		$destination_path = $settings->get('call_recordings','destination_path', null);
@@ -56,6 +62,13 @@ crontab -e
 		//stop if the destination_path is not set, otherwise files would be moved relative to the current directory
 		if (empty($destination_path)) {
 			echo "ERROR: call_recordings > destination_path is not set. Add it in Default Settings before using move or both.\n";
+			exit(1);
+		}
+
+		//optional: stop if the destination_path is not mounted (s3fs, rclone, nfs and similar)
+		$destination_mount_check = filter_var($settings->get('call_recordings','destination_mount_check', false), FILTER_VALIDATE_BOOLEAN);
+		if ($destination_mount_check && !is_mounted($destination_path)) {
+			echo "ERROR: ".$destination_path." is not mounted, stopping.\n";
 			exit(1);
 		}
 	}
