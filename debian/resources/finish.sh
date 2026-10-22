@@ -114,6 +114,9 @@ apt install cron
 #update file permissions
 chmod 664 /etc/fusionpbx/config.conf
 
+#the install wizard (password recovery) writes a new config.conf in this directory as www-data
+chown -R www-data:www-data /etc/fusionpbx
+
 #restart nginx
 systemctl restart nginx freeswitch
 
