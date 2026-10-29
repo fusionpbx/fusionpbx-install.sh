@@ -49,7 +49,7 @@ if [ ."$php_version" = ."8.4" ]; then
 	apt-get install -y php8.4-imap
 
  	#update the unix socket name
-	/usr/bin/sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php8.2-fpm.sock;#g'
+	/usr/bin/sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php8.4-fpm.sock;#g'
 
 	#set the PHP ini file path
 	php_ini_file='/etc/php/8.4/fpm/php.ini'
@@ -65,7 +65,7 @@ if [ ."$php_version" = ."8.3" ]; then
 	apt-get install -y php8.3 php8.3-cli php8.3-dev php8.3-fpm php8.3-pgsql php8.3-sqlite3 php8.3-odbc php8.3-curl php8.3-xml php8.3-gd php8.3-mbstring php8.3-ldap php8.3-imap
 
  	#update the unix socket name
-	/usr/bin/sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php8.2-fpm.sock;#g'
+	/usr/bin/sed -i /etc/nginx/sites-available/fusionpbx -e 's#unix:.*;#unix:/var/run/php/php8.3-fpm.sock;#g'
 
 	#set the PHP ini file path
 	php_ini_file='/etc/php/8.3/fpm/php.ini'
