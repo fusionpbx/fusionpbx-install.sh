@@ -14,6 +14,9 @@ git stash
 git pull
 /usr/bin/php /usr/src/fusionpbx-install.sh/debian/resources/maintenance/call_recordings.php
 
+To process only one domain, add --domain:
+/usr/bin/php /usr/src/fusionpbx-install.sh/debian/resources/maintenance/call_recordings.php --domain=example.com
+
 Debian
 crontab -e
 0 * * * * /usr/bin/php /usr/src/fusionpbx-install.sh/debian/resources/maintenance/call_recordings.php > /dev/null 2>&1
@@ -78,6 +81,14 @@ crontab -e
 		system('mkdir -p '.$destination_path);
 	}
 
+//optional: limit to one domain, e.g. php call_recordings.php --domain=example.com
+	$domain_filter = '';
+	foreach ($argv as $arg) {
+		if (substr($arg, 0, 9) == '--domain=') {
+			$domain_filter = trim(substr($arg, 9));
+		}
+	}
+
 //get the XML CDR call recordings.
 	$sql = "select xml_cdr_uuid, domain_uuid, domain_name, ";
 	$sql .= "record_path, record_name, direction, start_stamp, ";
@@ -95,6 +106,10 @@ crontab -e
 	}
 	if (!empty($action_delay) && is_numeric($action_delay)) {
 		$sql .= "and start_stamp < NOW() - INTERVAL '".$action_delay." days' ";
+	}
+	if (!empty($domain_filter)) {
+		$sql .= "and domain_name = :domain_name ";
+		$parameters['domain_name'] = $domain_filter;
 	}
 	$sql .= "order by start_stamp desc ";
 	if ($debug) { echo $sql."\n"; }
