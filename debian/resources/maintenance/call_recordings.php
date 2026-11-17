@@ -102,8 +102,15 @@ crontab -e
 	unset($parameters);
 
 //process the changes
+	$recordings_done = [];
 	foreach ($call_recordings as $row) {
-		
+
+		//skip call records whose recording was already moved for another leg of the same call
+		$recording_key = $row['domain_uuid'].':'.$row['record_path'].'/'.$row['record_name'];
+		if (isset($recordings_done[$recording_key])) {
+			continue;
+		}
+
 		//optional: stop if the destination_path mount was lost during the run
         //checked at the start of each recording, before it is converted, moved or updated
         if (($action_name == 'move' || $action_name == 'both') && $destination_mount_check && !is_mounted($destination_path)) {
@@ -200,12 +207,25 @@ crontab -e
 			$sql_params[] = "record_name = '".$path_parts['filename'].".mp3'";
 		}
 
-		//update the database to the new directory
+		//update every call record that points to this recording
+		//calls with several legs (ring group, queue, transfer) share one recording file
+		//the start_stamp window lets the database use its index instead of reading the whole domain
 		$sql = "update v_xml_cdr set " . implode(", ", $sql_params) . " \n";
-		$sql .= "where xml_cdr_uuid = '".$row['xml_cdr_uuid']."';\n";
+		$sql .= "where domain_uuid = :domain_uuid \n";
+		$sql .= "and start_stamp between cast(:start_stamp as timestamptz) - interval '1 day' \n";
+		$sql .= "and cast(:start_stamp as timestamptz) + interval '1 day' \n";
+		$sql .= "and record_path = :old_record_path \n";
+		$sql .= "and record_name = :old_record_name \n";
+		$parameters['domain_uuid'] = $row['domain_uuid'];
+		$parameters['start_stamp'] = $row['start_stamp'];
+		$parameters['old_record_path'] = $row['record_path'];
+		$parameters['old_record_name'] = $row['record_name'];
 		if ($debug) { echo $sql."\n"; }
-		$database->execute($sql);
+		$database->execute($sql, $parameters);
+		unset($parameters);
 
+		//remember this recording so the other legs of the same call are skipped
+		$recordings_done[$recording_key] = true;
 	}
 
 ?>
