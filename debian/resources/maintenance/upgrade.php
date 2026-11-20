@@ -30,7 +30,7 @@ Run manually like this.
 
 Debian, run as root once a week when the system is quiet (crontab -e).
 MAILTO=root
-30 4 * * 0 /usr/bin/php /usr/src/fusionpbx-install.sh/debian/resources/maintenance/upgrade.php || echo 'package upgrade failed, check journalctl -t fusionpbx-upgrade'
+45 5 * * 0 /usr/bin/php /usr/src/fusionpbx-install.sh/debian/resources/maintenance/upgrade.php
 
 Only run one package updater. Comment out /etc/cron.d/apt-upgrade and any unattended-upgrades
 timer first then check what is left with: systemctl list-timers 'apt*'
