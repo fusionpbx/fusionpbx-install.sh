@@ -5,9 +5,14 @@ Upgrade Debian Packages
 - Updates the package lists, upgrades packages, repairs dependencies and cleans up.
 - Runs non interactive so existing configuration files are kept and no prompt can hang cron.
 - Waits for another apt process instead of skipping a scheduled run when they collide.
-- Restarts php-fpm and nginx when their package version changes during the upgrade.
+- Restarts php-fpm and nginx when their package version changes during the upgrade, the Debian
+  package scripts usually restart them too so these restarts are a safety net. PostgreSQL is not
+  restarted here, an updated postgresql binary keeps running until you restart it yourself.
 - Stops on the first error and exits non zero so cron or monit can report it.
-- Uses upgrade instead of dist-upgrade so that no package is ever removed.
+- Uses upgrade instead of dist-upgrade so dependency resolution never removes a package.
+- The last step runs autoremove which does remove packages that are no longer required, skip it
+  with --no-autoremove. When it fails the run is still reported as incomplete but the upgrades
+  and the service restarts have already happened.
 
 Logging goes to syslog with the tag fusionpbx-upgrade. View the log on Debian with:
 	journalctl -t fusionpbx-upgrade			all entries, newest last
@@ -15,22 +20,24 @@ Logging goes to syslog with the tag fusionpbx-upgrade. View the log on Debian wi
 	journalctl -t fusionpbx-upgrade --since today	only today
 	journalctl -t fusionpbx-upgrade -p err		failures only
 	journalctl -t fusionpbx-upgrade -f			follow it while the script runs
-	grep fusionpbx-upgrade /var/log/syslog		when rsyslog is installed, this uses journald
+	grep fusionpbx-upgrade /var/log/syslog		only when rsyslog is installed
 The apt output is captured rather than logged so that syslog stays short, one line per step.
 Use --debug to log every apt line as well, see those with journalctl -t fusionpbx-upgrade -p debug.
 
 Flags
-	--dry-run	simulate everything, change nothing and never restart a service
+	--dry-run	simulate the changes, no package is installed, removed or restarted
+			the package lists are still refreshed so that the simulation is accurate
 	--debug	log all apt output to syslog at debug level
+	--no-autoremove	skip the autoremove step so nothing is removed by this script
 A manual run from a terminal also mirrors the messages and the apt output on the screen.
 
 Run manually like this.
 /usr/bin/php /usr/src/fusionpbx-install.sh/debian/resources/maintenance/upgrade.php
 /usr/bin/php /usr/src/fusionpbx-install.sh/debian/resources/maintenance/upgrade.php --dry-run
 
-Debian, run as root once a week when the system is quiet (crontab -e).
+Debian, run as root every morning at 5:15 am when the system is quiet (crontab -e).
 MAILTO=root
-45 5 * * 0 /usr/bin/php /usr/src/fusionpbx-install.sh/debian/resources/maintenance/upgrade.php
+15 5 * * * /usr/bin/php /usr/src/fusionpbx-install.sh/debian/resources/maintenance/upgrade.php
 
 Only run one package updater. Comment out /etc/cron.d/apt-upgrade and any unattended-upgrades
 timer first then check what is left with: systemctl list-timers 'apt*'
@@ -48,6 +55,7 @@ If the machine can be off or rebooted at the scheduled time, use a one line wrap
 //set the variables
 	$dry_run = in_array('--dry-run', $_SERVER['argv'] ?? []);
 	$debug = in_array('--debug', $_SERVER['argv'] ?? []);
+	$no_autoremove = in_array('--no-autoremove', $_SERVER['argv'] ?? []);
 	$interactive = defined('STDOUT') && function_exists('posix_isatty') && posix_isatty(STDOUT);
 	$log_ident = 'fusionpbx-upgrade';
 	$lock_file = '/var/lock/fusionpbx-upgrade.lock';
@@ -83,6 +91,13 @@ If the machine can be off or rebooted at the scheduled time, use a one line wrap
 		exit(1);
 	}
 
+//run a command and return its output lines, exec() appends so the array starts empty every time
+	function run_command($command, &$status) {
+		$output = [];
+		exec($command.' 2>&1', $output, $status);
+		return $output;
+	}
+
 //get the installed versions of a group of packages as an array of package => version
 	function package_versions($pattern) {
 		$versions = [];
@@ -98,15 +113,15 @@ If the machine can be off or rebooted at the scheduled time, use a one line wrap
 
 //restart a service so it uses the new version, skip it when it is not running
 	function restart_service($unit, $reason) {
-		exec('/bin/systemctl is-active --quiet '.escapeshellarg($unit).'.service 2>/dev/null', $output, $status);
+		run_command('/bin/systemctl is-active --quiet '.escapeshellarg($unit).'.service', $status);
 		if ($status !== 0) {
 			log_message(LOG_WARNING, $unit.' is not running, skipped ('.$reason.')');
 			return;
 		}
 		log_message(LOG_NOTICE, 'restarting '.$unit.': '.$reason);
-		exec('/bin/systemctl restart '.escapeshellarg($unit.'.service').' 2>&1', $output, $status);
+		$output = run_command('/bin/systemctl restart '.escapeshellarg($unit.'.service'), $status);
 		if ($status !== 0) {
-			abort('unable to restart '.$unit.', check systemctl status '.$unit.'.service', implode(' | ', (array) $output));
+			abort('unable to restart '.$unit.', check systemctl status '.$unit.'.service', implode(' | ', $output));
 		}
 		log_message(LOG_NOTICE, $unit.' restarted');
 	}
@@ -117,9 +132,11 @@ If the machine can be off or rebooted at the scheduled time, use a one line wrap
 	}
 
 //stop when the disk is too full to finish an install
-	$free_mb = (int) round(disk_free_space('/var') / 1024 / 1024);
-	if ($free_mb < $min_free_mb) {
-		abort('only '.$free_mb.' MB free on /var, at least '.$min_free_mb.' MB is needed');
+	$free = disk_free_space('/var');
+	if ($free === false) {
+		log_message(LOG_WARNING, 'cannot check the free space on /var, continuing');
+	} elseif ((int) round($free / 1024 / 1024) < $min_free_mb) {
+		abort('only '.(int) round($free / 1024 / 1024).' MB free on /var, at least '.$min_free_mb.' MB is needed');
 	}
 
 //stop if another upgrade is already running, the lock is released when the script exits
@@ -133,13 +150,14 @@ If the machine can be off or rebooted at the scheduled time, use a one line wrap
 		$waited = 0;
 		while (true) {
 			//apt knows about every apt and dpkg lock, including the ones this script cannot see
-			exec('/usr/bin/apt-get -q check 2>&1', $output, $status);
-			$text = implode("\n", (array) $output);
+			$check = run_command('/usr/bin/apt-get -q check', $status);
 			if ($status === 0) {
 				break; //nothing else is using apt
 			}
-			if (strpos(strtolower($text), 'lock') === false) {
-				abort('the package database needs attention', $text);
+			if (strpos(strtolower(implode("\n", $check)), 'lock') === false) {
+				//not a lock, report it and let the repair dependencies step try to fix it
+				log_message(LOG_WARNING, 'apt check reported: '.implode(' | ', array_slice($check, -5)));
+				break;
 			}
 			if ($waited >= $lock_wait) {
 				abort('apt is still busy after '.$waited.' seconds, nothing was changed');
@@ -162,30 +180,45 @@ If the machine can be off or rebooted at the scheduled time, use a one line wrap
 		$before[$name] = package_versions($service['pattern']);
 	}
 
+//debian does not create /var/run/reboot-required so remember the kernel packages as well
+	$kernel_before = package_versions('linux-image*');
+
 //log what ran and how long it took, one line per step keeps syslog readable
 	log_message(LOG_INFO, 'upgrade'.($dry_run ? ' dry run' : '').' started on '.gethostname());
 	$started = time();
 
-//run the steps in order and stop on the first failure
+//run the steps in order, only autoremove may fail without stopping the rest
 	$steps = [
-		'update package lists' => $apt.' update', //always fetches the lists so the simulation is accurate
-		'upgrade packages' => $apt.' upgrade'.$simulate,
-		'repair dependencies' => $apt.' -f install'.$simulate,
-		'remove unused packages' => $apt.' autoremove'.$simulate,
+		//the lists are always refreshed so that a simulation is accurate
+		'update package lists' => ['command' => $apt.' update', 'required' => true],
+		'upgrade packages' => ['command' => $apt.' upgrade'.$simulate, 'required' => true],
+		'repair dependencies' => ['command' => $apt.' -f install'.$simulate, 'required' => true],
 	];
 
-	foreach ($steps as $name => $command) {
-		exec($command.' 2>&1', $output, $status); //capture the apt output instead of filling up syslog
+//autoremove does remove unused packages, --no-autoremove skips the step completely
+	if (!$no_autoremove) {
+		$steps['remove unused packages'] = ['command' => $apt.' autoremove'.$simulate, 'required' => false];
+	}
+
+	$incomplete = false;
+	foreach ($steps as $name => $step) {
+		$output = run_command($step['command'], $status); //capture the apt output instead of filling up syslog
 		if ($debug) {
-			foreach ((array) $output as $line) {
+			foreach ($output as $line) {
 				log_message(LOG_DEBUG, $name.': '.$line);
 			}
 		}
 		if ($interactive) {
-			echo implode("\n", (array) $output)."\n";
+			echo implode("\n", $output)."\n";
 		}
 		if ($status !== 0) {
-			abort($name.' failed with status '.$status, implode(' | ', array_slice((array) $output, -20)));
+			$detail = implode(' | ', array_slice($output, -20));
+			if ($step['required']) {
+				abort($name.' failed with status '.$status, $detail);
+			}
+			log_message(LOG_WARNING, $name.' failed with status '.$status.', continuing: '.$detail);
+			$incomplete = true;
+			continue;
 		}
 		log_message(LOG_INFO, $name.' completed');
 	}
@@ -212,8 +245,22 @@ If the machine can be off or rebooted at the scheduled time, use a one line wrap
 	}
 
 //report when a reboot is needed to finish the upgrade
-	if (!$dry_run && file_exists('/var/run/reboot-required')) {
-		log_message(LOG_WARNING, 'a reboot is required to complete the upgrade');
+	if (!$dry_run) {
+		if (file_exists('/var/run/reboot-required')) {
+			log_message(LOG_WARNING, 'a reboot is required to complete the upgrade');
+		}
+		foreach (package_versions('linux-image*') as $package => $version) {
+			if (($kernel_before[$package] ?? '') !== $version) {
+				log_message(LOG_WARNING, $package.' was upgraded to '.$version.', reboot when the system is quiet');
+				break; //one warning is enough
+			}
+		}
+	}
+
+//a failed autoremove is reported but it did not stop the upgrades or the service restarts
+	if ($incomplete) {
+		log_message(LOG_ERR, 'upgrade'.($dry_run ? ' dry run' : '').' finished with warnings in '.(time() - $started).' seconds');
+		exit(1);
 	}
 
 	log_message(LOG_INFO, 'upgrade'.($dry_run ? ' dry run' : '').' finished in '.(time() - $started).' seconds');
