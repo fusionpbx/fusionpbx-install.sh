@@ -120,6 +120,13 @@ crontab -e
 		//get the file name without the file extension
 		$path_parts = pathinfo($source_path.'/'.$record_name);
 
+		//skip recordings that are still being written, e.g. a long call that is still in progress
+		//the other legs of a multi-leg call are saved to the database when they hang up, while the answered leg may still be recording
+		if (file_exists($source_path."/".$record_name) && time() - filemtime($source_path."/".$record_name) < 300) {
+			if ($debug) { echo "skipping, recording modified in the last 5 minutes: ".$source_path."/".$record_name."\n"; }
+			continue;
+		}
+
 		//convert the audio file from WAV to MP3
 		if ($action_name == 'convert' || $action_name == 'both') {
 
